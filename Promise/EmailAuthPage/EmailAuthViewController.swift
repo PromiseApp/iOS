@@ -14,8 +14,7 @@ class EmailAuthViewController: UIViewController {
     let firtLabel = UILabel()
     let secondLabel = UILabel()
     let emailTextField = UITextField()
-    
-    lazy var nextButton = UIButton()
+    let nextButton = UIButton()
     
     init(emailAuthViewModel: EmailAuthViewModel) {
         self.emailAuthViewModel = emailAuthViewModel
@@ -28,6 +27,7 @@ class EmailAuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
 
         bind()
         attribute()
@@ -44,13 +44,19 @@ class EmailAuthViewController: UIViewController {
             .emit(onNext: { [weak self] isValid in
                 guard let self = self else { return }
                 if(isValid){
-                    self.nextButton.isEnabled = true
-                    self.nextButton.alpha = 1
+                    self.nextButton.isHidden = false
                 }
                 else{
-                    self.nextButton.isEnabled = false
-                    self.nextButton.alpha = 0.3
+                    self.nextButton.isHidden = true
                 }
+            })
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .subscribe(onNext: {
+                let VM = ConfirmEmailAuthViewModel()
+                let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM)
+                self.show(VC, sender: nil)
             })
             .disposed(by: disposeBag)
         
@@ -100,10 +106,9 @@ class EmailAuthViewController: UIViewController {
         nextButton.do{
             $0.setTitle("인증번호 요청", for: .normal)
             $0.setTitleColor(UIColor.black, for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.backgroundColor = UIColor(named: "prStrong")
-            $0.alpha = 0.3
-            $0.isEnabled = false
+            $0.isHidden = true
         }
         
     }
@@ -119,7 +124,7 @@ class EmailAuthViewController: UIViewController {
         
         leftButton.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
-            make.leading.equalToSuperview().offset(12*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.centerY.equalTo(titleLabel)
         }
         
@@ -131,25 +136,25 @@ class EmailAuthViewController: UIViewController {
         }
         
         firtLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(12*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(separateView.snp.bottom).offset(24*Constants.standardHeight)
         }
         
         secondLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(12*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(firtLabel.snp.bottom).offset(24*Constants.standardHeight)
         }
         
         emailTextField.snp.makeConstraints { make in
-            make.width.equalTo(351*Constants.standardHeight)
+            make.width.equalTo(351*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
-            make.leading.equalToSuperview().offset(12*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(secondLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
         nextButton.snp.makeConstraints { make in
             make.width.equalToSuperview()
-            make.height.equalTo(48*Constants.standardHeight)
+            make.height.equalTo(48*Constants.standardWidth)
             make.leading.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }

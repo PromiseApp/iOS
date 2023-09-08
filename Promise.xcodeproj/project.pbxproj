@@ -14,6 +14,8 @@
 		3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28C2AA0909B00308CDA /* SignUpViewController.swift */; };
 		312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */; };
 		312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006AF2AA9DEAD00501128 /* EmailAuthViewModel.swift */; };
+		312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006B22AAAF25000501128 /* ConfirmEmailAuthViewController.swift */; };
+		312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006B42AAAF39900501128 /* ConfirmEmailAuthViewModel.swift */; };
 		312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476A42AA0588C00D318C7 /* AppDelegate.swift */; };
 		312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476A62AA0588C00D318C7 /* SceneDelegate.swift */; };
 		312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476A82AA0588C00D318C7 /* LoginViewController.swift */; };
@@ -36,6 +38,8 @@
 		3116B28C2AA0909B00308CDA /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewController.swift; sourceTree = "<group>"; };
 		312006AF2AA9DEAD00501128 /* EmailAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewModel.swift; sourceTree = "<group>"; };
+		312006B22AAAF25000501128 /* ConfirmEmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailAuthViewController.swift; sourceTree = "<group>"; };
+		312006B42AAAF39900501128 /* ConfirmEmailAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailAuthViewModel.swift; sourceTree = "<group>"; };
 		312476A12AA0588C00D318C7 /* Promise.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Promise.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		312476A42AA0588C00D318C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		312476A62AA0588C00D318C7 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -82,6 +86,15 @@
 			path = EmailAuthPage;
 			sourceTree = "<group>";
 		};
+		312006B12AAAF23100501128 /* ConfirmEmailAuthPage */ = {
+			isa = PBXGroup;
+			children = (
+				312006B22AAAF25000501128 /* ConfirmEmailAuthViewController.swift */,
+				312006B42AAAF39900501128 /* ConfirmEmailAuthViewModel.swift */,
+			);
+			path = ConfirmEmailAuthPage;
+			sourceTree = "<group>";
+		};
 		312476982AA0588C00D318C7 = {
 			isa = PBXGroup;
 			children = (
@@ -101,6 +114,7 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
+				312006B12AAAF23100501128 /* ConfirmEmailAuthPage */,
 				312006AC2AA9DE7200501128 /* EmailAuthPage */,
 				3116B2812AA06A7900308CDA /* FontStyle */,
 				312476C52AA068CD00D318C7 /* Utility */,
@@ -210,12 +224,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
+				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
