@@ -94,7 +94,13 @@ class NicknameViewController: UIViewController {
             .drive(nextButton.rx.isHidden)
             .disposed(by: disposeBag)
         
-        
+        nextButton.rx.tap
+            .subscribe(onNext: {
+                let VM = SignUpViewModel()
+                let VC = SignUpViewController(signUpViewModel: VM)
+                self.show(VC, sender: nil)
+            })
+            .disposed(by: disposeBag)
         
     }
     

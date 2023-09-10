@@ -129,16 +129,15 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
-				31F1A0CC2AAD894D00B99DC4 /* SignUpPage */,
-				311CA18A2AAB3740007FD9A7 /* NicknamePage */,
-				312006B12AAAF23100501128 /* ConfirmEmailAuthPage */,
+				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
 				312006AC2AA9DE7200501128 /* EmailAuthPage */,
+				312006B12AAAF23100501128 /* ConfirmEmailAuthPage */,
+				311CA18A2AAB3740007FD9A7 /* NicknamePage */,
+				31F1A0CC2AAD894D00B99DC4 /* SignUpPage */,
 				3116B2812AA06A7900308CDA /* FontStyle */,
 				312476C52AA068CD00D318C7 /* Utility */,
 				312476A42AA0588C00D318C7 /* AppDelegate.swift */,
 				312476A62AA0588C00D318C7 /* SceneDelegate.swift */,
-				312476A82AA0588C00D318C7 /* LoginViewController.swift */,
-				3116B28A2AA07C5100308CDA /* LoginViewModel.swift */,
 				312476AD2AA0588D00D318C7 /* Assets.xcassets */,
 				312476AF2AA0588D00D318C7 /* LaunchScreen.storyboard */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
@@ -162,6 +161,15 @@
 				31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */,
 			);
 			path = SignUpPage;
+			sourceTree = "<group>";
+		};
+		31F1A0CF2AAD95D300B99DC4 /* LoginPage */ = {
+			isa = PBXGroup;
+			children = (
+				312476A82AA0588C00D318C7 /* LoginViewController.swift */,
+				3116B28A2AA07C5100308CDA /* LoginViewModel.swift */,
+			);
+			path = LoginPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

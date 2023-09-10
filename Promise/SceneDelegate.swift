@@ -17,7 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         //let rootVC = LoginViewController(loginViewModel: LoginViewModel())
         //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
-        let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
+        //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
+        let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
         window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
     }

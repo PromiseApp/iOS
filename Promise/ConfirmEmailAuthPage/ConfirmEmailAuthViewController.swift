@@ -146,7 +146,7 @@ class ConfirmEmailAuthViewController: UIViewController {
         }
         
         clearButton.do{
-            $0.setImage(UIImage(named: "close"), for: .normal)
+            $0.setImage(UIImage(named: "clear"), for: .normal)
         }
         
         timerLabel.do{
