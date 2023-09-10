@@ -5,9 +5,9 @@ import RxCocoa
 class EmailAuthViewModel {
     let emailTextRelay = PublishRelay<String>()
     
-    var validationResultSignal: Signal<Bool> {
+    var validationResultDriver: Driver<Bool> {
         return emailTextRelay
-            .asSignal(onErrorJustReturn: "")
+            .asDriver(onErrorDriveWith: .empty())
             .map { [weak self] in self?.isValidEmail($0) ?? false }
     }
     

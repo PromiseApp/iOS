@@ -36,12 +36,13 @@ class EmailAuthViewController: UIViewController {
     
     private func bind(){
         
+        
         emailTextField.rx.text.orEmpty
             .bind(to: emailAuthViewModel.emailTextRelay)
             .disposed(by: disposeBag)
         
-        emailAuthViewModel.validationResultSignal
-            .emit(onNext: { [weak self] isValid in
+        emailAuthViewModel.validationResultDriver
+            .drive(onNext: { [weak self] isValid in
                 guard let self = self else { return }
                 if(isValid){
                     self.nextButton.isHidden = false

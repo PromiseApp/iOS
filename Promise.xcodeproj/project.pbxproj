@@ -12,6 +12,8 @@
 		3116B2892AA06AA000308CDA /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3116B2882AA06AA000308CDA /* Pretendard-SemiBold.otf */; };
 		3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28A2AA07C5100308CDA /* LoginViewModel.swift */; };
 		3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28C2AA0909B00308CDA /* SignUpViewController.swift */; };
+		311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */; };
+		311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18D2AAB3776007FD9A7 /* NicknameViewModel.swift */; };
 		312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */; };
 		312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006AF2AA9DEAD00501128 /* EmailAuthViewModel.swift */; };
 		312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006B22AAAF25000501128 /* ConfirmEmailAuthViewController.swift */; };
@@ -28,6 +30,7 @@
 		312476C42AA05E4D00D318C7 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 312476C32AA05E4D00D318C7 /* Then */; };
 		312476C72AA068E500D318C7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C62AA068E400D318C7 /* Constants.swift */; };
 		312476C92AA0690500D318C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C82AA0690500D318C7 /* Extensions.swift */; };
+		31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,8 @@
 		3116B2882AA06AA000308CDA /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-SemiBold.otf"; path = "../../../FontStyle/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		3116B28A2AA07C5100308CDA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		3116B28C2AA0909B00308CDA /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
+		311CA18D2AAB3776007FD9A7 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewController.swift; sourceTree = "<group>"; };
 		312006AF2AA9DEAD00501128 /* EmailAuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewModel.swift; sourceTree = "<group>"; };
 		312006B22AAAF25000501128 /* ConfirmEmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailAuthViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +54,7 @@
 		312476B22AA0588D00D318C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		312476C62AA068E400D318C7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		312476C82AA0690500D318C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +81,15 @@
 				3116B2842AA06A9200308CDA /* Pretendard-Medium.otf */,
 			);
 			path = FontStyle;
+			sourceTree = "<group>";
+		};
+		311CA18A2AAB3740007FD9A7 /* NicknamePage */ = {
+			isa = PBXGroup;
+			children = (
+				311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */,
+				311CA18D2AAB3776007FD9A7 /* NicknameViewModel.swift */,
+			);
+			path = NicknamePage;
 			sourceTree = "<group>";
 		};
 		312006AC2AA9DE7200501128 /* EmailAuthPage */ = {
@@ -114,6 +129,8 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0CC2AAD894D00B99DC4 /* SignUpPage */,
+				311CA18A2AAB3740007FD9A7 /* NicknamePage */,
 				312006B12AAAF23100501128 /* ConfirmEmailAuthPage */,
 				312006AC2AA9DE7200501128 /* EmailAuthPage */,
 				3116B2812AA06A7900308CDA /* FontStyle */,
@@ -125,7 +142,6 @@
 				312476AD2AA0588D00D318C7 /* Assets.xcassets */,
 				312476AF2AA0588D00D318C7 /* LaunchScreen.storyboard */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
-				3116B28C2AA0909B00308CDA /* SignUpViewController.swift */,
 			);
 			path = Promise;
 			sourceTree = "<group>";
@@ -137,6 +153,15 @@
 				312476C82AA0690500D318C7 /* Extensions.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		31F1A0CC2AAD894D00B99DC4 /* SignUpPage */ = {
+			isa = PBXGroup;
+			children = (
+				3116B28C2AA0909B00308CDA /* SignUpViewController.swift */,
+				31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */,
+			);
+			path = SignUpPage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -228,13 +253,16 @@
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
+				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
+				31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
+				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

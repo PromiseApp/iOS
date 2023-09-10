@@ -6,23 +6,35 @@ class ConfirmEmailAuthViewModel{
     var disposeBag = DisposeBag()
     
     private let timerSubject = PublishSubject<String>()
-    var timerSignal: Signal<String> {
-        return timerSubject.asSignal(onErrorJustReturn: "00:00")
+    var timerDriver: Driver<String> {
+        return timerSubject.asDriver(onErrorJustReturn: "00:00")
     }
+    let startTimerRelay = PublishRelay<Void>()
     
     let authTextRelay = BehaviorRelay<String>(value: "")
-    let serverAuthCode = BehaviorRelay<String>(value: "123456") 
+    let serverAuthCode = BehaviorRelay<String>(value: "123456")
     
-    var isNextButtonEnabled: Observable<Bool> {
-        return authTextRelay.asObservable()
-            .map { $0.count == 6 && $0.allSatisfy { $0.isNumber } }
+    var isNextButtonEnabled: Driver<Bool> {
+        return authTextRelay.asDriver(onErrorDriveWith: .empty())
+            .map{ $0.count == 6 && $0.allSatisfy { $0.isNumber } }
+            .map{ !$0 }
     }
     
-    var isAuthCodeValid: Observable<Bool> {
-        return authTextRelay.asObservable()
-            .withLatestFrom(serverAuthCode.asObservable()) { authText, serverCode in
+    var isAuthCodeValid: Driver<Bool> {
+        return authTextRelay.asDriver(onErrorDriveWith: .empty())
+            .withLatestFrom(serverAuthCode.asDriver()) { authText, serverCode in
                 return authText == serverCode
             }
+    }
+    
+    init() {
+        startTimer()
+        
+        startTimerRelay
+            .subscribe(onNext: { [weak self] in
+                self?.startTimer()
+            })
+            .disposed(by: disposeBag)
     }
     
     func startTimer() {
