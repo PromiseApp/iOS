@@ -27,3 +27,19 @@ extension UIColor {
                   alpha: alpha)
     }
 }
+
+extension UIAlertController {
+    static func createAlert(title: String?, message: String?, buttonText: String, buttonBackgroundColor: UIColor, buttonTextColor: UIColor) -> UIAlertController {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        
+        let action = UIAlertAction(title: buttonText, style: .default, handler: nil)
+        alert.addAction(action)
+        
+        // Setting button background color and text color
+        alert.view.tintColor = buttonTextColor
+        let subview = (alert.view.subviews.first?.subviews.first?.subviews.first!)! as UIView
+        subview.backgroundColor = buttonBackgroundColor
+        
+        return alert
+    }
+}

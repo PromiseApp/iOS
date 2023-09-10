@@ -4,7 +4,7 @@ import RxCocoa
 import Then
 import SnapKit
 
-class EmailAuthViewController: UIViewController {
+class ChangePwViewController: UIViewController {
     let disposeBag = DisposeBag()
     var emailAuthViewModel:EmailAuthViewModel
     
@@ -66,9 +66,8 @@ class EmailAuthViewController: UIViewController {
                     self?.show(VC, sender: nil)
                 }
                 if !isValid {
-                    let popupViewController = PopUpViewController(title: "입력오류", desc: "입력한 정보를 다시 확인해주세요!")
-                    popupViewController.modalPresentationStyle = .overFullScreen
-                    self?.present(popupViewController, animated: false)
+                    let alert = UIAlertController.createAlert(title: "입력 오류", message: "다시 입력해주세요.", buttonText: "확인", buttonBackgroundColor: .green, buttonTextColor: .black)
+                            self?.present(alert, animated: true, completion: nil)
                 }
                 
             })

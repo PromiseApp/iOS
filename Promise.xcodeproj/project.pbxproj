@@ -31,6 +31,13 @@
 		312476C72AA068E500D318C7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C62AA068E400D318C7 /* Constants.swift */; };
 		312476C92AA0690500D318C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C82AA0690500D318C7 /* Extensions.swift */; };
 		31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */; };
+		31F1A0D12AAD9DCA00B99DC4 /* AAA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D02AAD9DCA00B99DC4 /* AAA.swift */; };
+		31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */; };
+		31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */; };
+		31F1A0D82AADD22300B99DC4 /* ChangePwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */; };
+		31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */; };
+		31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */; };
+		31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +62,13 @@
 		312476C62AA068E400D318C7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		312476C82AA0690500D318C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		31F1A0D02AAD9DCA00B99DC4 /* AAA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAA.swift; sourceTree = "<group>"; };
+		31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
+		31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewModel.swift; sourceTree = "<group>"; };
+		31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwViewController.swift; sourceTree = "<group>"; };
+		31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwViewModel.swift; sourceTree = "<group>"; };
+		31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
+		31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,11 +143,13 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0DB2AADD3AE00B99DC4 /* PopUp */,
 				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
 				312006AC2AA9DE7200501128 /* EmailAuthPage */,
 				312006B12AAAF23100501128 /* ConfirmEmailAuthPage */,
 				311CA18A2AAB3740007FD9A7 /* NicknamePage */,
 				31F1A0CC2AAD894D00B99DC4 /* SignUpPage */,
+				31F1A0D22AADA1D900B99DC4 /* FindPwPage */,
 				3116B2812AA06A7900308CDA /* FontStyle */,
 				312476C52AA068CD00D318C7 /* Utility */,
 				312476A42AA0588C00D318C7 /* AppDelegate.swift */,
@@ -141,6 +157,7 @@
 				312476AD2AA0588D00D318C7 /* Assets.xcassets */,
 				312476AF2AA0588D00D318C7 /* LaunchScreen.storyboard */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
+				31F1A0D02AAD9DCA00B99DC4 /* AAA.swift */,
 			);
 			path = Promise;
 			sourceTree = "<group>";
@@ -170,6 +187,26 @@
 				3116B28A2AA07C5100308CDA /* LoginViewModel.swift */,
 			);
 			path = LoginPage;
+			sourceTree = "<group>";
+		};
+		31F1A0D22AADA1D900B99DC4 /* FindPwPage */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */,
+				31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */,
+				31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */,
+				31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */,
+			);
+			path = FindPwPage;
+			sourceTree = "<group>";
+		};
+		31F1A0DB2AADD3AE00B99DC4 /* PopUp */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */,
+				31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */,
+			);
+			path = PopUp;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,17 +294,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
+				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
+				31F1A0D12AAD9DCA00B99DC4 /* AAA.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */,
+				31F1A0D82AADD22300B99DC4 /* ChangePwViewController.swift in Sources */,
+				31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
+				31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */,
+				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
 				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,

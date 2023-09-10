@@ -22,6 +22,7 @@ class NicknameViewModel{
             }
             .asDriver(onErrorDriveWith: .empty())
     }
+    
     let serverResponseRelay = BehaviorRelay<Bool>(value: true)
     
     

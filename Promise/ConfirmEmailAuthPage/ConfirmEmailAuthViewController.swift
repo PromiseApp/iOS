@@ -111,7 +111,6 @@ class ConfirmEmailAuthViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.do{
-            $0.text = "본인인증"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         
