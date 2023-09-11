@@ -36,6 +36,12 @@ class EmailAuthViewController: UIViewController {
     
     private func bind(){
         
+        leftButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         
         emailTextField.rx.text.orEmpty
             .bind(to: emailAuthViewModel.emailTextRelay)

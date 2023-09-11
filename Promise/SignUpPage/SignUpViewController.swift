@@ -51,6 +51,12 @@ class SignUpViewController: UIViewController {
     
     private func bind(){
         
+        leftButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         pwTextField.rx.text.orEmpty
             .bind(to: signUpViewModel.pwTextRelay)
             .disposed(by: disposeBag)

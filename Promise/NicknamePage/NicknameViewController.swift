@@ -41,6 +41,12 @@ class NicknameViewController: UIViewController {
     
     private func bind(){
         
+        leftButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
         nicknameTextField.rx.text.orEmpty
             .bind(to: nicknameViewModel.nicknameTextRelay)
             .disposed(by: disposeBag)

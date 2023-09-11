@@ -40,6 +40,12 @@ class ConfirmEmailAuthViewController: UIViewController {
     }
     
     private func bind(){
+        
+        leftButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
                 
         authTextField.rx.text.orEmpty
             .bind(to: confirmEmailAuthViewModel.authTextRelay)

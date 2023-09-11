@@ -17,7 +17,7 @@ class LoginViewController: UIViewController {
     lazy var saveIdCheckBox = UIButton()
     lazy var loginButton = UIButton()
     lazy var signUpButton = UIButton()
-    lazy var findIdPwButton = UIButton()
+    lazy var findPwButton = UIButton()
     let separateView = UIView()
     lazy var kakaoButton = UIButton()
     lazy var appleButton = UIButton()
@@ -72,7 +72,22 @@ class LoginViewController: UIViewController {
                 self.pwTextField.isSecureTextEntry.toggle()
             })
             .disposed(by: disposeBag)
-
+        
+        signUpButton.rx.tap
+            .subscribe(onNext: {
+                let VM = EmailAuthViewModel()
+                let VC = EmailAuthViewController(emailAuthViewModel: VM)
+                self.show(VC, sender: nil)
+            })
+            .disposed(by: disposeBag)
+        
+        findPwButton.rx.tap
+            .subscribe(onNext: {
+                let VM = FindPwViewModel()
+                let VC = FindPwViewController(findPwViewModel: VM)
+                self.show(VC, sender: nil)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -129,8 +144,9 @@ class LoginViewController: UIViewController {
         loginButton.do{
             $0.layer.backgroundColor = UIColor(red: 0.961, green: 0.711, blue: 0.586, alpha: 1).cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
-            $0.backgroundColor = UIColor(named: "mainColor")
+            $0.backgroundColor = UIColor(named: "prStrong")
             $0.setTitle("로그인", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
         }
         
@@ -140,8 +156,8 @@ class LoginViewController: UIViewController {
             $0.setTitleColor(.black, for: .normal)
         }
         
-        findIdPwButton.do{
-            $0.setTitle("아이디 또는 비밀번호를 잊어버리셨나요?", for: .normal)
+        findPwButton.do{
+            $0.setTitle("비밀번호를 잊어버리셨나요?", for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.setTitleColor(.black, for: .normal)
         }
@@ -174,7 +190,7 @@ class LoginViewController: UIViewController {
     }
     
     private func layout(){
-        [idTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signUpButton,findIdPwButton,separateView,kakaoButton,appleButton]
+        [idTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signUpButton,findPwButton,separateView,kakaoButton,appleButton]
             .forEach{view.addSubview($0)}
         
         idTextField.snp.makeConstraints { make in
@@ -236,7 +252,7 @@ class LoginViewController: UIViewController {
             make.top.equalTo(loginButton.snp.bottom).offset(12*Constants.standardHeight)
         }
         
-        findIdPwButton.snp.makeConstraints { make in
+        findPwButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-24*Constants.standardWidth)
             make.top.equalTo(loginButton.snp.bottom).offset(12*Constants.standardHeight)
         }
@@ -245,7 +261,7 @@ class LoginViewController: UIViewController {
             make.width.equalTo(240*Constants.standardWidth)
             make.height.equalTo(1*Constants.standardHeight)
             make.centerX.equalToSuperview()
-            make.top.equalTo(findIdPwButton.snp.bottom).offset(32*Constants.standardHeight)
+            make.top.equalTo(findPwButton.snp.bottom).offset(32*Constants.standardHeight)
         }
         
         kakaoButton.snp.makeConstraints { make in
