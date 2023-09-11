@@ -50,6 +50,21 @@ class NicknameViewController: UIViewController {
         nicknameTextField.rx.text.orEmpty
             .bind(to: nicknameViewModel.nicknameTextRelay)
             .disposed(by: disposeBag)
+        
+        nicknameTextField.rx.text.orEmpty
+            .map{ _ in }
+            .bind(to: nicknameViewModel.resetDuplicateCheckRelay)
+            .disposed(by: disposeBag)
+        
+        nicknameViewModel.resetDuplicateCheckRelay
+            .subscribe(onNext: { [weak self] in
+                self?.secConditionImageView.image = UIImage(named: "redX")
+                self?.secConditionImageView.tintColor = .red
+                self?.secConditionLabel.textColor = .red
+                self?.secConditionLabel.text = "중복확인을 눌러주세요!"
+                self?.nextButton.isHidden = true
+            })
+            .disposed(by: disposeBag)
 
         
         nicknameViewModel.isValidNickname
@@ -98,6 +113,17 @@ class NicknameViewController: UIViewController {
         nicknameViewModel.duplicateCheckResultDriver
             .map{ !$0 }
             .drive(nextButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
+        nicknameViewModel.isNextButtonEnabled
+            .drive(onNext: { [weak self] isValid in
+                if(isValid){
+                    self?.nextButton.isHidden = false
+                }
+                else{
+                    self?.nextButton.isHidden = true
+                }
+            })
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
@@ -150,7 +176,7 @@ class NicknameViewController: UIViewController {
         }
         
         duplicateButton.do{
-            $0.setTitle("재전송", for: .normal)
+            $0.setTitle("중복확인", for: .normal)
             $0.setTitleColor(UIColor.black, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
             $0.layer.cornerRadius = 8 * Constants.standardHeight

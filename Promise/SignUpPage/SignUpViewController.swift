@@ -81,6 +81,11 @@ class SignUpViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.pwTextField.isSecureTextEntry.toggle()
+                if self.pwTextField.isSecureTextEntry {
+                    self.firstVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
+                } else {
+                    self.firstVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -88,6 +93,11 @@ class SignUpViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.rePwTextField.isSecureTextEntry.toggle()
+                if self.rePwTextField.isSecureTextEntry {
+                    self.secVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
+                } else {
+                    self.secVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
+                }
             })
             .disposed(by: disposeBag)
         

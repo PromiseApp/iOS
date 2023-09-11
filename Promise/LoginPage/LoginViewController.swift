@@ -10,17 +10,17 @@ class LoginViewController: UIViewController {
     
     let idTextField = UITextField()
     let pwTextField = UITextField()
-    lazy var visiblePwButton = UIButton()
+    let visiblePwButton = UIButton()
     let autoLoginLabel = UILabel()
-    lazy var autoLoginCheckBox = UIButton()
+    let autoLoginCheckBox = UIButton()
     let saveIdLabel = UILabel()
-    lazy var saveIdCheckBox = UIButton()
-    lazy var loginButton = UIButton()
-    lazy var signUpButton = UIButton()
-    lazy var findPwButton = UIButton()
+    let saveIdCheckBox = UIButton()
+    let loginButton = UIButton()
+    let signUpButton = UIButton()
+    let findPwButton = UIButton()
     let separateView = UIView()
-    lazy var kakaoButton = UIButton()
-    lazy var appleButton = UIButton()
+    let kakaoButton = UIButton()
+    let appleButton = UIButton()
     
     init(loginViewModel: LoginViewModel) {
         self.loginViewModel = loginViewModel
@@ -70,6 +70,11 @@ class LoginViewController: UIViewController {
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.pwTextField.isSecureTextEntry.toggle()
+                if self.pwTextField.isSecureTextEntry {
+                    self.visiblePwButton.setImage(UIImage(named: "invisible"), for: .normal)
+                } else {
+                    self.visiblePwButton.setImage(UIImage(named: "visible"), for: .normal)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -116,7 +121,7 @@ class LoginViewController: UIViewController {
         }
         
         visiblePwButton.do{
-            $0.setImage(UIImage(named: "visiblePw"), for: .normal)
+            $0.setImage(UIImage(named: "invisible"), for: .normal)
         }
         
         autoLoginLabel.do{

@@ -3,9 +3,11 @@ import RxCocoa
 import RxSwift
 
 class NicknameViewModel{
+    let disposeBag = DisposeBag()
+    
     let nicknameTextRelay = BehaviorRelay<String>(value: "")
     let duplicateButtonTapped = PublishRelay<Void>()
-    
+    var resetDuplicateCheckRelay = PublishRelay<Void>()
     
     var isValidNickname: Driver<Bool> {
         return nicknameTextRelay.asDriver(onErrorDriveWith: .empty())
@@ -18,6 +20,7 @@ class NicknameViewModel{
             .withLatestFrom(nicknameTextRelay)
             .flatMapLatest { [weak self] text -> Driver<Bool> in
                 guard let self = self else { return Driver.just(false) }
+                
                 return self.checkDuplicate(nickname: text)
             }
             .asDriver(onErrorDriveWith: .empty())
@@ -25,6 +28,10 @@ class NicknameViewModel{
     
     let serverResponseRelay = BehaviorRelay<Bool>(value: true)
     
+    var isNextButtonEnabled: Driver<Bool> {
+        return Driver.combineLatest(isValidNickname, duplicateCheckResultDriver)
+            .map { $0 && $1 }
+    }
     
     private func validateNickname(_ text: String) -> Bool {
         let regex = "^[a-zA-Z0-9가-힣]{2,10}$"
