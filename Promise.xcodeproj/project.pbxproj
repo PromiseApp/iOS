@@ -38,6 +38,11 @@
 		31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */; };
 		31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */; };
 		31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */; };
+		31F1A0E22AAEF7C600B99DC4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */; };
+		31F1A0E42AAEF7E000B99DC4 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */; };
+		31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */; };
+		31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */; };
+		31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +74,11 @@
 		31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwViewModel.swift; sourceTree = "<group>"; };
 		31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
+		31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewModel.swift; sourceTree = "<group>"; };
+		31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedViewController.swift; sourceTree = "<group>"; };
+		31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +153,8 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */,
+				31F1A0E02AAEF7BB00B99DC4 /* MainPage */,
 				31F1A0DB2AADD3AE00B99DC4 /* PopUp */,
 				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
 				312006AC2AA9DE7200501128 /* EmailAuthPage */,
@@ -207,6 +219,25 @@
 				31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */,
 			);
 			path = PopUp;
+			sourceTree = "<group>";
+		};
+		31F1A0E02AAEF7BB00B99DC4 /* MainPage */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */,
+				31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */,
+			);
+			path = MainPage;
+			sourceTree = "<group>";
+		};
+		31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */,
+				31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */,
+				31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */,
+			);
+			path = LimitedCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,10 +326,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */,
+				31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */,
+				31F1A0E22AAEF7C600B99DC4 /* MainViewController.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
+				31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
 				31F1A0D12AAD9DCA00B99DC4 /* AAA.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
@@ -308,12 +342,14 @@
 				31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
+				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */,
 				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
+				31F1A0E42AAEF7E000B99DC4 /* MainViewModel.swift in Sources */,
 				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

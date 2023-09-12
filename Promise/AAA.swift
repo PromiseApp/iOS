@@ -25,13 +25,13 @@ class DonutProgressView: UIView {
     private func setup() {
         backgroundLayer.strokeColor = UIColor.gray.cgColor
         backgroundLayer.fillColor = UIColor.clear.cgColor
-        backgroundLayer.lineWidth = 10
+        backgroundLayer.lineWidth = 23 * Constants.standardHeight
         backgroundLayer.lineCap = .round
         layer.addSublayer(backgroundLayer)
         
         progressLayer.strokeColor = UIColor.red.cgColor
         progressLayer.fillColor = UIColor.clear.cgColor
-        progressLayer.lineWidth = 10
+        progressLayer.lineWidth = 23 * Constants.standardHeight
         progressLayer.lineCap = .round
         layer.addSublayer(progressLayer)
         
@@ -45,11 +45,9 @@ class DonutProgressView: UIView {
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
         let radius = min(bounds.width, bounds.height) / 2 - progressLayer.lineWidth / 2
         
-        // 배경 경로 설정
         let backgroundPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
         backgroundLayer.path = backgroundPath.cgPath
         
-        // 프로그레스 경로 설정
         let progressEndAngle = startAngle + (endAngle - startAngle) * progress
         let progressPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: progressEndAngle, clockwise: true)
         progressLayer.path = progressPath.cgPath

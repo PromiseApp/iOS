@@ -34,11 +34,11 @@ class MyPopupView: UIView {
         }
 
         titleLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 18)
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
             $0.textAlignment = .center
         }
         descLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 16)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.textAlignment = .center
         }
         

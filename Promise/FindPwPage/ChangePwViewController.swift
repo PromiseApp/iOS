@@ -223,7 +223,7 @@ class ChangePwViewController: UIViewController {
         }
         
         conditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.text = "8~16자 영문 대/소문자,숫자,특수문자를 모두 사용해 주세요!"
             $0.textColor = .red
         }
@@ -234,7 +234,7 @@ class ChangePwViewController: UIViewController {
         }
         
         secConditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.text = "비밀번호가 일치하지 않아요!"
             $0.textColor = .red
         }

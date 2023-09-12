@@ -1,10 +1,14 @@
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
+import Photos
+import PhotosUI
+
 
 class SignUpViewModel{
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
+    let selectedImage = PublishRelay<UIImage?>()
     
     var isPasswordValid: Driver<Bool> {
         return pwTextRelay.asDriver()
@@ -33,9 +37,12 @@ class SignUpViewModel{
             }
     }
     
+    
     private func validatePassword(_ text: String) -> Bool {
         let regex = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{8,16}$"
         let test = NSPredicate(format:"SELF MATCHES %@", regex)
         return test.evaluate(with: text)
     }
+    
+   
 }

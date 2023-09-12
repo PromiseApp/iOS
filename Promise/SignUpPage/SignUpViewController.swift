@@ -1,12 +1,18 @@
 import UIKit
+import PhotosUI
+import Photos
 import RxSwift
 import RxCocoa
 import Then
 import SnapKit
 
 class SignUpViewController: UIViewController {
+    
     let disposeBag = DisposeBag()
     var signUpViewModel:SignUpViewModel
+    
+    let limitedViewModel = LimitedViewModel()
+    
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -43,9 +49,9 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
-
-        attribute()
+        
         layout()
+        attribute()
         bind()
     }
     
@@ -54,6 +60,26 @@ class SignUpViewController: UIViewController {
         leftButton.rx.tap
             .subscribe(onNext: {
                 self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        signUpViewModel.selectedImage
+            .bind(to: userProfileButton.rx.image(for: .normal))
+            .disposed(by: disposeBag)
+        
+        limitedViewModel.selectedPhoto
+            .bind(to: userProfileButton.rx.image(for: .normal))
+            .disposed(by: disposeBag)
+        
+        userProfileButton.rx.tap
+            .bind(onNext: { [weak self] in
+                self?.checkPhotoLibraryPermission()
+            })
+            .disposed(by: disposeBag)
+        
+        cameraButton.rx.tap
+            .bind(onNext: { [weak self] in
+                self?.checkPhotoLibraryPermission()
             })
             .disposed(by: disposeBag)
         
@@ -183,6 +209,7 @@ class SignUpViewController: UIViewController {
         }
         
         userProfileButton.do{
+            $0.layer.cornerRadius = 96*Constants.standardHeight / 2
             $0.sizeToFit()
             $0.clipsToBounds = true
             $0.setImage(UIImage(named: "user"), for: .normal)
@@ -251,7 +278,7 @@ class SignUpViewController: UIViewController {
         }
         
         conditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.text = "8~16자 영문 대/소문자,숫자,특수문자를 모두 사용해 주세요!"
             $0.textColor = .red
         }
@@ -262,7 +289,7 @@ class SignUpViewController: UIViewController {
         }
         
         secConditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.text = "비밀번호가 일치하지 않아요!"
             $0.textColor = .red
         }
@@ -413,8 +440,40 @@ class SignUpViewController: UIViewController {
         
     }
     
+    private func checkPhotoLibraryPermission() {
+        switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {
+        case .authorized:
+            var configuration = PHPickerConfiguration()
+            configuration.selectionLimit = 1
+            configuration.filter = .images
+            let picker = PHPickerViewController(configuration: configuration)
+            picker.delegate = self
+            present(picker, animated: true, completion: nil)
+        case .limited:
+            let limitedViewController = LimitedViewController(limitedViewModel: limitedViewModel)
+            present(limitedViewController, animated: true, completion: nil)
+            
+        default:
+            // 권한 요청 또는 다른 처리
+            break
+        }
+    }
 
+}
 
+extension SignUpViewController: PHPickerViewControllerDelegate{
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true, completion: nil)
+        
+        guard let result = results.first else { return }
+        result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
+            if let image = object as? UIImage {
+                DispatchQueue.main.async {
+                    self?.signUpViewModel.selectedImage.accept(image)
+                }
+            }
+        }
+    }
 }
 
 //#if DEBUG

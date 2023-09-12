@@ -191,7 +191,7 @@ class NicknameViewController: UIViewController {
         }
         
         conditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.text = "2~10자 영문 대/소문자,한글,숫자를 사용해 주세요!"
             $0.textColor = .red
         }
@@ -202,7 +202,7 @@ class NicknameViewController: UIViewController {
         }
         
         secConditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.text = "중복확인을 눌러주세요!"
             $0.textColor = .red
         }

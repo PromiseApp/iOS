@@ -174,7 +174,7 @@ class ConfirmEmailAuthViewController: UIViewController {
         }
         
         conditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 13)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.isHidden = true
         }
         
