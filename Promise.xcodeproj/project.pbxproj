@@ -45,6 +45,10 @@
 		31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */; };
 		31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0ED2AB0755E00B99DC4 /* MakePromiseViewController.swift */; };
 		31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */; };
+		31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F22AB46C9400B99DC4 /* SelectFriendViewModel.swift */; };
+		31F1A0F52AB46CA400B99DC4 /* SelectFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F42AB46CA400B99DC4 /* SelectFriendViewController.swift */; };
+		31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F62AB46E9E00B99DC4 /* FriendTableViewCell.swift */; };
+		31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F92AB4769C00B99DC4 /* Friend.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +87,10 @@
 		31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewCell.swift; sourceTree = "<group>"; };
 		31F1A0ED2AB0755E00B99DC4 /* MakePromiseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePromiseViewController.swift; sourceTree = "<group>"; };
 		31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePromiseViewModel.swift; sourceTree = "<group>"; };
+		31F1A0F22AB46C9400B99DC4 /* SelectFriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendViewModel.swift; sourceTree = "<group>"; };
+		31F1A0F42AB46CA400B99DC4 /* SelectFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendViewController.swift; sourceTree = "<group>"; };
+		31F1A0F62AB46E9E00B99DC4 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		31F1A0F92AB4769C00B99DC4 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +165,7 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0F82AB4768C00B99DC4 /* Entity */,
 				31F1A0E02AAEF7BB00B99DC4 /* MainPage */,
 				31F1A0DB2AADD3AE00B99DC4 /* PopUp */,
 				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
@@ -228,6 +237,7 @@
 		31F1A0E02AAEF7BB00B99DC4 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0F12AB46C6800B99DC4 /* SelectFriendPage */,
 				31F1A0EC2AB0754A00B99DC4 /* MakePromisePage */,
 				31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */,
 				31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */,
@@ -252,6 +262,24 @@
 				31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */,
 			);
 			path = MakePromisePage;
+			sourceTree = "<group>";
+		};
+		31F1A0F12AB46C6800B99DC4 /* SelectFriendPage */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0F22AB46C9400B99DC4 /* SelectFriendViewModel.swift */,
+				31F1A0F42AB46CA400B99DC4 /* SelectFriendViewController.swift */,
+				31F1A0F62AB46E9E00B99DC4 /* FriendTableViewCell.swift */,
+			);
+			path = SelectFriendPage;
+			sourceTree = "<group>";
+		};
+		31F1A0F82AB4768C00B99DC4 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0F92AB4769C00B99DC4 /* Friend.swift */,
+			);
+			path = Entity;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -358,14 +386,18 @@
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
 				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
+				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */,
+				31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */,
 				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
+				31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */,
 				31F1A0E42AAEF7E000B99DC4 /* MainViewModel.swift in Sources */,
+				31F1A0F52AB46CA400B99DC4 /* SelectFriendViewController.swift in Sources */,
 				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -236,11 +236,11 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UIPickerViewDelegate,UIPickerViewDataSource{
-    
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if component == 0 {
             return years.count
@@ -248,7 +248,7 @@ extension MainViewController: UIPickerViewDelegate,UIPickerViewDataSource{
             return months.count
         }
     }
-    
+
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if component == 0 {
             return "\(years[row])년"
@@ -260,32 +260,32 @@ extension MainViewController: UIPickerViewDelegate,UIPickerViewDataSource{
 
 
 
-#if DEBUG
-import SwiftUI
-struct Preview: UIViewControllerRepresentable {
-
-    // 여기 ViewController를 변경해주세요
-    func makeUIViewController(context: Context) -> UIViewController {
-        MainViewController(mainViewModel: MainViewModel())
-    }
-
-    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-    }
-}
-
-struct ViewController_PreviewProvider: PreviewProvider {
-    static var previews: some View {
-        Preview()
-            .edgesIgnoringSafeArea(.all)
-            .previewDisplayName("Preview")
-            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
-
-        Preview()
-            .edgesIgnoringSafeArea(.all)
-            .previewDisplayName("Preview")
-            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
-
-    }
-}
-#endif
-
+//#if DEBUG
+//import SwiftUI
+//struct Preview: UIViewControllerRepresentable {
+//
+//    // 여기 ViewController를 변경해주세요
+//    func makeUIViewController(context: Context) -> UIViewController {
+//        MainViewController(mainViewModel: MainViewModel())
+//    }
+//
+//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
+//    }
+//}
+//
+//struct ViewController_PreviewProvider: PreviewProvider {
+//    static var previews: some View {
+//        Preview()
+//            .edgesIgnoringSafeArea(.all)
+//            .previewDisplayName("Preview")
+//            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
+//
+//        Preview()
+//            .edgesIgnoringSafeArea(.all)
+//            .previewDisplayName("Preview")
+//            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
+//
+//    }
+//}
+//#endif
+//

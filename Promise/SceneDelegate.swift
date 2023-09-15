@@ -21,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
         //let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
         //let rootVC = MainViewController(mainViewModel: MainViewModel())
-        let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
+        //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
+        let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel())
         window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
         
