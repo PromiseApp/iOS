@@ -100,13 +100,19 @@ class FindPwViewController: UIViewController {
         
         emailLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.text = "이메일"
+            let text = "이메일*"
+            let attributedString = NSMutableAttributedString(string: text)
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "*"))
+            
+            $0.attributedText = attributedString
         }
         
         emailTextField.do{
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "abcde@example.com"
             $0.addLeftPadding()
         }

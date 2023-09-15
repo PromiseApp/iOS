@@ -118,6 +118,7 @@ class EmailAuthViewController: UIViewController {
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "abcde@example.com"
             $0.addLeftPadding()
         }

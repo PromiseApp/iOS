@@ -43,6 +43,8 @@
 		31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */; };
 		31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */; };
 		31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */; };
+		31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0ED2AB0755E00B99DC4 /* MakePromiseViewController.swift */; };
+		31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +81,8 @@
 		31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewModel.swift; sourceTree = "<group>"; };
 		31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedViewController.swift; sourceTree = "<group>"; };
 		31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewCell.swift; sourceTree = "<group>"; };
+		31F1A0ED2AB0755E00B99DC4 /* MakePromiseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePromiseViewController.swift; sourceTree = "<group>"; };
+		31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakePromiseViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,7 +157,6 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
-				31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */,
 				31F1A0E02AAEF7BB00B99DC4 /* MainPage */,
 				31F1A0DB2AADD3AE00B99DC4 /* PopUp */,
 				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
@@ -186,6 +189,7 @@
 		31F1A0CC2AAD894D00B99DC4 /* SignUpPage */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */,
 				3116B28C2AA0909B00308CDA /* SignUpViewController.swift */,
 				31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */,
 			);
@@ -224,6 +228,7 @@
 		31F1A0E02AAEF7BB00B99DC4 /* MainPage */ = {
 			isa = PBXGroup;
 			children = (
+				31F1A0EC2AB0754A00B99DC4 /* MakePromisePage */,
 				31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */,
 				31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */,
 			);
@@ -238,6 +243,15 @@
 				31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */,
 			);
 			path = LimitedCollectionView;
+			sourceTree = "<group>";
+		};
+		31F1A0EC2AB0754A00B99DC4 /* MakePromisePage */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0ED2AB0755E00B99DC4 /* MakePromiseViewController.swift */,
+				31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */,
+			);
+			path = MakePromisePage;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -333,6 +347,7 @@
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */,
+				31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
 				31F1A0D12AAD9DCA00B99DC4 /* AAA.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
@@ -342,6 +357,7 @@
 				31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
+				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,

@@ -19,8 +19,6 @@ class MainViewController: UIViewController {
     lazy var expLabel = UILabel()
     lazy var cntLabel = UILabel()
     lazy var tableView = UITableView()
-    let startPromiseView = UIView()
-    let makePromiseLabel = UILabel()
     let plusButton = UIButton()
     
     var years: [Int] = Array(2000...2100)
@@ -95,27 +93,21 @@ class MainViewController: UIViewController {
             $0.text = "아직 약속이 없네요"
         }
         
-        startPromiseView.do{
-            $0.backgroundColor = .white
+        plusButton.do{
             $0.layer.borderWidth = 2
-            $0.layer.borderColor = UIColor(named: "grayOne")?.cgColor
+            $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 12 * Constants.standardHeight
-            $0.clipsToBounds = true
-        }
-        
-        makePromiseLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 24*Constants.standartFont)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 24 * Constants.standartFont)
             let text = "약속을 만들어볼까요?"
             let attributedString = NSMutableAttributedString(string: text)
-            
             attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "약속"))
-            
-            $0.attributedText = attributedString
+
+            $0.setAttributedTitle(attributedString, for: .normal)
+            $0.setImage(UIImage(named: "plus"), for: .normal)
+            $0.alignTextBelow(spacing: 40)
         }
         
-        plusButton.do{
-            $0.setImage(UIImage(named: "plus"), for: .normal)
-        }
+
         
         tableView.do{
             $0.isHidden = true
@@ -125,7 +117,7 @@ class MainViewController: UIViewController {
     }
     
     private func layout(){
-        [bellButton,dateLabel,downButton,firstSeparateView,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,tableView,startPromiseView]
+        [bellButton,dateLabel,downButton,firstSeparateView,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,tableView,plusButton]
             .forEach{view.addSubview($0)}
         
         bellButton.snp.makeConstraints { make in
@@ -194,25 +186,15 @@ class MainViewController: UIViewController {
             make.top.equalTo(thirdSeparateView.snp.bottom)
         }
         
-        startPromiseView.snp.makeConstraints { make in
+        plusButton.snp.makeConstraints { make in
             make.width.equalTo(333*Constants.standardWidth)
             make.height.equalTo(200*Constants.standardHeight)
             make.centerX.equalToSuperview()
             make.top.equalTo(thirdSeparateView.snp.bottom).offset(12*Constants.standardHeight)
         }
+
         
-        [makePromiseLabel,plusButton]
-            .forEach{startPromiseView.addSubview($0)}
         
-        makePromiseLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(50*Constants.standardHeight)
-        }
-        
-        plusButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(makePromiseLabel.snp.bottom).offset(16*Constants.standardHeight)
-        }
         
     }
     
@@ -278,32 +260,32 @@ extension MainViewController: UIPickerViewDelegate,UIPickerViewDataSource{
 
 
 
-//#if DEBUG
-//import SwiftUI
-//struct Preview: UIViewControllerRepresentable {
-//
-//    // 여기 ViewController를 변경해주세요
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        LoginViewController(loginViewModel: LoginViewModel())
-//    }
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//    }
-//}
-//
-//struct ViewController_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
-//
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
-//
-//    }
-//}
-//#endif
+#if DEBUG
+import SwiftUI
+struct Preview: UIViewControllerRepresentable {
+
+    // 여기 ViewController를 변경해주세요
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewController(mainViewModel: MainViewModel())
+    }
+
+    func updateUIViewController(_ uiView: UIViewController,context: Context) {
+    }
+}
+
+struct ViewController_PreviewProvider: PreviewProvider {
+    static var previews: some View {
+        Preview()
+            .edgesIgnoringSafeArea(.all)
+            .previewDisplayName("Preview")
+            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
+
+        Preview()
+            .edgesIgnoringSafeArea(.all)
+            .previewDisplayName("Preview")
+            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
+
+    }
+}
+#endif
 

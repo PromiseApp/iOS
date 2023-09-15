@@ -2,10 +2,19 @@ import UIKit
 
 extension UITextField {
     func addLeftPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: self.frame.height))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12*Constants.standardWidth, height: self.frame.height))
         self.leftView = paddingView
         self.leftViewMode = ViewMode.always
     }
+}
+
+extension UITextView {
+    func addLeftPadding() {
+            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12*Constants.standardWidth, height: self.frame.height))
+            self.addSubview(paddingView)
+            
+            self.textContainer.lineFragmentPadding = 12*Constants.standardWidth
+        }
 }
 
 extension UIColor {
@@ -42,4 +51,29 @@ extension UIAlertController {
         
         return alert
     }
+}
+
+extension UIButton {
+  
+    
+    func alignTextBelow(spacing: CGFloat) {
+            guard let image = self.imageView?.image else {
+                return
+            }
+
+            guard let titleLabel = self.titleLabel else {
+                return
+            }
+
+            guard let titleText = titleLabel.text else {
+                return
+            }
+
+            let titleSize = titleText.size(withAttributes: [
+                NSAttributedString.Key.font: titleLabel.font as Any
+            ])
+
+            titleEdgeInsets = UIEdgeInsets(top: spacing, left: -image.size.width, bottom: image.size.height+spacing, right: 0)
+            imageEdgeInsets = UIEdgeInsets(top: (titleSize.height + spacing), left: 0, bottom: 0, right: -titleSize.width)
+        }
 }

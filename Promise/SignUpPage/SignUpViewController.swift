@@ -186,7 +186,7 @@ class SignUpViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.do{
-            $0.text = "회원가입"
+            $0.text = "회원가입*"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         
@@ -229,19 +229,25 @@ class SignUpViewController: UIViewController {
         emailTextField.do{
             $0.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.3)
             $0.layer.cornerRadius = 4 * Constants.standardHeight
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "이메일"
             $0.addLeftPadding()
         }
         
         pwLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.text = "비밀번호"
+            let text = "비밀번호*"
+            let attributedString = NSMutableAttributedString(string: text)
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "*"))
+            $0.attributedText = attributedString
         }
         
         pwTextField.do{
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "비밀번호"
             $0.isSecureTextEntry = false
             $0.addLeftPadding()
@@ -249,13 +255,19 @@ class SignUpViewController: UIViewController {
         
         rePwLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.text = "비밀번호 확인"
+            let text = "비밀번호 확인*"
+            let attributedString = NSMutableAttributedString(string: text)
+            
+            attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: (text as NSString).range(of: "*"))
+            
+            $0.attributedText = attributedString
         }
         
         rePwTextField.do{
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "비밀번호 확인"
             $0.isSecureTextEntry = true
             $0.addLeftPadding()

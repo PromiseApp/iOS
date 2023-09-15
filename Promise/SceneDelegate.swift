@@ -19,8 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let rootVC = LoginViewController(loginViewModel: LoginViewModel())
         //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
         //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
-        let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
+        //let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
         //let rootVC = MainViewController(mainViewModel: MainViewModel())
+        let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
         window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
         
