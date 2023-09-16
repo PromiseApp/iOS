@@ -56,6 +56,15 @@ class MainViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        plusButton.rx.tap
+            .subscribe(onNext: {
+                let shareVM = ShareFriendViewModel()
+                let VM = MakePromiseViewModel(shareFriendViewModel: shareVM)
+                let VC = MakePromiseViewController(makePromiseViewModel: VM)
+                self.navigationController?.pushViewController(VC, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     
@@ -81,11 +90,12 @@ class MainViewController: UIViewController {
         levelLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 24*Constants.standartFont)
             $0.textColor = UIColor(hexCode: "F59564")
-            
+            $0.text = "Lv 1"
         }
         
         expLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
+            $0.text = "1/10"
         }
         
         cntLabel.do{
@@ -156,7 +166,7 @@ class MainViewController: UIViewController {
             make.top.equalTo(firstSeparateView.snp.bottom).offset(66*Constants.standardHeight)
         }
         
-        levelLabel.snp.makeConstraints { make in
+        expLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(levelLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
@@ -200,17 +210,14 @@ class MainViewController: UIViewController {
     
     func showDatePicker() {
         let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
-        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 140))
+        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 162*Constants.standardHeight))
         picker.delegate = self
         picker.dataSource = self
         alert.view.addSubview(picker)
         
-        // 현재 연도와 월을 얻어옵니다.
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())
-        let currentMonth = calendar.component(.month, from: Date()) - 1 // 배열 인덱스는 0부터 시작하므로 1을 뺍니다.
-        
-        // 현재 연도와 월을 선택하도록 설정합니다.
+        let currentMonth = calendar.component(.month, from: Date()) - 1 
         if let yearIndex = years.firstIndex(of: currentYear) {
             picker.selectRow(yearIndex, inComponent: 0, animated: false)
         }

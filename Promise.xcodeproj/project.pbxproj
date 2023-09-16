@@ -30,6 +30,7 @@
 		312476C42AA05E4D00D318C7 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 312476C32AA05E4D00D318C7 /* Then */; };
 		312476C72AA068E500D318C7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C62AA068E400D318C7 /* Constants.swift */; };
 		312476C92AA0690500D318C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C82AA0690500D318C7 /* Extensions.swift */; };
+		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
 		31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */; };
 		31F1A0D12AAD9DCA00B99DC4 /* AAA.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D02AAD9DCA00B99DC4 /* AAA.swift */; };
 		31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */; };
@@ -49,6 +50,8 @@
 		31F1A0F52AB46CA400B99DC4 /* SelectFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F42AB46CA400B99DC4 /* SelectFriendViewController.swift */; };
 		31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F62AB46E9E00B99DC4 /* FriendTableViewCell.swift */; };
 		31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0F92AB4769C00B99DC4 /* Friend.swift */; };
+		31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0FB2AB488A400B99DC4 /* FriendCollectionViewCell.swift */; };
+		31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0FD2AB5610600B99DC4 /* ShareFriendViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -72,6 +75,7 @@
 		312476B22AA0588D00D318C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		312476C62AA068E400D318C7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		312476C82AA0690500D318C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		31F1A0D02AAD9DCA00B99DC4 /* AAA.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AAA.swift; sourceTree = "<group>"; };
 		31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 		31F1A0F42AB46CA400B99DC4 /* SelectFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFriendViewController.swift; sourceTree = "<group>"; };
 		31F1A0F62AB46E9E00B99DC4 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
 		31F1A0F92AB4769C00B99DC4 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
+		31F1A0FB2AB488A400B99DC4 /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
+		31F1A0FD2AB5610600B99DC4 /* ShareFriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareFriendViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -260,6 +266,7 @@
 			children = (
 				31F1A0ED2AB0755E00B99DC4 /* MakePromiseViewController.swift */,
 				31F1A0EF2AB0756800B99DC4 /* MakePromiseViewModel.swift */,
+				31F1A0FB2AB488A400B99DC4 /* FriendCollectionViewCell.swift */,
 			);
 			path = MakePromisePage;
 			sourceTree = "<group>";
@@ -267,9 +274,10 @@
 		31F1A0F12AB46C6800B99DC4 /* SelectFriendPage */ = {
 			isa = PBXGroup;
 			children = (
-				31F1A0F22AB46C9400B99DC4 /* SelectFriendViewModel.swift */,
 				31F1A0F42AB46CA400B99DC4 /* SelectFriendViewController.swift */,
+				31F1A0F22AB46C9400B99DC4 /* SelectFriendViewModel.swift */,
 				31F1A0F62AB46E9E00B99DC4 /* FriendTableViewCell.swift */,
+				31F1A0FD2AB5610600B99DC4 /* ShareFriendViewModel.swift */,
 			);
 			path = SelectFriendPage;
 			sourceTree = "<group>";
@@ -278,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				31F1A0F92AB4769C00B99DC4 /* Friend.swift */,
+				31C33F692AB5A94E00A99D7E /* Promise.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -369,6 +378,7 @@
 			files = (
 				31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */,
 				31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */,
+				31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */,
 				31F1A0E22AAEF7C600B99DC4 /* MainViewController.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
@@ -389,8 +399,10 @@
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
+				31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */,
+				31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */,
 				31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */,
 				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,

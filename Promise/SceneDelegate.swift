@@ -20,9 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
         //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
         //let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
-        //let rootVC = MainViewController(mainViewModel: MainViewModel())
+        let rootVC = MainViewController(mainViewModel: MainViewModel())
         //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
-        let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel())
+        //let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel(shareFriendViewModel: ShareFriendViewModel()))
         window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
         

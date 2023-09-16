@@ -16,14 +16,18 @@ class MakePromiseViewController: UIViewController {
     let promiseTitleTextField = UITextField()
     let firstConditionLabel = UILabel()
     let scheduleLabel = UILabel()
-    let yymmddButton = UIButton()
+    let dateButton = UIButton()
     let timeButton = UIButton()
     let placeLabel = UILabel()
     let placeTextField = UITextField()
     let friendLabel = UILabel()
     let addFriendButton = UIButton()
     let secAddFriendButton = UIButton()
-    lazy var friendCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+    lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
+        $0.scrollDirection = .horizontal
+        $0.itemSize = CGSize(width: 45, height: 49)
+        $0.minimumInteritemSpacing = 8*Constants.standardWidth
+    })
     let penaltyLabel = UILabel()
     let penaltyTextView = UITextView()
     let secondConditionLabel = UILabel()
@@ -31,6 +35,12 @@ class MakePromiseViewController: UIViewController {
     let memoTextView = UITextView()
     let thirdConditionLabel = UILabel()
     let nextButton = UIButton()
+    
+    let years = Array(2000...2100)
+    let months = Array(1...12)
+    let days = Array(1...31)
+    let hours = Array(0...23)
+    let minutes = Array(0...59)
     
     init(makePromiseViewModel: MakePromiseViewModel) {
         self.makePromiseViewModel = makePromiseViewModel
@@ -44,6 +54,7 @@ class MakePromiseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.isHidden = true
+        
 
         bind()
         attribute()
@@ -52,48 +63,106 @@ class MakePromiseViewController: UIViewController {
     
     private func bind(){
         
-//        leftButton.rx.tap
-//            .subscribe(onNext: {
-//                self.navigationController?.popViewController(animated: true)
-//            })
-//            .disposed(by: disposeBag)
-//
-//
-//        emailTextField.rx.text.orEmpty
-//            .bind(to: emailAuthViewModel.emailTextRelay)
-//            .disposed(by: disposeBag)
-//
-//        emailAuthViewModel.validationResultDriver
-//            .drive(onNext: { [weak self] isValid in
-//                guard let self = self else { return }
-//                if(isValid){
-//                    self.nextButton.isHidden = false
-//                }
-//                else{
-//                    self.nextButton.isHidden = true
-//                }
-//            })
-//            .disposed(by: disposeBag)
-//
-//        nextButton.rx.tap
-//            .bind(to: emailAuthViewModel.nextButtonTapped)
-//            .disposed(by: disposeBag)
-//
-//        emailAuthViewModel.serverValidationResult
-//            .drive(onNext: {[weak self] isValid in
-//                if(isValid){
-//                    let VM = ConfirmEmailAuthViewModel()
-//                    let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM)
-//                    VC.titleLabel.text = self?.titleLabel.text
-//                    self?.show(VC, sender: nil)
-//                }
-//                if !isValid {
-//                    let popupViewController = PopUpViewController(title: "입력오류", desc: "입력한 정보를 다시 확인해주세요!")
-//                    popupViewController.modalPresentationStyle = .overFullScreen
-//                    self?.present(popupViewController, animated: false)
-//                }
-//
-//            })
+        leftButton.rx.tap
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        promiseTitleTextField.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.titleRelay)
+            .disposed(by: disposeBag)
+        
+        dateButton.rx.tap
+            .subscribe(onNext: {
+                self.showDatePicker()
+            })
+            .disposed(by: disposeBag)
+        
+        makePromiseViewModel.dateRelay
+            .map { "\($0.year)년 \($0.month)월 \($0.day)일" }
+            .do(onNext: { [weak self] _ in
+                    self?.dateButton.setTitleColor(.black, for: .normal)
+                })
+            .bind(to: dateButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
+
+        timeButton.rx.tap
+            .subscribe(onNext: {
+                self.showTimePicker()
+            })
+            .disposed(by: disposeBag)
+        
+        makePromiseViewModel.timeRelay
+            .map { String(format: "%02d:%02d", $0.hour, $0.minute) }
+            .do(onNext: { [weak self] _ in
+                    self?.timeButton.setTitleColor(.black, for: .normal)
+                })
+            .bind(to: timeButton.rx.title(for: .normal))
+            .disposed(by: disposeBag)
+        
+        addFriendButton.rx.tap
+            .subscribe(onNext: {
+                let shareVM = self.makePromiseViewModel.shareFriendViewModel
+                let VM = SelectFriendViewModel(shareFriendViewModel: shareVM)
+                let VC = SelectFriendViewController(selectFriendViewModel: VM)
+                self.navigationController?.pushViewController(VC, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        secAddFriendButton.rx.tap
+            .subscribe(onNext: {
+                let shareVM = self.makePromiseViewModel.shareFriendViewModel
+                let VM = SelectFriendViewModel(shareFriendViewModel: shareVM)
+                let VC = SelectFriendViewController(selectFriendViewModel: VM)
+                self.navigationController?.pushViewController(VC, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        
+        makePromiseViewModel.shareFriendViewModel.friendsRelay
+            .subscribe(onNext: { [weak self] friends in
+                if friends.isEmpty{
+                    self?.collectionView.isHidden = true
+                    self?.addFriendButton.isHidden = false
+                    self?.secAddFriendButton.isHidden = true
+                }
+                else{
+                    self?.collectionView.isHidden = false
+                    self?.addFriendButton.isHidden = true
+                    self?.secAddFriendButton.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+
+        
+        makePromiseViewModel.selectedFriendDatas
+            .drive(collectionView.rx.items(cellIdentifier: "FriendCollectionViewCell", cellType: FriendCollectionViewCell.self)) { row, friend, cell in
+                cell.configure(with: friend)
+                cell.deleteButtonTapped
+                    .subscribe(onNext: { [weak self] in
+                        self?.makePromiseViewModel.toggleSelection(at: row)
+                    })
+                    .disposed(by: self.disposeBag)
+                
+            }
+            .disposed(by: disposeBag)
+      
+        makePromiseViewModel.isNextButtonEnabled
+            .subscribe(onNext: { [weak self] bool in
+                print(bool)
+                if(bool){
+                    self?.nextButton.isEnabled = true
+                    self?.nextButton.alpha = 1
+                }
+                else{
+                    self?.nextButton.isEnabled = false
+                    self?.nextButton.alpha = 0.3
+                }
+            })
+            .disposed(by: disposeBag)
+
+        
         
     }
     
@@ -149,12 +218,12 @@ class MakePromiseViewController: UIViewController {
             $0.attributedText = attributedString
         }
         
-        yymmddButton.do{
+        dateButton.do{
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.setTitle("YY/MM/DD", for: .normal)
+            $0.setTitle("YY-MM-DD", for: .normal)
             $0.setTitleColor(UIColor(named: "greyOne"), for: .normal)
         }
         
@@ -191,6 +260,7 @@ class MakePromiseViewController: UIViewController {
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.setImage(UIImage(named: "plus"), for: .normal)
+            $0.isHidden = false
         }
         
         secAddFriendButton.do{
@@ -199,11 +269,14 @@ class MakePromiseViewController: UIViewController {
             $0.setImage(UIImage(named: "right"), for: .normal)
             $0.semanticContentAttribute = .forceRightToLeft
             $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 15*Constants.standartFont)
+            $0.isHidden = true
         }
         
-//        friendCollectionView.do{
-//
-//        }
+        collectionView.do{
+            $0.showsHorizontalScrollIndicator = false
+            $0.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: "FriendCollectionViewCell")
+            $0.isHidden = true
+        }
         
         penaltyLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
@@ -270,7 +343,7 @@ class MakePromiseViewController: UIViewController {
         [titleLabel,leftButton,separateView,scrollView,nextButton]
             .forEach{ view.addSubview($0) }
         
-        [promiseTitleLabel,promiseTitleTextField,firstConditionLabel,scheduleLabel,yymmddButton,timeButton,placeLabel,placeTextField,friendLabel,addFriendButton,secAddFriendButton,friendCollectionView,penaltyLabel,penaltyTextView,secondConditionLabel,memoLabel,memoTextView,thirdConditionLabel]
+        [promiseTitleLabel,promiseTitleTextField,firstConditionLabel,scheduleLabel,dateButton,timeButton,placeLabel,placeTextField,friendLabel,addFriendButton,secAddFriendButton,collectionView,penaltyLabel,penaltyTextView,secondConditionLabel,memoLabel,memoTextView,thirdConditionLabel]
             .forEach{ scrollView.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -326,7 +399,7 @@ class MakePromiseViewController: UIViewController {
             make.top.equalTo(firstConditionLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
-        yymmddButton.snp.makeConstraints { make in
+        dateButton.snp.makeConstraints { make in
             make.width.equalTo(173.5*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
@@ -336,7 +409,7 @@ class MakePromiseViewController: UIViewController {
         timeButton.snp.makeConstraints { make in
             make.width.equalTo(173.5*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
-            make.leading.equalTo(yymmddButton.snp.trailing).offset(4*Constants.standardWidth)
+            make.leading.equalTo(dateButton.snp.trailing).offset(4*Constants.standardWidth)
             make.top.equalTo(scheduleLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
         
@@ -357,6 +430,13 @@ class MakePromiseViewController: UIViewController {
             make.top.equalTo(placeTextField.snp.bottom).offset(12*Constants.standardHeight)
         }
         
+        collectionView.snp.makeConstraints { make in
+            make.height.equalTo(50*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.width.equalToSuperview()
+            make.top.equalTo(friendLabel.snp.bottom).offset(8*Constants.standardHeight)
+        }
+        
         addFriendButton.snp.makeConstraints { make in
             make.width.equalTo(351*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
@@ -375,10 +455,9 @@ class MakePromiseViewController: UIViewController {
             make.centerY.equalTo(friendLabel)
         }
         
-        
         penaltyLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(addFriendButton.snp.bottom).offset(21*Constants.standardHeight)
+            make.top.equalTo(friendLabel.snp.bottom).offset(69*Constants.standardHeight)
         }
         
         penaltyTextView.snp.makeConstraints { make in
@@ -414,6 +493,70 @@ class MakePromiseViewController: UIViewController {
         
     }
     
+    private func showDatePicker() {
+        let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
+        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 162*Constants.standardHeight))
+        picker.delegate = self
+        picker.dataSource = self
+        alert.view.addSubview(picker)
+        
+        let calendar = Calendar.current
+        let currentYear = calendar.component(.year, from: Date())
+        let currentMonth = calendar.component(.month, from: Date()) - 1
+        let currentDay = calendar.component(.day, from: Date()) - 1
+        if let yearIndex = years.firstIndex(of: currentYear) {
+            picker.selectRow(yearIndex, inComponent: 0, animated: false)
+        }
+        picker.selectRow(currentMonth, inComponent: 1, animated: false)
+        picker.selectRow(currentDay, inComponent: 2, animated: false)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            let selectedYear = self?.years[picker.selectedRow(inComponent: 0)] ?? currentYear
+            let selectedMonth = self?.months[picker.selectedRow(inComponent: 1)] ?? currentMonth + 1
+            let selectedDay = self?.days[picker.selectedRow(inComponent: 2)] ?? currentDay + 1
+            self?.makePromiseViewModel.dateRelay.accept((year: selectedYear, month: selectedMonth, day: selectedDay))
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    private func showTimePicker() {
+        let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
+        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216*Constants.standardHeight))
+        //let picker = UIPickerView()
+        picker.tag = 1
+        picker.delegate = self
+        picker.dataSource = self
+        alert.view.addSubview(picker)
+        
+        
+        let calendar = Calendar.current
+        let currentHour = calendar.component(.hour, from: Date())
+        let currentMinute = calendar.component(.minute, from: Date())
+        
+        picker.selectRow(currentHour, inComponent: 0, animated: false)
+        picker.selectRow(currentMinute, inComponent: 1, animated: false)
+        
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            let selectedHour = self?.hours[picker.selectedRow(inComponent: 0)] ?? currentHour
+            let selectedMinute = self?.minutes[picker.selectedRow(inComponent: 1)] ?? currentMinute
+            self?.makePromiseViewModel.timeRelay.accept((hour: selectedHour, minute: selectedMinute))
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+
+    
 }
 
 extension MakePromiseViewController: UITextViewDelegate{
@@ -435,6 +578,66 @@ extension MakePromiseViewController: UITextViewDelegate{
         }
     }
 }
+
+extension MakePromiseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        if pickerView.tag == 0 {
+            return 3
+        } else {
+            return 2
+        }
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        if pickerView.tag == 0 {
+            switch component {
+            case 0:
+                return years.count
+            case 1:
+                return months.count
+            case 2:
+                return days.count
+            default:
+                return 0
+            }
+        } else {
+            switch component {
+            case 0:
+                return hours.count
+            case 1:
+                return minutes.count
+            default:
+                return 0
+            }
+        }
+    }
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        if pickerView.tag == 0 {
+            switch component {
+            case 0:
+                return "\(years[row])년"
+            case 1:
+                return "\(months[row])월"
+            case 2:
+                return "\(days[row])일"
+            default:
+                return ""
+            }
+        } else {
+            switch component {
+            case 0:
+                return "\(hours[row])시"
+            case 1:
+                return "\(minutes[row])분"
+            default:
+                return ""
+            }
+        }
+    }
+}
+
 
 
 //#if DEBUG

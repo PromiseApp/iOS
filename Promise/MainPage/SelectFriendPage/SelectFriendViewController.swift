@@ -5,7 +5,7 @@ import Then
 import SnapKit
 
 class SelectFriendViewController: UIViewController {
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     var selectFriendViewModel:SelectFriendViewModel
     
     let titleLabel = UILabel()
@@ -36,6 +36,8 @@ class SelectFriendViewController: UIViewController {
         attribute()
         layout()
     }
+   
+    
     
     private func bind(){
         
@@ -58,10 +60,10 @@ class SelectFriendViewController: UIViewController {
         selectFriendViewModel.friendDatas
             .drive(tableView.rx.items(cellIdentifier: "FriendTableViewCell", cellType: FriendTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
+                print(row,friend)
             }
             .disposed(by: disposeBag)
-        
-        
+
         tableView.rx.itemSelected
             .bind { [weak self] indexPath in
                 self?.selectFriendViewModel.toggleSelection(at: indexPath.row)
@@ -83,6 +85,18 @@ class SelectFriendViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .bind(to: selectFriendViewModel.nextButtonTapped)
+            .disposed(by: disposeBag)
+        
+        selectFriendViewModel.nextButtonTapped
+            .subscribe(onNext: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        
     }
     
     private func attribute(){
