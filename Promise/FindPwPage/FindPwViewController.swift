@@ -7,6 +7,7 @@ import SnapKit
 class FindPwViewController: UIViewController {
     let disposeBag = DisposeBag()
     var findPwViewModel:FindPwViewModel
+    weak var findPwCoordinator: FindPwCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -16,8 +17,9 @@ class FindPwViewController: UIViewController {
     let clearButton = UIButton()
     let nextButton = UIButton()
     
-    init(findPwViewModel: FindPwViewModel) {
+    init(findPwViewModel: FindPwViewModel, findPwCoordinator: FindPwCoordinator) {
         self.findPwViewModel = findPwViewModel
+        self.findPwCoordinator = findPwCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -37,8 +39,8 @@ class FindPwViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: {[weak self] _ in
+                self?.findPwCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -68,9 +70,7 @@ class FindPwViewController: UIViewController {
         findPwViewModel.serverValidationResult
             .drive(onNext: {[weak self] isValid in
                 if(isValid){
-                    let VM = ChangePwViewModel()
-                    let VC = ChangePwViewController(changePwViewModel: VM)
-                    self?.show(VC, sender: nil)
+                    self?.findPwCoordinator?.goToChangePwVC()
                 }
                 if !isValid {
                     let popupViewController = PopUpViewController(title: "입력오류", desc: "입력한 정보를 다시 확인해주세요!")

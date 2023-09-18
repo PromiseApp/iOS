@@ -7,6 +7,7 @@ import SnapKit
 class ChangePwViewController: UIViewController {
     let disposeBag = DisposeBag()
     var changePwViewModel:ChangePwViewModel
+    weak var findPwCoordinator: FindPwCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -25,8 +26,9 @@ class ChangePwViewController: UIViewController {
     let secConditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(changePwViewModel: ChangePwViewModel) {
+    init(changePwViewModel: ChangePwViewModel, findPwCoordinator: FindPwCoordinator) {
         self.changePwViewModel = changePwViewModel
+        self.findPwCoordinator = findPwCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -46,8 +48,8 @@ class ChangePwViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: {[weak self] _ in
+                self?.findPwCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -147,14 +149,8 @@ class ChangePwViewController: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .subscribe(onNext: {
-                guard let VCStack = self.navigationController?.viewControllers else { return }
-                // 뷰 스택에서 RedViewController를 찾아서 거기까지 pop 합니다.
-                for VC in VCStack {
-                    if let loginVC = VC as? LoginViewController {
-                        self.navigationController?.popToViewController(loginVC, animated: true)
-                    }
-                }
+            .subscribe(onNext: {[weak self] _ in
+                self?.findPwCoordinator?.finishSignup()
             })
             .disposed(by: disposeBag)
         

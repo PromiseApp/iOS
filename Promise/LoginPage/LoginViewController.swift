@@ -7,6 +7,7 @@ import Then
 class LoginViewController: UIViewController {
     let disposeBag = DisposeBag()
     var loginViewModel: LoginViewModel
+    var startCoordinator: StartCoordinator
     
     let idTextField = UITextField()
     let pwTextField = UITextField()
@@ -22,8 +23,9 @@ class LoginViewController: UIViewController {
     let kakaoButton = UIButton()
     let appleButton = UIButton()
     
-    init(loginViewModel: LoginViewModel) {
+    init(loginViewModel: LoginViewModel, startCoordinator: StartCoordinator) {
         self.loginViewModel = loginViewModel
+        self.startCoordinator = startCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -79,18 +81,14 @@ class LoginViewController: UIViewController {
             .disposed(by: disposeBag)
         
         signUpButton.rx.tap
-            .subscribe(onNext: {
-                let VM = EmailAuthViewModel()
-                let VC = EmailAuthViewController(emailAuthViewModel: VM)
-                self.show(VC, sender: nil)
+            .subscribe(onNext: { [weak self] _ in
+                self?.startCoordinator.goToEmailAuthVC()
             })
             .disposed(by: disposeBag)
         
         findPwButton.rx.tap
-            .subscribe(onNext: {
-                let VM = FindPwViewModel()
-                let VC = FindPwViewController(findPwViewModel: VM)
-                self.show(VC, sender: nil)
+            .subscribe(onNext: { [weak self] _ in
+                self?.startCoordinator.goToFindPwVC()
             })
             .disposed(by: disposeBag)
         

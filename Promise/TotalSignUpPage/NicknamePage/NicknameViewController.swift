@@ -7,6 +7,7 @@ import SnapKit
 class NicknameViewController: UIViewController {
     let disposeBag = DisposeBag()
     var nicknameViewModel:NicknameViewModel
+    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -21,8 +22,9 @@ class NicknameViewController: UIViewController {
     let secConditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(nicknameViewModel: NicknameViewModel) {
+    init(nicknameViewModel: NicknameViewModel, signupCoordinator: SignupCoordinator ) {
         self.nicknameViewModel = nicknameViewModel
+        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -42,8 +44,8 @@ class NicknameViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: {[weak self] _ in
+                self?.signupCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -127,10 +129,8 @@ class NicknameViewController: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .subscribe(onNext: {
-                let VM = SignUpViewModel()
-                let VC = SignUpViewController(signUpViewModel: VM)
-                self.show(VC, sender: nil)
+            .subscribe(onNext: {[weak self] _ in
+                self?.signupCoordinator?.goToSignUpVC()
             })
             .disposed(by: disposeBag)
         

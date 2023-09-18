@@ -9,6 +9,7 @@ class LimitedViewController: UIViewController {
     
     private let limitedViewModel: LimitedViewModel
     private let disposeBag = DisposeBag()
+    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -21,8 +22,9 @@ class LimitedViewController: UIViewController {
         $0.minimumInteritemSpacing = 2
     })
     
-    init(limitedViewModel: LimitedViewModel) {
+    init(limitedViewModel: LimitedViewModel, signupCoordinator: SignupCoordinator?) {
         self.limitedViewModel = limitedViewModel
+        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -52,8 +54,8 @@ class LimitedViewController: UIViewController {
     private func bind() {
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.dismiss(animated: true)
+            .subscribe(onNext: {[weak self] _ in
+                self?.signupCoordinator?.dismissToVC()
             })
             .disposed(by: disposeBag)
         
@@ -71,7 +73,7 @@ class LimitedViewController: UIViewController {
                 PHImageManager.default().requestImage(for: asset!, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { image, _ in
                     guard let image = image else { return }
                     self?.limitedViewModel.selectedPhoto.onNext(image)
-                    self?.dismiss(animated: true, completion: nil)
+                    self?.signupCoordinator?.dismissToVC()
                 }
             })
             .disposed(by: disposeBag)

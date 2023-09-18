@@ -11,11 +11,13 @@ import Photos
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    
+    var startCoordinator: StartCoordinator?
+    //UserDefaults.standard.set(true, forKey: "IsLoggedIn") 자동 로그인 나중에 설정
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+        let navController = UINavigationController()
         //let rootVC = LoginViewController(loginViewModel: LoginViewModel())
         //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
         //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
@@ -23,7 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = MainViewController(mainViewModel: MainViewModel())
         //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
         //let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel(shareFriendViewModel: ShareFriendViewModel()))
-        window?.rootViewController = UINavigationController(rootViewController: rootVC)
+        startCoordinator = StartCoordinator(navigationController: navController)
+        startCoordinator?.start()
+        window?.rootViewController = navController
+        //window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {

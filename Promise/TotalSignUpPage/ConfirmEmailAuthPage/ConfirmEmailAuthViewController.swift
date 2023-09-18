@@ -7,6 +7,7 @@ import SnapKit
 class ConfirmEmailAuthViewController: UIViewController {
     let disposeBag = DisposeBag()
     var confirmEmailAuthViewModel:ConfirmEmailAuthViewModel
+    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -21,7 +22,8 @@ class ConfirmEmailAuthViewController: UIViewController {
     let conditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(confirmEmailAuthViewModel: ConfirmEmailAuthViewModel) {
+    init(confirmEmailAuthViewModel: ConfirmEmailAuthViewModel, signupCoordinator: SignupCoordinator) {
+        self.signupCoordinator = signupCoordinator
         self.confirmEmailAuthViewModel = confirmEmailAuthViewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -42,8 +44,8 @@ class ConfirmEmailAuthViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: {[weak self] _ in
+                self?.signupCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
                 
@@ -59,9 +61,7 @@ class ConfirmEmailAuthViewController: UIViewController {
             .withLatestFrom(confirmEmailAuthViewModel.isAuthCodeValid)
             .subscribe(onNext: { [weak self] isValid in
                 if isValid {
-                    let VM = NicknameViewModel()
-                    let VC = NicknameViewController(nicknameViewModel: VM)
-                    self?.show(VC, sender: nil)
+                    self?.signupCoordinator?.goToNicknameVC()
                 }
                 else {
                     self?.authTextField.text = ""

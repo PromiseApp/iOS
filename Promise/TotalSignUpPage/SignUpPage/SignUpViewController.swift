@@ -10,9 +10,8 @@ class SignUpViewController: UIViewController {
     
     let disposeBag = DisposeBag()
     var signUpViewModel:SignUpViewModel
-    
-    let limitedViewModel = LimitedViewModel()
-    
+    let limitedViewModel: LimitedViewModel
+    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -37,8 +36,10 @@ class SignUpViewController: UIViewController {
     let secConditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(signUpViewModel: SignUpViewModel) {
+    init(signUpViewModel: SignUpViewModel, limitedViewModel: LimitedViewModel, signupCoordinator: SignupCoordinator) {
         self.signUpViewModel = signUpViewModel
+        self.limitedViewModel = limitedViewModel
+        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -58,8 +59,8 @@ class SignUpViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: {[weak self] _ in
+                self?.signupCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -178,7 +179,11 @@ class SignUpViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        
+        nextButton.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                self?.signupCoordinator?.finishSignup()
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -449,7 +454,6 @@ class SignUpViewController: UIViewController {
             make.leading.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        
     }
     
     private func checkPhotoLibraryPermission() {
@@ -462,8 +466,7 @@ class SignUpViewController: UIViewController {
             picker.delegate = self
             present(picker, animated: true, completion: nil)
         case .limited:
-            let limitedViewController = LimitedViewController(limitedViewModel: limitedViewModel)
-            present(limitedViewController, animated: true, completion: nil)
+            self.signupCoordinator?.goToLimitedCollectionView()
             
         default:
             // 권한 요청 또는 다른 처리

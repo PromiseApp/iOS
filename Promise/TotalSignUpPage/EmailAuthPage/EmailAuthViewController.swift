@@ -7,6 +7,7 @@ import SnapKit
 class EmailAuthViewController: UIViewController {
     let disposeBag = DisposeBag()
     var emailAuthViewModel:EmailAuthViewModel
+    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -16,8 +17,9 @@ class EmailAuthViewController: UIViewController {
     let emailTextField = UITextField()
     let nextButton = UIButton()
     
-    init(emailAuthViewModel: EmailAuthViewModel) {
+    init(emailAuthViewModel: EmailAuthViewModel, signupCoordinator: SignupCoordinator) {
         self.emailAuthViewModel = emailAuthViewModel
+        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -37,8 +39,8 @@ class EmailAuthViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: { [weak self] _ in
+                self?.signupCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -66,10 +68,8 @@ class EmailAuthViewController: UIViewController {
         emailAuthViewModel.serverValidationResult
             .drive(onNext: {[weak self] isValid in
                 if(isValid){
-                    let VM = ConfirmEmailAuthViewModel()
-                    let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM)
-                    VC.titleLabel.text = self?.titleLabel.text
-                    self?.show(VC, sender: nil)
+                    
+                    self?.signupCoordinator?.goToConfirmEmailAuthVC()
                 }
                 if !isValid {
                     let popupViewController = PopUpViewController(title: "입력오류", desc: "입력한 정보를 다시 확인해주세요!")

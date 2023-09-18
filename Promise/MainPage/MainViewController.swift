@@ -8,6 +8,7 @@ class MainViewController: UIViewController {
     let disposeBag = DisposeBag()
     var mainViewModel: MainViewModel
     
+    
     let bellButton = UIButton()
     let firstSeparateView = UIView()
     let secSeparateView = UIView()

@@ -1,5 +1,68 @@
 import UIKit
 
+class DonutProgressView: UIView {
+    
+    private let backgroundLayer = CAShapeLayer()
+    private let progressLayer = CAShapeLayer()
+    
+    var progress: CGFloat = 0 {
+        didSet {
+            progress = min(max(progress, 0), 1)
+            updatePath()
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setup()
+    }
+    
+    private func setup() {
+        backgroundLayer.strokeColor = UIColor.gray.cgColor
+        backgroundLayer.fillColor = UIColor.clear.cgColor
+        backgroundLayer.lineWidth = 23 * Constants.standardHeight
+        backgroundLayer.lineCap = .round
+        layer.addSublayer(backgroundLayer)
+        
+        progressLayer.strokeColor = UIColor.red.cgColor
+        progressLayer.fillColor = UIColor.clear.cgColor
+        progressLayer.lineWidth = 23 * Constants.standardHeight
+        progressLayer.lineCap = .round
+        layer.addSublayer(progressLayer)
+        
+        updatePath()
+    }
+
+    
+    private func updatePath() {
+        let startAngle = deg2rad(120)
+        let endAngle = deg2rad(420)
+        let center = CGPoint(x: bounds.midX, y: bounds.midY)
+        let radius = min(bounds.width, bounds.height) / 2 - progressLayer.lineWidth / 2
+        
+        let backgroundPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: endAngle, clockwise: true)
+        backgroundLayer.path = backgroundPath.cgPath
+        
+        let progressEndAngle = startAngle + (endAngle - startAngle) * progress
+        let progressPath = UIBezierPath(arcCenter: center, radius: radius, startAngle: startAngle, endAngle: progressEndAngle, clockwise: true)
+        progressLayer.path = progressPath.cgPath
+    }
+    
+    private func deg2rad(_ degree: CGFloat) -> CGFloat {
+        return degree * .pi / 180
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updatePath()
+    }
+}
+
 extension UITextField {
     func addLeftPadding() {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12*Constants.standardWidth, height: self.frame.height))
