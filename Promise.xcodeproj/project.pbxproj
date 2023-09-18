@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3116B2852AA06A9200308CDA /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3116B2842AA06A9200308CDA /* Pretendard-Medium.otf */; };
-		3116B2872AA06A9900308CDA /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3116B2862AA06A9900308CDA /* Pretendard-Regular.otf */; };
-		3116B2892AA06AA000308CDA /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 3116B2882AA06AA000308CDA /* Pretendard-SemiBold.otf */; };
 		3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28A2AA07C5100308CDA /* LoginViewModel.swift */; };
 		3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28C2AA0909B00308CDA /* SignUpViewController.swift */; };
 		311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */; };
@@ -37,6 +34,9 @@
 		31C33F762AB7012900A99D7E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F752AB7012900A99D7E /* MainCoordinator.swift */; };
 		31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F782AB8093E00A99D7E /* TabBarController.swift */; };
 		31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */; };
+		31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */; };
+		31C33F812AB81A1500A99D7E /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */; };
+		31C33F822AB81A1500A99D7E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */; };
 		31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */; };
 		31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */; };
 		31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */; };
@@ -60,9 +60,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3116B2842AA06A9200308CDA /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Medium.otf"; path = "../../../FontStyle/Pretendard-Medium.otf"; sourceTree = "<group>"; };
-		3116B2862AA06A9900308CDA /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Regular.otf"; path = "../../../FontStyle/Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		3116B2882AA06AA000308CDA /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-SemiBold.otf"; path = "../../../FontStyle/Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		3116B28A2AA07C5100308CDA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		3116B28C2AA0909B00308CDA /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
@@ -87,6 +84,9 @@
 		31C33F752AB7012900A99D7E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		31C33F782AB8093E00A99D7E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
+		31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
+		31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
+		31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
 		31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewModel.swift; sourceTree = "<group>"; };
@@ -125,16 +125,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3116B2812AA06A7900308CDA /* FontStyle */ = {
-			isa = PBXGroup;
-			children = (
-				3116B2882AA06AA000308CDA /* Pretendard-SemiBold.otf */,
-				3116B2862AA06A9900308CDA /* Pretendard-Regular.otf */,
-				3116B2842AA06A9200308CDA /* Pretendard-Medium.otf */,
-			);
-			path = FontStyle;
-			sourceTree = "<group>";
-		};
 		311CA18A2AAB3740007FD9A7 /* NicknamePage */ = {
 			isa = PBXGroup;
 			children = (
@@ -188,8 +178,8 @@
 				31C33F6D2AB6FEC500A99D7E /* Coordinator */,
 				31F1A0DB2AADD3AE00B99DC4 /* PopUp */,
 				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
-				31C33F702AB6FF7600A99D7E /* TotalSignUpPage */,
-				31F1A0D22AADA1D900B99DC4 /* FindPwPage */,
+				31C33F702AB6FF7600A99D7E /* TotalSignUpScene */,
+				31F1A0D22AADA1D900B99DC4 /* FindPwScene */,
 				31C33F772AB8092400A99D7E /* TabBar */,
 				31F1A0E02AAEF7BB00B99DC4 /* MainPage */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
@@ -219,7 +209,7 @@
 		31C33F6C2AB6FE7F00A99D7E /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				3116B2812AA06A7900308CDA /* FontStyle */,
+				31C33F7C2AB81A1500A99D7E /* FontStyle */,
 				312476AD2AA0588D00D318C7 /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -236,7 +226,7 @@
 			path = Coordinator;
 			sourceTree = "<group>";
 		};
-		31C33F702AB6FF7600A99D7E /* TotalSignUpPage */ = {
+		31C33F702AB6FF7600A99D7E /* TotalSignUpScene */ = {
 			isa = PBXGroup;
 			children = (
 				312006AC2AA9DE7200501128 /* EmailAuthPage */,
@@ -244,7 +234,7 @@
 				311CA18A2AAB3740007FD9A7 /* NicknamePage */,
 				31F1A0CC2AAD894D00B99DC4 /* SignUpPage */,
 			);
-			path = TotalSignUpPage;
+			path = TotalSignUpScene;
 			sourceTree = "<group>";
 		};
 		31C33F772AB8092400A99D7E /* TabBar */ = {
@@ -254,6 +244,35 @@
 				31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		31C33F7C2AB81A1500A99D7E /* FontStyle */ = {
+			isa = PBXGroup;
+			children = (
+				31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */,
+				31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */,
+				31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */,
+			);
+			name = FontStyle;
+			path = ../../../FontStyle;
+			sourceTree = "<group>";
+		};
+		31C33F832AB81A9C00A99D7E /* FindPwPage */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */,
+				31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */,
+			);
+			path = FindPwPage;
+			sourceTree = "<group>";
+		};
+		31C33F852AB8202600A99D7E /* ChangePwPage */ = {
+			isa = PBXGroup;
+			children = (
+				31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */,
+				31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */,
+			);
+			path = ChangePwPage;
 			sourceTree = "<group>";
 		};
 		31F1A0CC2AAD894D00B99DC4 /* SignUpPage */ = {
@@ -275,15 +294,13 @@
 			path = LoginPage;
 			sourceTree = "<group>";
 		};
-		31F1A0D22AADA1D900B99DC4 /* FindPwPage */ = {
+		31F1A0D22AADA1D900B99DC4 /* FindPwScene */ = {
 			isa = PBXGroup;
 			children = (
-				31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */,
-				31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */,
-				31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */,
-				31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */,
+				31C33F832AB81A9C00A99D7E /* FindPwPage */,
+				31C33F852AB8202600A99D7E /* ChangePwPage */,
 			);
-			path = FindPwPage;
+			path = FindPwScene;
 			sourceTree = "<group>";
 		};
 		31F1A0DB2AADD3AE00B99DC4 /* PopUp */ = {
@@ -417,10 +434,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				312476B12AA0588D00D318C7 /* LaunchScreen.storyboard in Resources */,
-				3116B2872AA06A9900308CDA /* Pretendard-Regular.otf in Resources */,
-				3116B2892AA06AA000308CDA /* Pretendard-SemiBold.otf in Resources */,
+				31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */,
+				31C33F822AB81A1500A99D7E /* Pretendard-SemiBold.otf in Resources */,
 				312476AE2AA0588D00D318C7 /* Assets.xcassets in Resources */,
-				3116B2852AA06A9200308CDA /* Pretendard-Medium.otf in Resources */,
+				31C33F812AB81A1500A99D7E /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

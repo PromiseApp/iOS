@@ -8,6 +8,8 @@ class ConfirmEmailAuthViewController: UIViewController {
     let disposeBag = DisposeBag()
     var confirmEmailAuthViewModel:ConfirmEmailAuthViewModel
     weak var signupCoordinator: SignupCoordinator?
+    weak var findPwCoordinator: FindPwCoordinator?
+
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -22,9 +24,11 @@ class ConfirmEmailAuthViewController: UIViewController {
     let conditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(confirmEmailAuthViewModel: ConfirmEmailAuthViewModel, signupCoordinator: SignupCoordinator) {
+    init(confirmEmailAuthViewModel: ConfirmEmailAuthViewModel, signupCoordinator: SignupCoordinator?, findPwCoordinator: FindPwCoordinator?
+) {
         self.signupCoordinator = signupCoordinator
         self.confirmEmailAuthViewModel = confirmEmailAuthViewModel
+        self.findPwCoordinator = findPwCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -45,7 +49,12 @@ class ConfirmEmailAuthViewController: UIViewController {
         
         leftButton.rx.tap
             .subscribe(onNext: {[weak self] _ in
-                self?.signupCoordinator?.popToVC()
+                if let signupCoordinator = self?.signupCoordinator {
+                    signupCoordinator.popToVC()
+                }
+                else if let findPwCoordinator = self?.findPwCoordinator {
+                    findPwCoordinator.popToVC()
+                }
             })
             .disposed(by: disposeBag)
                 
@@ -61,7 +70,12 @@ class ConfirmEmailAuthViewController: UIViewController {
             .withLatestFrom(confirmEmailAuthViewModel.isAuthCodeValid)
             .subscribe(onNext: { [weak self] isValid in
                 if isValid {
-                    self?.signupCoordinator?.goToNicknameVC()
+                    if let signupCoordinator = self?.signupCoordinator {
+                        signupCoordinator.goToNicknameVC()
+                    }
+                    else if let findPwCoordinator = self?.findPwCoordinator {
+                        findPwCoordinator.goToChangePwVC()
+                    }
                 }
                 else {
                     self?.authTextField.text = ""
@@ -118,6 +132,7 @@ class ConfirmEmailAuthViewController: UIViewController {
         
         titleLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
+            $0.text = "인증번호"
         }
         
         leftButton.do{

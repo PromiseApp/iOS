@@ -70,7 +70,7 @@ class FindPwViewController: UIViewController {
         findPwViewModel.serverValidationResult
             .drive(onNext: {[weak self] isValid in
                 if(isValid){
-                    self?.findPwCoordinator?.goToChangePwVC()
+                    self?.findPwCoordinator?.goToConfirmEmailAuthVC()
                 }
                 if !isValid {
                     let popupViewController = PopUpViewController(title: "입력오류", desc: "입력한 정보를 다시 확인해주세요!")

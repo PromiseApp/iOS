@@ -15,6 +15,12 @@ class FindPwCoordinator: Coordinator {
         navigationController.pushViewController(VC, animated: true)
     }
     
+    func goToConfirmEmailAuthVC() {
+        let VM = ConfirmEmailAuthViewModel()
+        let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM, signupCoordinator: nil,findPwCoordinator: self)
+        navigationController.pushViewController(VC, animated: true)
+    }
+    
     func goToChangePwVC(){
         let VM = ChangePwViewModel()
         let VC = ChangePwViewController(changePwViewModel: VM, findPwCoordinator: self)

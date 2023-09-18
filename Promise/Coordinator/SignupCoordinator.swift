@@ -18,7 +18,7 @@ class SignupCoordinator: Coordinator {
     
     func goToConfirmEmailAuthVC() {
         let VM = ConfirmEmailAuthViewModel()
-        let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM, signupCoordinator: self)
+        let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM, signupCoordinator: self,findPwCoordinator: nil)
         navigationController.pushViewController(VC, animated: true)
     }
     
