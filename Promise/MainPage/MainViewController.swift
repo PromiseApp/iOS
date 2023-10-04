@@ -211,10 +211,15 @@ class MainViewController: UIViewController {
     
     func showDatePicker() {
         let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
-        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 162*Constants.standardHeight))
+        let picker = UIPickerView()
         picker.delegate = self
         picker.dataSource = self
         alert.view.addSubview(picker)
+        
+        picker.snp.makeConstraints { (make) in
+            make.leading.top.trailing.equalToSuperview()
+            make.height.equalTo(150*Constants.standardHeight)
+        }
         
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())

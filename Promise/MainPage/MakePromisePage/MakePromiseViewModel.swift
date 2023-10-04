@@ -13,13 +13,7 @@ class MakePromiseViewModel{
     
     
         
-    var selectedFriendDatas: Driver<[Friend]> {
-        return shareFriendViewModel.friendsRelay
-            .asDriver()
-            .map { friends in
-                friends.filter { $0.isSelected }
-            }
-    }
+    var selectedFriendDatas: Driver<[Friend]>
     
     
     
@@ -28,6 +22,15 @@ class MakePromiseViewModel{
     init(shareFriendViewModel: ShareFriendViewModel) {
         self.shareFriendViewModel = shareFriendViewModel
         
+        selectedFriendDatas = shareFriendViewModel.friendsRelay
+            .asDriver()
+            .map { friends in
+                friends.filter { $0.isSelected }
+            }
+            .do(onNext: { aa in
+                print(aa)
+            })
+        
         isNextButtonEnabled = Observable.combineLatest(dateRelay.asObservable(), timeRelay.asObservable(), titleRelay.asObservable())
             .map { date, time, title in
                 print(date,time,title)
@@ -35,11 +38,20 @@ class MakePromiseViewModel{
             }
     }
     
-    func toggleSelection(at index: Int) {
+//    func toggleSelection(at index: Int) {
+//        var currentFriends = shareFriendViewModel.friendsRelay.value
+//        currentFriends[index].isSelected = false
+//        print(index,currentFriends[index])
+//        shareFriendViewModel.friendsRelay.accept(currentFriends)
+//        
+//    }
+    func toggleSelection(friend: Friend) {
         var currentFriends = shareFriendViewModel.friendsRelay.value
-        currentFriends[index].isSelected = false
-        shareFriendViewModel.friendsRelay.accept(currentFriends)
+        if let index = currentFriends.firstIndex(where: { $0.name == friend.name }) {
+            currentFriends.remove(at: index)
+            shareFriendViewModel.friendsRelay.accept(currentFriends)
+        }
     }
-    
+
     
 }

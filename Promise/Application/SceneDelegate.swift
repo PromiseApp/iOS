@@ -25,10 +25,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let rootVC = MainViewController(mainViewModel: MainViewModel())
         //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
         //let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel(shareFriendViewModel: ShareFriendViewModel()))
-        startCoordinator = StartCoordinator(navigationController: navController)
-        startCoordinator?.start()
-        window?.rootViewController = navController
-        //window?.rootViewController = UINavigationController(rootViewController: rootVC)
+        
+        //startCoordinator = StartCoordinator(navigationController: navController)
+        //startCoordinator?.start()
+        //window?.rootViewController = navController
+        //let rootVC = TestViewController()
+        window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {

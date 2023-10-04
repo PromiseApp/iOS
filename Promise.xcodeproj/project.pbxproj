@@ -37,6 +37,14 @@
 		31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */; };
 		31C33F812AB81A1500A99D7E /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */; };
 		31C33F822AB81A1500A99D7E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */; };
+		31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F882AB977D400A99D7E /* TestViewController.swift */; };
+		31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 31C33F8B2AB97A0F00A99D7E /* Alamofire */; };
+		31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F922ABD4F2A00A99D7E /* Requestable.swift */; };
+		31C33F952ABD4F3500A99D7E /* Responsable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F942ABD4F3500A99D7E /* Responsable.swift */; };
+		31C33F972ABD4F6800A99D7E /* LoginAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F962ABD4F6800A99D7E /* LoginAPI.swift */; };
+		31C33F9A2ABD4FCE00A99D7E /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 31C33F992ABD4FCE00A99D7E /* RxAlamofire */; };
+		31C33F9D2ABD527300A99D7E /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F9C2ABD527300A99D7E /* Provider.swift */; };
+		31C33FA12ABD5EA700A99D7E /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33FA02ABD5EA700A99D7E /* LoginModel.swift */; };
 		31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */; };
 		31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */; };
 		31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */; };
@@ -87,6 +95,13 @@
 		31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		31C33F882AB977D400A99D7E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		31C33F8D2ABAA8EB00A99D7E /* Promise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Promise.entitlements; sourceTree = "<group>"; };
+		31C33F922ABD4F2A00A99D7E /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
+		31C33F942ABD4F3500A99D7E /* Responsable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responsable.swift; sourceTree = "<group>"; };
+		31C33F962ABD4F6800A99D7E /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
+		31C33F9C2ABD527300A99D7E /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		31C33FA02ABD5EA700A99D7E /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
 		31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewModel.swift; sourceTree = "<group>"; };
@@ -117,7 +132,9 @@
 				312476C42AA05E4D00D318C7 /* Then in Frameworks */,
 				312476BE2AA05E1C00D318C7 /* RxRelay in Frameworks */,
 				312476C12AA05E3900D318C7 /* SnapKit in Frameworks */,
+				31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */,
 				312476BC2AA05E1C00D318C7 /* RxCocoa in Frameworks */,
+				31C33F9A2ABD4FCE00A99D7E /* RxAlamofire in Frameworks */,
 				312476BA2AA05E1C00D318C7 /* RxBlocking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,10 +188,12 @@
 		312476A32AA0588C00D318C7 /* Promise */ = {
 			isa = PBXGroup;
 			children = (
+				31C33F8D2ABAA8EB00A99D7E /* Promise.entitlements */,
 				31C33F6C2AB6FE7F00A99D7E /* Resource */,
 				31C33F6B2AB6FE3F00A99D7E /* Application */,
 				312476C52AA068CD00D318C7 /* Utility */,
 				31F1A0F82AB4768C00B99DC4 /* Entity */,
+				31C33F902ABD4EC300A99D7E /* Network */,
 				31C33F6D2AB6FEC500A99D7E /* Coordinator */,
 				31F1A0DB2AADD3AE00B99DC4 /* PopUp */,
 				31F1A0CF2AAD95D300B99DC4 /* LoginPage */,
@@ -183,6 +202,7 @@
 				31C33F772AB8092400A99D7E /* TabBar */,
 				31F1A0E02AAEF7BB00B99DC4 /* MainPage */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
+				31C33F882AB977D400A99D7E /* TestViewController.swift */,
 			);
 			path = Promise;
 			sourceTree = "<group>";
@@ -273,6 +293,50 @@
 				31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */,
 			);
 			path = ChangePwPage;
+			sourceTree = "<group>";
+		};
+		31C33F902ABD4EC300A99D7E /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				31C33F9E2ABD5E8C00A99D7E /* Models */,
+				31C33F912ABD4F0100A99D7E /* EndPoint */,
+				31C33F9B2ABD526500A99D7E /* Provider */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		31C33F912ABD4F0100A99D7E /* EndPoint */ = {
+			isa = PBXGroup;
+			children = (
+				31C33F922ABD4F2A00A99D7E /* Requestable.swift */,
+				31C33F942ABD4F3500A99D7E /* Responsable.swift */,
+				31C33F962ABD4F6800A99D7E /* LoginAPI.swift */,
+			);
+			path = EndPoint;
+			sourceTree = "<group>";
+		};
+		31C33F9B2ABD526500A99D7E /* Provider */ = {
+			isa = PBXGroup;
+			children = (
+				31C33F9C2ABD527300A99D7E /* Provider.swift */,
+			);
+			path = Provider;
+			sourceTree = "<group>";
+		};
+		31C33F9E2ABD5E8C00A99D7E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				31C33F9F2ABD5E9500A99D7E /* Login */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		31C33F9F2ABD5E9500A99D7E /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				31C33FA02ABD5EA700A99D7E /* LoginModel.swift */,
+			);
+			path = Login;
 			sourceTree = "<group>";
 		};
 		31F1A0CC2AAD894D00B99DC4 /* SignUpPage */ = {
@@ -385,6 +449,8 @@
 				312476BD2AA05E1C00D318C7 /* RxRelay */,
 				312476C02AA05E3900D318C7 /* SnapKit */,
 				312476C32AA05E4D00D318C7 /* Then */,
+				31C33F8B2AB97A0F00A99D7E /* Alamofire */,
+				31C33F992ABD4FCE00A99D7E /* RxAlamofire */,
 			);
 			productName = Promise;
 			productReference = 312476A12AA0588C00D318C7 /* Promise.app */;
@@ -418,6 +484,8 @@
 				312476B82AA05E1C00D318C7 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				312476BF2AA05E3900D318C7 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				312476C22AA05E4D00D318C7 /* XCRemoteSwiftPackageReference "Then" */,
+				31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				31C33F982ABD4FCE00A99D7E /* XCRemoteSwiftPackageReference "RxAlamofire" */,
 			);
 			productRefGroup = 312476A22AA0588C00D318C7 /* Products */;
 			projectDirPath = "";
@@ -460,9 +528,14 @@
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */,
 				31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */,
+				31C33F972ABD4F6800A99D7E /* LoginAPI.swift in Sources */,
+				31C33FA12ABD5EA700A99D7E /* LoginModel.swift in Sources */,
+				31C33F9D2ABD527300A99D7E /* Provider.swift in Sources */,
 				31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
+				31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */,
+				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
 				31C33F6F2AB6FEFD00A99D7E /* StartCoordinator.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */,
@@ -470,6 +543,7 @@
 				31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
+				31C33F952ABD4F3500A99D7E /* Responsable.swift in Sources */,
 				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
@@ -624,6 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Promise/Promise.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9A5MT7L34S;
@@ -651,6 +726,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Promise/Promise.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9A5MT7L34S;
@@ -721,6 +797,22 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		31C33F982ABD4FCE00A99D7E /* XCRemoteSwiftPackageReference "RxAlamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxAlamofire.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -748,6 +840,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 312476C22AA05E4D00D318C7 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		31C33F8B2AB97A0F00A99D7E /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		31C33F992ABD4FCE00A99D7E /* RxAlamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31C33F982ABD4FCE00A99D7E /* XCRemoteSwiftPackageReference "RxAlamofire" */;
+			productName = RxAlamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

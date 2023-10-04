@@ -120,8 +120,8 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
 
         
-        makePromiseViewModel.shareFriendViewModel.friendsRelay
-            .subscribe(onNext: { [weak self] friends in
+        makePromiseViewModel.selectedFriendDatas
+            .drive(onNext: { [weak self] friends in
                 if friends.isEmpty{
                     self?.collectionView.isHidden = true
                     self?.addFriendButton.isHidden = false
@@ -139,18 +139,23 @@ class MakePromiseViewController: UIViewController {
         makePromiseViewModel.selectedFriendDatas
             .drive(collectionView.rx.items(cellIdentifier: "FriendCollectionViewCell", cellType: FriendCollectionViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
-                cell.deleteButtonTapped
+//                cell.deleteButton.rx.tap
+//                    .subscribe(onNext: { [weak self] in
+//                        self?.makePromiseViewModel.toggleSelection(at: row)
+//                    })
+//                    .disposed(by: cell.disposeBag)
+                cell.deleteButton.rx.tap
                     .subscribe(onNext: { [weak self] in
-                        self?.makePromiseViewModel.toggleSelection(at: row)
+                        self?.makePromiseViewModel.toggleSelection(friend: friend)
                     })
-                    .disposed(by: self.disposeBag)
-                
+                    .disposed(by: cell.disposeBag)
+
             }
             .disposed(by: disposeBag)
+
       
         makePromiseViewModel.isNextButtonEnabled
             .subscribe(onNext: { [weak self] bool in
-                print(bool)
                 if(bool){
                     self?.nextButton.isEnabled = true
                     self?.nextButton.alpha = 1
@@ -495,10 +500,15 @@ class MakePromiseViewController: UIViewController {
     
     private func showDatePicker() {
         let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
-        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 162*Constants.standardHeight))
+        let picker = UIPickerView()
         picker.delegate = self
         picker.dataSource = self
         alert.view.addSubview(picker)
+        
+        picker.snp.makeConstraints { (make) in
+            make.leading.top.trailing.equalToSuperview()
+            make.height.equalTo(150*Constants.standardHeight)
+        }
         
         let calendar = Calendar.current
         let currentYear = calendar.component(.year, from: Date())
@@ -527,13 +537,16 @@ class MakePromiseViewController: UIViewController {
 
     private func showTimePicker() {
         let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
-        let picker = UIPickerView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: 216*Constants.standardHeight))
-        //let picker = UIPickerView()
+        let picker = UIPickerView()
         picker.tag = 1
         picker.delegate = self
         picker.dataSource = self
         alert.view.addSubview(picker)
         
+        picker.snp.makeConstraints { (make) in
+            make.leading.top.trailing.equalToSuperview()
+            make.height.equalTo(150*Constants.standardHeight)
+        }
         
         let calendar = Calendar.current
         let currentHour = calendar.component(.hour, from: Date())

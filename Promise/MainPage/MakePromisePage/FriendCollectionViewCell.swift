@@ -10,8 +10,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
     let nameLabel = UILabel()
     let deleteButton = UIButton()
     
-    let disposeBag = DisposeBag()
-    let deleteButtonTapped = PublishSubject<Void>()
+    var disposeBag = DisposeBag()
   
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,6 +21,12 @@ class FriendCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+    }
+
     
     
     func attribute(){
@@ -39,9 +44,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
         deleteButton.do{
             $0.layer.cornerRadius = $0.frame.size.height / 2
             $0.setImage(UIImage(named: "clear"), for: .normal)
-            $0.rx.tap
-                .bind(to: deleteButtonTapped)
-                .disposed(by: disposeBag)
         }
        
 

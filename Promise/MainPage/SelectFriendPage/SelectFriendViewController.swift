@@ -60,7 +60,6 @@ class SelectFriendViewController: UIViewController {
         selectFriendViewModel.friendDatas
             .drive(tableView.rx.items(cellIdentifier: "FriendTableViewCell", cellType: FriendTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
-                print(row,friend)
             }
             .disposed(by: disposeBag)
 

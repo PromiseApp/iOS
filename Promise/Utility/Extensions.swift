@@ -73,11 +73,11 @@ extension UITextField {
 
 extension UITextView {
     func addLeftPadding() {
-            let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12*Constants.standardWidth, height: self.frame.height))
-            self.addSubview(paddingView)
-            
-            self.textContainer.lineFragmentPadding = 12*Constants.standardWidth
-        }
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 12*Constants.standardWidth, height: self.frame.height))
+        self.addSubview(paddingView)
+        
+        self.textContainer.lineFragmentPadding = 12*Constants.standardWidth
+    }
 }
 
 extension UIColor {
