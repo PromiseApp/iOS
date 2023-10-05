@@ -11,7 +11,7 @@ import Photos
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var startCoordinator: StartCoordinator?
+    var mainCoordinator: MainCoordinator?
     //UserDefaults.standard.set(true, forKey: "IsLoggedIn") 자동 로그인 나중에 설정
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -22,12 +22,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
         //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
         //let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
-        let rootVC = MainViewController(mainViewModel: MainViewModel())
+        let rootVC = PromiseViewController(mainViewModel: PromiseViewModel())
         //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
         //let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel(shareFriendViewModel: ShareFriendViewModel()))
         
-        //startCoordinator = StartCoordinator(navigationController: navController)
-        //startCoordinator?.start()
+        //mainCoordinator = MainCoordinator(navigationController: navController)
+        //mainCoordinator?.start()
         //window?.rootViewController = navController
         //let rootVC = TestViewController()
         window?.rootViewController = UINavigationController(rootViewController: rootVC)

@@ -6,10 +6,10 @@ import Then
 
 class PopUpViewController: UIViewController {
     let disposeBag = DisposeBag()
-    let popupView: MyPopupView
+    let popupView: InputErrorPopupView
     
     init(title: String, desc: String) {
-        self.popupView = MyPopupView(title: title, desc: desc)
+        self.popupView = InputErrorPopupView(title: title, desc: desc)
         super.init(nibName: nil, bundle: nil)
         
         self.view.backgroundColor = .clear

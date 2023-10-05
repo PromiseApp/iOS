@@ -2,9 +2,9 @@ import UIKit
 
 class FindPwCoordinator: Coordinator {
     var navigationController: UINavigationController
-    weak var parentCoordinator: StartCoordinator?
+    weak var parentCoordinator: MainCoordinator?
     
-    init(navigationController: UINavigationController, parentCoordinator: StartCoordinator?) {
+    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator?) {
             self.navigationController = navigationController
             self.parentCoordinator = parentCoordinator
         }

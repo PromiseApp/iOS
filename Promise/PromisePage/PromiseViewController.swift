@@ -1,12 +1,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import RxDataSources
 import SnapKit
 import Then
 
-class MainViewController: UIViewController {
+class PromiseViewController: UIViewController {
     let disposeBag = DisposeBag()
-    var mainViewModel: MainViewModel
+    var promiseViewModel: PromiseViewModel
     
     
     let bellButton = UIButton()
@@ -26,8 +27,8 @@ class MainViewController: UIViewController {
     var months: [Int] = Array(1...12)
     
     
-    init(mainViewModel: MainViewModel) {
-        self.mainViewModel = mainViewModel
+    init(mainViewModel: PromiseViewModel) {
+        self.promiseViewModel = mainViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,7 +47,7 @@ class MainViewController: UIViewController {
     
     private func bind(){
         
-        mainViewModel.yearAndMonth
+        promiseViewModel.yearAndMonth
             .map { "\($0.year)년 \($0.month)월" }
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
@@ -63,6 +64,45 @@ class MainViewController: UIViewController {
                 let VM = MakePromiseViewModel(shareFriendViewModel: shareVM)
                 let VC = MakePromiseViewController(makePromiseViewModel: VM)
                 self.navigationController?.pushViewController(VC, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        tableView.rx.setDelegate(self)
+            .disposed(by: disposeBag)
+        
+        let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
+            configureCell: { (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
+                cell.configure(data: promiseView)
+                return cell
+            }
+        )
+        
+        promiseViewModel.promiseDatas
+            .map { promises in
+                promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
+            }
+            .drive(tableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+
+        promiseViewModel.cntPromise
+            .subscribe(onNext: { [weak self] cnt in
+                print(cnt)
+                if(cnt == 0){
+                    self?.cntLabel.text = "아직 약속이 없네요"
+                    self?.tableView.isHidden = true
+                    self?.plusButton.isHidden = false
+                }
+                else{
+                    let text = "약속이 \(cnt)개 있어요!"
+                    let attributedString = NSMutableAttributedString(string: text)
+                    
+                    attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "\(cnt)"))
+                    
+                    self?.cntLabel.attributedText = attributedString
+                    self?.tableView.isHidden = false
+                    self?.plusButton.isHidden = true
+                }
             })
             .disposed(by: disposeBag)
         
@@ -85,7 +125,7 @@ class MainViewController: UIViewController {
         }
         
         downButton.do{
-            $0.setImage(UIImage(named: "down"), for: .normal)
+            $0.setImage(UIImage(named: "downTwo"), for: .normal)
         }
         
         levelLabel.do{
@@ -101,7 +141,6 @@ class MainViewController: UIViewController {
         
         cntLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
-            $0.text = "아직 약속이 없네요"
         }
         
         plusButton.do{
@@ -115,16 +154,17 @@ class MainViewController: UIViewController {
 
             $0.setAttributedTitle(attributedString, for: .normal)
             $0.setImage(UIImage(named: "plus"), for: .normal)
-            $0.alignTextBelow(spacing: 40)
+            $0.alignTextBelow(spacing: 40*Constants.standardHeight)
         }
         
 
         
         tableView.do{
-            $0.isHidden = true
+            $0.separatorStyle = .singleLine
+            $0.register(PromiseTableViewCell.self, forCellReuseIdentifier: "PromiseTableViewCell")
+            $0.register(PromiseHeaderView.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderView")
         }
-        
-        
+        tableView.sectionHeaderTopPadding = 0
     }
     
     private func layout(){
@@ -233,7 +273,7 @@ class MainViewController: UIViewController {
             guard let self = self else { return }
             let selectedYear = self.years[picker.selectedRow(inComponent: 0)]
             let selectedMonth = self.months[picker.selectedRow(inComponent: 1)]
-            self.mainViewModel.yearAndMonth.onNext((year: selectedYear, month: selectedMonth))
+            self.promiseViewModel.yearAndMonth.onNext((year: selectedYear, month: selectedMonth))
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -248,7 +288,7 @@ class MainViewController: UIViewController {
     
 }
 
-extension MainViewController: UIPickerViewDelegate,UIPickerViewDataSource{
+extension PromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource{
 
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
@@ -271,7 +311,23 @@ extension MainViewController: UIPickerViewDelegate,UIPickerViewDataSource{
     }
 }
 
-
+typealias PromiseSectionModel = SectionModel<GetPromise, PromiseView>
+extension PromiseViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView
+        let promise = promiseViewModel.promisesRelay.value[section]
+        header.configure(date: promise.date, isExpanded: promise.isExpanded)
+        
+        header.direButton.rx.tap
+            .bind { [weak self] in
+                self?.promiseViewModel.toggleSectionExpansion(at: section)
+            }
+            .disposed(by: header.disposeBag)
+        
+        return header
+    }
+  
+}
 
 //#if DEBUG
 //import SwiftUI

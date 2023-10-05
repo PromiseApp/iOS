@@ -27,11 +27,15 @@
 		312476C42AA05E4D00D318C7 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 312476C32AA05E4D00D318C7 /* Then */; };
 		312476C72AA068E500D318C7 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C62AA068E400D318C7 /* Constants.swift */; };
 		312476C92AA0690500D318C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C82AA0690500D318C7 /* Extensions.swift */; };
+		31258F002ACE7F29004D764C /* PromiseHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */; };
+		31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */; };
+		31258F042ACE8C9F004D764C /* GetPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F032ACE8C9F004D764C /* GetPromise.swift */; };
+		31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 31258F072ACEB4C8004D764C /* RxDataSources */; };
 		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
-		31C33F6F2AB6FEFD00A99D7E /* StartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F6E2AB6FEFD00A99D7E /* StartCoordinator.swift */; };
+		31C33F6F2AB6FEFD00A99D7E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */; };
 		31C33F722AB7010800A99D7E /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F712AB7010800A99D7E /* SignupCoordinator.swift */; };
 		31C33F742AB7011F00A99D7E /* FindPwCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */; };
-		31C33F762AB7012900A99D7E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F752AB7012900A99D7E /* MainCoordinator.swift */; };
+		31C33F762AB7012900A99D7E /* PromiseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */; };
 		31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F782AB8093E00A99D7E /* TabBarController.swift */; };
 		31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */; };
 		31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */; };
@@ -52,8 +56,8 @@
 		31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */; };
 		31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */; };
 		31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */; };
-		31F1A0E22AAEF7C600B99DC4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */; };
-		31F1A0E42AAEF7E000B99DC4 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */; };
+		31F1A0E22AAEF7C600B99DC4 /* PromiseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E12AAEF7C600B99DC4 /* PromiseViewController.swift */; };
+		31F1A0E42AAEF7E000B99DC4 /* PromiseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E32AAEF7E000B99DC4 /* PromiseViewModel.swift */; };
 		31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */; };
 		31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */; };
 		31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */; };
@@ -85,11 +89,14 @@
 		312476B22AA0588D00D318C7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		312476C62AA068E400D318C7 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		312476C82AA0690500D318C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseHeaderView.swift; sourceTree = "<group>"; };
+		31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTableViewCell.swift; sourceTree = "<group>"; };
+		31258F032ACE8C9F004D764C /* GetPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPromise.swift; sourceTree = "<group>"; };
 		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
-		31C33F6E2AB6FEFD00A99D7E /* StartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCoordinator.swift; sourceTree = "<group>"; };
+		31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		31C33F712AB7010800A99D7E /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
 		31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwCoordinator.swift; sourceTree = "<group>"; };
-		31C33F752AB7012900A99D7E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCoordinator.swift; sourceTree = "<group>"; };
 		31C33F782AB8093E00A99D7E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
 		31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -109,8 +116,8 @@
 		31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwViewModel.swift; sourceTree = "<group>"; };
 		31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
 		31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
-		31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		31F1A0E12AAEF7C600B99DC4 /* PromiseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseViewController.swift; sourceTree = "<group>"; };
+		31F1A0E32AAEF7E000B99DC4 /* PromiseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseViewModel.swift; sourceTree = "<group>"; };
 		31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewModel.swift; sourceTree = "<group>"; };
 		31F1A0E82AB03EA000B99DC4 /* LimitedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedViewController.swift; sourceTree = "<group>"; };
 		31F1A0EA2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -134,6 +141,7 @@
 				312476C12AA05E3900D318C7 /* SnapKit in Frameworks */,
 				31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */,
 				312476BC2AA05E1C00D318C7 /* RxCocoa in Frameworks */,
+				31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */,
 				31C33F9A2ABD4FCE00A99D7E /* RxAlamofire in Frameworks */,
 				312476BA2AA05E1C00D318C7 /* RxBlocking in Frameworks */,
 			);
@@ -200,7 +208,8 @@
 				31C33F702AB6FF7600A99D7E /* TotalSignUpScene */,
 				31F1A0D22AADA1D900B99DC4 /* FindPwScene */,
 				31C33F772AB8092400A99D7E /* TabBar */,
-				31F1A0E02AAEF7BB00B99DC4 /* MainPage */,
+				31F1A0E02AAEF7BB00B99DC4 /* PromisePage */,
+				31258F052ACE9622004D764C /* FriendPage */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
 				31C33F882AB977D400A99D7E /* TestViewController.swift */,
 			);
@@ -214,6 +223,22 @@
 				312476C82AA0690500D318C7 /* Extensions.swift */,
 			);
 			path = Utility;
+			sourceTree = "<group>";
+		};
+		31258EFE2ACE7EE9004D764C /* PromiseTableView */ = {
+			isa = PBXGroup;
+			children = (
+				31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */,
+				31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */,
+			);
+			path = PromiseTableView;
+			sourceTree = "<group>";
+		};
+		31258F052ACE9622004D764C /* FriendPage */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FriendPage;
 			sourceTree = "<group>";
 		};
 		31C33F6B2AB6FE3F00A99D7E /* Application */ = {
@@ -238,10 +263,10 @@
 		31C33F6D2AB6FEC500A99D7E /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				31C33F6E2AB6FEFD00A99D7E /* StartCoordinator.swift */,
+				31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */,
 				31C33F712AB7010800A99D7E /* SignupCoordinator.swift */,
 				31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */,
-				31C33F752AB7012900A99D7E /* MainCoordinator.swift */,
+				31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -376,15 +401,16 @@
 			path = PopUp;
 			sourceTree = "<group>";
 		};
-		31F1A0E02AAEF7BB00B99DC4 /* MainPage */ = {
+		31F1A0E02AAEF7BB00B99DC4 /* PromisePage */ = {
 			isa = PBXGroup;
 			children = (
+				31258EFE2ACE7EE9004D764C /* PromiseTableView */,
 				31F1A0F12AB46C6800B99DC4 /* SelectFriendPage */,
 				31F1A0EC2AB0754A00B99DC4 /* MakePromisePage */,
-				31F1A0E12AAEF7C600B99DC4 /* MainViewController.swift */,
-				31F1A0E32AAEF7E000B99DC4 /* MainViewModel.swift */,
+				31F1A0E12AAEF7C600B99DC4 /* PromiseViewController.swift */,
+				31F1A0E32AAEF7E000B99DC4 /* PromiseViewModel.swift */,
 			);
-			path = MainPage;
+			path = PromisePage;
 			sourceTree = "<group>";
 		};
 		31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */ = {
@@ -423,6 +449,7 @@
 			children = (
 				31F1A0F92AB4769C00B99DC4 /* Friend.swift */,
 				31C33F692AB5A94E00A99D7E /* Promise.swift */,
+				31258F032ACE8C9F004D764C /* GetPromise.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -451,6 +478,7 @@
 				312476C32AA05E4D00D318C7 /* Then */,
 				31C33F8B2AB97A0F00A99D7E /* Alamofire */,
 				31C33F992ABD4FCE00A99D7E /* RxAlamofire */,
+				31258F072ACEB4C8004D764C /* RxDataSources */,
 			);
 			productName = Promise;
 			productReference = 312476A12AA0588C00D318C7 /* Promise.app */;
@@ -486,6 +514,7 @@
 				312476C22AA05E4D00D318C7 /* XCRemoteSwiftPackageReference "Then" */,
 				31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */,
 				31C33F982ABD4FCE00A99D7E /* XCRemoteSwiftPackageReference "RxAlamofire" */,
+				31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 312476A22AA0588C00D318C7 /* Products */;
 			projectDirPath = "";
@@ -521,8 +550,9 @@
 				31C33F742AB7011F00A99D7E /* FindPwCoordinator.swift in Sources */,
 				31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */,
 				31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */,
-				31F1A0E22AAEF7C600B99DC4 /* MainViewController.swift in Sources */,
+				31F1A0E22AAEF7C600B99DC4 /* PromiseViewController.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
+				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
@@ -536,7 +566,7 @@
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
 				31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */,
 				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
-				31C33F6F2AB6FEFD00A99D7E /* StartCoordinator.swift in Sources */,
+				31C33F6F2AB6FEFD00A99D7E /* MainCoordinator.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */,
 				31F1A0D82AADD22300B99DC4 /* ChangePwViewController.swift in Sources */,
@@ -554,12 +584,14 @@
 				31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */,
 				31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */,
 				31C33F722AB7010800A99D7E /* SignupCoordinator.swift in Sources */,
+				31258F002ACE7F29004D764C /* PromiseHeaderView.swift in Sources */,
+				31258F042ACE8C9F004D764C /* GetPromise.swift in Sources */,
 				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
-				31C33F762AB7012900A99D7E /* MainCoordinator.swift in Sources */,
+				31C33F762AB7012900A99D7E /* PromiseCoordinator.swift in Sources */,
 				31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */,
-				31F1A0E42AAEF7E000B99DC4 /* MainViewModel.swift in Sources */,
+				31F1A0E42AAEF7E000B99DC4 /* PromiseViewModel.swift in Sources */,
 				31F1A0F52AB46CA400B99DC4 /* SelectFriendViewController.swift in Sources */,
 				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,
 			);
@@ -797,6 +829,14 @@
 				minimumVersion = 3.0.0;
 			};
 		};
+		31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -840,6 +880,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 312476C22AA05E4D00D318C7 /* XCRemoteSwiftPackageReference "Then" */;
 			productName = Then;
+		};
+		31258F072ACEB4C8004D764C /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 		31C33F8B2AB97A0F00A99D7E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

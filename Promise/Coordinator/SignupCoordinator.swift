@@ -2,10 +2,10 @@ import UIKit
 
 class SignupCoordinator: Coordinator {
     var navigationController: UINavigationController
-    weak var parentCoordinator: StartCoordinator?
+    weak var parentCoordinator: MainCoordinator?
     var limitedViewModel: LimitedViewModel?
     
-    init(navigationController: UINavigationController, parentCoordinator: StartCoordinator?) {
+    init(navigationController: UINavigationController, parentCoordinator: MainCoordinator?) {
             self.navigationController = navigationController
             self.parentCoordinator = parentCoordinator
         }
