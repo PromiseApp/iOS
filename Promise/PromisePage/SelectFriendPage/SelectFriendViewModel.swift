@@ -4,8 +4,10 @@ import RxSwift
 
 class SelectFriendViewModel{
     let disposeBag = DisposeBag()
-    var allFriends: [Friend] = []
     var shareFriendViewModel: ShareFriendViewModel
+    
+    var allFriends: [Friend] = []
+    var tempSelectedFriends: [Friend] = []
     
     let nextButtonTapped = PublishRelay<Void>()
     
@@ -20,6 +22,7 @@ class SelectFriendViewModel{
     init(shareFriendViewModel: ShareFriendViewModel) {
         self.shareFriendViewModel = shareFriendViewModel
         self.allFriends = shareFriendViewModel.friendsRelay.value
+        self.tempSelectedFriends = shareFriendViewModel.friendsRelay.value
         
     }
     

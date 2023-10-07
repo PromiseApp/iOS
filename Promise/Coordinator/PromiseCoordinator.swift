@@ -19,6 +19,7 @@ class PromiseCoordinator: Coordinator {
     func goToMakePromiseVC(){
         let VM = MakePromiseViewModel(shareFriendViewModel: self.shareFriendViewModel)
         let VC = MakePromiseViewController(makePromiseViewModel: VM, promiseCoordinator: self)
+        VC.hidesBottomBarWhenPushed = true
         navigationController.pushViewController(VC, animated: true)
     }
     

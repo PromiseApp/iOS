@@ -43,6 +43,7 @@ class SelectFriendViewController: UIViewController {
         
         leftButton.rx.tap
             .subscribe(onNext: { [weak self] in
+                self?.selectFriendViewModel.shareFriendViewModel.friendsRelay.accept((self?.selectFriendViewModel.tempSelectedFriends)!)
                 self?.promiseCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
@@ -90,8 +91,8 @@ class SelectFriendViewController: UIViewController {
             .disposed(by: disposeBag)
         
         selectFriendViewModel.nextButtonTapped
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: { [weak self] in
+                self?.promiseCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         

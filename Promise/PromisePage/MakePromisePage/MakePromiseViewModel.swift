@@ -11,11 +11,7 @@ class MakePromiseViewModel{
     
     let timeRelay = PublishRelay<(hour: Int, minute: Int)>()
     
-    
-        
     var selectedFriendDatas: Driver<[Friend]>
-    
-    
     
     let isNextButtonEnabled: Observable<Bool>
     
@@ -27,9 +23,6 @@ class MakePromiseViewModel{
             .map { friends in
                 friends.filter { $0.isSelected }
             }
-            .do(onNext: { aa in
-                print(aa)
-            })
         
         isNextButtonEnabled = Observable.combineLatest(dateRelay.asObservable(), timeRelay.asObservable(), titleRelay.asObservable())
             .map { date, time, title in
