@@ -22,15 +22,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
         //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
         //let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
-        let rootVC = PromiseViewController(mainViewModel: PromiseViewModel())
+        //let rootVC = PromiseViewController(promiseViewModel: PromiseViewModel())
         //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
         //let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel(shareFriendViewModel: ShareFriendViewModel()))
-        
-        //mainCoordinator = MainCoordinator(navigationController: navController)
-        //mainCoordinator?.start()
-        //window?.rootViewController = navController
+        //let rootVC = FriendViewController(friendViewModel: FriendViewModel())
+        mainCoordinator = MainCoordinator(navigationController: navController)
+        mainCoordinator?.goToMain()
+        window?.rootViewController = navController
         //let rootVC = TestViewController()
-        window?.rootViewController = UINavigationController(rootViewController: rootVC)
+        //window?.rootViewController = UINavigationController(rootViewController: rootVC)
         window?.makeKeyAndVisible()
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {

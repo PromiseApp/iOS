@@ -31,6 +31,9 @@
 		31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */; };
 		31258F042ACE8C9F004D764C /* GetPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F032ACE8C9F004D764C /* GetPromise.swift */; };
 		31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 31258F072ACEB4C8004D764C /* RxDataSources */; };
+		315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */; };
+		315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC862ACEED4600B7DF20 /* FriendViewController.swift */; };
+		317D69CC2AD12AAE004CEE5C /* FriendCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69CB2AD12AAE004CEE5C /* FriendCoordinator.swift */; };
 		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
 		31C33F6F2AB6FEFD00A99D7E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */; };
 		31C33F722AB7010800A99D7E /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F712AB7010800A99D7E /* SignupCoordinator.swift */; };
@@ -92,6 +95,9 @@
 		31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseHeaderView.swift; sourceTree = "<group>"; };
 		31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTableViewCell.swift; sourceTree = "<group>"; };
 		31258F032ACE8C9F004D764C /* GetPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPromise.swift; sourceTree = "<group>"; };
+		315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
+		315BDC862ACEED4600B7DF20 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		317D69CB2AD12AAE004CEE5C /* FriendCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCoordinator.swift; sourceTree = "<group>"; };
 		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
 		31C33F712AB7010800A99D7E /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
@@ -237,6 +243,8 @@
 		31258F052ACE9622004D764C /* FriendPage */ = {
 			isa = PBXGroup;
 			children = (
+				315BDC862ACEED4600B7DF20 /* FriendViewController.swift */,
+				315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */,
 			);
 			path = FriendPage;
 			sourceTree = "<group>";
@@ -267,6 +275,7 @@
 				31C33F712AB7010800A99D7E /* SignupCoordinator.swift */,
 				31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */,
 				31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */,
+				317D69CB2AD12AAE004CEE5C /* FriendCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -551,6 +560,7 @@
 				31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */,
 				31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */,
 				31F1A0E22AAEF7C600B99DC4 /* PromiseViewController.swift in Sources */,
+				315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
 				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
@@ -562,9 +572,11 @@
 				31C33FA12ABD5EA700A99D7E /* LoginModel.swift in Sources */,
 				31C33F9D2ABD527300A99D7E /* Provider.swift in Sources */,
 				31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */,
+				317D69CC2AD12AAE004CEE5C /* FriendCoordinator.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
 				31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */,
+				315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */,
 				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
 				31C33F6F2AB6FEFD00A99D7E /* MainCoordinator.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,

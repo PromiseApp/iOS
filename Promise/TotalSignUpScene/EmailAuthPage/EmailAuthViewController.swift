@@ -120,7 +120,7 @@ class EmailAuthViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "abcde@example.com"
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         nextButton.do{

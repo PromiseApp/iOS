@@ -9,7 +9,7 @@ import SnapKit
 class SignUpViewController: UIViewController {
     
     let disposeBag = DisposeBag()
-    var signUpViewModel:SignUpViewModel
+    var signUpViewModel: SignUpViewModel
     let limitedViewModel: LimitedViewModel
     weak var signupCoordinator: SignupCoordinator?
     
@@ -236,7 +236,7 @@ class SignUpViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "이메일"
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         pwLabel.do{
@@ -255,7 +255,7 @@ class SignUpViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "비밀번호"
             $0.isSecureTextEntry = false
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         rePwLabel.do{
@@ -275,7 +275,7 @@ class SignUpViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "비밀번호 확인"
             $0.isSecureTextEntry = true
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         [firstClearButton,secClearButton]

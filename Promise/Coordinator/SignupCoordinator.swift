@@ -3,7 +3,7 @@ import UIKit
 class SignupCoordinator: Coordinator {
     var navigationController: UINavigationController
     weak var parentCoordinator: MainCoordinator?
-    var limitedViewModel: LimitedViewModel?
+    var limitedViewModel = LimitedViewModel()
     
     init(navigationController: UINavigationController, parentCoordinator: MainCoordinator?) {
             self.navigationController = navigationController
@@ -30,15 +30,12 @@ class SignupCoordinator: Coordinator {
 
     func goToSignUpVC() {
         let VM = SignUpViewModel()
-        let limitedVM = LimitedViewModel()
-        self.limitedViewModel = limitedVM
-        let VC = SignUpViewController(signUpViewModel: VM, limitedViewModel: limitedVM, signupCoordinator: self)
+        let VC = SignUpViewController(signUpViewModel: VM, limitedViewModel: self.limitedViewModel, signupCoordinator: self)
         navigationController.pushViewController(VC, animated: true)
     }
     
     func goToLimitedCollectionView() {
-        guard let limitedVM = self.limitedViewModel else { return }
-        let VC = LimitedViewController(limitedViewModel: limitedVM, signupCoordinator: self)
+        let VC = LimitedViewController(limitedViewModel: self.limitedViewModel, signupCoordinator: self)
         navigationController.present(VC, animated: true)
     }
     

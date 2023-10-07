@@ -104,7 +104,7 @@ class LoginViewController: UIViewController {
             $0.layer.borderWidth = 1
             $0.placeholder = "이메일"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
             $0.keyboardType = .emailAddress
         }
         
@@ -114,7 +114,7 @@ class LoginViewController: UIViewController {
             $0.layer.borderWidth = 1
             $0.placeholder = "비밀번호"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
             $0.isSecureTextEntry = true
         }
         

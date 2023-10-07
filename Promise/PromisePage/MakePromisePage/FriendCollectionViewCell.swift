@@ -33,6 +33,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         backgroundColor = UIColor(named: "prNormal")
         layer.cornerRadius = 8*Constants.standardHeight
         
+        
         userImageView.do{
             $0.layer.cornerRadius = $0.frame.size.height / 2
         }

@@ -1,11 +1,16 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import SnapKit
+import Then
 
 class TabBarController: UITabBarController {
     
     let disposeBag = DisposeBag()
     let tabBarViewModel: TabBarViewModel
+    
+    private var plusButton = UIButton()
+    private let separateView = UIView()
     
     init(tabBarViewModel: TabBarViewModel) {
         self.tabBarViewModel = tabBarViewModel
@@ -21,9 +26,12 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
-        
-
+        bind()
+        attribute()
+        layout()
+    }
+    
+    private func bind(){
         rx.didSelect
             .map { $0.view.tag }
             .bind(to: tabBarViewModel.selectedIndex)
@@ -34,8 +42,38 @@ class TabBarController: UITabBarController {
                 self?.tabBar.tintColor = UIColor(named: "prHeavy")
             })
             .disposed(by: disposeBag)
-        
     }
+    
+    private func attribute(){
+           
+        plusButton.do{
+            $0.setImage(UIImage(named: "plus"), for: .normal)
+        }
+        
+        separateView.do{
+            $0.backgroundColor = UIColor(named: "line")
+        }
+    }
+    
+    private func layout(){
+        [separateView,plusButton]
+            .forEach{ self.tabBar.addSubview($0) }
+        
+        separateView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(1*Constants.standardHeight)
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
+        }
+        
+        plusButton.snp.makeConstraints { make in
+            make.width.height.equalTo(48*Constants.standardHeight)
+            make.centerX.equalToSuperview()
+            
+        }
+
+    }
+    
 }
 
 

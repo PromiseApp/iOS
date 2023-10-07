@@ -191,7 +191,7 @@ class ChangePwViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "변경할 비밀번호"
             $0.isSecureTextEntry = false
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         rePwLabel.do{
@@ -211,7 +211,7 @@ class ChangePwViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "변경할 비밀번호 확인"
             $0.isSecureTextEntry = true
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         [firstClearButton,secClearButton]

@@ -8,7 +8,7 @@ import Then
 class PromiseViewController: UIViewController {
     let disposeBag = DisposeBag()
     var promiseViewModel: PromiseViewModel
-    
+    weak var promiseCoordinator: PromiseCoordinator?
     
     let bellButton = UIButton()
     let firstSeparateView = UIView()
@@ -27,8 +27,9 @@ class PromiseViewController: UIViewController {
     var months: [Int] = Array(1...12)
     
     
-    init(mainViewModel: PromiseViewModel) {
-        self.promiseViewModel = mainViewModel
+    init(promiseViewModel: PromiseViewModel, promiseCoordinator: PromiseCoordinator?) {
+        self.promiseViewModel = promiseViewModel
+        self.promiseCoordinator = promiseCoordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -59,11 +60,8 @@ class PromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         plusButton.rx.tap
-            .subscribe(onNext: {
-                let shareVM = ShareFriendViewModel()
-                let VM = MakePromiseViewModel(shareFriendViewModel: shareVM)
-                let VC = MakePromiseViewController(makePromiseViewModel: VM)
-                self.navigationController?.pushViewController(VC, animated: true)
+            .subscribe(onNext: { [weak self] in
+                self?.promiseCoordinator?.goToMakePromiseVC()
             })
             .disposed(by: disposeBag)
         

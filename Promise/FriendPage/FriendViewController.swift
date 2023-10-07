@@ -4,23 +4,24 @@ import RxCocoa
 import Then
 import SnapKit
 
-class SelectFriendViewController: UIViewController {
+class FriendViewController: UIViewController {
     var disposeBag = DisposeBag()
-    var selectFriendViewModel:SelectFriendViewModel
-    weak var promiseCoordinator: PromiseCoordinator?
+    var friendViewModel:FriendViewModel
+    weak var friendCoordinator: FriendCoordinator?
     
     let titleLabel = UILabel()
-    let leftButton = UIButton()
+    let addFriendButton = UIButton()
     let separateView = UIView()
-    let secSeparateView = UIView()
     lazy var searchImageView = UIImageView()
     let searchTextField = UITextField()
+    let editButton = UIButton()
+    let deleteButton = UIButton()
+    let cancelButton = UIButton()
     lazy var tableView = UITableView()
-    let nextButton = UIButton()
         
-    init(selectFriendViewModel: SelectFriendViewModel, promiseCoordinator: PromiseCoordinator?) {
-        self.selectFriendViewModel = selectFriendViewModel
-        self.promiseCoordinator = promiseCoordinator
+    init(friendViewModel: FriendViewModel, friendCoordinator: FriendCoordinator?) {
+        self.friendViewModel = friendViewModel
+        self.friendCoordinator = friendCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -41,9 +42,9 @@ class SelectFriendViewController: UIViewController {
     
     private func bind(){
         
-        leftButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.promiseCoordinator?.popToVC()
+        addFriendButton.rx.tap
+            .subscribe(onNext: {
+                
             })
             .disposed(by: disposeBag)
 
@@ -53,11 +54,11 @@ class SelectFriendViewController: UIViewController {
             .debounce(.milliseconds(300), scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .bind { [weak self] query in
-                self?.selectFriendViewModel.search(query: query)
+                self?.friendViewModel.search(query: query)
             }
             .disposed(by: disposeBag)
         
-        selectFriendViewModel.friendDatas
+        friendViewModel.friendDatas
             .drive(tableView.rx.items(cellIdentifier: "FriendTableViewCell", cellType: FriendTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
             }
@@ -65,36 +66,9 @@ class SelectFriendViewController: UIViewController {
 
         tableView.rx.itemSelected
             .bind { [weak self] indexPath in
-                self?.selectFriendViewModel.toggleSelection(at: indexPath.row)
+                self?.friendViewModel.toggleSelection(at: indexPath.row)
             }
             .disposed(by: disposeBag)
-        
-        selectFriendViewModel.friendDatas
-            .map { friends in
-                friends.contains { $0.isSelected }
-            }
-            .drive(onNext: { [weak self] bool in
-                if(bool){
-                    self?.nextButton.alpha = 1
-                    self?.nextButton.isEnabled = true
-                }
-                else{
-                    self?.nextButton.alpha = 0.3
-                    self?.nextButton.isEnabled = false
-                }
-            })
-            .disposed(by: disposeBag)
-        
-        nextButton.rx.tap
-            .bind(to: selectFriendViewModel.nextButtonTapped)
-            .disposed(by: disposeBag)
-        
-        selectFriendViewModel.nextButtonTapped
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
-            })
-            .disposed(by: disposeBag)
-        
         
     }
     
@@ -102,18 +76,17 @@ class SelectFriendViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.do{
-            $0.text = "친구 선택"
+            $0.text = "친구"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         
-        leftButton.do{
-            $0.setImage(UIImage(named: "left"), for: .normal)
+        addFriendButton.do{
+            $0.setImage(UIImage(named: "addFriend"), for: .normal)
         }
         
-        [separateView,secSeparateView]
-            .forEach{
-                $0.backgroundColor = UIColor(named: "line")
-            }
+        separateView.do{
+            $0.backgroundColor = UIColor(named: "line")
+        }
         
         searchImageView.do{
             $0.image = UIImage(named: "search")
@@ -122,6 +95,29 @@ class SelectFriendViewController: UIViewController {
         searchTextField.do{
             $0.placeholder = "친구를 검색해보세요"
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
+            $0.backgroundColor = UIColor(named: "prLight")
+            $0.addLeftPadding(width: 40*Constants.standardWidth)
+            $0.layer.cornerRadius = 20*Constants.standardHeight
+        }
+        
+        editButton.do{
+            $0.setTitle("편집", for: .normal)
+            $0.setTitleColor(UIColor(named: "greyTwo"), for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
+        }
+        
+        deleteButton.do{
+            $0.setTitle("삭제", for: .normal)
+            $0.setTitleColor(UIColor(named: "greyTwo"), for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
+            $0.isHidden = true
+        }
+        
+        cancelButton.do{
+            $0.setTitle("취소", for: .normal)
+            $0.setTitleColor(UIColor(named: "greyTwo"), for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
+            $0.isHidden = true
         }
         
         tableView.do{
@@ -129,19 +125,10 @@ class SelectFriendViewController: UIViewController {
             $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
         }
         
-        nextButton.do{
-            $0.setTitle("완료", for: .normal)
-            $0.setTitleColor(UIColor.black, for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.backgroundColor = UIColor(named: "prStrong")
-            $0.alpha = 0.3
-            $0.isEnabled = false
-        }
-        
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,searchImageView,searchTextField,secSeparateView,nextButton,tableView]
+        [titleLabel,addFriendButton,separateView,searchTextField,searchImageView,editButton,deleteButton,cancelButton,tableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -149,9 +136,9 @@ class SelectFriendViewController: UIViewController {
             make.top.equalToSuperview().offset(56*Constants.standardHeight)
         }
         
-        leftButton.snp.makeConstraints { make in
+        addFriendButton.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
-            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
             make.centerY.equalTo(titleLabel)
         }
         
@@ -162,38 +149,39 @@ class SelectFriendViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
+        searchTextField.snp.makeConstraints { make in
+            make.width.equalTo(351*Constants.standardWidth)
+            make.height.equalTo(40*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.top.equalTo(separateView.snp.bottom).offset(24*Constants.standardHeight)
+        }
+        
         searchImageView.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
-            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(separateView.snp.bottom).offset(8*Constants.standardHeight)
+            make.leading.equalTo(searchTextField.snp.leading).offset(12*Constants.standardWidth)
+            make.centerY.equalTo(searchTextField)
         }
         
-        searchTextField.snp.makeConstraints { make in
-            make.width.equalTo(310*Constants.standardWidth)
-            make.height.equalTo(40*Constants.standardHeight)
-            make.leading.equalTo(searchImageView.snp.trailing).offset(4*Constants.standardWidth)
-            make.top.equalTo(separateView.snp.bottom)
+        editButton.snp.makeConstraints { make in
+            make.trailing.equalTo(searchTextField.snp.trailing)
+            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
         }
         
-        secSeparateView.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(1*Constants.standardHeight)
-            make.leading.equalToSuperview()
-            make.top.equalTo(searchTextField.snp.bottom)
+        cancelButton.snp.makeConstraints { make in
+            make.trailing.equalTo(searchTextField.snp.trailing)
+            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
         }
         
-        nextButton.snp.makeConstraints { make in
-            make.width.equalToSuperview()
-            make.height.equalTo(48*Constants.standardWidth)
-            make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        deleteButton.snp.makeConstraints { make in
+            make.trailing.equalTo(searchTextField.snp.leading).offset(8*Constants.standardWidth)
+            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
         }
         
         tableView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.leading.equalToSuperview()
-            make.top.equalTo(secSeparateView.snp.bottom)
-            make.bottom.equalTo(nextButton.snp.top)
+            make.top.equalTo(editButton.snp.bottom)
+            make.bottom.equalToSuperview()
         }
         
         

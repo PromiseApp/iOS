@@ -18,9 +18,9 @@ class PromiseViewModel{
         ]
         promisesRelay.accept(
             [
-                GetPromise(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
-                GetPromise(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
-                GetPromise(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
+//                GetPromise(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
+//                GetPromise(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
+//                GetPromise(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
             ]
         )
         

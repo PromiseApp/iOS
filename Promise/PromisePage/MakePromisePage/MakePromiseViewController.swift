@@ -7,6 +7,7 @@ import SnapKit
 class MakePromiseViewController: UIViewController {
     let disposeBag = DisposeBag()
     var makePromiseViewModel:MakePromiseViewModel
+    weak var promiseCoordinator: PromiseCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -25,7 +26,7 @@ class MakePromiseViewController: UIViewController {
     let secAddFriendButton = UIButton()
     lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.itemSize = CGSize(width: 45, height: 49)
+        $0.itemSize = CGSize(width: 45*Constants.standardWidth, height: 49*Constants.standardHeight)
         $0.minimumInteritemSpacing = 8*Constants.standardWidth
     })
     let penaltyLabel = UILabel()
@@ -42,8 +43,9 @@ class MakePromiseViewController: UIViewController {
     let hours = Array(0...23)
     let minutes = Array(0...59)
     
-    init(makePromiseViewModel: MakePromiseViewModel) {
+    init(makePromiseViewModel: MakePromiseViewModel, promiseCoordinator: PromiseCoordinator?) {
         self.makePromiseViewModel = makePromiseViewModel
+        self.promiseCoordinator = promiseCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,9 +54,7 @@ class MakePromiseViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
-        
+        super.viewDidLoad()        
 
         bind()
         attribute()
@@ -64,8 +64,8 @@ class MakePromiseViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {
-                self.navigationController?.popViewController(animated: true)
+            .subscribe(onNext: { [weak self] in
+                self?.promiseCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -102,20 +102,14 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         addFriendButton.rx.tap
-            .subscribe(onNext: {
-                let shareVM = self.makePromiseViewModel.shareFriendViewModel
-                let VM = SelectFriendViewModel(shareFriendViewModel: shareVM)
-                let VC = SelectFriendViewController(selectFriendViewModel: VM)
-                self.navigationController?.pushViewController(VC, animated: true)
+            .subscribe(onNext: { [weak self] in
+                self?.promiseCoordinator?.goToSelectFriendVC()
             })
             .disposed(by: disposeBag)
         
         secAddFriendButton.rx.tap
-            .subscribe(onNext: {
-                let shareVM = self.makePromiseViewModel.shareFriendViewModel
-                let VM = SelectFriendViewModel(shareFriendViewModel: shareVM)
-                let VC = SelectFriendViewController(selectFriendViewModel: VM)
-                self.navigationController?.pushViewController(VC, animated: true)
+            .subscribe(onNext: { [weak self] in
+                self?.promiseCoordinator?.goToSelectFriendVC()
             })
             .disposed(by: disposeBag)
 
@@ -202,7 +196,7 @@ class MakePromiseViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "지인들과 술자리 / 수영장 가기 등"
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         firstConditionLabel.do{
@@ -252,7 +246,7 @@ class MakePromiseViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "장소를 입력해보세요"
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         friendLabel.do{
@@ -296,7 +290,7 @@ class MakePromiseViewController: UIViewController {
             $0.text = "벌칙을 정해보세요"
             $0.textColor = UIColor(named: "line")
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         secondConditionLabel.do{
@@ -321,7 +315,7 @@ class MakePromiseViewController: UIViewController {
             $0.text = "중요한 내용을 메모해두세요"
             $0.textColor = UIColor(named: "line")
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
-            $0.addLeftPadding()
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         thirdConditionLabel.do{
