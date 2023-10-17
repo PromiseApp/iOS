@@ -6,8 +6,7 @@ import SnapKit
 
 class NicknameViewController: UIViewController {
     let disposeBag = DisposeBag()
-    var nicknameViewModel:NicknameViewModel
-    weak var signupCoordinator: SignupCoordinator?
+    var nicknameViewModel: NicknameViewModel
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -22,9 +21,8 @@ class NicknameViewController: UIViewController {
     let secConditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(nicknameViewModel: NicknameViewModel, signupCoordinator: SignupCoordinator ) {
+    init(nicknameViewModel: NicknameViewModel) {
         self.nicknameViewModel = nicknameViewModel
-        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -34,7 +32,6 @@ class NicknameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
 
         attribute()
         layout()
@@ -44,9 +41,7 @@ class NicknameViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {[weak self] _ in
-                self?.signupCoordinator?.popToVC()
-            })
+            .bind(to: nicknameViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
         nicknameTextField.rx.text.orEmpty
@@ -129,9 +124,7 @@ class NicknameViewController: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .subscribe(onNext: {[weak self] _ in
-                self?.signupCoordinator?.goToSignUpVC()
-            })
+            .bind(to: nicknameViewModel.nextButtonTapped)
             .disposed(by: disposeBag)
         
     }

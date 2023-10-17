@@ -7,7 +7,6 @@ import SnapKit
 class SelectFriendViewController: UIViewController {
     var disposeBag = DisposeBag()
     var selectFriendViewModel:SelectFriendViewModel
-    weak var promiseCoordinator: PromiseCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -18,9 +17,8 @@ class SelectFriendViewController: UIViewController {
     lazy var tableView = UITableView()
     let nextButton = UIButton()
         
-    init(selectFriendViewModel: SelectFriendViewModel, promiseCoordinator: PromiseCoordinator?) {
+    init(selectFriendViewModel: SelectFriendViewModel) {
         self.selectFriendViewModel = selectFriendViewModel
-        self.promiseCoordinator = promiseCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -30,7 +28,6 @@ class SelectFriendViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
 
         bind()
         attribute()
@@ -42,10 +39,7 @@ class SelectFriendViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.selectFriendViewModel.shareFriendViewModel.friendsRelay.accept((self?.selectFriendViewModel.tempSelectedFriends)!)
-                self?.promiseCoordinator?.popToVC()
-            })
+            .bind(to: selectFriendViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
 
 
@@ -89,13 +83,6 @@ class SelectFriendViewController: UIViewController {
         nextButton.rx.tap
             .bind(to: selectFriendViewModel.nextButtonTapped)
             .disposed(by: disposeBag)
-        
-        selectFriendViewModel.nextButtonTapped
-            .subscribe(onNext: { [weak self] in
-                self?.promiseCoordinator?.popToVC()
-            })
-            .disposed(by: disposeBag)
-        
         
     }
     

@@ -7,7 +7,6 @@ import SnapKit
 class ChangePwViewController: UIViewController {
     let disposeBag = DisposeBag()
     var changePwViewModel:ChangePwViewModel
-    weak var findPwCoordinator: FindPwCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -26,9 +25,8 @@ class ChangePwViewController: UIViewController {
     let secConditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(changePwViewModel: ChangePwViewModel, findPwCoordinator: FindPwCoordinator) {
+    init(changePwViewModel: ChangePwViewModel) {
         self.changePwViewModel = changePwViewModel
-        self.findPwCoordinator = findPwCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -38,7 +36,6 @@ class ChangePwViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
 
         attribute()
         layout()
@@ -49,7 +46,6 @@ class ChangePwViewController: UIViewController {
         
         leftButton.rx.tap
             .subscribe(onNext: {[weak self] _ in
-                self?.findPwCoordinator?.popToVC()
             })
             .disposed(by: disposeBag)
         
@@ -150,7 +146,6 @@ class ChangePwViewController: UIViewController {
         
         nextButton.rx.tap
             .subscribe(onNext: {[weak self] _ in
-                self?.findPwCoordinator?.finishSignup()
             })
             .disposed(by: disposeBag)
         

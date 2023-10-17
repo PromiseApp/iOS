@@ -29,8 +29,8 @@ class SignupCoordinator: Coordinator {
     }
 
     func goToSignUpVC() {
-        let VM = SignUpViewModel()
-        let VC = SignUpViewController(signUpViewModel: VM, limitedViewModel: self.limitedViewModel, signupCoordinator: self)
+        let VM = SignupViewModel()
+        let VC = SignupViewController(signUpViewModel: VM, limitedViewModel: self.limitedViewModel, signupCoordinator: self)
         navigationController.pushViewController(VC, animated: true)
     }
     

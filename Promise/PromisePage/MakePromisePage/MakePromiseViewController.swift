@@ -7,7 +7,6 @@ import SnapKit
 class MakePromiseViewController: UIViewController {
     let disposeBag = DisposeBag()
     var makePromiseViewModel:MakePromiseViewModel
-    weak var promiseCoordinator: PromiseCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -43,9 +42,8 @@ class MakePromiseViewController: UIViewController {
     let hours = Array(0...23)
     let minutes = Array(0...59)
     
-    init(makePromiseViewModel: MakePromiseViewModel, promiseCoordinator: PromiseCoordinator?) {
+    init(makePromiseViewModel: MakePromiseViewModel) {
         self.makePromiseViewModel = makePromiseViewModel
-        self.promiseCoordinator = promiseCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,9 +62,7 @@ class MakePromiseViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.promiseCoordinator?.popToVC()
-            })
+            .bind(to: makePromiseViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
         promiseTitleTextField.rx.text.orEmpty
@@ -102,15 +98,11 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         addFriendButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.promiseCoordinator?.goToSelectFriendVC()
-            })
+            .bind(to: makePromiseViewModel.addFriendButtonTapped)
             .disposed(by: disposeBag)
-        
+                
         secAddFriendButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.promiseCoordinator?.goToSelectFriendVC()
-            })
+                .bind(to: makePromiseViewModel.addFriendButtonTapped)
             .disposed(by: disposeBag)
 
         
@@ -133,11 +125,6 @@ class MakePromiseViewController: UIViewController {
         makePromiseViewModel.selectedFriendDatas
             .drive(collectionView.rx.items(cellIdentifier: "FriendCollectionViewCell", cellType: FriendCollectionViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
-//                cell.deleteButton.rx.tap
-//                    .subscribe(onNext: { [weak self] in
-//                        self?.makePromiseViewModel.toggleSelection(at: row)
-//                    })
-//                    .disposed(by: cell.disposeBag)
                 cell.deleteButton.rx.tap
                     .subscribe(onNext: { [weak self] in
                         self?.makePromiseViewModel.toggleSelection(friend: friend)

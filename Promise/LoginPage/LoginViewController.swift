@@ -7,8 +7,8 @@ import Then
 class LoginViewController: UIViewController {
     let disposeBag = DisposeBag()
     var loginViewModel: LoginViewModel
-    var mainCoordinator: MainCoordinator
     
+    let logoLabel = UILabel()
     let idTextField = UITextField()
     let pwTextField = UITextField()
     let visiblePwButton = UIButton()
@@ -17,15 +17,14 @@ class LoginViewController: UIViewController {
     let saveIdLabel = UILabel()
     let saveIdCheckBox = UIButton()
     let loginButton = UIButton()
-    let signUpButton = UIButton()
+    let signupButton = UIButton()
     let findPwButton = UIButton()
     let separateView = UIView()
     let kakaoButton = UIButton()
     let appleButton = UIButton()
     
-    init(loginViewModel: LoginViewModel, mainCoordinator: MainCoordinator) {
+    init(loginViewModel: LoginViewModel) {
         self.loginViewModel = loginViewModel
-        self.mainCoordinator = mainCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -80,16 +79,16 @@ class LoginViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        signUpButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.mainCoordinator.goToEmailAuthVC()
-            })
+        signupButton.rx.tap
+            .bind(to: loginViewModel.signupButtonTapped)
             .disposed(by: disposeBag)
         
         findPwButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.mainCoordinator.goToFindPwVC()
-            })
+            .bind(to: loginViewModel.findPwButtonTapped)
+            .disposed(by: disposeBag)
+        
+        loginButton.rx.tap
+            .bind(to: loginViewModel.loginButtonTapped)
             .disposed(by: disposeBag)
         
     }
@@ -97,6 +96,12 @@ class LoginViewController: UIViewController {
     
     private func attribute(){
         view.backgroundColor = .white
+        
+        logoLabel.do{
+            $0.text = "WeMeet"
+            $0.font = UIFont(name: "Sriracha-Regular", size: 48*Constants.standartFont)
+            $0.textColor = UIColor(named: "prHeavy")
+        }
         
         idTextField.do{
             $0.layer.borderColor = UIColor(red: 0.721, green: 0.721, blue: 0.721, alpha: 1).cgColor
@@ -153,7 +158,7 @@ class LoginViewController: UIViewController {
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
         }
         
-        signUpButton.do{
+        signupButton.do{
             $0.setTitle("회원가입", for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
             $0.setTitleColor(.black, for: .normal)
@@ -193,14 +198,19 @@ class LoginViewController: UIViewController {
     }
     
     private func layout(){
-        [idTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signUpButton,findPwButton,separateView,kakaoButton,appleButton]
+        [logoLabel,idTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signupButton,findPwButton,separateView,kakaoButton,appleButton]
             .forEach{view.addSubview($0)}
+        
+        logoLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(141*Constants.standardHeight)
+            make.centerX.equalToSuperview()
+        }
         
         idTextField.snp.makeConstraints { make in
             make.width.equalTo(351*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(208*Constants.standardHeight)
+            make.top.equalTo(logoLabel.snp.bottom).offset(64*Constants.standardHeight)
         }
         
         pwTextField.snp.makeConstraints { make in
@@ -248,7 +258,7 @@ class LoginViewController: UIViewController {
             make.top.equalTo(autoLoginLabel.snp.bottom).offset(16*Constants.standardHeight)
         }
         
-        signUpButton.snp.makeConstraints { make in
+        signupButton.snp.makeConstraints { make in
             make.width.equalTo(45*Constants.standardWidth)
             make.height.equalTo(16*Constants.standardHeight)
             make.leading.equalToSuperview().offset(24*Constants.standardWidth)

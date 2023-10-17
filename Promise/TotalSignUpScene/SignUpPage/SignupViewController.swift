@@ -6,12 +6,11 @@ import RxCocoa
 import Then
 import SnapKit
 
-class SignUpViewController: UIViewController {
+class SignupViewController: UIViewController {
     
     let disposeBag = DisposeBag()
-    var signUpViewModel: SignUpViewModel
+    var signupViewModel: SignupViewModel
     let limitedViewModel: LimitedViewModel
-    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -36,10 +35,9 @@ class SignUpViewController: UIViewController {
     let secConditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(signUpViewModel: SignUpViewModel, limitedViewModel: LimitedViewModel, signupCoordinator: SignupCoordinator) {
-        self.signUpViewModel = signUpViewModel
+    init(signupViewModel: SignupViewModel, limitedViewModel: LimitedViewModel) {
+        self.signupViewModel = signupViewModel
         self.limitedViewModel = limitedViewModel
-        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -49,7 +47,6 @@ class SignUpViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
         
         layout()
         attribute()
@@ -59,12 +56,10 @@ class SignUpViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {[weak self] _ in
-                self?.signupCoordinator?.popToVC()
-            })
+            .bind(to: signupViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
-        signUpViewModel.selectedImage
+        signupViewModel.selectedImage
             .bind(to: userProfileButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
@@ -85,11 +80,11 @@ class SignUpViewController: UIViewController {
             .disposed(by: disposeBag)
         
         pwTextField.rx.text.orEmpty
-            .bind(to: signUpViewModel.pwTextRelay)
+            .bind(to: signupViewModel.pwTextRelay)
             .disposed(by: disposeBag)
         
         rePwTextField.rx.text.orEmpty
-            .bind(to: signUpViewModel.rePwTextRelay)
+            .bind(to: signupViewModel.rePwTextRelay)
             .disposed(by: disposeBag)
             
         firstClearButton.rx.tap
@@ -128,7 +123,7 @@ class SignUpViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        signUpViewModel.isPasswordValid
+        signupViewModel.isPasswordValid
             .drive(onNext: { [weak self] isValid in
                 if(isValid){
                     self?.pwTextField.layer.borderColor = UIColor.blue.cgColor
@@ -147,7 +142,7 @@ class SignUpViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        signUpViewModel.isPasswordMatching
+        signupViewModel.isPasswordMatching
             .drive(onNext: { [weak self] isMatching in
                 if(isMatching){
                     self?.rePwTextField.layer.borderColor = UIColor.blue.cgColor
@@ -166,7 +161,7 @@ class SignUpViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        signUpViewModel.isNextButtonEnabled
+        signupViewModel.isNextButtonEnabled
             .drive(onNext: { [weak self] isValid in
                 if(isValid){
                     self?.nextButton.isEnabled = true
@@ -180,9 +175,7 @@ class SignUpViewController: UIViewController {
             .disposed(by: disposeBag)
         
         nextButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.signupCoordinator?.finishSignup()
-            })
+            .bind(to: signupViewModel.nextButtonTapped)
             .disposed(by: disposeBag)
         
     }
@@ -191,7 +184,7 @@ class SignUpViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.do{
-            $0.text = "회원가입*"
+            $0.text = "회원가입"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         
@@ -275,6 +268,7 @@ class SignUpViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.placeholder = "비밀번호 확인"
             $0.isSecureTextEntry = true
+            $0.textContentType = .oneTimeCode
             $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
@@ -466,8 +460,7 @@ class SignUpViewController: UIViewController {
             picker.delegate = self
             present(picker, animated: true, completion: nil)
         case .limited:
-            self.signupCoordinator?.goToLimitedCollectionView()
-            
+            self.signupViewModel.goToLimitedCollectionView.accept(())
         default:
             // 권한 요청 또는 다른 처리
             break
@@ -476,7 +469,7 @@ class SignUpViewController: UIViewController {
 
 }
 
-extension SignUpViewController: PHPickerViewControllerDelegate{
+extension SignupViewController: PHPickerViewControllerDelegate{
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
         
@@ -484,7 +477,7 @@ extension SignUpViewController: PHPickerViewControllerDelegate{
         result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
             if let image = object as? UIImage {
                 DispatchQueue.main.async {
-                    self?.signUpViewModel.selectedImage.accept(image)
+                    self?.signupViewModel.selectedImage.accept(image)
                 }
             }
         }

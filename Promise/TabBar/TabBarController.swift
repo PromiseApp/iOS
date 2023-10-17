@@ -32,6 +32,10 @@ class TabBarController: UITabBarController {
     }
     
     private func bind(){
+        plusButton.rx.tap
+            .bind(to: tabBarViewModel.plusButtonTapped)
+            .disposed(by: disposeBag)
+        
         rx.didSelect
             .map { $0.view.tag }
             .bind(to: tabBarViewModel.selectedIndex)
@@ -53,6 +57,7 @@ class TabBarController: UITabBarController {
         separateView.do{
             $0.backgroundColor = UIColor(named: "line")
         }
+        
     }
     
     private func layout(){

@@ -1,12 +1,17 @@
 import RxCocoa
 import UIKit
 import RxSwift
+import RxFlow
 
-class FriendViewModel{
+class FriendViewModel: Stepper{
     let disposeBag = DisposeBag()
-    var allFriends: [Friend] = []
+    let steps = PublishRelay<Step>()
     
     let addFriendButtonTapped = PublishRelay<Void>()
+    let requestFriendButtonTapped = PublishRelay<Void>()
+    
+    var allFriends: [Friend] = []
+    
     let friendsRelay = BehaviorRelay<[Friend]>(value: [])
     
     var friendDatas: Driver<[Friend]> {
@@ -18,6 +23,18 @@ class FriendViewModel{
     }
     
     init() {
+        addFriendButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FriendStep.addFriend)
+            })
+            .disposed(by: disposeBag)
+        
+        requestFriendButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FriendStep.requestFriend)
+            })
+            .disposed(by: disposeBag)
+        
         allFriends = [
             Friend(userImage: UIImage(named: "plus")!, name: "가", level: "1", isSelected: false),
             Friend(userImage: UIImage(named: "plus")!, name: "나", level: "1", isSelected: false),
@@ -40,16 +57,5 @@ class FriendViewModel{
         }
         friendsRelay.accept(allFriends.filter { $0.name.contains(query) })
     }
-    
-    func toggleSelection(at index: Int) {
-        
-        var currentFriends = friendsRelay.value.sorted { $0.isSelected && !$1.isSelected }
-        currentFriends[index].isSelected.toggle()
-        friendsRelay.accept(currentFriends)
-        allFriends = currentFriends
-    }
-    
-    
-    
     
 }

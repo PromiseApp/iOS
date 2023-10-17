@@ -7,8 +7,6 @@ import SnapKit
 class ConfirmEmailAuthViewController: UIViewController {
     let disposeBag = DisposeBag()
     var confirmEmailAuthViewModel:ConfirmEmailAuthViewModel
-    weak var signupCoordinator: SignupCoordinator?
-    weak var findPwCoordinator: FindPwCoordinator?
 
     
     let titleLabel = UILabel()
@@ -24,11 +22,8 @@ class ConfirmEmailAuthViewController: UIViewController {
     let conditionLabel = UILabel()
     let nextButton = UIButton()
     
-    init(confirmEmailAuthViewModel: ConfirmEmailAuthViewModel, signupCoordinator: SignupCoordinator?, findPwCoordinator: FindPwCoordinator?
-) {
-        self.signupCoordinator = signupCoordinator
+    init(confirmEmailAuthViewModel: ConfirmEmailAuthViewModel) {
         self.confirmEmailAuthViewModel = confirmEmailAuthViewModel
-        self.findPwCoordinator = findPwCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -38,8 +33,6 @@ class ConfirmEmailAuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
-
         attribute()
         layout()
         bind()
@@ -48,14 +41,7 @@ class ConfirmEmailAuthViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: {[weak self] _ in
-                if let signupCoordinator = self?.signupCoordinator {
-                    signupCoordinator.popToVC()
-                }
-                else if let findPwCoordinator = self?.findPwCoordinator {
-                    findPwCoordinator.popToVC()
-                }
-            })
+            .bind(to: confirmEmailAuthViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
                 
         authTextField.rx.text.orEmpty
@@ -66,29 +52,22 @@ class ConfirmEmailAuthViewController: UIViewController {
             .drive(nextButton.rx.isHidden)
             .disposed(by: disposeBag)
         
-        nextButton.rx.tap
-            .withLatestFrom(confirmEmailAuthViewModel.isAuthCodeValid)
-            .subscribe(onNext: { [weak self] isValid in
-                if isValid {
-                    if let signupCoordinator = self?.signupCoordinator {
-                        signupCoordinator.goToNicknameVC()
-                    }
-                    else if let findPwCoordinator = self?.findPwCoordinator {
-                        findPwCoordinator.goToChangePwVC()
-                    }
-                }
-                else {
-                    self?.authTextField.text = ""
-                    self?.conditionImageView.isHidden = false
-                    self?.conditionLabel.textColor = .red
-                    self?.conditionLabel.text = "인증번호를 다시 확인해주세요!"
-                    self?.conditionLabel.isHidden = false
-                    self?.conditionLabel.snp.remakeConstraints { make in
-                        make.leading.equalTo(self!.conditionImageView.snp.trailing).offset(4*Constants.standardWidth)
-                        make.top.equalTo(self!.authTextField.snp.bottom).offset(4*Constants.standardHeight)
-                    }
+        confirmEmailAuthViewModel.badValue
+            .subscribe(onNext: { [weak self] in
+                self?.authTextField.text = ""
+                self?.conditionImageView.isHidden = false
+                self?.conditionLabel.textColor = .red
+                self?.conditionLabel.text = "인증번호를 다시 확인해주세요!"
+                self?.conditionLabel.isHidden = false
+                self?.conditionLabel.snp.remakeConstraints { make in
+                    make.leading.equalTo(self!.conditionImageView.snp.trailing).offset(4*Constants.standardWidth)
+                    make.top.equalTo(self!.authTextField.snp.bottom).offset(4*Constants.standardHeight)
                 }
             })
+            .disposed(by: disposeBag)
+        
+        nextButton.rx.tap
+            .bind(to: confirmEmailAuthViewModel.nextButtonTapped)
             .disposed(by: disposeBag)
         
         clearButton.rx.tap

@@ -1,14 +1,17 @@
 import RxCocoa
 import UIKit
 import RxSwift
+import RxFlow
 
-class SelectFriendViewModel{
+class SelectFriendViewModel: Stepper{
     let disposeBag = DisposeBag()
     var shareFriendViewModel: ShareFriendViewModel
+    let steps = PublishRelay<Step>()
     
     var allFriends: [Friend] = []
     var tempSelectedFriends: [Friend] = []
     
+    let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
     
     var friendDatas: Driver<[Friend]> {
@@ -24,6 +27,18 @@ class SelectFriendViewModel{
         self.allFriends = shareFriendViewModel.friendsRelay.value
         self.tempSelectedFriends = shareFriendViewModel.friendsRelay.value
         
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.shareFriendViewModel.friendsRelay.accept((self?.tempSelectedFriends)!)
+                self?.steps.accept(PromiseStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        nextButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.popView)
+            })
+            .disposed(by: disposeBag)
     }
     
     func search(query: String?) {

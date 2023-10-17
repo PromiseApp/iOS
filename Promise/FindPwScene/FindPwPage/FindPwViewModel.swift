@@ -1,9 +1,14 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import RxFlow
 
-class FindPwViewModel{
+class FindPwViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
+    
     let emailTextRelay = PublishRelay<String>()
+    let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
     
     var validationResultDriver: Driver<Bool> {
@@ -21,9 +26,27 @@ class FindPwViewModel{
             }
             .asDriver(onErrorDriveWith: .empty())
     }
-    let serverResponseRelay = BehaviorRelay<Bool>(value: true)
+    let serverResponseRelay = BehaviorRelay<Bool>(value: false)
     
-    
+    init(){
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FindPwStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        serverValidationResult
+            .drive(onNext: {[weak self] isValid in
+                if(isValid){
+                    self?.steps.accept(FindPwStep.confirmEmailAuth)
+                }
+                if !isValid {
+                    self?.steps.accept(FindPwStep.inputErrorPopup)
+                }
+                
+            })
+            .disposed(by: disposeBag)
+    }
     
     
     private func isValidEmail(_ email: String) -> Bool {

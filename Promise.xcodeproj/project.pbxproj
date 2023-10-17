@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28A2AA07C5100308CDA /* LoginViewModel.swift */; };
-		3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28C2AA0909B00308CDA /* SignUpViewController.swift */; };
+		3116B28D2AA0909B00308CDA /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28C2AA0909B00308CDA /* SignupViewController.swift */; };
 		311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */; };
 		311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18D2AAB3776007FD9A7 /* NicknameViewModel.swift */; };
 		312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */; };
@@ -33,12 +33,29 @@
 		31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 31258F072ACEB4C8004D764C /* RxDataSources */; };
 		315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */; };
 		315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC862ACEED4600B7DF20 /* FriendViewController.swift */; };
-		317D69CC2AD12AAE004CEE5C /* FriendCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69CB2AD12AAE004CEE5C /* FriendCoordinator.swift */; };
+		317D69CE2AD53031004CEE5C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69CD2AD53031004CEE5C /* User.swift */; };
+		317D69D12ADBA414004CEE5C /* RxFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 317D69D02ADBA414004CEE5C /* RxFlow */; };
+		317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69D22ADBA48B004CEE5C /* AppStep.swift */; };
+		317D69D52ADBA4A1004CEE5C /* AppFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69D42ADBA4A1004CEE5C /* AppFlow.swift */; };
+		317D69D72ADBC53A004CEE5C /* SignupFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69D62ADBC53A004CEE5C /* SignupFlow.swift */; };
+		317D69DB2ADBC57C004CEE5C /* SignupStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69DA2ADBC57C004CEE5C /* SignupStep.swift */; };
+		317D69DE2ADBD3BE004CEE5C /* FindPwStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69DD2ADBD3BE004CEE5C /* FindPwStep.swift */; };
+		317D69E02ADBD3C6004CEE5C /* FindPwFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69DF2ADBD3C6004CEE5C /* FindPwFlow.swift */; };
+		317D69E22ADC04B1004CEE5C /* Sriracha-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 317D69E12ADC04B1004CEE5C /* Sriracha-Regular.ttf */; };
+		317D69E72ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69E62ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift */; };
+		317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69EB2ADC1F5C004CEE5C /* PromiseStep.swift */; };
+		317D69EE2ADC1F63004CEE5C /* PromiseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69ED2ADC1F63004CEE5C /* PromiseFlow.swift */; };
+		317D69F02ADC1F6E004CEE5C /* FriendStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69EF2ADC1F6E004CEE5C /* FriendStep.swift */; };
+		317D69F22ADC1F75004CEE5C /* FriendFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69F12ADC1F75004CEE5C /* FriendFlow.swift */; };
+		317D69F52ADCFDE9004CEE5C /* SocketIO in Frameworks */ = {isa = PBXBuildFile; productRef = 317D69F42ADCFDE9004CEE5C /* SocketIO */; };
+		317D69F72ADCFE0F004CEE5C /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69F62ADCFE0F004CEE5C /* ChatViewController.swift */; };
+		317D69F92ADCFE20004CEE5C /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69F82ADCFE20004CEE5C /* ChatService.swift */; };
+		317D69FB2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69FA2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift */; };
+		317D69FD2ADD18FE004CEE5C /* AddFriendPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69FC2ADD18FE004CEE5C /* AddFriendPopupViewController.swift */; };
+		317D69FF2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69FE2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift */; };
+		317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D6A022ADD2685004CEE5C /* RequestFriendViewModel.swift */; };
+		317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D6A042ADD2695004CEE5C /* RequestFriendViewController.swift */; };
 		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
-		31C33F6F2AB6FEFD00A99D7E /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */; };
-		31C33F722AB7010800A99D7E /* SignupCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F712AB7010800A99D7E /* SignupCoordinator.swift */; };
-		31C33F742AB7011F00A99D7E /* FindPwCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */; };
-		31C33F762AB7012900A99D7E /* PromiseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */; };
 		31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F782AB8093E00A99D7E /* TabBarController.swift */; };
 		31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */; };
 		31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */; };
@@ -52,13 +69,12 @@
 		31C33F9A2ABD4FCE00A99D7E /* RxAlamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 31C33F992ABD4FCE00A99D7E /* RxAlamofire */; };
 		31C33F9D2ABD527300A99D7E /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F9C2ABD527300A99D7E /* Provider.swift */; };
 		31C33FA12ABD5EA700A99D7E /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33FA02ABD5EA700A99D7E /* LoginModel.swift */; };
-		31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */; };
+		31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignupViewModel.swift */; };
 		31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */; };
 		31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */; };
 		31F1A0D82AADD22300B99DC4 /* ChangePwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */; };
 		31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */; };
-		31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */; };
-		31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */; };
+		31F1A0DD2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0DC2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift */; };
 		31F1A0E22AAEF7C600B99DC4 /* PromiseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E12AAEF7C600B99DC4 /* PromiseViewController.swift */; };
 		31F1A0E42AAEF7E000B99DC4 /* PromiseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E32AAEF7E000B99DC4 /* PromiseViewModel.swift */; };
 		31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */; };
@@ -76,7 +92,7 @@
 
 /* Begin PBXFileReference section */
 		3116B28A2AA07C5100308CDA /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
-		3116B28C2AA0909B00308CDA /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		3116B28C2AA0909B00308CDA /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewController.swift; sourceTree = "<group>"; };
 		311CA18D2AAB3776007FD9A7 /* NicknameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameViewModel.swift; sourceTree = "<group>"; };
 		312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthViewController.swift; sourceTree = "<group>"; };
@@ -97,12 +113,27 @@
 		31258F032ACE8C9F004D764C /* GetPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPromise.swift; sourceTree = "<group>"; };
 		315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		315BDC862ACEED4600B7DF20 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
-		317D69CB2AD12AAE004CEE5C /* FriendCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCoordinator.swift; sourceTree = "<group>"; };
+		317D69CD2AD53031004CEE5C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		317D69D22ADBA48B004CEE5C /* AppStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
+		317D69D42ADBA4A1004CEE5C /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
+		317D69D62ADBC53A004CEE5C /* SignupFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupFlow.swift; sourceTree = "<group>"; };
+		317D69DA2ADBC57C004CEE5C /* SignupStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupStep.swift; sourceTree = "<group>"; };
+		317D69DD2ADBD3BE004CEE5C /* FindPwStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwStep.swift; sourceTree = "<group>"; };
+		317D69DF2ADBD3C6004CEE5C /* FindPwFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwFlow.swift; sourceTree = "<group>"; };
+		317D69E12ADC04B1004CEE5C /* Sriracha-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sriracha-Regular.ttf"; path = "../../Downloads/Sriracha/Sriracha-Regular.ttf"; sourceTree = "<group>"; };
+		317D69E62ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailAuthInFindPwViewController.swift; sourceTree = "<group>"; };
+		317D69EB2ADC1F5C004CEE5C /* PromiseStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseStep.swift; sourceTree = "<group>"; };
+		317D69ED2ADC1F63004CEE5C /* PromiseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseFlow.swift; sourceTree = "<group>"; };
+		317D69EF2ADC1F6E004CEE5C /* FriendStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendStep.swift; sourceTree = "<group>"; };
+		317D69F12ADC1F75004CEE5C /* FriendFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFlow.swift; sourceTree = "<group>"; };
+		317D69F62ADCFE0F004CEE5C /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		317D69F82ADCFE20004CEE5C /* ChatService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
+		317D69FA2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailDuplicateErrorPopupViewController.swift; sourceTree = "<group>"; };
+		317D69FC2ADD18FE004CEE5C /* AddFriendPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFriendPopupViewController.swift; sourceTree = "<group>"; };
+		317D69FE2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectFriendPopupViewController.swift; sourceTree = "<group>"; };
+		317D6A022ADD2685004CEE5C /* RequestFriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFriendViewModel.swift; sourceTree = "<group>"; };
+		317D6A042ADD2695004CEE5C /* RequestFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFriendViewController.swift; sourceTree = "<group>"; };
 		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
-		31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
-		31C33F712AB7010800A99D7E /* SignupCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCoordinator.swift; sourceTree = "<group>"; };
-		31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwCoordinator.swift; sourceTree = "<group>"; };
-		31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseCoordinator.swift; sourceTree = "<group>"; };
 		31C33F782AB8093E00A99D7E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
 		31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
@@ -115,13 +146,12 @@
 		31C33F962ABD4F6800A99D7E /* LoginAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAPI.swift; sourceTree = "<group>"; };
 		31C33F9C2ABD527300A99D7E /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		31C33FA02ABD5EA700A99D7E /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
-		31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		31F1A0CD2AAD896400B99DC4 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
 		31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewModel.swift; sourceTree = "<group>"; };
 		31F1A0D72AADD22300B99DC4 /* ChangePwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwViewController.swift; sourceTree = "<group>"; };
 		31F1A0D92AADD23000B99DC4 /* ChangePwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePwViewModel.swift; sourceTree = "<group>"; };
-		31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpViewController.swift; sourceTree = "<group>"; };
-		31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopUpView.swift; sourceTree = "<group>"; };
+		31F1A0DC2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputErrorPopUpViewController.swift; sourceTree = "<group>"; };
 		31F1A0E12AAEF7C600B99DC4 /* PromiseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseViewController.swift; sourceTree = "<group>"; };
 		31F1A0E32AAEF7E000B99DC4 /* PromiseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseViewModel.swift; sourceTree = "<group>"; };
 		31F1A0E62AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitedCollectionViewModel.swift; sourceTree = "<group>"; };
@@ -145,6 +175,8 @@
 				312476C42AA05E4D00D318C7 /* Then in Frameworks */,
 				312476BE2AA05E1C00D318C7 /* RxRelay in Frameworks */,
 				312476C12AA05E3900D318C7 /* SnapKit in Frameworks */,
+				317D69F52ADCFDE9004CEE5C /* SocketIO in Frameworks */,
+				317D69D12ADBA414004CEE5C /* RxFlow in Frameworks */,
 				31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */,
 				312476BC2AA05E1C00D318C7 /* RxCocoa in Frameworks */,
 				31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */,
@@ -218,6 +250,8 @@
 				31258F052ACE9622004D764C /* FriendPage */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
 				31C33F882AB977D400A99D7E /* TestViewController.swift */,
+				317D69F62ADCFE0F004CEE5C /* ChatViewController.swift */,
+				317D69F82ADCFE20004CEE5C /* ChatService.swift */,
 			);
 			path = Promise;
 			sourceTree = "<group>";
@@ -243,10 +277,81 @@
 		31258F052ACE9622004D764C /* FriendPage */ = {
 			isa = PBXGroup;
 			children = (
+				317D6A002ADD2651004CEE5C /* FriendPage */,
+				317D6A012ADD265D004CEE5C /* RequestFriendPage */,
+			);
+			path = FriendPage;
+			sourceTree = "<group>";
+		};
+		317D69D82ADBC54F004CEE5C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				317D69D22ADBA48B004CEE5C /* AppStep.swift */,
+				317D69D42ADBA4A1004CEE5C /* AppFlow.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		317D69D92ADBC566004CEE5C /* SignUp */ = {
+			isa = PBXGroup;
+			children = (
+				317D69DA2ADBC57C004CEE5C /* SignupStep.swift */,
+				317D69D62ADBC53A004CEE5C /* SignupFlow.swift */,
+			);
+			path = SignUp;
+			sourceTree = "<group>";
+		};
+		317D69DC2ADBD387004CEE5C /* FindPw */ = {
+			isa = PBXGroup;
+			children = (
+				317D69DD2ADBD3BE004CEE5C /* FindPwStep.swift */,
+				317D69DF2ADBD3C6004CEE5C /* FindPwFlow.swift */,
+			);
+			path = FindPw;
+			sourceTree = "<group>";
+		};
+		317D69E32ADC14F5004CEE5C /* ConfirmEmailAuthInFindPwPage */ = {
+			isa = PBXGroup;
+			children = (
+				317D69E62ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift */,
+			);
+			path = ConfirmEmailAuthInFindPwPage;
+			sourceTree = "<group>";
+		};
+		317D69E82ADC1F34004CEE5C /* Promise */ = {
+			isa = PBXGroup;
+			children = (
+				317D69EB2ADC1F5C004CEE5C /* PromiseStep.swift */,
+				317D69ED2ADC1F63004CEE5C /* PromiseFlow.swift */,
+			);
+			path = Promise;
+			sourceTree = "<group>";
+		};
+		317D69EA2ADC1F48004CEE5C /* Friend */ = {
+			isa = PBXGroup;
+			children = (
+				317D69EF2ADC1F6E004CEE5C /* FriendStep.swift */,
+				317D69F12ADC1F75004CEE5C /* FriendFlow.swift */,
+			);
+			path = Friend;
+			sourceTree = "<group>";
+		};
+		317D6A002ADD2651004CEE5C /* FriendPage */ = {
+			isa = PBXGroup;
+			children = (
 				315BDC862ACEED4600B7DF20 /* FriendViewController.swift */,
 				315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */,
 			);
 			path = FriendPage;
+			sourceTree = "<group>";
+		};
+		317D6A012ADD265D004CEE5C /* RequestFriendPage */ = {
+			isa = PBXGroup;
+			children = (
+				317D6A042ADD2695004CEE5C /* RequestFriendViewController.swift */,
+				317D6A022ADD2685004CEE5C /* RequestFriendViewModel.swift */,
+			);
+			path = RequestFriendPage;
 			sourceTree = "<group>";
 		};
 		31C33F6B2AB6FE3F00A99D7E /* Application */ = {
@@ -271,11 +376,11 @@
 		31C33F6D2AB6FEC500A99D7E /* Coordinator */ = {
 			isa = PBXGroup;
 			children = (
-				31C33F6E2AB6FEFD00A99D7E /* MainCoordinator.swift */,
-				31C33F712AB7010800A99D7E /* SignupCoordinator.swift */,
-				31C33F732AB7011F00A99D7E /* FindPwCoordinator.swift */,
-				31C33F752AB7012900A99D7E /* PromiseCoordinator.swift */,
-				317D69CB2AD12AAE004CEE5C /* FriendCoordinator.swift */,
+				317D69D82ADBC54F004CEE5C /* App */,
+				317D69D92ADBC566004CEE5C /* SignUp */,
+				317D69DC2ADBD387004CEE5C /* FindPw */,
+				317D69E82ADC1F34004CEE5C /* Promise */,
+				317D69EA2ADC1F48004CEE5C /* Friend */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -304,6 +409,7 @@
 			isa = PBXGroup;
 			children = (
 				31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */,
+				317D69E12ADC04B1004CEE5C /* Sriracha-Regular.ttf */,
 				31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */,
 				31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */,
 			);
@@ -377,8 +483,8 @@
 			isa = PBXGroup;
 			children = (
 				31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */,
-				3116B28C2AA0909B00308CDA /* SignUpViewController.swift */,
-				31F1A0CD2AAD896400B99DC4 /* SignUpViewModel.swift */,
+				3116B28C2AA0909B00308CDA /* SignupViewController.swift */,
+				31F1A0CD2AAD896400B99DC4 /* SignupViewModel.swift */,
 			);
 			path = SignUpPage;
 			sourceTree = "<group>";
@@ -396,6 +502,7 @@
 			isa = PBXGroup;
 			children = (
 				31C33F832AB81A9C00A99D7E /* FindPwPage */,
+				317D69E32ADC14F5004CEE5C /* ConfirmEmailAuthInFindPwPage */,
 				31C33F852AB8202600A99D7E /* ChangePwPage */,
 			);
 			path = FindPwScene;
@@ -404,8 +511,10 @@
 		31F1A0DB2AADD3AE00B99DC4 /* PopUp */ = {
 			isa = PBXGroup;
 			children = (
-				31F1A0DC2AADD3C500B99DC4 /* PopUpViewController.swift */,
-				31F1A0DE2AADD3D000B99DC4 /* PopUpView.swift */,
+				31F1A0DC2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift */,
+				317D69FA2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift */,
+				317D69FC2ADD18FE004CEE5C /* AddFriendPopupViewController.swift */,
+				317D69FE2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift */,
 			);
 			path = PopUp;
 			sourceTree = "<group>";
@@ -459,6 +568,7 @@
 				31F1A0F92AB4769C00B99DC4 /* Friend.swift */,
 				31C33F692AB5A94E00A99D7E /* Promise.swift */,
 				31258F032ACE8C9F004D764C /* GetPromise.swift */,
+				317D69CD2AD53031004CEE5C /* User.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -488,6 +598,8 @@
 				31C33F8B2AB97A0F00A99D7E /* Alamofire */,
 				31C33F992ABD4FCE00A99D7E /* RxAlamofire */,
 				31258F072ACEB4C8004D764C /* RxDataSources */,
+				317D69D02ADBA414004CEE5C /* RxFlow */,
+				317D69F42ADCFDE9004CEE5C /* SocketIO */,
 			);
 			productName = Promise;
 			productReference = 312476A12AA0588C00D318C7 /* Promise.app */;
@@ -524,6 +636,8 @@
 				31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */,
 				31C33F982ABD4FCE00A99D7E /* XCRemoteSwiftPackageReference "RxAlamofire" */,
 				31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */,
+				317D69F32ADCFDE9004CEE5C /* XCRemoteSwiftPackageReference "socket" */,
 			);
 			productRefGroup = 312476A22AA0588C00D318C7 /* Products */;
 			projectDirPath = "";
@@ -539,6 +653,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				317D69E22ADC04B1004CEE5C /* Sriracha-Regular.ttf in Resources */,
 				312476B12AA0588D00D318C7 /* LaunchScreen.storyboard in Resources */,
 				31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */,
 				31C33F822AB81A1500A99D7E /* Pretendard-SemiBold.otf in Resources */,
@@ -555,57 +670,70 @@
 			buildActionMask = 2147483647;
 			files = (
 				31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */,
-				31F1A0DF2AADD3D000B99DC4 /* PopUpView.swift in Sources */,
-				31C33F742AB7011F00A99D7E /* FindPwCoordinator.swift in Sources */,
+				317D69DB2ADBC57C004CEE5C /* SignupStep.swift in Sources */,
+				317D69E72ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift in Sources */,
 				31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */,
 				31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */,
 				31F1A0E22AAEF7C600B99DC4 /* PromiseViewController.swift in Sources */,
 				315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
+				317D69FF2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift in Sources */,
+				317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */,
 				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
+				317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */,
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */,
+				317D69FD2ADD18FE004CEE5C /* AddFriendPopupViewController.swift in Sources */,
+				317D69E02ADBD3C6004CEE5C /* FindPwFlow.swift in Sources */,
+				317D69DE2ADBD3BE004CEE5C /* FindPwStep.swift in Sources */,
 				31F1A0E72AB03E8C00B99DC4 /* LimitedCollectionViewModel.swift in Sources */,
 				31C33F972ABD4F6800A99D7E /* LoginAPI.swift in Sources */,
 				31C33FA12ABD5EA700A99D7E /* LoginModel.swift in Sources */,
+				317D69F92ADCFE20004CEE5C /* ChatService.swift in Sources */,
 				31C33F9D2ABD527300A99D7E /* Provider.swift in Sources */,
 				31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */,
-				317D69CC2AD12AAE004CEE5C /* FriendCoordinator.swift in Sources */,
-				3116B28D2AA0909B00308CDA /* SignUpViewController.swift in Sources */,
+				3116B28D2AA0909B00308CDA /* SignupViewController.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
 				31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */,
 				315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */,
+				317D69F22ADC1F75004CEE5C /* FriendFlow.swift in Sources */,
 				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
-				31C33F6F2AB6FEFD00A99D7E /* MainCoordinator.swift in Sources */,
+				317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
-				31F1A0CE2AAD896400B99DC4 /* SignUpViewModel.swift in Sources */,
+				31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */,
+				317D69F72ADCFE0F004CEE5C /* ChatViewController.swift in Sources */,
 				31F1A0D82AADD22300B99DC4 /* ChangePwViewController.swift in Sources */,
 				31F1A0DA2AADD23000B99DC4 /* ChangePwViewModel.swift in Sources */,
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
+				317D69CE2AD53031004CEE5C /* User.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
 				31C33F952ABD4F3500A99D7E /* Responsable.swift in Sources */,
 				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
+				317D69FB2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */,
+				317D69F02ADC1F6E004CEE5C /* FriendStep.swift in Sources */,
+				317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
-				31F1A0DD2AADD3C500B99DC4 /* PopUpViewController.swift in Sources */,
+				31F1A0DD2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift in Sources */,
 				31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */,
 				31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */,
-				31C33F722AB7010800A99D7E /* SignupCoordinator.swift in Sources */,
 				31258F002ACE7F29004D764C /* PromiseHeaderView.swift in Sources */,
 				31258F042ACE8C9F004D764C /* GetPromise.swift in Sources */,
 				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
-				31C33F762AB7012900A99D7E /* PromiseCoordinator.swift in Sources */,
+				317D69D72ADBC53A004CEE5C /* SignupFlow.swift in Sources */,
 				31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */,
 				31F1A0E42AAEF7E000B99DC4 /* PromiseViewModel.swift in Sources */,
+				317D69D52ADBA4A1004CEE5C /* AppFlow.swift in Sources */,
 				31F1A0F52AB46CA400B99DC4 /* SelectFriendViewController.swift in Sources */,
 				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,
+				317D69EE2ADC1F63004CEE5C /* PromiseFlow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,6 +977,22 @@
 				kind = branch;
 			};
 		};
+		317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxFlow.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		317D69F32ADCFDE9004CEE5C /* XCRemoteSwiftPackageReference "socket" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/socketio/socket.io-client-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -897,6 +1041,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		317D69D02ADBA414004CEE5C /* RxFlow */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */;
+			productName = RxFlow;
+		};
+		317D69F42ADCFDE9004CEE5C /* SocketIO */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 317D69F32ADCFDE9004CEE5C /* XCRemoteSwiftPackageReference "socket" */;
+			productName = SocketIO;
 		};
 		31C33F8B2AB97A0F00A99D7E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

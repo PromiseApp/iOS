@@ -7,21 +7,20 @@ import SnapKit
 class FriendViewController: UIViewController {
     var disposeBag = DisposeBag()
     var friendViewModel:FriendViewModel
-    weak var friendCoordinator: FriendCoordinator?
     
     let titleLabel = UILabel()
-    let addFriendButton = UIButton()
+    let settingButton = UIButton()
     let separateView = UIView()
+    let settingView = UIView()
+    let addFriendButton = UIButton()
+    let secSeparateView = UIView()
+    let requestFriendButton = UIButton()
     lazy var searchImageView = UIImageView()
     let searchTextField = UITextField()
-    let editButton = UIButton()
-    let deleteButton = UIButton()
-    let cancelButton = UIButton()
     lazy var tableView = UITableView()
         
-    init(friendViewModel: FriendViewModel, friendCoordinator: FriendCoordinator?) {
+    init(friendViewModel: FriendViewModel) {
         self.friendViewModel = friendViewModel
-        self.friendCoordinator = friendCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -31,8 +30,7 @@ class FriendViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
-
+        
         bind()
         attribute()
         layout()
@@ -41,13 +39,20 @@ class FriendViewController: UIViewController {
     
     
     private func bind(){
-        
-        addFriendButton.rx.tap
-            .subscribe(onNext: {
-                
-            })
+
+        settingButton.rx.tap
+            .map { !self.settingView.isHidden }
+            .bind(to: settingView.rx.isHidden)
             .disposed(by: disposeBag)
 
+        
+        addFriendButton.rx.tap
+            .bind(to: friendViewModel.addFriendButtonTapped)
+            .disposed(by: disposeBag)
+        
+        requestFriendButton.rx.tap
+            .bind(to: friendViewModel.requestFriendButtonTapped)
+            .disposed(by: disposeBag)
 
         searchTextField.rx.text
             .orEmpty
@@ -61,27 +66,48 @@ class FriendViewController: UIViewController {
         friendViewModel.friendDatas
             .drive(tableView.rx.items(cellIdentifier: "FriendTableViewCell", cellType: FriendTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
+                cell.isHiddenSelectImageView(with: true)
             }
             .disposed(by: disposeBag)
 
-        tableView.rx.itemSelected
-            .bind { [weak self] indexPath in
-                self?.friendViewModel.toggleSelection(at: indexPath.row)
-            }
-            .disposed(by: disposeBag)
-        
     }
     
     private func attribute(){
-        view.backgroundColor = .white
+        self.view.backgroundColor = .white
         
         titleLabel.do{
             $0.text = "친구"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         
+        settingButton.do{
+            $0.setImage(UIImage(named: "setting"), for: .normal)
+        }
+        
+        settingView.do{
+            $0.layer.cornerRadius = 5
+            $0.layer.shadowOffset = CGSize(width: 5, height: 5)
+            $0.layer.shadowRadius = 5
+            $0.layer.shadowColor = UIColor.black.cgColor
+            $0.layer.shadowOpacity = 0.5
+            $0.backgroundColor = UIColor(named: "prLight")
+            $0.isHidden = true
+        }
+        
         addFriendButton.do{
-            $0.setImage(UIImage(named: "addFriend"), for: .normal)
+            $0.setTitle("친구 추가", for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
+            $0.setTitleColor(.black, for: .normal)
+        }
+        
+        secSeparateView.do{
+            $0.backgroundColor = UIColor(named: "line")
+        }
+        
+        requestFriendButton.do{
+            $0.setTitle("친구 요청", for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
+            $0.setTitleColor(.black, for: .normal)
         }
         
         separateView.do{
@@ -100,26 +126,6 @@ class FriendViewController: UIViewController {
             $0.layer.cornerRadius = 20*Constants.standardHeight
         }
         
-        editButton.do{
-            $0.setTitle("편집", for: .normal)
-            $0.setTitleColor(UIColor(named: "greyTwo"), for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
-        }
-        
-        deleteButton.do{
-            $0.setTitle("삭제", for: .normal)
-            $0.setTitleColor(UIColor(named: "greyTwo"), for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
-            $0.isHidden = true
-        }
-        
-        cancelButton.do{
-            $0.setTitle("취소", for: .normal)
-            $0.setTitleColor(UIColor(named: "greyTwo"), for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
-            $0.isHidden = true
-        }
-        
         tableView.do{
             $0.separatorStyle = .none
             $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
@@ -128,7 +134,7 @@ class FriendViewController: UIViewController {
     }
     
     private func layout(){
-        [titleLabel,addFriendButton,separateView,searchTextField,searchImageView,editButton,deleteButton,cancelButton,tableView]
+        [titleLabel,settingButton,separateView,searchTextField,searchImageView,settingView,tableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -136,10 +142,17 @@ class FriendViewController: UIViewController {
             make.top.equalToSuperview().offset(56*Constants.standardHeight)
         }
         
-        addFriendButton.snp.makeConstraints { make in
+        settingButton.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
             make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
             make.centerY.equalTo(titleLabel)
+        }
+        
+        settingView.snp.makeConstraints { make in
+            make.width.equalTo(120*Constants.standardWidth)
+            make.height.equalTo(65*Constants.standardHeight)
+            make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
+            make.top.equalTo(settingButton.snp.bottom).offset(4*Constants.standardHeight)
         }
         
         separateView.snp.makeConstraints { make in
@@ -162,28 +175,36 @@ class FriendViewController: UIViewController {
             make.centerY.equalTo(searchTextField)
         }
         
-        editButton.snp.makeConstraints { make in
-            make.trailing.equalTo(searchTextField.snp.trailing)
-            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
-        }
-        
-        cancelButton.snp.makeConstraints { make in
-            make.trailing.equalTo(searchTextField.snp.trailing)
-            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
-        }
-        
-        deleteButton.snp.makeConstraints { make in
-            make.trailing.equalTo(searchTextField.snp.leading).offset(8*Constants.standardWidth)
-            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
-        }
-        
         tableView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.leading.equalToSuperview()
-            make.top.equalTo(editButton.snp.bottom)
+            make.top.equalTo(searchTextField.snp.bottom).offset(16*Constants.standardHeight)
             make.bottom.equalToSuperview()
         }
         
+        [addFriendButton,secSeparateView,requestFriendButton]
+            .forEach{settingView.addSubview($0)}
+
+        addFriendButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(32*Constants.standardHeight)
+            make.leading.equalToSuperview()
+            make.top.equalToSuperview()
+        }
+
+        secSeparateView.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(1*Constants.standardHeight)
+            make.leading.equalToSuperview()
+            make.top.equalTo(addFriendButton.snp.bottom)
+        }
+
+        requestFriendButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(32*Constants.standardHeight)
+            make.leading.equalToSuperview()
+            make.top.equalTo(secSeparateView.snp.bottom)
+        }
         
     }
     

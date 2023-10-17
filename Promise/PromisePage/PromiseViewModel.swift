@@ -1,9 +1,15 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import RxFlow
 
-class PromiseViewModel{
+class PromiseViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
+    
     let yearAndMonth: BehaviorSubject<(year: Int, month: Int)> = BehaviorSubject(value: (Calendar.current.component(.year, from: Date()), Calendar.current.component(.month, from: Date())))
+    
+    let plusButtonTapped = PublishRelay<Void>()
 
     let promisesRelay = BehaviorRelay<[GetPromise]>(value: [])
     let cntPromise = BehaviorRelay<Int>(value: 0)
@@ -27,6 +33,13 @@ class PromiseViewModel{
         cntPromise.accept(promisesRelay.value.map { $0.cntPromise }.reduce(0, +))
         
         promiseDatas = promisesRelay.asDriver(onErrorDriveWith: .empty())
+        
+        plusButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.makePromise)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     func toggleSectionExpansion(at section: Int) {

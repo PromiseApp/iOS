@@ -73,7 +73,10 @@ class FriendTableViewCell: UITableViewCell {
         nameLabel.text = model.name
         levelLabel.text = "Lv " + model.level
         selectImageView.image = model.isSelected ? UIImage(named: "select") : UIImage(named: "unselect")
-
+    }
+    
+    func isHiddenSelectImageView(with bool: Bool){
+        selectImageView.isHidden = bool
     }
     
 }

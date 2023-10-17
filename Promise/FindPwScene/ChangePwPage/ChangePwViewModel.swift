@@ -1,14 +1,22 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 
-class ChangePwViewModel{
+class ChangePwViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
+    
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
     
+    let leftButtonTapped = PublishRelay<Void>()
+    let nextButtonTapped = PublishRelay<Void>()
+    
     var isPasswordValid: Driver<Bool> {
         return pwTextRelay.asDriver()
-            .map { [weak self] in self?.validatePassword($0) ?? false }
+            .map { [weak self] in self?.validatePassword($0) ?? false
+            }
     }
     
     var isPasswordMatching: Driver<Bool> {
@@ -31,6 +39,20 @@ class ChangePwViewModel{
             .map { isPasswordValid, isPasswordMatching in
                 return isPasswordValid && isPasswordMatching
             }
+    }
+    
+    init(){
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FindPwStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        nextButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FindPwStep.findPwCompleted)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func validatePassword(_ text: String) -> Bool {

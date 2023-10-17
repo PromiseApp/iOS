@@ -7,7 +7,6 @@ import SnapKit
 class EmailAuthViewController: UIViewController {
     let disposeBag = DisposeBag()
     var emailAuthViewModel:EmailAuthViewModel
-    weak var signupCoordinator: SignupCoordinator?
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -17,9 +16,8 @@ class EmailAuthViewController: UIViewController {
     let emailTextField = UITextField()
     let nextButton = UIButton()
     
-    init(emailAuthViewModel: EmailAuthViewModel, signupCoordinator: SignupCoordinator) {
+    init(emailAuthViewModel: EmailAuthViewModel) {
         self.emailAuthViewModel = emailAuthViewModel
-        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -29,7 +27,6 @@ class EmailAuthViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
 
         bind()
         attribute()
@@ -39,9 +36,7 @@ class EmailAuthViewController: UIViewController {
     private func bind(){
         
         leftButton.rx.tap
-            .subscribe(onNext: { [weak self] _ in
-                self?.signupCoordinator?.popToVC()
-            })
+            .bind(to: emailAuthViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
         
@@ -65,19 +60,6 @@ class EmailAuthViewController: UIViewController {
             .bind(to: emailAuthViewModel.nextButtonTapped)
             .disposed(by: disposeBag)
         
-        emailAuthViewModel.serverValidationResult
-            .drive(onNext: {[weak self] isValid in
-                if(isValid){
-                    
-                    self?.signupCoordinator?.goToConfirmEmailAuthVC()
-                }
-                if !isValid {
-                    let popupViewController = PopUpViewController(title: "입력오류", desc: "입력한 정보를 다시 확인해주세요!")
-                    popupViewController.modalPresentationStyle = .overFullScreen
-                    self?.present(popupViewController, animated: false)
-                }
-                
-            })
         
     }
     

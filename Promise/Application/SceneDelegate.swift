@@ -1,37 +1,31 @@
-//
-//  SceneDelegate.swift
-//  Promise
-//
-//  Created by 박중선 on 2023/08/31.
-//
-
 import UIKit
 import Photos
+import RxFlow
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
-    var mainCoordinator: MainCoordinator?
+    var coordinator = FlowCoordinator()
+    var appFlow: AppFlow!
     //UserDefaults.standard.set(true, forKey: "IsLoggedIn") 자동 로그인 나중에 설정
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let navController = UINavigationController()
-        //let rootVC = LoginViewController(loginViewModel: LoginViewModel())
-        //let rootVC = EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
-        //let rootVC = NicknameViewController(nicknameViewModel: NicknameViewModel())
-        //let rootVC = SignUpViewController(signUpViewModel: SignUpViewModel())
-        //let rootVC = PromiseViewController(promiseViewModel: PromiseViewModel())
-        //let rootVC = MakePromiseViewController(makePromiseViewModel: MakePromiseViewModel())
-        //let rootVC = SelectFriendViewController(selectFriendViewModel: SelectFriendViewModel(shareFriendViewModel: ShareFriendViewModel()))
-        //let rootVC = FriendViewController(friendViewModel: FriendViewModel())
-        mainCoordinator = MainCoordinator(navigationController: navController)
-        mainCoordinator?.goToMain()
-        window?.rootViewController = navController
-        //let rootVC = TestViewController()
-        //window?.rootViewController = UINavigationController(rootViewController: rootVC)
-        window?.makeKeyAndVisible()
+        
+        appFlow = AppFlow()
+        
+        Flows.use(appFlow, when: .created) { [unowned self] root in
+            self.window?.rootViewController = root
+            self.window?.makeKeyAndVisible()
+        }
+
+        coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
+        
+//        let VC = UINavigationController(rootViewController: ChatViewController())
+//        self.window?.rootViewController = VC
+//        self.window?.makeKeyAndVisible()
+        
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {
         case .denied:

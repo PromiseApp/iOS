@@ -6,10 +6,8 @@ import SnapKit
 import Then
 
 class LimitedViewController: UIViewController {
-    
-    private let limitedViewModel: LimitedViewModel
     private let disposeBag = DisposeBag()
-    weak var signupCoordinator: SignupCoordinator?
+    private let limitedViewModel: LimitedViewModel
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
@@ -22,9 +20,8 @@ class LimitedViewController: UIViewController {
         $0.minimumInteritemSpacing = 2
     })
     
-    init(limitedViewModel: LimitedViewModel, signupCoordinator: SignupCoordinator?) {
+    init(limitedViewModel: LimitedViewModel) {
         self.limitedViewModel = limitedViewModel
-        self.signupCoordinator = signupCoordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -54,9 +51,7 @@ class LimitedViewController: UIViewController {
     private func bind() {
         
         leftButton.rx.tap
-            .subscribe(onNext: {[weak self] _ in
-                self?.signupCoordinator?.dismissToVC()
-            })
+            .bind(to: limitedViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
         limitedViewModel.photos
@@ -73,7 +68,7 @@ class LimitedViewController: UIViewController {
                 PHImageManager.default().requestImage(for: asset!, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { image, _ in
                     guard let image = image else { return }
                     self?.limitedViewModel.selectedPhoto.onNext(image)
-                    self?.signupCoordinator?.dismissToVC()
+                    self?.limitedViewModel.itemSelected.accept(())
                 }
             })
             .disposed(by: disposeBag)

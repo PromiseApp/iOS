@@ -8,8 +8,8 @@ import Then
 class PromiseViewController: UIViewController {
     let disposeBag = DisposeBag()
     var promiseViewModel: PromiseViewModel
-    weak var promiseCoordinator: PromiseCoordinator?
     
+    let logoLabel = UILabel()
     let bellButton = UIButton()
     let firstSeparateView = UIView()
     let secSeparateView = UIView()
@@ -27,9 +27,8 @@ class PromiseViewController: UIViewController {
     var months: [Int] = Array(1...12)
     
     
-    init(promiseViewModel: PromiseViewModel, promiseCoordinator: PromiseCoordinator?) {
+    init(promiseViewModel: PromiseViewModel) {
         self.promiseViewModel = promiseViewModel
-        self.promiseCoordinator = promiseCoordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,7 +38,6 @@ class PromiseViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.isHidden = true
         
         bind()
         attribute()
@@ -60,9 +58,7 @@ class PromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         plusButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.promiseCoordinator?.goToMakePromiseVC()
-            })
+            .bind(to: promiseViewModel.plusButtonTapped)
             .disposed(by: disposeBag)
         
         tableView.rx.setDelegate(self)
@@ -85,7 +81,6 @@ class PromiseViewController: UIViewController {
 
         promiseViewModel.cntPromise
             .subscribe(onNext: { [weak self] cnt in
-                print(cnt)
                 if(cnt == 0){
                     self?.cntLabel.text = "아직 약속이 없네요"
                     self?.tableView.isHidden = true
@@ -109,6 +104,12 @@ class PromiseViewController: UIViewController {
     
     private func attribute(){
         view.backgroundColor = .white
+        
+        logoLabel.do{
+            $0.text = "WeMeet"
+            $0.font = UIFont(name: "Sriracha-Regular", size: 24*Constants.standartFont)
+            $0.textColor = UIColor(named: "prStrong")
+        }
         
         bellButton.do{
             $0.setImage(UIImage(named: "bell"), for: .normal)
@@ -166,13 +167,18 @@ class PromiseViewController: UIViewController {
     }
     
     private func layout(){
-        [bellButton,dateLabel,downButton,firstSeparateView,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,tableView,plusButton]
+        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,tableView,plusButton]
             .forEach{view.addSubview($0)}
+        
+        logoLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(12*Constants.standardHeight)
+        }
         
         bellButton.snp.makeConstraints { make in
             make.width.height.equalTo(36*Constants.standardHeight)
             make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(14*Constants.standardHeight)
+            make.centerY.equalTo(logoLabel)
         }
         
         dateLabel.snp.makeConstraints { make in

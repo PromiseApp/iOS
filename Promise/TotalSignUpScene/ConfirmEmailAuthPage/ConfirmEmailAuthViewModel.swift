@@ -1,9 +1,11 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RxFlow
 
-class ConfirmEmailAuthViewModel{
+class ConfirmEmailAuthViewModel: Stepper{
     var disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
     
     private let timerSubject = PublishSubject<String>()
     var timerDriver: Driver<String> {
@@ -13,7 +15,12 @@ class ConfirmEmailAuthViewModel{
     
     let authTextRelay = BehaviorRelay<String>(value: "")
     let serverAuthCode = BehaviorRelay<String>(value: "123456")
+    let leftButtonTapped = PublishRelay<Void>()
+    let leftButtonInFindPwTapped = PublishRelay<Void>()
+    let nextButtonTapped = PublishRelay<Void>()
+    let nextButtonInFindPwTapped = PublishRelay<Void>()
     
+    let badValue = PublishRelay<Void>()
     var isNextButtonEnabled: Driver<Bool> {
         return authTextRelay.asDriver(onErrorDriveWith: .empty())
             .map{ $0.count == 6 && $0.allSatisfy { $0.isNumber } }
@@ -33,6 +40,44 @@ class ConfirmEmailAuthViewModel{
         startTimerRelay
             .subscribe(onNext: { [weak self] in
                 self?.startTimer()
+            })
+            .disposed(by: disposeBag)
+        
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(SignupStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        leftButtonInFindPwTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FindPwStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        nextButtonTapped
+            .withLatestFrom(isAuthCodeValid)
+            .subscribe(onNext: { [weak self] isValid in
+                print(isValid)
+                if(isValid){
+                    self?.steps.accept(SignupStep.nickname)
+                }
+                else{
+                    self?.badValue.accept(())
+                }
+            })
+            .disposed(by: disposeBag)
+            
+        nextButtonInFindPwTapped
+            .withLatestFrom(isAuthCodeValid)
+            .subscribe(onNext: { [weak self] isValid in
+                print(isValid)
+                if(isValid){
+                    self?.steps.accept(FindPwStep.changePw)
+                }
+                else{
+                    self?.badValue.accept(())
+                }
             })
             .disposed(by: disposeBag)
     }

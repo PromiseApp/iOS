@@ -1,9 +1,13 @@
 import RxSwift
 import Foundation
 import RxCocoa
+import RxFlow
 
-class EmailAuthViewModel {
+class EmailAuthViewModel: Stepper {
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
     let emailTextRelay = PublishRelay<String>()
+    let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
     
     var validationResultDriver: Driver<Bool> {
@@ -23,7 +27,25 @@ class EmailAuthViewModel {
     }
     let serverResponseRelay = BehaviorRelay<Bool>(value: true)
     
-    
+    init(){
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(SignupStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        serverValidationResult
+            .drive(onNext: {[weak self] isValid in
+                if(isValid){
+                    self?.steps.accept(SignupStep.confirmEmailAuth)
+                }
+                if !isValid {
+                    self?.steps.accept(SignupStep.inputErrorPopup)
+                }
+                
+            })
+            .disposed(by: disposeBag)
+    }
     
     
     private func isValidEmail(_ email: String) -> Bool {

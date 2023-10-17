@@ -1,13 +1,18 @@
 import Foundation
 import RxCocoa
 import RxSwift
+import RxFlow
 
-class NicknameViewModel{
+class NicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
     
     let nicknameTextRelay = BehaviorRelay<String>(value: "")
     let duplicateButtonTapped = PublishRelay<Void>()
     var resetDuplicateCheckRelay = PublishRelay<Void>()
+    
+    let leftButtonTapped = PublishRelay<Void>()
+    let nextButtonTapped = PublishRelay<Void>()
     
     var isValidNickname: Driver<Bool> {
         return nicknameTextRelay.asDriver(onErrorDriveWith: .empty())
@@ -31,6 +36,20 @@ class NicknameViewModel{
     var isNextButtonEnabled: Driver<Bool> {
         return Driver.combineLatest(isValidNickname, duplicateCheckResultDriver)
             .map { $0 && $1 }
+    }
+    
+    init(){
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(SignupStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        nextButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(SignupStep.signup)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func validateNickname(_ text: String) -> Bool {

@@ -1,10 +1,15 @@
 import RxSwift
 import Foundation
 import RxCocoa
+import RxFlow
 
-class MakePromiseViewModel{
+class MakePromiseViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
     var shareFriendViewModel:ShareFriendViewModel
     
+    let leftButtonTapped = PublishRelay<Void>()
+    let addFriendButtonTapped = PublishRelay<Void>()
     
     let titleRelay = PublishRelay<String>()
     let dateRelay = PublishRelay<(year: Int, month: Int, day: Int)>()
@@ -29,15 +34,20 @@ class MakePromiseViewModel{
                 print(date,time,title)
                 return date != nil && time != nil && title != ""
             }
+        
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        addFriendButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.selectFriend)
+            })
+            .disposed(by: disposeBag)
     }
     
-//    func toggleSelection(at index: Int) {
-//        var currentFriends = shareFriendViewModel.friendsRelay.value
-//        currentFriends[index].isSelected = false
-//        print(index,currentFriends[index])
-//        shareFriendViewModel.friendsRelay.accept(currentFriends)
-//        
-//    }
     func toggleSelection(friend: Friend) {
         var currentFriends = shareFriendViewModel.friendsRelay.value
         if let index = currentFriends.firstIndex(where: { $0.name == friend.name }) {
