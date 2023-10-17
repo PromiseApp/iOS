@@ -13,8 +13,9 @@ class MakePromiseViewModel: Stepper{
     
     let titleRelay = PublishRelay<String>()
     let dateRelay = PublishRelay<(year: Int, month: Int, day: Int)>()
-    
     let timeRelay = PublishRelay<(hour: Int, minute: Int)>()
+    
+    let isDateBeforeCurrent: Driver<Bool>
     
     var selectedFriendDatas: Driver<[Friend]>
     
@@ -23,16 +24,24 @@ class MakePromiseViewModel: Stepper{
     init(shareFriendViewModel: ShareFriendViewModel) {
         self.shareFriendViewModel = shareFriendViewModel
         
+        isDateBeforeCurrent = Observable.combineLatest(dateRelay, timeRelay)
+            .map { (selectedDate, selectedTime) in
+                let calendar = Calendar.current
+                let currentDate = Date()
+                let selectedFullDate = calendar.date(from: DateComponents(year: selectedDate.year, month: selectedDate.month, day: selectedDate.day, hour: selectedTime.hour, minute: selectedTime.minute)) ?? currentDate
+                return selectedFullDate < currentDate
+            }
+            .asDriver(onErrorJustReturn: false)
+        
         selectedFriendDatas = shareFriendViewModel.friendsRelay
             .asDriver()
             .map { friends in
                 friends.filter { $0.isSelected }
             }
         
-        isNextButtonEnabled = Observable.combineLatest(dateRelay.asObservable(), timeRelay.asObservable(), titleRelay.asObservable())
-            .map { date, time, title in
-                print(date,time,title)
-                return date != nil && time != nil && title != ""
+        isNextButtonEnabled = Observable.combineLatest(isDateBeforeCurrent.asObservable(), titleRelay.asObservable(), selectedFriendDatas.asObservable())
+            .map { bool, title, friend in
+                return !bool && title != "" && !friend.isEmpty
             }
         
         leftButtonTapped

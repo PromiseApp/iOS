@@ -14,12 +14,11 @@ class MakePromiseViewController: UIViewController {
     let scrollView = UIScrollView()
     let promiseTitleLabel = UILabel()
     let promiseTitleTextField = UITextField()
-    let firstConditionLabel = UILabel()
     let scheduleLabel = UILabel()
     let dateButton = UIButton()
     let timeButton = UIButton()
-    let placeLabel = UILabel()
-    let placeTextField = UITextField()
+    let firstConditionImageView = UIImageView()
+    let firstConditionLabel = UILabel()
     let friendLabel = UILabel()
     let addFriendButton = UIButton()
     let secAddFriendButton = UIButton()
@@ -28,6 +27,8 @@ class MakePromiseViewController: UIViewController {
         $0.itemSize = CGSize(width: 45*Constants.standardWidth, height: 49*Constants.standardHeight)
         $0.minimumInteritemSpacing = 8*Constants.standardWidth
     })
+    let placeLabel = UILabel()
+    let placeTextField = UITextField()
     let penaltyLabel = UILabel()
     let penaltyTextView = UITextView()
     let secondConditionLabel = UILabel()
@@ -70,8 +71,8 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         dateButton.rx.tap
-            .subscribe(onNext: {
-                self.showDatePicker()
+            .subscribe(onNext: { [weak self] in
+                self?.showDatePicker()
             })
             .disposed(by: disposeBag)
         
@@ -84,25 +85,32 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
 
         timeButton.rx.tap
-            .subscribe(onNext: {
-                self.showTimePicker()
+            .subscribe(onNext: { [weak self] in
+                self?.showTimePicker()
             })
             .disposed(by: disposeBag)
         
+        makePromiseViewModel.isDateBeforeCurrent
+            .drive(onNext: { [weak self] bool in
+                self?.firstConditionImageView.isHidden = !bool
+                self?.firstConditionLabel.isHidden = !bool
+            })
+            .disposed(by: disposeBag)
+                
         makePromiseViewModel.timeRelay
             .map { String(format: "%02d:%02d", $0.hour, $0.minute) }
             .do(onNext: { [weak self] _ in
-                    self?.timeButton.setTitleColor(.black, for: .normal)
-                })
+                self?.timeButton.setTitleColor(.black, for: .normal)
+            })
             .bind(to: timeButton.rx.title(for: .normal))
             .disposed(by: disposeBag)
-        
+                    
         addFriendButton.rx.tap
             .bind(to: makePromiseViewModel.addFriendButtonTapped)
             .disposed(by: disposeBag)
-                
+                    
         secAddFriendButton.rx.tap
-                .bind(to: makePromiseViewModel.addFriendButtonTapped)
+            .bind(to: makePromiseViewModel.addFriendButtonTapped)
             .disposed(by: disposeBag)
 
         
@@ -222,23 +230,26 @@ class MakePromiseViewController: UIViewController {
             $0.setTitleColor(UIColor(named: "greyOne"), for: .normal)
         }
         
-        placeLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.text = "장소"
+        firstConditionImageView.do{
+            $0.image = UIImage(named: "redX")
+            $0.tintColor = .red
+            $0.isHidden = true
         }
         
-        placeTextField.do{
-            $0.layer.borderWidth = 1
-            $0.layer.borderColor = UIColor(named: "line")?.cgColor
-            $0.layer.cornerRadius = 4 * Constants.standardHeight
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.placeholder = "장소를 입력해보세요"
-            $0.addLeftPadding(width: 12*Constants.standardWidth)
+        firstConditionLabel.do{
+            $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
+            $0.text = "과거 일정은 선택할 수 없어요!"
+            $0.textColor = .red
+            $0.isHidden = true
         }
         
         friendLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.text = "친구"
+            let text = "친구*"
+            let attributedString = NSMutableAttributedString(string: text)
+            attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "*"))
+            
+            $0.attributedText = attributedString
         }
         
         addFriendButton.do{
@@ -262,6 +273,20 @@ class MakePromiseViewController: UIViewController {
             $0.showsHorizontalScrollIndicator = false
             $0.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: "FriendCollectionViewCell")
             $0.isHidden = true
+        }
+        
+        placeLabel.do{
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.text = "장소"
+        }
+        
+        placeTextField.do{
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(named: "line")?.cgColor
+            $0.layer.cornerRadius = 4 * Constants.standardHeight
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.placeholder = "장소를 입력해보세요"
+            $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         penaltyLabel.do{
@@ -329,7 +354,7 @@ class MakePromiseViewController: UIViewController {
         [titleLabel,leftButton,separateView,scrollView,nextButton]
             .forEach{ view.addSubview($0) }
         
-        [promiseTitleLabel,promiseTitleTextField,firstConditionLabel,scheduleLabel,dateButton,timeButton,placeLabel,placeTextField,friendLabel,addFriendButton,secAddFriendButton,collectionView,penaltyLabel,penaltyTextView,secondConditionLabel,memoLabel,memoTextView,thirdConditionLabel]
+        [promiseTitleLabel,promiseTitleTextField,scheduleLabel,dateButton,timeButton,firstConditionImageView,firstConditionLabel,friendLabel,addFriendButton,secAddFriendButton,collectionView,placeLabel,placeTextField,penaltyLabel,penaltyTextView,secondConditionLabel,memoLabel,memoTextView,thirdConditionLabel]
             .forEach{ scrollView.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -375,14 +400,9 @@ class MakePromiseViewController: UIViewController {
             make.top.equalTo(promiseTitleLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
         
-        firstConditionLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(promiseTitleTextField.snp.bottom).offset(4*Constants.standardHeight)
-        }
-        
         scheduleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(firstConditionLabel.snp.bottom).offset(12*Constants.standardHeight)
+            make.top.equalTo(promiseTitleTextField.snp.bottom).offset(12*Constants.standardHeight)
         }
         
         dateButton.snp.makeConstraints { make in
@@ -399,21 +419,19 @@ class MakePromiseViewController: UIViewController {
             make.top.equalTo(scheduleLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
         
-        placeLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(timeButton.snp.bottom).offset(12*Constants.standardHeight)
+        firstConditionImageView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(16*Constants.standardWidth)
+            make.top.equalTo(timeButton.snp.bottom).offset(5*Constants.standardHeight)
         }
         
-        placeTextField.snp.makeConstraints { make in
-            make.width.equalTo(351*Constants.standardWidth)
-            make.height.equalTo(40*Constants.standardHeight)
-            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(placeLabel.snp.bottom).offset(8*Constants.standardHeight)
+        firstConditionLabel.snp.makeConstraints { make in
+            make.leading.equalTo(firstConditionImageView.snp.trailing).offset(4*Constants.standardWidth)
+            make.centerY.equalTo(firstConditionImageView)
         }
         
         friendLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(placeTextField.snp.bottom).offset(12*Constants.standardHeight)
+            make.top.equalTo(timeButton.snp.bottom).offset(36*Constants.standardHeight)
         }
         
         collectionView.snp.makeConstraints { make in
@@ -441,9 +459,21 @@ class MakePromiseViewController: UIViewController {
             make.centerY.equalTo(friendLabel)
         }
         
+        placeLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.top.equalTo(friendLabel.snp.bottom).offset(73*Constants.standardHeight)
+        }
+        
+        placeTextField.snp.makeConstraints { make in
+            make.width.equalTo(351*Constants.standardWidth)
+            make.height.equalTo(40*Constants.standardHeight)
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.top.equalTo(placeLabel.snp.bottom).offset(8*Constants.standardHeight)
+        }
+        
         penaltyLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(friendLabel.snp.bottom).offset(69*Constants.standardHeight)
+            make.top.equalTo(placeTextField.snp.bottom).offset(16*Constants.standardHeight)
         }
         
         penaltyTextView.snp.makeConstraints { make in
