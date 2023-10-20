@@ -53,7 +53,7 @@ class SignupFlow: Flow {
     }
     
     private func navigateToNickname() -> FlowContributors {
-        let VM = NicknameViewModel()
+        let VM = NicknameViewModel(flowType: .singupFlow)
         let VC = NicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

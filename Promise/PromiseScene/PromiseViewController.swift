@@ -274,10 +274,9 @@ class PromiseViewController: UIViewController {
         picker.selectRow(currentMonth, inComponent: 1, animated: false)
         
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            guard let self = self else { return }
-            let selectedYear = self.years[picker.selectedRow(inComponent: 0)]
-            let selectedMonth = self.months[picker.selectedRow(inComponent: 1)]
-            self.promiseViewModel.yearAndMonth.onNext((year: selectedYear, month: selectedMonth))
+            let selectedYear = self?.years[picker.selectedRow(inComponent: 0)]
+            let selectedMonth = self?.months[picker.selectedRow(inComponent: 1)]
+            self?.promiseViewModel.yearAndMonth.onNext((year: selectedYear, month: selectedMonth))
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)

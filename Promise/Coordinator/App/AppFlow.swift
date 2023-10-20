@@ -48,26 +48,34 @@ class AppFlow: Flow {
         promiseNC.isNavigationBarHidden = true
         let friendNC = UINavigationController()
         friendNC.isNavigationBarHidden = true
-
+        let myPageNC = UINavigationController()
+        myPageNC.isNavigationBarHidden = true
         
         let promiseFlow = PromiseFlow(with: promiseNC)
         let friendFlow = FriendFlow(with: friendNC)
-
-        Flows.use(promiseFlow, friendFlow, when: .created) { [unowned self] (promiseVC, friendVC) in
-            promiseVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "home"), tag: 0)
-            friendVC.tabBarItem = UITabBarItem(title: "친구", image: UIImage(named: "friend"), tag: 2)
+        let myPageFlow = MyPageFlow(with: myPageNC)
+        
+        Flows.use(promiseFlow, friendFlow, myPageFlow, when: .created) { [weak self] (promiseVC, friendVC, myPageVC) in
+            
+            promiseVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "home"),tag: 0)
+            friendVC.tabBarItem = UITabBarItem(title: "친구", image: UIImage(named: "friend")?.withRenderingMode(.alwaysOriginal), tag: 2)
+            myPageVC.tabBarItem = UITabBarItem(title: "사용자", image: UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal), tag: 3)
 
             let dummyVC = UIViewController()
             dummyVC.tabBarItem.isEnabled = false
             
-            VC.viewControllers = [promiseVC, dummyVC, friendVC]
-            self.rootViewController.setViewControllers([VC], animated: false)
+            VC.tabBar.itemWidth = 49.0
+            VC.tabBar.itemSpacing = 19.0
+            
+            VC.viewControllers = [promiseVC, dummyVC, friendVC, myPageVC]
+            self?.rootViewController.setViewControllers([VC], animated: false)
         }
 
         return .multiple(flowContributors: [
             .contribute(withNextPresentable: promiseFlow, withNextStepper: VM),
             .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.home)),
-            .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.friend))
+            .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.friend)),
+            .contribute(withNextPresentable: myPageFlow, withNextStepper: OneStepper(withSingleStep: MyPageStep.myPage))
         ])
     }
     
@@ -82,3 +90,4 @@ class AppFlow: Flow {
     }
     
 }
+

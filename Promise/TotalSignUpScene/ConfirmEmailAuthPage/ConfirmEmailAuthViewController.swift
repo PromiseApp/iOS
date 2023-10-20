@@ -48,10 +48,6 @@ class ConfirmEmailAuthViewController: UIViewController {
             .bind(to: confirmEmailAuthViewModel.authTextRelay)
             .disposed(by: disposeBag)
         
-        confirmEmailAuthViewModel.isNextButtonEnabled
-            .drive(nextButton.rx.isHidden)
-            .disposed(by: disposeBag)
-        
         confirmEmailAuthViewModel.badValue
             .subscribe(onNext: { [weak self] in
                 self?.authTextField.text = ""
@@ -86,7 +82,8 @@ class ConfirmEmailAuthViewController: UIViewController {
 
         reSendButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                self?.nextButton.isHidden = true
+                self?.nextButton.isEnabled = false
+                self?.nextButton.alpha = 0.3
                 self?.authTextField.text = ""
                 self?.conditionLabel.isHidden = false
                 self?.conditionLabel.textColor = .black
@@ -101,7 +98,18 @@ class ConfirmEmailAuthViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        
+        confirmEmailAuthViewModel.isNextButtonEnabled
+            .drive(onNext: { [weak self] isValid in
+                if(isValid){
+                    self?.nextButton.isEnabled = true
+                    self?.nextButton.alpha = 1
+                }
+                else{
+                    self?.nextButton.isEnabled = false
+                    self?.nextButton.alpha = 0.3
+                }
+            })
+            .disposed(by: disposeBag)
         
         
     }
@@ -178,7 +186,8 @@ class ConfirmEmailAuthViewController: UIViewController {
             $0.setTitleColor(UIColor.black, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.backgroundColor = UIColor(named: "prStrong")
-            $0.isHidden = true
+            $0.isEnabled = false
+            $0.alpha = 0.3
         }
         
     }

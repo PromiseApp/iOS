@@ -49,7 +49,9 @@ class TabBarController: UITabBarController {
     }
     
     private func attribute(){
-           
+        
+        
+        
         plusButton.do{
             $0.setImage(UIImage(named: "plus"), for: .normal)
         }

@@ -55,6 +55,13 @@
 		317D69FF2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69FE2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift */; };
 		317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D6A022ADD2685004CEE5C /* RequestFriendViewModel.swift */; };
 		317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D6A042ADD2695004CEE5C /* RequestFriendViewController.swift */; };
+		317D6A082ADF86B7004CEE5C /* MyPageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D6A072ADF86B7004CEE5C /* MyPageViewModel.swift */; };
+		317D6A0A2ADF86CB004CEE5C /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D6A092ADF86CB004CEE5C /* MyPageViewController.swift */; };
+		318586A82AE00471005EBC31 /* ChangeProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586A72AE00471005EBC31 /* ChangeProfileViewModel.swift */; };
+		318586AA2AE0047D005EBC31 /* ChangeProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586A92AE0047D005EBC31 /* ChangeProfileViewController.swift */; };
+		318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586AC2AE0064A005EBC31 /* MyPageStep.swift */; };
+		318586AF2AE00652005EBC31 /* MyPageFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586AE2AE00652005EBC31 /* MyPageFlow.swift */; };
+		318586B42AE24B3A005EBC31 /* ChangeNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586B32AE24B3A005EBC31 /* ChangeNicknameViewController.swift */; };
 		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
 		31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F782AB8093E00A99D7E /* TabBarController.swift */; };
 		31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */; };
@@ -133,6 +140,13 @@
 		317D69FE2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RejectFriendPopupViewController.swift; sourceTree = "<group>"; };
 		317D6A022ADD2685004CEE5C /* RequestFriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFriendViewModel.swift; sourceTree = "<group>"; };
 		317D6A042ADD2695004CEE5C /* RequestFriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestFriendViewController.swift; sourceTree = "<group>"; };
+		317D6A072ADF86B7004CEE5C /* MyPageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewModel.swift; sourceTree = "<group>"; };
+		317D6A092ADF86CB004CEE5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		318586A72AE00471005EBC31 /* ChangeProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileViewModel.swift; sourceTree = "<group>"; };
+		318586A92AE0047D005EBC31 /* ChangeProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeProfileViewController.swift; sourceTree = "<group>"; };
+		318586AC2AE0064A005EBC31 /* MyPageStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageStep.swift; sourceTree = "<group>"; };
+		318586AE2AE00652005EBC31 /* MyPageFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageFlow.swift; sourceTree = "<group>"; };
+		318586B32AE24B3A005EBC31 /* ChangeNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameViewController.swift; sourceTree = "<group>"; };
 		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		31C33F782AB8093E00A99D7E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
@@ -246,8 +260,9 @@
 				31C33F702AB6FF7600A99D7E /* TotalSignUpScene */,
 				31F1A0D22AADA1D900B99DC4 /* FindPwScene */,
 				31C33F772AB8092400A99D7E /* TabBar */,
-				31F1A0E02AAEF7BB00B99DC4 /* PromisePage */,
-				31258F052ACE9622004D764C /* FriendPage */,
+				31F1A0E02AAEF7BB00B99DC4 /* PromiseScene */,
+				31258F052ACE9622004D764C /* FriendScene */,
+				317D6A062ADF8697004CEE5C /* MyPageScene */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
 				31C33F882AB977D400A99D7E /* TestViewController.swift */,
 				317D69F62ADCFE0F004CEE5C /* ChatViewController.swift */,
@@ -274,13 +289,13 @@
 			path = PromiseTableView;
 			sourceTree = "<group>";
 		};
-		31258F052ACE9622004D764C /* FriendPage */ = {
+		31258F052ACE9622004D764C /* FriendScene */ = {
 			isa = PBXGroup;
 			children = (
 				317D6A002ADD2651004CEE5C /* FriendPage */,
 				317D6A012ADD265D004CEE5C /* RequestFriendPage */,
 			);
-			path = FriendPage;
+			path = FriendScene;
 			sourceTree = "<group>";
 		};
 		317D69D82ADBC54F004CEE5C /* App */ = {
@@ -354,6 +369,43 @@
 			path = RequestFriendPage;
 			sourceTree = "<group>";
 		};
+		317D6A062ADF8697004CEE5C /* MyPageScene */ = {
+			isa = PBXGroup;
+			children = (
+				318586B02AE24B1A005EBC31 /* ChangeNicknamePage */,
+				318586A62AE0042F005EBC31 /* ChangeProfilePage */,
+				317D6A092ADF86CB004CEE5C /* MyPageViewController.swift */,
+				317D6A072ADF86B7004CEE5C /* MyPageViewModel.swift */,
+			);
+			path = MyPageScene;
+			sourceTree = "<group>";
+		};
+		318586A62AE0042F005EBC31 /* ChangeProfilePage */ = {
+			isa = PBXGroup;
+			children = (
+				318586A92AE0047D005EBC31 /* ChangeProfileViewController.swift */,
+				318586A72AE00471005EBC31 /* ChangeProfileViewModel.swift */,
+			);
+			path = ChangeProfilePage;
+			sourceTree = "<group>";
+		};
+		318586AB2AE00623005EBC31 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				318586AC2AE0064A005EBC31 /* MyPageStep.swift */,
+				318586AE2AE00652005EBC31 /* MyPageFlow.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		318586B02AE24B1A005EBC31 /* ChangeNicknamePage */ = {
+			isa = PBXGroup;
+			children = (
+				318586B32AE24B3A005EBC31 /* ChangeNicknameViewController.swift */,
+			);
+			path = ChangeNicknamePage;
+			sourceTree = "<group>";
+		};
 		31C33F6B2AB6FE3F00A99D7E /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,6 +433,7 @@
 				317D69DC2ADBD387004CEE5C /* FindPw */,
 				317D69E82ADC1F34004CEE5C /* Promise */,
 				317D69EA2ADC1F48004CEE5C /* Friend */,
+				318586AB2AE00623005EBC31 /* MyPage */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -519,7 +572,7 @@
 			path = PopUp;
 			sourceTree = "<group>";
 		};
-		31F1A0E02AAEF7BB00B99DC4 /* PromisePage */ = {
+		31F1A0E02AAEF7BB00B99DC4 /* PromiseScene */ = {
 			isa = PBXGroup;
 			children = (
 				31258EFE2ACE7EE9004D764C /* PromiseTableView */,
@@ -528,7 +581,7 @@
 				31F1A0E12AAEF7C600B99DC4 /* PromiseViewController.swift */,
 				31F1A0E32AAEF7E000B99DC4 /* PromiseViewModel.swift */,
 			);
-			path = PromisePage;
+			path = PromiseScene;
 			sourceTree = "<group>";
 		};
 		31F1A0E52AB03E5D00B99DC4 /* LimitedCollectionView */ = {
@@ -677,6 +730,7 @@
 				31F1A0E22AAEF7C600B99DC4 /* PromiseViewController.swift in Sources */,
 				315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */,
 				312006B32AAAF25000501128 /* ConfirmEmailAuthViewController.swift in Sources */,
+				318586AF2AE00652005EBC31 /* MyPageFlow.swift in Sources */,
 				317D69FF2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift in Sources */,
 				317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */,
 				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
@@ -684,6 +738,7 @@
 				317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */,
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
+				317D6A0A2ADF86CB004CEE5C /* MyPageViewController.swift in Sources */,
 				31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */,
 				317D69FD2ADD18FE004CEE5C /* AddFriendPopupViewController.swift in Sources */,
 				317D69E02ADBD3C6004CEE5C /* FindPwFlow.swift in Sources */,
@@ -696,8 +751,10 @@
 				31F1A0EE2AB0755E00B99DC4 /* MakePromiseViewController.swift in Sources */,
 				3116B28D2AA0909B00308CDA /* SignupViewController.swift in Sources */,
 				311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */,
+				318586B42AE24B3A005EBC31 /* ChangeNicknameViewController.swift in Sources */,
 				31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */,
 				315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */,
+				318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */,
 				317D69F22ADC1F75004CEE5C /* FriendFlow.swift in Sources */,
 				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
 				317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */,
@@ -709,6 +766,7 @@
 				312006B02AA9DEAD00501128 /* EmailAuthViewModel.swift in Sources */,
 				317D69CE2AD53031004CEE5C /* User.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
+				318586AA2AE0047D005EBC31 /* ChangeProfileViewController.swift in Sources */,
 				31C33F952ABD4F3500A99D7E /* Responsable.swift in Sources */,
 				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
@@ -718,6 +776,7 @@
 				31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */,
 				317D69F02ADC1F6E004CEE5C /* FriendStep.swift in Sources */,
 				317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */,
+				318586A82AE00471005EBC31 /* ChangeProfileViewModel.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift in Sources */,
 				31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */,
@@ -728,6 +787,7 @@
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
 				317D69D72ADBC53A004CEE5C /* SignupFlow.swift in Sources */,
+				317D6A082ADF86B7004CEE5C /* MyPageViewModel.swift in Sources */,
 				31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */,
 				31F1A0E42AAEF7E000B99DC4 /* PromiseViewModel.swift in Sources */,
 				317D69D52ADBA4A1004CEE5C /* AppFlow.swift in Sources */,

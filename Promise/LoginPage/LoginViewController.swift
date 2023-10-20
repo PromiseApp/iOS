@@ -48,9 +48,8 @@ class LoginViewController: UIViewController {
         
         loginViewModel.firstIsChecked
             .subscribe(onNext: { [weak self] isChecked in
-                guard let self = self else { return }
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
-                self.autoLoginCheckBox.setImage(image, for: .normal)
+                self?.autoLoginCheckBox.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)
         
@@ -61,20 +60,18 @@ class LoginViewController: UIViewController {
         
         loginViewModel.secondIsChecked
             .subscribe(onNext: { [weak self] isChecked in
-                guard let self = self else { return }
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
-                self.saveIdCheckBox.setImage(image, for: .normal)
+                self?.saveIdCheckBox.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)
         
         visiblePwButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.pwTextField.isSecureTextEntry.toggle()
-                if self.pwTextField.isSecureTextEntry {
-                    self.visiblePwButton.setImage(UIImage(named: "invisible"), for: .normal)
+                self?.pwTextField.isSecureTextEntry.toggle()
+                if ((self?.pwTextField.isSecureTextEntry) != nil) {
+                    self?.visiblePwButton.setImage(UIImage(named: "invisible"), for: .normal)
                 } else {
-                    self.visiblePwButton.setImage(UIImage(named: "visible"), for: .normal)
+                    self?.visiblePwButton.setImage(UIImage(named: "visible"), for: .normal)
                 }
             })
             .disposed(by: disposeBag)

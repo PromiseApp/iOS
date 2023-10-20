@@ -26,7 +26,7 @@ class FindPwViewModel: Stepper{
             }
             .asDriver(onErrorDriveWith: .empty())
     }
-    let serverResponseRelay = BehaviorRelay<Bool>(value: false)
+    let serverResponseRelay = BehaviorRelay<Bool>(value: true)
     
     init(){
         leftButtonTapped

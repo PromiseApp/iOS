@@ -59,7 +59,6 @@ class NicknameViewController: UIViewController {
                 self?.secConditionImageView.tintColor = .red
                 self?.secConditionLabel.textColor = .red
                 self?.secConditionLabel.text = "중복확인을 눌러주세요!"
-                self?.nextButton.isHidden = true
             })
             .disposed(by: disposeBag)
 
@@ -107,18 +106,15 @@ class NicknameViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        nicknameViewModel.duplicateCheckResultDriver
-            .map{ !$0 }
-            .drive(nextButton.rx.isHidden)
-            .disposed(by: disposeBag)
-        
         nicknameViewModel.isNextButtonEnabled
             .drive(onNext: { [weak self] isValid in
                 if(isValid){
-                    self?.nextButton.isHidden = false
+                    self?.nextButton.isEnabled = true
+                    self?.nextButton.alpha = 1
                 }
                 else{
-                    self?.nextButton.isHidden = true
+                    self?.nextButton.isEnabled = false
+                    self?.nextButton.alpha = 0.3
                 }
             })
             .disposed(by: disposeBag)
@@ -206,7 +202,8 @@ class NicknameViewController: UIViewController {
             $0.setTitleColor(UIColor.black, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.backgroundColor = UIColor(named: "prStrong")
-            $0.isHidden = true
+            $0.isEnabled = false
+            $0.alpha = 0.3
         }
         
     }

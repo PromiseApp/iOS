@@ -5,6 +5,7 @@ import RxFlow
 
 class ConfirmEmailAuthViewModel: Stepper{
     var disposeBag = DisposeBag()
+    var timerDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
     private let timerSubject = PublishSubject<String>()
@@ -24,7 +25,6 @@ class ConfirmEmailAuthViewModel: Stepper{
     var isNextButtonEnabled: Driver<Bool> {
         return authTextRelay.asDriver(onErrorDriveWith: .empty())
             .map{ $0.count == 6 && $0.allSatisfy { $0.isNumber } }
-            .map{ !$0 }
     }
     
     var isAuthCodeValid: Driver<Bool> {
@@ -58,7 +58,6 @@ class ConfirmEmailAuthViewModel: Stepper{
         nextButtonTapped
             .withLatestFrom(isAuthCodeValid)
             .subscribe(onNext: { [weak self] isValid in
-                print(isValid)
                 if(isValid){
                     self?.steps.accept(SignupStep.nickname)
                 }
@@ -71,7 +70,6 @@ class ConfirmEmailAuthViewModel: Stepper{
         nextButtonInFindPwTapped
             .withLatestFrom(isAuthCodeValid)
             .subscribe(onNext: { [weak self] isValid in
-                print(isValid)
                 if(isValid){
                     self?.steps.accept(FindPwStep.changePw)
                 }
@@ -83,7 +81,7 @@ class ConfirmEmailAuthViewModel: Stepper{
     }
     
     func startTimer() {
-        disposeBag = DisposeBag()
+        timerDisposeBag = DisposeBag()
         let totalTime = 180
         Observable<Int>
             .timer(.seconds(0), period: .seconds(1), scheduler: MainScheduler.instance)
@@ -95,6 +93,6 @@ class ConfirmEmailAuthViewModel: Stepper{
                 return String(format: "%02d:%02d", minutes, seconds)
             }
             .bind(to: timerSubject)
-            .disposed(by: disposeBag)
+            .disposed(by: timerDisposeBag)
     }
 }

@@ -101,24 +101,22 @@ class SignupViewController: UIViewController {
         
         firstVisibleButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.pwTextField.isSecureTextEntry.toggle()
-                if self.pwTextField.isSecureTextEntry {
-                    self.firstVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
+                self?.pwTextField.isSecureTextEntry.toggle()
+                if ((self?.pwTextField.isSecureTextEntry) != nil) {
+                    self?.firstVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
                 } else {
-                    self.firstVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
+                    self?.firstVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
                 }
             })
             .disposed(by: disposeBag)
         
         secVisibleButton.rx.tap
             .subscribe(onNext: { [weak self] in
-                guard let self = self else { return }
-                self.rePwTextField.isSecureTextEntry.toggle()
-                if self.rePwTextField.isSecureTextEntry {
-                    self.secVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
+                self?.rePwTextField.isSecureTextEntry.toggle()
+                if ((self?.rePwTextField.isSecureTextEntry) != nil) {
+                    self?.secVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
                 } else {
-                    self.secVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
+                    self?.secVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
                 }
             })
             .disposed(by: disposeBag)

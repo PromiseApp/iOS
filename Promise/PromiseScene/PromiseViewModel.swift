@@ -7,7 +7,7 @@ class PromiseViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let yearAndMonth: BehaviorSubject<(year: Int, month: Int)> = BehaviorSubject(value: (Calendar.current.component(.year, from: Date()), Calendar.current.component(.month, from: Date())))
+    let yearAndMonth: BehaviorSubject<(year: Int?, month: Int?)> = BehaviorSubject(value: (Calendar.current.component(.year, from: Date()), Calendar.current.component(.month, from: Date())))
     
     let plusButtonTapped = PublishRelay<Void>()
 
@@ -18,7 +18,7 @@ class PromiseViewModel: Stepper{
     init(){
         
         let promiseView: [PromiseView] = [
-            .init(time: "10:10", title: "aaa", cnt: 3, place: "서울", penalty: "asdasd"),
+            .init(time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", cnt: 3, place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아"),
             .init(time: "10:30", title: "bbb", cnt: 2, place: nil, penalty: "qweqwe"),
             .init(time: "13:10", title: "ccc", cnt: 5, place: "부산", penalty: "yhtyht"),
         ]

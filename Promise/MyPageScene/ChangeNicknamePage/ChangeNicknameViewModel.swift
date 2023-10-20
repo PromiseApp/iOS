@@ -1,9 +1,8 @@
-import Foundation
 import RxSwift
 import RxCocoa
 import RxFlow
 
-class ChangePwViewModel: Stepper{
+class ChangeNicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     let currentFlow: FlowType
@@ -47,24 +46,13 @@ class ChangePwViewModel: Stepper{
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
-                switch self?.currentFlow {
-                case .singupFlow:
-                    break
-                case .findPwFlow:
-                    self?.steps.accept(FindPwStep.popView)
-                case .myPageFlow:
-                    self?.steps.accept(MyPageStep.popView)
-                case .none:
-                    break
-                }
+                self?.steps.accept(FindPwStep.popView)
             })
             .disposed(by: disposeBag)
         
         nextButtonTapped
             .subscribe(onNext: { [weak self] in
                 switch self?.currentFlow {
-                case .singupFlow:
-                    break
                 case .findPwFlow:
                     self?.steps.accept(FindPwStep.findPwCompleted)
                 case .myPageFlow:

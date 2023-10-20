@@ -6,10 +6,12 @@ import RxFlow
 class NicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    let currentFlow: FlowType
     
     let nicknameTextRelay = BehaviorRelay<String>(value: "")
     let duplicateButtonTapped = PublishRelay<Void>()
     var resetDuplicateCheckRelay = PublishRelay<Void>()
+    let duplicateCheckPassed = BehaviorRelay<Bool>(value: false)
     
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -21,14 +23,7 @@ class NicknameViewModel: Stepper{
             }
     }
     var duplicateCheckResultDriver: Driver<Bool> {
-        return duplicateButtonTapped
-            .withLatestFrom(nicknameTextRelay)
-            .flatMapLatest { [weak self] text -> Driver<Bool> in
-                guard let self = self else { return Driver.just(false) }
-                
-                return self.checkDuplicate(nickname: text)
-            }
-            .asDriver(onErrorDriveWith: .empty())
+        return duplicateCheckPassed.asDriver()
     }
     
     let serverResponseRelay = BehaviorRelay<Bool>(value: true)
@@ -38,16 +33,54 @@ class NicknameViewModel: Stepper{
             .map { $0 && $1 }
     }
     
-    init(){
+    init(flowType: FlowType){
+        self.currentFlow = flowType
+        
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(SignupStep.popView)
+                switch self?.currentFlow {
+                case .singupFlow:
+                    self?.steps.accept(SignupStep.popView)
+                case .findPwFlow:
+                    break
+                case .myPageFlow:
+                    self?.steps.accept(MyPageStep.popView)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
         
         nextButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(SignupStep.signup)
+                switch self?.currentFlow {
+                case .singupFlow:
+                    self?.steps.accept(SignupStep.signup)
+                case .findPwFlow:
+                    break
+                case .myPageFlow:
+                    self?.steps.accept(MyPageStep.popView)
+                case .none:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        duplicateButtonTapped
+            .withLatestFrom(nicknameTextRelay)
+            .flatMapLatest { [weak self] text -> Driver<Bool> in
+                guard let self = self else { return Driver.just(false) }
+                
+                return self.checkDuplicate(nickname: text)
+            }
+            .subscribe(onNext: { [weak self] isDuplicate in
+                self?.duplicateCheckPassed.accept(isDuplicate)
+            })
+            .disposed(by: disposeBag)
+        
+        resetDuplicateCheckRelay
+            .subscribe(onNext: { [weak self] in
+                self?.duplicateCheckPassed.accept(false)
             })
             .disposed(by: disposeBag)
     }

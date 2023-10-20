@@ -46,14 +46,13 @@ class FindPwViewController: UIViewController {
         
         findPwViewModel.validationResultDriver
             .drive(onNext: { [weak self] isValid in
-                guard let self = self else { return }
                 if(isValid){
-                    self.nextButton.isEnabled = true
-                    self.nextButton.alpha = 1
+                    self?.nextButton.isEnabled = true
+                    self?.nextButton.alpha = 1
                 }
                 else{
-                    self.nextButton.isEnabled = false
-                    self.nextButton.alpha = 0.3
+                    self?.nextButton.isEnabled = false
+                    self?.nextButton.alpha = 0.3
                 }
             })
             .disposed(by: disposeBag)

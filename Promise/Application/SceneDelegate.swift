@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         
         appFlow = AppFlow()
-        
+
         Flows.use(appFlow, when: .created) { [unowned self] root in
             self.window?.rootViewController = root
             self.window?.makeKeyAndVisible()
@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
         
-//        let VC = UINavigationController(rootViewController: ChatViewController())
+//        let VC = UINavigationController(rootViewController: MyPageViewController(myPageViewModel: MyPageViewModel()))
 //        self.window?.rootViewController = VC
 //        self.window?.makeKeyAndVisible()
         

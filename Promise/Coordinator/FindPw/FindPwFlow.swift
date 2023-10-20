@@ -21,7 +21,7 @@ class FindPwFlow: Flow {
         case .confirmEmailAuth:
             return navigateToConfirmEmailAuth()
         case .changePw:
-            return navigateToNickname()
+            return navigateToChangePw()
         case .findPwCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.findPwCompleted)
         case .popView:
@@ -40,14 +40,14 @@ class FindPwFlow: Flow {
     
     private func navigateToConfirmEmailAuth() -> FlowContributors {
         let VM = ConfirmEmailAuthViewModel()
-        let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM)
+        let VC = ConfirmEmailAuthInFindPwViewController(confirmEmailAuthViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-    private func navigateToNickname() -> FlowContributors {
-        let VM = NicknameViewModel()
-        let VC = NicknameViewController(nicknameViewModel: VM)
+    private func navigateToChangePw() -> FlowContributors {
+        let VM = ChangePwViewModel(flowType: .findPwFlow)
+        let VC = ChangePwViewController(changePwViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
