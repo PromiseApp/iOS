@@ -101,7 +101,6 @@ extension UIColor {
 }
 
 extension UIButton {
-  
     func alignTextBelow(spacing: CGFloat) {
             guard let image = self.imageView?.image else {
                 return

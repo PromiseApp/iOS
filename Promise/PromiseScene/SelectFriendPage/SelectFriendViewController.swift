@@ -114,6 +114,7 @@ class SelectFriendViewController: UIViewController {
         
         tableView.do{
             $0.separatorStyle = .none
+            $0.rowHeight = 48*Constants.standardHeight
             $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
         }
         

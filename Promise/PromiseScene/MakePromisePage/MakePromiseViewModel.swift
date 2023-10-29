@@ -1,4 +1,5 @@
 import RxSwift
+import UIKit
 import Foundation
 import RxCocoa
 import RxFlow
@@ -14,6 +15,14 @@ class MakePromiseViewModel: Stepper{
     let titleRelay = PublishRelay<String>()
     let dateRelay = PublishRelay<(year: Int, month: Int, day: Int)>()
     let timeRelay = PublishRelay<(hour: Int, minute: Int)>()
+    let placeRelay = PublishRelay<String>()
+    let penaltyRelay = PublishRelay<String>()
+    let memoRelay = PublishRelay<String>()
+    
+    let titleLengthRelay = BehaviorRelay<Int>(value: 0)
+    let placeLengthRelay = BehaviorRelay<Int>(value: 0)
+    let penaltyLengthRelay = BehaviorRelay<Int>(value: 0)
+    let memoLengthRelay = BehaviorRelay<Int>(value: 0)
     
     let isDateBeforeCurrent: Driver<Bool>
     
@@ -23,6 +32,32 @@ class MakePromiseViewModel: Stepper{
     
     init(shareFriendViewModel: ShareFriendViewModel) {
         self.shareFriendViewModel = shareFriendViewModel
+        
+        titleRelay
+            .map { $0.count }
+            .bind(to: titleLengthRelay)
+            .disposed(by: disposeBag)
+        
+        placeRelay
+            .map { $0.count }
+            .bind(to: placeLengthRelay)
+            .disposed(by: disposeBag)
+        
+        penaltyRelay
+            .map { $0.count }
+            .bind(to: penaltyLengthRelay)
+            .disposed(by: disposeBag)
+        
+        memoRelay
+            .map { text -> Int in
+                if text == "중요한 내용을 메모해두세요" {
+                    return 0
+                } else {
+                    return text.count
+                }
+            }
+            .bind(to: memoLengthRelay)
+            .disposed(by: disposeBag)
         
         isDateBeforeCurrent = Observable.combineLatest(dateRelay, timeRelay)
             .map { (selectedDate, selectedTime) in

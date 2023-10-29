@@ -2,8 +2,6 @@ import UIKit
 import SnapKit
 import Then
 
-import UIKit
-
 class PromiseTableViewCell: UITableViewCell {
 
     let greyView = UIView()
@@ -11,11 +9,11 @@ class PromiseTableViewCell: UITableViewCell {
     lazy var titleLabel = UILabel()
     let separateLabel = UILabel()
     lazy var cntLabel = UILabel()
-    lazy var locaImageView = UIImageView()
+    let locaImageView = UIImageView()
     lazy var locaLabel = UILabel()
-    lazy var skullImageView = UIImageView()
+    let skullImageView = UIImageView()
     lazy var penaltyLabel = UILabel()
-    lazy var pencilImageView = UIImageView()
+    let pencilImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -140,7 +138,7 @@ class PromiseTableViewCell: UITableViewCell {
         
     }
     
-    func configure(data: PromiseView){
+    func configure(data: PromiseList){
         timeLabel.text = data.time
         titleLabel.text = data.title
         cntLabel.text = "\(data.cnt)명"

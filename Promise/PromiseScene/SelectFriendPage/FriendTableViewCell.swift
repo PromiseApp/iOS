@@ -48,7 +48,6 @@ class FriendTableViewCell: UITableViewCell {
             make.width.height.equalTo(24*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalToSuperview().offset(12*Constants.standardHeight)
-            make.bottom.equalToSuperview().offset(-12*Constants.standardHeight)
         }
         
         nameLabel.snp.makeConstraints { make in

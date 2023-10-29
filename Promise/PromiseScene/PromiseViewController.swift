@@ -16,11 +16,12 @@ class PromiseViewController: UIViewController {
     let thirdSeparateView = UIView()
     let dateLabel = UILabel()
     let downButton = UIButton()
+    let viewPastPromiseButton = UIButton()
     lazy var progressView = DonutProgressView()
     lazy var levelLabel = UILabel()
     lazy var expLabel = UILabel()
     lazy var cntLabel = UILabel()
-    lazy var tableView = UITableView()
+    lazy var promiseListTableView = UITableView()
     let plusButton = UIButton()
     
     var years: [Int] = Array(2000...2100)
@@ -47,7 +48,7 @@ class PromiseViewController: UIViewController {
     private func bind(){
         
         promiseViewModel.yearAndMonth
-            .map { "\($0.year)년 \($0.month)월" }
+            .map { "\($0.year!)년 \($0.month!)월" }
             .bind(to: dateLabel.rx.text)
             .disposed(by: disposeBag)
         
@@ -61,7 +62,11 @@ class PromiseViewController: UIViewController {
             .bind(to: promiseViewModel.plusButtonTapped)
             .disposed(by: disposeBag)
         
-        tableView.rx.setDelegate(self)
+        viewPastPromiseButton.rx.tap
+            .bind(to: promiseViewModel.viewPastPromiseButtonTapped)
+            .disposed(by: disposeBag)
+        
+        promiseListTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
         let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
@@ -76,14 +81,14 @@ class PromiseViewController: UIViewController {
             .map { promises in
                 promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
             }
-            .drive(tableView.rx.items(dataSource: dataSource))
+            .drive(promiseListTableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
 
         promiseViewModel.cntPromise
             .subscribe(onNext: { [weak self] cnt in
                 if(cnt == 0){
                     self?.cntLabel.text = "아직 약속이 없네요"
-                    self?.tableView.isHidden = true
+                    self?.promiseListTableView.isHidden = true
                     self?.plusButton.isHidden = false
                 }
                 else{
@@ -93,7 +98,7 @@ class PromiseViewController: UIViewController {
                     attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "\(cnt)"))
                     
                     self?.cntLabel.attributedText = attributedString
-                    self?.tableView.isHidden = false
+                    self?.promiseListTableView.isHidden = false
                     self?.plusButton.isHidden = true
                 }
             })
@@ -120,11 +125,18 @@ class PromiseViewController: UIViewController {
         
         dateLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
-            
         }
         
         downButton.do{
             $0.setImage(UIImage(named: "downTwo"), for: .normal)
+        }
+        
+        viewPastPromiseButton.do{
+            $0.setTitle("지난 약속 보기", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
+            $0.setImage(UIImage(named: "right"), for: .normal)
+            $0.semanticContentAttribute = .forceRightToLeft
         }
         
         levelLabel.do{
@@ -156,18 +168,17 @@ class PromiseViewController: UIViewController {
             $0.alignTextBelow(spacing: 40*Constants.standardHeight)
         }
         
-
-        
-        tableView.do{
+        promiseListTableView.do{
             $0.separatorStyle = .singleLine
             $0.register(PromiseTableViewCell.self, forCellReuseIdentifier: "PromiseTableViewCell")
             $0.register(PromiseHeaderView.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderView")
+            $0.sectionHeaderTopPadding = 0
         }
-        tableView.sectionHeaderTopPadding = 0
+        
     }
     
     private func layout(){
-        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,tableView,plusButton]
+        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,promiseListTableView,plusButton]
             .forEach{view.addSubview($0)}
         
         logoLabel.snp.makeConstraints { make in
@@ -197,6 +208,13 @@ class PromiseViewController: UIViewController {
             make.height.equalTo(1*Constants.standardHeight)
             make.leading.equalToSuperview()
             make.top.equalTo(dateLabel.snp.bottom).offset(12*Constants.standardHeight)
+        }
+        
+        viewPastPromiseButton.snp.makeConstraints { make in
+            make.width.equalTo(94*Constants.standardWidth)
+            make.height.equalTo(16*Constants.standardHeight)
+            make.trailing.equalToSuperview()
+            make.top.equalTo(firstSeparateView.snp.bottom).offset(8*Constants.standardHeight)
         }
         
         progressView.snp.makeConstraints { make in
@@ -235,7 +253,7 @@ class PromiseViewController: UIViewController {
             make.top.equalTo(cntLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
-        tableView.snp.makeConstraints { make in
+        promiseListTableView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(thirdSeparateView.snp.bottom)
@@ -287,8 +305,6 @@ class PromiseViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
 
-    
-    
 }
 
 extension PromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource{
@@ -314,7 +330,7 @@ extension PromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource{
     }
 }
 
-typealias PromiseSectionModel = SectionModel<GetPromise, PromiseView>
+typealias PromiseSectionModel = SectionModel<GetPromise, PromiseList>
 extension PromiseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView
@@ -329,7 +345,6 @@ extension PromiseViewController: UITableViewDelegate {
         
         return header
     }
-  
 }
 
 //#if DEBUG

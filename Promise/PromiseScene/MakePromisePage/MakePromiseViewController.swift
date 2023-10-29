@@ -11,7 +11,6 @@ class MakePromiseViewController: UIViewController {
     let titleLabel = UILabel()
     let leftButton = UIButton()
     let separateView = UIView()
-    let scrollView = UIScrollView()
     let promiseTitleLabel = UILabel()
     let promiseTitleTextField = UITextField()
     let scheduleLabel = UILabel()
@@ -30,11 +29,15 @@ class MakePromiseViewController: UIViewController {
     let placeLabel = UILabel()
     let placeTextField = UITextField()
     let penaltyLabel = UILabel()
-    let penaltyTextView = UITextView()
+    let penaltyTextField = UITextField()
     let secondConditionLabel = UILabel()
     let memoLabel = UILabel()
     let memoTextView = UITextView()
     let thirdConditionLabel = UILabel()
+    lazy var promiseTitleLengthLabel = UILabel()
+    lazy var placeLengthLabel = UILabel()
+    lazy var penaltyLengthLabel = UILabel()
+    lazy var memoLengthLabel = UILabel()
     let nextButton = UIButton()
     
     let years = Array(2000...2100)
@@ -68,6 +71,98 @@ class MakePromiseViewController: UIViewController {
         
         promiseTitleTextField.rx.text.orEmpty
             .bind(to: makePromiseViewModel.titleRelay)
+            .disposed(by: disposeBag)
+        
+        promiseTitleTextField.rx.text.orEmpty
+            .map { String($0.prefix(16)) }
+            .bind(to: promiseTitleTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        promiseTitleTextField.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.titleRelay)
+            .disposed(by: disposeBag)
+        
+        makePromiseViewModel.titleLengthRelay
+            .map { length -> NSAttributedString in
+                let formattedString = "\(length)/16"
+                let attributedString = NSMutableAttributedString(string: formattedString)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: String(length).count))
+                return attributedString
+            }
+            .asDriver(onErrorJustReturn: NSAttributedString(string: "0/16"))
+            .drive(promiseTitleLengthLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        placeTextField.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.placeRelay)
+            .disposed(by: disposeBag)
+        
+        placeTextField.rx.text.orEmpty
+            .map { String($0.prefix(20)) }
+            .bind(to: placeTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        placeTextField.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.placeRelay)
+            .disposed(by: disposeBag)
+        
+        makePromiseViewModel.placeLengthRelay
+            .map { length -> NSAttributedString in
+                let formattedString = "\(length)/20"
+                let attributedString = NSMutableAttributedString(string: formattedString)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: String(length).count))
+                return attributedString
+            }
+            .asDriver(onErrorJustReturn: NSAttributedString(string: "0/20"))
+            .drive(placeLengthLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        penaltyTextField.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.penaltyRelay)
+            .disposed(by: disposeBag)
+        
+        penaltyTextField.rx.text.orEmpty
+            .map { String($0.prefix(20)) }
+            .bind(to: penaltyTextField.rx.text)
+            .disposed(by: disposeBag)
+        
+        penaltyTextField.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.penaltyRelay)
+            .disposed(by: disposeBag)
+        
+        makePromiseViewModel.penaltyLengthRelay
+            .map { length -> NSAttributedString in
+                let formattedString = "\(length)/20"
+                let attributedString = NSMutableAttributedString(string: formattedString)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: String(length).count))
+                return attributedString
+            }
+            .asDriver(onErrorJustReturn: NSAttributedString(string: "0/20"))
+            .drive(penaltyLengthLabel.rx.attributedText)
+            .disposed(by: disposeBag)
+        
+        memoTextView.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.memoRelay)
+            .disposed(by: disposeBag)
+        
+        memoTextView.rx.text.orEmpty
+            .map { String($0.prefix(40)) }
+            .bind(to: memoTextView.rx.text)
+            .disposed(by: disposeBag)
+        
+        memoTextView.rx.text.orEmpty
+            .bind(to: makePromiseViewModel.memoRelay)
+            .disposed(by: disposeBag)
+        
+        makePromiseViewModel.memoLengthRelay
+            .map { length -> NSAttributedString in
+                let formattedString = "\(length)/40"
+                let attributedString = NSMutableAttributedString(string: formattedString)
+                attributedString.addAttribute(.foregroundColor, value: UIColor.red, range: NSRange(location: 0, length: String(length).count))
+                return attributedString
+            }
+            .asDriver(onErrorJustReturn: NSAttributedString(string: "0/40"))
+            .drive(memoLengthLabel.rx.attributedText)
             .disposed(by: disposeBag)
         
         dateButton.rx.tap
@@ -294,19 +389,17 @@ class MakePromiseViewController: UIViewController {
             $0.text = "벌칙"
         }
         
-        penaltyTextView.do{
+        penaltyTextField.do{
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
-            $0.delegate = self
-            $0.text = "벌칙을 정해보세요"
-            $0.textColor = UIColor(named: "line")
+            $0.placeholder = "벌칙을 정해보세요"
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.addLeftPadding(width: 12*Constants.standardWidth)
         }
         
         secondConditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
             let text = "약속을 지킬 수 있도록 재밌는 벌칙을 정해보세요!"
             let attributedString = NSMutableAttributedString(string: text)
             attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "재밌는 벌칙"))
@@ -331,13 +424,18 @@ class MakePromiseViewController: UIViewController {
         }
         
         thirdConditionLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
             let text = "준비물, 계획 등 중요한 내용을 메모해두세요"
             let attributedString = NSMutableAttributedString(string: text)
             attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "메모"))
             
             $0.attributedText = attributedString
         }
+        
+        [promiseTitleLengthLabel,placeLengthLabel,penaltyLengthLabel,memoLengthLabel]
+            .forEach{
+                $0.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
+            }
         
         nextButton.do{
             $0.setTitle("만들기", for: .normal)
@@ -351,11 +449,11 @@ class MakePromiseViewController: UIViewController {
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,scrollView,nextButton]
+        [titleLabel,leftButton,separateView,nextButton]
             .forEach{ view.addSubview($0) }
         
-        [promiseTitleLabel,promiseTitleTextField,scheduleLabel,dateButton,timeButton,firstConditionImageView,firstConditionLabel,friendLabel,addFriendButton,secAddFriendButton,collectionView,placeLabel,placeTextField,penaltyLabel,penaltyTextView,secondConditionLabel,memoLabel,memoTextView,thirdConditionLabel]
-            .forEach{ scrollView.addSubview($0) }
+        [promiseTitleLabel,promiseTitleTextField,promiseTitleLengthLabel,scheduleLabel,dateButton,timeButton,firstConditionImageView,firstConditionLabel,friendLabel,addFriendButton,secAddFriendButton,collectionView,placeLabel,placeTextField,placeLengthLabel,penaltyLabel,penaltyTextField,penaltyLengthLabel,secondConditionLabel,memoLabel,memoTextView,memoLengthLabel,thirdConditionLabel]
+            .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -382,15 +480,9 @@ class MakePromiseViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
-        scrollView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(nextButton.snp.top)
-            make.top.equalTo(separateView.snp.bottom)
-        }
-        
         promiseTitleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalToSuperview().offset(24*Constants.standardHeight)
+            make.top.equalTo(separateView.snp.bottom).offset(24*Constants.standardHeight)
         }
         
         promiseTitleTextField.snp.makeConstraints { make in
@@ -398,6 +490,11 @@ class MakePromiseViewController: UIViewController {
             make.height.equalTo(40*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(promiseTitleLabel.snp.bottom).offset(8*Constants.standardHeight)
+        }
+        
+        promiseTitleLengthLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(promiseTitleTextField.snp.trailing)
+            make.bottom.equalTo(promiseTitleTextField.snp.top).offset(-2*Constants.standardHeight)
         }
         
         scheduleLabel.snp.makeConstraints { make in
@@ -471,21 +568,31 @@ class MakePromiseViewController: UIViewController {
             make.top.equalTo(placeLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
         
+        placeLengthLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(placeTextField.snp.trailing)
+            make.bottom.equalTo(placeTextField.snp.top).offset(-2*Constants.standardHeight)
+        }
+        
         penaltyLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(placeTextField.snp.bottom).offset(16*Constants.standardHeight)
         }
         
-        penaltyTextView.snp.makeConstraints { make in
+        penaltyTextField.snp.makeConstraints { make in
             make.width.equalTo(351*Constants.standardWidth)
-            make.height.equalTo(100*Constants.standardHeight)
+            make.height.equalTo(40*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(penaltyLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
         
+        penaltyLengthLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(penaltyTextField.snp.trailing)
+            make.bottom.equalTo(penaltyTextField.snp.top).offset(-2*Constants.standardHeight)
+        }
+        
         secondConditionLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalTo(penaltyTextView.snp.bottom).offset(4*Constants.standardHeight)
+            make.top.equalTo(penaltyTextField.snp.bottom).offset(4*Constants.standardHeight)
         }
         
         memoLabel.snp.makeConstraints { make in
@@ -500,10 +607,14 @@ class MakePromiseViewController: UIViewController {
             make.top.equalTo(memoLabel.snp.bottom).offset(8*Constants.standardHeight)
         }
         
+        memoLengthLabel.snp.makeConstraints { make in
+            make.trailing.equalTo(memoTextView.snp.trailing)
+            make.bottom.equalTo(memoTextView.snp.top).offset(-2*Constants.standardHeight)
+        }
+        
         thirdConditionLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(memoTextView.snp.bottom).offset(4*Constants.standardHeight)
-            make.bottom.equalToSuperview().offset(-50*Constants.standardHeight)
         }
         
         
@@ -593,11 +704,7 @@ extension MakePromiseViewController: UITextViewDelegate{
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            if textView == penaltyTextView {
-                textView.text = "벌칙을 정해보세요"
-            } else if textView == memoTextView {
-                textView.text = "중요한 내용을 메모해두세요"
-            }
+            textView.text = "중요한 내용을 메모해두세요"
             textView.textColor = UIColor(named: "line")
         }
     }

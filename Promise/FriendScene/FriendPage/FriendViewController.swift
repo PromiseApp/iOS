@@ -85,9 +85,9 @@ class FriendViewController: UIViewController {
         }
         
         settingView.do{
-            $0.layer.cornerRadius = 5
-            $0.layer.shadowOffset = CGSize(width: 5, height: 5)
-            $0.layer.shadowRadius = 5
+            $0.layer.cornerRadius = 5*Constants.standardHeight
+            $0.layer.shadowOffset = CGSize(width: 5*Constants.standardWidth, height: 5*Constants.standardHeight)
+            $0.layer.shadowRadius = 5*Constants.standardHeight
             $0.layer.shadowColor = UIColor.black.cgColor
             $0.layer.shadowOpacity = 0.5
             $0.backgroundColor = UIColor(named: "prLight")
@@ -128,6 +128,7 @@ class FriendViewController: UIViewController {
         
         tableView.do{
             $0.separatorStyle = .none
+            $0.rowHeight = 48*Constants.standardHeight
             $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
         }
         
