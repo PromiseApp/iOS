@@ -77,7 +77,7 @@ class PromiseViewController: UIViewController {
             }
         )
         
-        promiseViewModel.promiseDatas
+        promiseViewModel.promiseDriver
             .map { promises in
                 promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
             }
@@ -330,7 +330,7 @@ extension PromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource{
     }
 }
 
-typealias PromiseSectionModel = SectionModel<GetPromise, PromiseList>
+typealias PromiseSectionModel = SectionModel<PromiseHeader, PromiseCell>
 extension PromiseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView

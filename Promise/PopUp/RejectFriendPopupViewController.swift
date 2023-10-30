@@ -59,12 +59,14 @@ class RejectFriendPopupViewController: UIViewController {
             $0.setTitle("취소", for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = UIColor(named: "prNormal")
+            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
         }
         
         okButton.do{
             $0.setTitle("확인", for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = UIColor(named: "prStrong")
+            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
         }
         
     }

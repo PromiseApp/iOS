@@ -78,6 +78,9 @@ class ChangeProfileViewController: UIViewController {
             .bind(to: changeProfileViewModel.changeNicknameButtonTapped)
             .disposed(by: disposeBag)
         
+        withdrawButton.rx.tap
+            .bind(to: changeProfileViewModel.withdrawButtonTapped)
+            .disposed(by: disposeBag)
         
     }
     

@@ -8,12 +8,18 @@ class MyPageViewModel: Stepper{
     let steps = PublishRelay<Step>()
     
     let infoSettingButtonTapped = PublishRelay<Void>()
-    
+    let announcementButtonTapped = PublishRelay<Void>()
    
     init(){
         infoSettingButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.changeProfile)
+            })
+            .disposed(by: disposeBag)
+        
+        announcementButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(MyPageStep.announcement)
             })
             .disposed(by: disposeBag)
 

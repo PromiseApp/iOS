@@ -18,7 +18,7 @@ class FriendFlow: Flow {
         switch step {
         case .friend:
             return navigateToFriend()
-        case .addFriend:
+        case .addFriendPopup:
             return presentToAddFriendPopup()
         case .requestFriend:
             return navigateToRequestFriend()

@@ -264,7 +264,7 @@ extension PastPromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource
     }
 }
 
-typealias PastPromiseSectionModel = SectionModel<GetPastPromise, PastPromiseList>
+typealias PastPromiseSectionModel = SectionModel<PastPromiseHeader, PastPromiseCell>
 extension PastPromiseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView

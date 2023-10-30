@@ -24,10 +24,12 @@ class FindPwFlow: Flow {
             return navigateToChangePw()
         case .findPwCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.findPwCompleted)
-        case .popView:
-            return popViewController()
         case .inputErrorPopup:
             return presentInputErrorPopup()
+        case .dismissView:
+            return dismissViewController()
+        case .popView:
+            return popViewController()
         }
     }
     
@@ -52,8 +54,10 @@ class FindPwFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-    private func popViewController() -> FlowContributors {
-        rootViewController.popViewController(animated: true)
+    private func presentInputErrorPopup() -> FlowContributors {
+        let VC = InputErrorPopUpViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
         return .none
     }
     
@@ -62,10 +66,8 @@ class FindPwFlow: Flow {
         return .none
     }
     
-    private func presentInputErrorPopup() -> FlowContributors {
-        let VC = InputErrorPopUpViewController()
-        VC.modalPresentationStyle = .overFullScreen
-        rootViewController.present(VC, animated: false)
+    private func popViewController() -> FlowContributors {
+        rootViewController.popViewController(animated: true)
         return .none
     }
     

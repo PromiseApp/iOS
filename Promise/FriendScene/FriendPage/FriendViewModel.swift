@@ -25,7 +25,7 @@ class FriendViewModel: Stepper{
     init() {
         addFriendButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(FriendStep.addFriend)
+                self?.steps.accept(FriendStep.addFriendPopup)
             })
             .disposed(by: disposeBag)
         

@@ -4,12 +4,12 @@ import RxCocoa
 import SnapKit
 import Then
 
-class AddFriendPopupViewController: UIViewController {
+class WithdrawPopupViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     let popupView = UIView()
     let titleLabel = UILabel()
-    let textField = UITextField()
+    let descLabel = UILabel()
     let cancelButton = UIButton()
     let okButton = UIButton()
     
@@ -44,16 +44,16 @@ class AddFriendPopupViewController: UIViewController {
         }
 
         titleLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.textAlignment = .center
-            $0.text = "친구 추가"
+            $0.text = "앱을 떠나시는건가요?"
         }
         
-        textField.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
-            $0.placeholder = "닉네임을 입력해주세요"
-            $0.addLeftPadding(width: 12*Constants.standardWidth)
-            $0.backgroundColor = UIColor(named: "prLight")
+        descLabel.do{
+            $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
+            $0.textAlignment = .center
+            $0.numberOfLines = 2
+            $0.text = "떠나시면 그동안\n지켰던 약속들을 볼 수 없어요."
         }
         
         cancelButton.do{
@@ -64,7 +64,7 @@ class AddFriendPopupViewController: UIViewController {
         }
         
         okButton.do{
-            $0.setTitle("확인", for: .normal)
+            $0.setTitle("탈퇴", for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = UIColor(named: "prStrong")
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
@@ -77,11 +77,11 @@ class AddFriendPopupViewController: UIViewController {
         
         popupView.snp.makeConstraints {
             $0.width.equalTo(260*Constants.standardWidth)
-            $0.height.equalTo(158*Constants.standardHeight)
+            $0.height.equalTo(152*Constants.standardHeight)
             $0.centerX.centerY.equalToSuperview()
         }
         
-        [titleLabel,textField,cancelButton,okButton]
+        [titleLabel,descLabel,cancelButton,okButton]
             .forEach{ popupView.addSubview($0) }
         
         
@@ -90,23 +90,21 @@ class AddFriendPopupViewController: UIViewController {
             $0.top.equalTo(popupView.snp.top).offset(12*Constants.standardHeight)
         }
         
-        textField.snp.makeConstraints {
-            $0.width.equalTo(236*Constants.standardWidth)
-            $0.height.equalTo(40*Constants.standardHeight)
+        descLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(titleLabel.snp.bottom).offset(16*Constants.standardHeight)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(24*Constants.standardHeight)
         }
         
         cancelButton.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.5)
-            $0.height.equalTo(40*Constants.standardHeight)
+            $0.height.equalTo(42*Constants.standardHeight)
             $0.leading.equalToSuperview()
             $0.bottom.equalTo(popupView.snp.bottom)
         }
         
         okButton.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.5)
-            $0.height.equalTo(40*Constants.standardHeight)
+            $0.height.equalTo(42*Constants.standardHeight)
             $0.trailing.equalToSuperview()
             $0.bottom.equalTo(popupView.snp.bottom)
         }

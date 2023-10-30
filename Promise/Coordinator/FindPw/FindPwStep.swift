@@ -5,6 +5,7 @@ enum FindPwStep: Step {
     case confirmEmailAuth
     case changePw
     case findPwCompleted
-    case popView
     case inputErrorPopup
+    case dismissView
+    case popView
 }

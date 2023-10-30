@@ -181,7 +181,7 @@ class PastPromiseTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(data: PastPromiseList){
+    func configure(data: PastPromiseCell){
         timeLabel.text = data.time
         titleLabel.text = data.title
         friendsLabel.text = data.friends

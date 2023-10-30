@@ -1,13 +1,13 @@
 import Foundation
 
-struct GetPromise{
+struct PromiseHeader{
     let date: String
-    let promises: [PromiseList]
+    let promises: [PromiseCell]
     let cntPromise: Int
     var isExpanded: Bool = false
 }
 
-struct PromiseList{
+struct PromiseCell{
     let time: String
     let title: String
     let cnt: Int
@@ -15,14 +15,14 @@ struct PromiseList{
     let penalty: String?
 }
 
-struct GetPastPromise{
+struct PastPromiseHeader{
     let date: String
-    let promises: [PastPromiseList]
+    let promises: [PastPromiseCell]
     let cntPromise: Int
     var isExpanded: Bool = false
 }
 
-struct PastPromiseList{
+struct PastPromiseCell{
     let time: String
     let title: String
     let friends: String

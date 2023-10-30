@@ -27,6 +27,12 @@ class MyPageFlow: Flow {
             return navigateToChangePw()
         case .changeNickname:
             return navigateToChangeNickname()
+        case .announcement:
+            return navigateToAnnouncement()
+        case .withdrawPopup:
+            return presentWithdrawPopup()
+        case .dismissView:
+            return dismissViewController()
         case .popView:
             return popViewController()
         }
@@ -65,6 +71,25 @@ class MyPageFlow: Flow {
         let VC = ChangeNicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToAnnouncement() -> FlowContributors {
+        let VM = AnnouncementViewModel()
+        let VC = AnnouncementViewController(announcementViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func presentWithdrawPopup() -> FlowContributors {
+        let VC = WithdrawPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func dismissViewController() -> FlowContributors {
+        rootViewController.dismiss(animated: true)
+        return .none
     }
     
     private func popViewController() -> FlowContributors {

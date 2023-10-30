@@ -11,22 +11,22 @@ class PastPromiseViewModel: Stepper{
     
     let yearAndMonth: BehaviorSubject<(year: Int?, month: Int?)> = BehaviorSubject(value: (Calendar.current.component(.year, from: Date()), Calendar.current.component(.month, from: Date())))
     
-    let pastPromisesRelay = BehaviorRelay<[GetPastPromise]>(value: [])
-    let pastPromiseDatas: Driver<[GetPastPromise]>
-    var allPromises: [GetPastPromise] = []
+    let pastPromisesRelay = BehaviorRelay<[PastPromiseHeader]>(value: [])
+    let pastPromiseDatas: Driver<[PastPromiseHeader]>
+    var allPromises: [PastPromiseHeader] = []
     
     init(){
         pastPromiseDatas = pastPromisesRelay.asDriver(onErrorDriveWith: .empty())
         
-        let promiseView: [PastPromiseList] = [
+        let promiseView: [PastPromiseCell] = [
             .init(time: "5:00", title: "qwe", friends: "aa bb cc", place: nil, penalty: "qweqwzx", memo: "erngkjer"),
             .init(time: "9:00", title: "asd", friends: "aa bb cc", place: "ertert", penalty: "qweqweqwerqweqweqwerqweqweqwer", memo: "qweqweqwerqweqweqwerqweqweqwer"),
             .init(time: "15:00", title: "zxc", friends: "aa bb cc", place: nil, penalty: nil, memo: "er"),
         ]
         allPromises = [
-            GetPastPromise(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
-            GetPastPromise(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
-            GetPastPromise(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
+            PastPromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
+            PastPromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
+            PastPromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
         ]
         pastPromisesRelay.accept(allPromises)
         
@@ -44,9 +44,9 @@ class PastPromiseViewModel: Stepper{
             return
         }
         
-        let filteredPromises = allPromises.map { datePromise -> GetPastPromise in
+        let filteredPromises = allPromises.map { datePromise -> PastPromiseHeader in
             let filteredItems = datePromise.promises.filter { $0.title.contains(query) }
-            return GetPastPromise(date: datePromise.date, promises: filteredItems, cntPromise: filteredItems.count)
+            return PastPromiseHeader(date: datePromise.date, promises: filteredItems, cntPromise: filteredItems.count)
         }.filter { !$0.promises.isEmpty }
         
         pastPromisesRelay.accept(filteredPromises)

@@ -7,7 +7,7 @@ enum SignupStep: Step {
     case signup
     case limitedCollectionView
     case signupCompleted
-    case popView
-    case dismissView
     case inputErrorPopup
+    case dismissView
+    case popView
 }

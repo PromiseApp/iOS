@@ -138,7 +138,7 @@ class PromiseTableViewCell: UITableViewCell {
         
     }
     
-    func configure(data: PromiseList){
+    func configure(data: PromiseCell){
         timeLabel.text = data.time
         titleLabel.text = data.title
         cntLabel.text = "\(data.cnt)명"

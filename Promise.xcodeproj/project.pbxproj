@@ -29,7 +29,7 @@
 		312476C92AA0690500D318C7 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312476C82AA0690500D318C7 /* Extensions.swift */; };
 		31258F002ACE7F29004D764C /* PromiseHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */; };
 		31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */; };
-		31258F042ACE8C9F004D764C /* GetPromise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F032ACE8C9F004D764C /* GetPromise.swift */; };
+		31258F042ACE8C9F004D764C /* PromiseHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31258F032ACE8C9F004D764C /* PromiseHeader.swift */; };
 		31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 31258F072ACEB4C8004D764C /* RxDataSources */; };
 		315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */; };
 		315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC862ACEED4600B7DF20 /* FriendViewController.swift */; };
@@ -62,6 +62,8 @@
 		318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586AC2AE0064A005EBC31 /* MyPageStep.swift */; };
 		318586AF2AE00652005EBC31 /* MyPageFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586AE2AE00652005EBC31 /* MyPageFlow.swift */; };
 		318586B42AE24B3A005EBC31 /* ChangeNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586B32AE24B3A005EBC31 /* ChangeNicknameViewController.swift */; };
+		31BBE2822AEE83CA00B69803 /* AnnouncementHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE2812AEE83CA00B69803 /* AnnouncementHeaderView.swift */; };
+		31BBE2842AEE83D800B69803 /* AnnouncementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE2832AEE83D800B69803 /* AnnouncementTableViewCell.swift */; };
 		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
 		31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F782AB8093E00A99D7E /* TabBarController.swift */; };
 		31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */; };
@@ -79,6 +81,11 @@
 		31EF2A802AECD6590082B664 /* PastPromiseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A7F2AECD6590082B664 /* PastPromiseViewModel.swift */; };
 		31EF2A832AECD6770082B664 /* PastPromiseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A822AECD6770082B664 /* PastPromiseViewController.swift */; };
 		31EF2A852AECDA530082B664 /* PastPromiseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A842AECDA530082B664 /* PastPromiseTableViewCell.swift */; };
+		31EF2A882AEE488D0082B664 /* SwiftSMTP in Frameworks */ = {isa = PBXBuildFile; productRef = 31EF2A872AEE488D0082B664 /* SwiftSMTP */; };
+		31EF2A8A2AEE48F50082B664 /* WithdrawPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A892AEE48F50082B664 /* WithdrawPopupViewController.swift */; };
+		31EF2A8D2AEE76D90082B664 /* AnnouncementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A8C2AEE76D90082B664 /* AnnouncementViewController.swift */; };
+		31EF2A8F2AEE76E40082B664 /* AnnouncementViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A8E2AEE76E40082B664 /* AnnouncementViewModel.swift */; };
+		31EF2A922AEE78D10082B664 /* AnnouncementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EF2A912AEE78D10082B664 /* AnnouncementModel.swift */; };
 		31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0CD2AAD896400B99DC4 /* SignupViewModel.swift */; };
 		31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */; };
 		31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */; };
@@ -120,7 +127,7 @@
 		312476C82AA0690500D318C7 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseHeaderView.swift; sourceTree = "<group>"; };
 		31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseTableViewCell.swift; sourceTree = "<group>"; };
-		31258F032ACE8C9F004D764C /* GetPromise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPromise.swift; sourceTree = "<group>"; };
+		31258F032ACE8C9F004D764C /* PromiseHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseHeader.swift; sourceTree = "<group>"; };
 		315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		315BDC862ACEED4600B7DF20 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		317D69CD2AD53031004CEE5C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -150,6 +157,8 @@
 		318586AC2AE0064A005EBC31 /* MyPageStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageStep.swift; sourceTree = "<group>"; };
 		318586AE2AE00652005EBC31 /* MyPageFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageFlow.swift; sourceTree = "<group>"; };
 		318586B32AE24B3A005EBC31 /* ChangeNicknameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeNicknameViewController.swift; sourceTree = "<group>"; };
+		31BBE2812AEE83CA00B69803 /* AnnouncementHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementHeaderView.swift; sourceTree = "<group>"; };
+		31BBE2832AEE83D800B69803 /* AnnouncementTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementTableViewCell.swift; sourceTree = "<group>"; };
 		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		31C33F782AB8093E00A99D7E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
@@ -166,6 +175,10 @@
 		31EF2A7F2AECD6590082B664 /* PastPromiseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPromiseViewModel.swift; sourceTree = "<group>"; };
 		31EF2A822AECD6770082B664 /* PastPromiseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPromiseViewController.swift; sourceTree = "<group>"; };
 		31EF2A842AECDA530082B664 /* PastPromiseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PastPromiseTableViewCell.swift; sourceTree = "<group>"; };
+		31EF2A892AEE48F50082B664 /* WithdrawPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawPopupViewController.swift; sourceTree = "<group>"; };
+		31EF2A8C2AEE76D90082B664 /* AnnouncementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewController.swift; sourceTree = "<group>"; };
+		31EF2A8E2AEE76E40082B664 /* AnnouncementViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementViewModel.swift; sourceTree = "<group>"; };
+		31EF2A912AEE78D10082B664 /* AnnouncementModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnouncementModel.swift; sourceTree = "<group>"; };
 		31F1A0CD2AAD896400B99DC4 /* SignupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewModel.swift; sourceTree = "<group>"; };
 		31F1A0D32AADA1F500B99DC4 /* FindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewController.swift; sourceTree = "<group>"; };
 		31F1A0D52AADA2AE00B99DC4 /* FindPwViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwViewModel.swift; sourceTree = "<group>"; };
@@ -193,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				312476C42AA05E4D00D318C7 /* Then in Frameworks */,
+				31EF2A882AEE488D0082B664 /* SwiftSMTP in Frameworks */,
 				312476BE2AA05E1C00D318C7 /* RxRelay in Frameworks */,
 				312476C12AA05E3900D318C7 /* SnapKit in Frameworks */,
 				317D69F52ADCFDE9004CEE5C /* SocketIO in Frameworks */,
@@ -379,6 +393,7 @@
 		317D6A062ADF8697004CEE5C /* MyPageScene */ = {
 			isa = PBXGroup;
 			children = (
+				31EF2A8B2AEE76BB0082B664 /* AnnouncementPage */,
 				318586B02AE24B1A005EBC31 /* ChangeNicknamePage */,
 				318586A62AE0042F005EBC31 /* ChangeProfilePage */,
 				317D6A092ADF86CB004CEE5C /* MyPageViewController.swift */,
@@ -548,6 +563,26 @@
 			path = PastPromisePage;
 			sourceTree = "<group>";
 		};
+		31EF2A8B2AEE76BB0082B664 /* AnnouncementPage */ = {
+			isa = PBXGroup;
+			children = (
+				31EF2A902AEE774A0082B664 /* AnnouncementTableViewCells */,
+				31EF2A8C2AEE76D90082B664 /* AnnouncementViewController.swift */,
+				31EF2A8E2AEE76E40082B664 /* AnnouncementViewModel.swift */,
+				31EF2A912AEE78D10082B664 /* AnnouncementModel.swift */,
+			);
+			path = AnnouncementPage;
+			sourceTree = "<group>";
+		};
+		31EF2A902AEE774A0082B664 /* AnnouncementTableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				31BBE2812AEE83CA00B69803 /* AnnouncementHeaderView.swift */,
+				31BBE2832AEE83D800B69803 /* AnnouncementTableViewCell.swift */,
+			);
+			path = AnnouncementTableViewCells;
+			sourceTree = "<group>";
+		};
 		31F1A0CC2AAD894D00B99DC4 /* SignUpPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -584,6 +619,7 @@
 				317D69FA2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift */,
 				317D69FC2ADD18FE004CEE5C /* AddFriendPopupViewController.swift */,
 				317D69FE2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift */,
+				31EF2A892AEE48F50082B664 /* WithdrawPopupViewController.swift */,
 			);
 			path = PopUp;
 			sourceTree = "<group>";
@@ -637,7 +673,7 @@
 			children = (
 				31F1A0F92AB4769C00B99DC4 /* Friend.swift */,
 				31C33F692AB5A94E00A99D7E /* Promise.swift */,
-				31258F032ACE8C9F004D764C /* GetPromise.swift */,
+				31258F032ACE8C9F004D764C /* PromiseHeader.swift */,
 				317D69CD2AD53031004CEE5C /* User.swift */,
 			);
 			path = Entity;
@@ -670,6 +706,7 @@
 				31258F072ACEB4C8004D764C /* RxDataSources */,
 				317D69D02ADBA414004CEE5C /* RxFlow */,
 				317D69F42ADCFDE9004CEE5C /* SocketIO */,
+				31EF2A872AEE488D0082B664 /* SwiftSMTP */,
 			);
 			productName = Promise;
 			productReference = 312476A12AA0588C00D318C7 /* Promise.app */;
@@ -708,6 +745,7 @@
 				31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */,
 				317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */,
 				317D69F32ADCFDE9004CEE5C /* XCRemoteSwiftPackageReference "socket" */,
+				31EF2A862AEE488D0082B664 /* XCRemoteSwiftPackageReference "Swift-SMTP" */,
 			);
 			productRefGroup = 312476A22AA0588C00D318C7 /* Products */;
 			projectDirPath = "";
@@ -755,6 +793,7 @@
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */,
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
+				31EF2A8A2AEE48F50082B664 /* WithdrawPopupViewController.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				317D6A0A2ADF86CB004CEE5C /* MyPageViewController.swift in Sources */,
 				31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */,
@@ -776,6 +815,7 @@
 				317D69F22ADC1F75004CEE5C /* FriendFlow.swift in Sources */,
 				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
 				317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */,
+				31BBE2842AEE83D800B69803 /* AnnouncementTableViewCell.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */,
 				31EF2A802AECD6590082B664 /* PastPromiseViewModel.swift in Sources */,
@@ -792,17 +832,21 @@
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
 				317D69FB2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
+				31BBE2822AEE83CA00B69803 /* AnnouncementHeaderView.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */,
+				31EF2A922AEE78D10082B664 /* AnnouncementModel.swift in Sources */,
 				317D69F02ADC1F6E004CEE5C /* FriendStep.swift in Sources */,
+				31EF2A8F2AEE76E40082B664 /* AnnouncementViewModel.swift in Sources */,
 				317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */,
 				318586A82AE00471005EBC31 /* ChangeProfileViewModel.swift in Sources */,
+				31EF2A8D2AEE76D90082B664 /* AnnouncementViewController.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift in Sources */,
 				31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */,
 				31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */,
 				31258F002ACE7F29004D764C /* PromiseHeaderView.swift in Sources */,
-				31258F042ACE8C9F004D764C /* GetPromise.swift in Sources */,
+				31258F042ACE8C9F004D764C /* PromiseHeader.swift in Sources */,
 				31F1A0D42AADA1F500B99DC4 /* FindPwViewController.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
@@ -1089,6 +1133,14 @@
 				kind = branch;
 			};
 		};
+		31EF2A862AEE488D0082B664 /* XCRemoteSwiftPackageReference "Swift-SMTP" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-SMTP";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1141,6 +1193,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 31C33F982ABD4FCE00A99D7E /* XCRemoteSwiftPackageReference "RxAlamofire" */;
 			productName = RxAlamofire;
+		};
+		31EF2A872AEE488D0082B664 /* SwiftSMTP */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31EF2A862AEE488D0082B664 /* XCRemoteSwiftPackageReference "Swift-SMTP" */;
+			productName = SwiftSMTP;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -19,7 +19,10 @@ class MyPageViewController: UIViewController {
     let infoSettingButton = UIButton()
     lazy var levelLabel = UILabel()
     lazy var expLabel = UILabel()
-    
+    let announcementButton = UIButton()
+    let inquiryButton = UIButton()
+    let tpButton = UIButton()
+    let versionLabel = UILabel()
     
     init(myPageViewModel: MyPageViewModel) {
         self.myPageViewModel = myPageViewModel
@@ -41,6 +44,10 @@ class MyPageViewController: UIViewController {
     private func bind(){
         infoSettingButton.rx.tap
             .bind(to: myPageViewModel.infoSettingButtonTapped)
+            .disposed(by: disposeBag)
+        
+        announcementButton.rx.tap
+            .bind(to: myPageViewModel.announcementButtonTapped)
             .disposed(by: disposeBag)
         
     }
@@ -109,10 +116,39 @@ class MyPageViewController: UIViewController {
             $0.text = "다음 레벨까지 5개 남으셨어요:)"
         }
         
+        announcementButton.do{
+            $0.setTitle("공지사항", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
+            $0.contentHorizontalAlignment = .leading
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 12*Constants.standardWidth, bottom: 0, right: 0)
+        }
+        
+        inquiryButton.do{
+            $0.setTitle("1:1 문의하기", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
+            $0.contentHorizontalAlignment = .leading
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 12*Constants.standardWidth, bottom: 0, right: 0)
+        }
+        
+        tpButton.do{
+            $0.setTitle("약관 및 정책", for: .normal)
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
+            $0.contentHorizontalAlignment = .leading
+            $0.titleEdgeInsets = UIEdgeInsets(top: 0, left: 12*Constants.standardWidth, bottom: 0, right: 0)
+        }
+        
+        versionLabel.do{
+            $0.text = "ver 1.0.0"
+            $0.textColor = UIColor(named: "greyOne")
+        }
+        
     }
     
     private func layout(){
-        [titleLabel,separateView,greyView,firstView,secView,userImageView,nicknameLabel,emailLabel,infoSettingButton,levelLabel,expLabel]
+        [titleLabel,separateView,greyView,firstView,secView,userImageView,nicknameLabel,emailLabel,infoSettingButton,levelLabel,expLabel,announcementButton,inquiryButton,tpButton,versionLabel]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -186,7 +222,31 @@ class MyPageViewController: UIViewController {
         
         expLabel.snp.makeConstraints { make in
             make.leading.equalTo(levelLabel.snp.trailing).offset(8*Constants.standardWidth)
-            make.centerY.equalTo(secView)        }
+            make.centerY.equalTo(secView)
+        }
+        
+        announcementButton.snp.makeConstraints { make in
+            make.height.equalTo(48*Constants.standardHeight)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(greyView.snp.bottom).offset(32*Constants.standardHeight)
+        }
+        
+        inquiryButton.snp.makeConstraints { make in
+            make.height.equalTo(48*Constants.standardHeight)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(announcementButton.snp.bottom)
+        }
+        
+        tpButton.snp.makeConstraints { make in
+            make.height.equalTo(48*Constants.standardHeight)
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(inquiryButton.snp.bottom)
+        }
+        
+        versionLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(tpButton.snp.bottom).offset(32*Constants.standardHeight)
+        }
         
     }
     

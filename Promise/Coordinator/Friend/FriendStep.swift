@@ -2,7 +2,7 @@ import RxFlow
 
 enum FriendStep: Step {
     case friend
-    case addFriend
+    case addFriendPopup
     case requestFriend
     case rejectFriendPopup
     case popView

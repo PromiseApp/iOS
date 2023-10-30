@@ -12,28 +12,28 @@ class PromiseViewModel: Stepper{
     let plusButtonTapped = PublishRelay<Void>()
     let viewPastPromiseButtonTapped = PublishRelay<Void>()
     
-    let promisesRelay = BehaviorRelay<[GetPromise]>(value: [])
+    let promisesRelay = BehaviorRelay<[PromiseHeader]>(value: [])
     let cntPromise = BehaviorRelay<Int>(value: 0)
-    let promiseDatas: Driver<[GetPromise]>
+    let promiseDriver: Driver<[PromiseHeader]>
     
     init(){
         
-        let promiseView: [PromiseList] = [
+        let promiseView: [PromiseCell] = [
             .init(time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", cnt: 3, place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아"),
             .init(time: "10:30", title: "bbb", cnt: 2, place: nil, penalty: "qweqwe"),
             .init(time: "13:10", title: "ccc", cnt: 5, place: "부산", penalty: "yhtyht"),
         ]
         promisesRelay.accept(
             [
-                GetPromise(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
-                GetPromise(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
-                GetPromise(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
+                PromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
+                PromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
+                PromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
             ]
         )
         
         cntPromise.accept(promisesRelay.value.map { $0.cntPromise }.reduce(0, +))
         
-        promiseDatas = promisesRelay.asDriver(onErrorDriveWith: .empty())
+        promiseDriver = promisesRelay.asDriver(onErrorDriveWith: .empty())
         
         plusButtonTapped
             .subscribe(onNext: { [weak self] in

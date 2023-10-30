@@ -29,12 +29,12 @@ class SignupFlow: Flow {
             return navigateToLimitedCollectionView()
         case .signupCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.signupCompleted)
-        case .popView:
-            return popViewController()
-        case .dismissView:
-            return dismissViewController()
         case .inputErrorPopup:
             return presentInputErrorPopup()
+        case .dismissView:
+            return dismissViewController()
+        case .popView:
+            return popViewController()
         }
     }
     
