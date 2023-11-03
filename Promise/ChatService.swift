@@ -1,4 +1,3 @@
-import SocketIO
 import Foundation
 import RxSwift
 import RxCocoa

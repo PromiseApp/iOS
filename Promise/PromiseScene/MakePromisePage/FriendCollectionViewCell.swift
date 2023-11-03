@@ -5,12 +5,11 @@ import SnapKit
 import Then
 
 class FriendCollectionViewCell: UICollectionViewCell {
+    var disposeBag = DisposeBag()
     
     let userImageView = UIImageView()
     let nameLabel = UILabel()
     let deleteButton = UIButton()
-    
-    var disposeBag = DisposeBag()
   
     override init(frame: CGRect) {
         super.init(frame: frame)

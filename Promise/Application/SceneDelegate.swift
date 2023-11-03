@@ -21,10 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
-        
-//        let VC = UINavigationController(rootViewController: MyPageViewController(myPageViewModel: MyPageViewModel()))
-//        self.window?.rootViewController = VC
-//        self.window?.makeKeyAndVisible()
+
         
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {

@@ -58,14 +58,13 @@ class AppFlow: Flow {
         Flows.use(promiseFlow, friendFlow, myPageFlow, when: .created) { [weak self] (promiseVC, friendVC, myPageVC) in
             
             promiseVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "home"),tag: 0)
-            friendVC.tabBarItem = UITabBarItem(title: "친구", image: UIImage(named: "friend")?.withRenderingMode(.alwaysOriginal), tag: 2)
-            myPageVC.tabBarItem = UITabBarItem(title: "사용자", image: UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal), tag: 3)
+            friendVC.tabBarItem = UITabBarItem(title: "친구", image: UIImage(named: "friend")?.withRenderingMode(.alwaysOriginal), tag: 3)
+            myPageVC.tabBarItem = UITabBarItem(title: "사용자", image: UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal), tag: 4)
 
             let dummyVC = UIViewController()
+            dummyVC.tabBarItem = UITabBarItem(title: nil, image: nil, tag: 2)
             dummyVC.tabBarItem.isEnabled = false
             
-            VC.tabBar.itemWidth = 49.0
-            VC.tabBar.itemSpacing = 19.0
             
             VC.viewControllers = [promiseVC, dummyVC, friendVC, myPageVC]
             self?.rootViewController.setViewControllers([VC], animated: false)

@@ -7,6 +7,9 @@ enum MyPageStep: Step {
     case changePw
     case changeNickname
     case announcement
+    case inquiryList
+    case writeInquiry
+    case detailInquiry
     case withdrawPopup
     case dismissView
     case popView

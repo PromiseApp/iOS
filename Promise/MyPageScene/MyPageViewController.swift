@@ -50,6 +50,10 @@ class MyPageViewController: UIViewController {
             .bind(to: myPageViewModel.announcementButtonTapped)
             .disposed(by: disposeBag)
         
+        inquiryButton.rx.tap
+            .bind(to: myPageViewModel.inquiryButtonTapped)
+            .disposed(by: disposeBag)
+        
     }
     
     private func attribute(){

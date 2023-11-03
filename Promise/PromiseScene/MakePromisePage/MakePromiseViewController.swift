@@ -70,10 +70,6 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         promiseTitleTextField.rx.text.orEmpty
-            .bind(to: makePromiseViewModel.titleRelay)
-            .disposed(by: disposeBag)
-        
-        promiseTitleTextField.rx.text.orEmpty
             .map { String($0.prefix(16)) }
             .bind(to: promiseTitleTextField.rx.text)
             .disposed(by: disposeBag)
@@ -91,10 +87,6 @@ class MakePromiseViewController: UIViewController {
             }
             .asDriver(onErrorJustReturn: NSAttributedString(string: "0/16"))
             .drive(promiseTitleLengthLabel.rx.attributedText)
-            .disposed(by: disposeBag)
-        
-        placeTextField.rx.text.orEmpty
-            .bind(to: makePromiseViewModel.placeRelay)
             .disposed(by: disposeBag)
         
         placeTextField.rx.text.orEmpty
@@ -118,10 +110,6 @@ class MakePromiseViewController: UIViewController {
             .disposed(by: disposeBag)
         
         penaltyTextField.rx.text.orEmpty
-            .bind(to: makePromiseViewModel.penaltyRelay)
-            .disposed(by: disposeBag)
-        
-        penaltyTextField.rx.text.orEmpty
             .map { String($0.prefix(20)) }
             .bind(to: penaltyTextField.rx.text)
             .disposed(by: disposeBag)
@@ -139,10 +127,6 @@ class MakePromiseViewController: UIViewController {
             }
             .asDriver(onErrorJustReturn: NSAttributedString(string: "0/20"))
             .drive(penaltyLengthLabel.rx.attributedText)
-            .disposed(by: disposeBag)
-        
-        memoTextView.rx.text.orEmpty
-            .bind(to: makePromiseViewModel.memoRelay)
             .disposed(by: disposeBag)
         
         memoTextView.rx.text.orEmpty

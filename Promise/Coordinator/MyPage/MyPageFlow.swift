@@ -29,6 +29,12 @@ class MyPageFlow: Flow {
             return navigateToChangeNickname()
         case .announcement:
             return navigateToAnnouncement()
+        case .inquiryList:
+            return navigateToInquiryList()
+        case .writeInquiry:
+            return navigateToWriteInquiry()
+        case .detailInquiry:
+            return navigateToDetailInquiry()
         case .withdrawPopup:
             return presentWithdrawPopup()
         case .dismissView:
@@ -76,6 +82,29 @@ class MyPageFlow: Flow {
     private func navigateToAnnouncement() -> FlowContributors {
         let VM = AnnouncementViewModel()
         let VC = AnnouncementViewController(announcementViewModel: VM)
+        VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToInquiryList() -> FlowContributors {
+        let VM = InquiryViewModel()
+        let VC = InquiryViewController(inquiryViewModel: VM)
+        VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToWriteInquiry() -> FlowContributors {
+        let VM = WriteInquiryViewModel()
+        let VC = WriteInquiryViewController(writeInquiryViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToDetailInquiry() -> FlowContributors {
+        let VM = DetailInquiryViewModel()
+        let VC = DetailInquiryViewController(detailInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
