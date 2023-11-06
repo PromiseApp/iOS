@@ -20,7 +20,6 @@ class ShareFriendViewModel{
     
     init(){
         friendsRelay.accept(allFriends)
-        
     }
     
 }

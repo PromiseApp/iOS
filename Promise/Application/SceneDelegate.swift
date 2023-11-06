@@ -22,6 +22,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
 
+//        self.window?.rootViewController = UINavigationController(rootViewController: TestViewController())
+//        self.window?.makeKeyAndVisible()
         
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {

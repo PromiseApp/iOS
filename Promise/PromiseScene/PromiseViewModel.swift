@@ -11,6 +11,7 @@ class PromiseViewModel: Stepper{
     
     let plusButtonTapped = PublishRelay<Void>()
     let viewPastPromiseButtonTapped = PublishRelay<Void>()
+    let selectPromiseResultButtonTapped = PublishRelay<Void>()
     
     let promisesRelay = BehaviorRelay<[PromiseHeader]>(value: [])
     let cntPromise = BehaviorRelay<Int>(value: 0)
@@ -19,9 +20,9 @@ class PromiseViewModel: Stepper{
     init(){
         
         let promiseView: [PromiseCell] = [
-            .init(time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", cnt: 3, place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아"),
-            .init(time: "10:30", title: "bbb", cnt: 2, place: nil, penalty: "qweqwe"),
-            .init(time: "13:10", title: "ccc", cnt: 5, place: "부산", penalty: "yhtyht"),
+            .init(time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", cnt: 3, place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아", manager: true),
+            .init(time: "10:30", title: "bbb", cnt: 2, place: nil, penalty: "qweqwe", manager: false),
+            .init(time: "13:10", title: "ccc", cnt: 5, place: "부산", penalty: "yhtyht", manager: true),
         ]
         promisesRelay.accept(
             [
@@ -44,6 +45,12 @@ class PromiseViewModel: Stepper{
         viewPastPromiseButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(PromiseStep.pastPromise)
+            })
+            .disposed(by: disposeBag)
+        
+        selectPromiseResultButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.selectPromiseResult)
             })
             .disposed(by: disposeBag)
         

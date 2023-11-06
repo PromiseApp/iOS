@@ -13,6 +13,7 @@ struct PromiseCell{
     let cnt: Int
     let place: String?
     let penalty: String?
+    let manager: Bool
 }
 
 struct PastPromiseHeader{

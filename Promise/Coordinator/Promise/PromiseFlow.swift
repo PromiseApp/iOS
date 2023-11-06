@@ -25,6 +25,10 @@ class PromiseFlow: Flow {
             return navigateToSelectFriend()
         case .pastPromise:
             return navigateToPastPromise()
+        case .selectPromiseResult:
+            return navigateToSelectPromiseResult()
+        case .selectMemberResult:
+            return navigateToSelectMemberResult()
         case .popView:
             return popViewController()
         }
@@ -56,6 +60,21 @@ class PromiseFlow: Flow {
         let VM = PastPromiseViewModel()
         let VC = PastPromiseViewController(pastPromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToSelectPromiseResult() -> FlowContributors {
+        let VM = SelectPromiseResultViewModel()
+        let VC = SelectPromiseResultViewController(selectPromiseResultViewModel: VM)
+        VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToSelectMemberResult() -> FlowContributors {
+        let VM = SelectMemberResultViewModel()
+        let VC = SelectMemberResultViewController(selectMemberResultViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }

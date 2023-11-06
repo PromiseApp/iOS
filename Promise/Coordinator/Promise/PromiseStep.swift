@@ -5,5 +5,7 @@ enum PromiseStep: Step {
     case makePromise
     case selectFriend
     case pastPromise
+    case selectPromiseResult
+    case selectMemberResult
     case popView
 }

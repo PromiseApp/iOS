@@ -21,6 +21,7 @@ class PromiseViewController: UIViewController {
     lazy var levelLabel = UILabel()
     lazy var expLabel = UILabel()
     lazy var cntLabel = UILabel()
+    let selectPromiseResultButton = UIButton()
     lazy var promiseListTableView = UITableView()
     let plusButton = UIButton()
     
@@ -66,13 +67,17 @@ class PromiseViewController: UIViewController {
             .bind(to: promiseViewModel.viewPastPromiseButtonTapped)
             .disposed(by: disposeBag)
         
+        selectPromiseResultButton.rx.tap
+            .bind(to: promiseViewModel.selectPromiseResultButtonTapped)
+            .disposed(by: disposeBag)
+        
         promiseListTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
         let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
             configureCell: { (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
-                cell.configure(data: promiseView)
+                cell.configure(data: promiseView, manager: promiseView.manager)
                 return cell
             }
         )
@@ -87,12 +92,12 @@ class PromiseViewController: UIViewController {
         promiseViewModel.cntPromise
             .subscribe(onNext: { [weak self] cnt in
                 if(cnt == 0){
-                    self?.cntLabel.text = "아직 약속이 없네요"
+                    self?.cntLabel.text = "아직 결과를 선택할 약속이 없어요 :)"
                     self?.promiseListTableView.isHidden = true
                     self?.plusButton.isHidden = false
                 }
                 else{
-                    let text = "약속이 \(cnt)개 있어요!"
+                    let text = "결과 선택할 약속 : \(cnt)"
                     let attributedString = NSMutableAttributedString(string: text)
                     
                     attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "\(cnt)"))
@@ -154,6 +159,17 @@ class PromiseViewController: UIViewController {
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
         }
         
+        selectPromiseResultButton.do{
+            $0.setTitle("결과 선택하기", for: .normal)
+            $0.setTitleColor(UIColor(named: "prHeavy"), for: .normal)
+            $0.setImage(UIImage(named: "rightPrHeavy"), for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
+            $0.semanticContentAttribute = .forceRightToLeft
+            $0.layer.borderWidth = 2
+            $0.layer.borderColor = UIColor(named: "prHeavy")?.cgColor
+            $0.layer.cornerRadius = 13*Constants.standardHeight
+        }
+        
         plusButton.do{
             $0.layer.borderWidth = 2
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
@@ -178,7 +194,7 @@ class PromiseViewController: UIViewController {
     }
     
     private func layout(){
-        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,thirdSeparateView,promiseListTableView,plusButton]
+        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,selectPromiseResultButton,thirdSeparateView,promiseListTableView,plusButton]
             .forEach{view.addSubview($0)}
         
         logoLabel.snp.makeConstraints { make in
@@ -244,6 +260,13 @@ class PromiseViewController: UIViewController {
         cntLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(secSeparateView.snp.bottom).offset(12*Constants.standardHeight)
+        }
+        
+        selectPromiseResultButton.snp.makeConstraints { make in
+            make.width.equalTo(105*Constants.standardWidth)
+            make.height.equalTo(26*Constants.standardHeight)
+            make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
+            make.centerY.equalTo(cntLabel)
         }
         
         thirdSeparateView.snp.makeConstraints { make in

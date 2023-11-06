@@ -44,7 +44,8 @@ class TestViewController: UIViewController {
         
         button.rx.tap
             .subscribe(onNext: { [weak self] _ in
-                self?.zz()
+                //self?.zz()
+                self?.login()
             })
             .disposed(by: disposeBag)
         
@@ -68,7 +69,7 @@ class TestViewController: UIViewController {
             "Authorization": "Bearer \(token ?? "")"
         ]
         
-        AF.request("http://43.201.252.19:8080/promise/getPromiseList", method: .get, parameters: parameters, headers: headers).responseJSON { response in
+        AF.request("http://localhost:8080/promise/getPromiseList", method: .get, parameters: parameters, headers: headers).responseJSON { response in
             print(UserManager.shared.userModel.token)
             switch response.result {
             case .success(let value):
@@ -82,10 +83,10 @@ class TestViewController: UIViewController {
     
     func login(){
         
-        let url = "http://43.201.252.19:8080/login"
+        let url = "http://localhost:8080/login"
         let parameters: [String: String] = [
-            "account": "pjs@gmail.com",
-            "password": "1234",
+            "account": "a",
+            "password": "a",
         ]
         
         let headers: HTTPHeaders = [

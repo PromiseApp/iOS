@@ -1,8 +1,10 @@
 import UIKit
+import RxSwift
 import SnapKit
 import Then
 
-class PromiseTableViewCell: UITableViewCell {
+class SelectPromiseResultTableViewCell: UITableViewCell {
+    var disposeBag = DisposeBag()
 
     let greyView = UIView()
     lazy var timeLabel = UILabel()
@@ -13,7 +15,7 @@ class PromiseTableViewCell: UITableViewCell {
     lazy var locaLabel = UILabel()
     let skullImageView = UIImageView()
     lazy var penaltyLabel = UILabel()
-    let pencilImageView = UIImageView()
+    let selectMemberResultButton = UIButton()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,6 +27,11 @@ class PromiseTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     func attribute(){
@@ -67,10 +74,15 @@ class PromiseTableViewCell: UITableViewCell {
             $0.textColor = .red
         }
         
+        selectMemberResultButton.do{
+            $0.setTitleColor(.black, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+        }
+        
     }
     
     func layout(){
-        [greyView,timeLabel,titleLabel,separateLabel,cntLabel,locaImageView,locaLabel,skullImageView,penaltyLabel,pencilImageView]
+        [greyView,timeLabel,titleLabel,separateLabel,cntLabel,locaImageView,locaLabel,skullImageView,penaltyLabel,selectMemberResultButton]
             .forEach { UIView in
                 contentView.addSubview(UIView)
             }
@@ -117,19 +129,18 @@ class PromiseTableViewCell: UITableViewCell {
             make.width.height.equalTo(16*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(locaImageView.snp.bottom).offset(9*Constants.standardHeight)
-            make.bottom.equalToSuperview().offset(-12*Constants.standardHeight)
         }
         
         penaltyLabel.snp.makeConstraints { make in
             make.leading.equalTo(skullImageView.snp.trailing).offset(4*Constants.standardWidth)
             make.centerY.equalTo(skullImageView)
-            make.bottom.equalToSuperview().offset(-12*Constants.standardHeight)
         }
         
-        pencilImageView.snp.makeConstraints { make in
-            make.width.height.equalTo(32*Constants.standardHeight)
-            make.trailing.equalToSuperview().offset(-16*Constants.standardWidth)
-            make.bottom.equalToSuperview().offset(-32*Constants.standardHeight)
+        selectMemberResultButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(48*Constants.standardHeight)
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(penaltyLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
     }
@@ -140,13 +151,18 @@ class PromiseTableViewCell: UITableViewCell {
         cntLabel.text = "\(data.cnt)명"
         locaLabel.text = data.place ?? "미정"
         penaltyLabel.text = data.penalty ?? "미정"
-        
         if(manager){
-            pencilImageView.image = UIImage(named: "pencil")?.withRenderingMode(.alwaysOriginal)
+            selectMemberResultButton.do{
+                $0.setTitle("참여자 결과 선택하기", for: .normal)
+                $0.backgroundColor = UIColor(named: "prStrong")
+            }
         }
         else{
-            pencilImageView.image = UIImage(named: "door")?.withRenderingMode(.alwaysTemplate)
-            pencilImageView.tintColor = UIColor(named: "prStrong")
+            selectMemberResultButton.do{
+                $0.setTitle("방장 선택 대기 중", for: .normal)
+                $0.backgroundColor = UIColor(named: "prLight")
+                $0.isEnabled = false
+            }
         }
     }
    

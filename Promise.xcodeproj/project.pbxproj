@@ -43,6 +43,16 @@
 		317C8F742AF37EF9003010BA /* DetailInquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F732AF37EF9003010BA /* DetailInquiryViewController.swift */; };
 		317C8F762AF37F02003010BA /* DetailInquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F752AF37F02003010BA /* DetailInquiryViewModel.swift */; };
 		317C8F782AF39772003010BA /* InquiryConditionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F772AF39772003010BA /* InquiryConditionCollectionViewCell.swift */; };
+		317C8F7B2AF74EC9003010BA /* SelectPromiseResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F7A2AF74EC9003010BA /* SelectPromiseResultViewController.swift */; };
+		317C8F7D2AF74ED4003010BA /* SelectPromiseResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F7C2AF74ED4003010BA /* SelectPromiseResultViewModel.swift */; };
+		317C8F7F2AF75460003010BA /* SelectPromiseResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F7E2AF75460003010BA /* SelectPromiseResultTableViewCell.swift */; };
+		317C8F832AF7D03A003010BA /* Sriracha-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 317C8F822AF7D03A003010BA /* Sriracha-Regular.ttf */; };
+		317C8F852AF7D071003010BA /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317C8F842AF7D071003010BA /* Pretendard-Medium.otf */; };
+		317C8F872AF7D077003010BA /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317C8F862AF7D077003010BA /* Pretendard-Regular.otf */; };
+		317C8F892AF7D07E003010BA /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317C8F882AF7D07E003010BA /* Pretendard-SemiBold.otf */; };
+		317C8F8C2AF8A616003010BA /* SelectMemberResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F8B2AF8A616003010BA /* SelectMemberResultViewController.swift */; };
+		317C8F8E2AF8A626003010BA /* SelectMemberResultViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F8D2AF8A626003010BA /* SelectMemberResultViewModel.swift */; };
+		317C8F902AF8A695003010BA /* SelectMemberResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F8F2AF8A695003010BA /* SelectMemberResultTableViewCell.swift */; };
 		317D69CE2AD53031004CEE5C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69CD2AD53031004CEE5C /* User.swift */; };
 		317D69D12ADBA414004CEE5C /* RxFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 317D69D02ADBA414004CEE5C /* RxFlow */; };
 		317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69D22ADBA48B004CEE5C /* AppStep.swift */; };
@@ -51,7 +61,6 @@
 		317D69DB2ADBC57C004CEE5C /* SignupStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69DA2ADBC57C004CEE5C /* SignupStep.swift */; };
 		317D69DE2ADBD3BE004CEE5C /* FindPwStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69DD2ADBD3BE004CEE5C /* FindPwStep.swift */; };
 		317D69E02ADBD3C6004CEE5C /* FindPwFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69DF2ADBD3C6004CEE5C /* FindPwFlow.swift */; };
-		317D69E22ADC04B1004CEE5C /* Sriracha-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 317D69E12ADC04B1004CEE5C /* Sriracha-Regular.ttf */; };
 		317D69E72ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69E62ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift */; };
 		317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69EB2ADC1F5C004CEE5C /* PromiseStep.swift */; };
 		317D69EE2ADC1F63004CEE5C /* PromiseFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317D69ED2ADC1F63004CEE5C /* PromiseFlow.swift */; };
@@ -74,9 +83,6 @@
 		31C33F6A2AB5A94E00A99D7E /* Promise.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* Promise.swift */; };
 		31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F782AB8093E00A99D7E /* TabBarController.swift */; };
 		31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */; };
-		31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */; };
-		31C33F812AB81A1500A99D7E /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */; };
-		31C33F822AB81A1500A99D7E /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */; };
 		31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F882AB977D400A99D7E /* TestViewController.swift */; };
 		31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 31C33F8B2AB97A0F00A99D7E /* Alamofire */; };
 		31C33F932ABD4F2A00A99D7E /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F922ABD4F2A00A99D7E /* Requestable.swift */; };
@@ -146,6 +152,16 @@
 		317C8F732AF37EF9003010BA /* DetailInquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInquiryViewController.swift; sourceTree = "<group>"; };
 		317C8F752AF37F02003010BA /* DetailInquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailInquiryViewModel.swift; sourceTree = "<group>"; };
 		317C8F772AF39772003010BA /* InquiryConditionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryConditionCollectionViewCell.swift; sourceTree = "<group>"; };
+		317C8F7A2AF74EC9003010BA /* SelectPromiseResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromiseResultViewController.swift; sourceTree = "<group>"; };
+		317C8F7C2AF74ED4003010BA /* SelectPromiseResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromiseResultViewModel.swift; sourceTree = "<group>"; };
+		317C8F7E2AF75460003010BA /* SelectPromiseResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPromiseResultTableViewCell.swift; sourceTree = "<group>"; };
+		317C8F822AF7D03A003010BA /* Sriracha-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sriracha-Regular.ttf"; path = "Promise/Resource/FontStyle/Sriracha-Regular.ttf"; sourceTree = SOURCE_ROOT; };
+		317C8F842AF7D071003010BA /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Medium.otf"; path = "Promise/Resource/FontStyle/Pretendard-Medium.otf"; sourceTree = SOURCE_ROOT; };
+		317C8F862AF7D077003010BA /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-Regular.otf"; path = "Promise/Resource/FontStyle/Pretendard-Regular.otf"; sourceTree = SOURCE_ROOT; };
+		317C8F882AF7D07E003010BA /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-SemiBold.otf"; path = "Promise/Resource/FontStyle/Pretendard-SemiBold.otf"; sourceTree = SOURCE_ROOT; };
+		317C8F8B2AF8A616003010BA /* SelectMemberResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMemberResultViewController.swift; sourceTree = "<group>"; };
+		317C8F8D2AF8A626003010BA /* SelectMemberResultViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMemberResultViewModel.swift; sourceTree = "<group>"; };
+		317C8F8F2AF8A695003010BA /* SelectMemberResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectMemberResultTableViewCell.swift; sourceTree = "<group>"; };
 		317D69CD2AD53031004CEE5C /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		317D69D22ADBA48B004CEE5C /* AppStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStep.swift; sourceTree = "<group>"; };
 		317D69D42ADBA4A1004CEE5C /* AppFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFlow.swift; sourceTree = "<group>"; };
@@ -153,7 +169,6 @@
 		317D69DA2ADBC57C004CEE5C /* SignupStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupStep.swift; sourceTree = "<group>"; };
 		317D69DD2ADBD3BE004CEE5C /* FindPwStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwStep.swift; sourceTree = "<group>"; };
 		317D69DF2ADBD3C6004CEE5C /* FindPwFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPwFlow.swift; sourceTree = "<group>"; };
-		317D69E12ADC04B1004CEE5C /* Sriracha-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sriracha-Regular.ttf"; path = "../../Downloads/Sriracha/Sriracha-Regular.ttf"; sourceTree = "<group>"; };
 		317D69E62ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmEmailAuthInFindPwViewController.swift; sourceTree = "<group>"; };
 		317D69EB2ADC1F5C004CEE5C /* PromiseStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseStep.swift; sourceTree = "<group>"; };
 		317D69ED2ADC1F63004CEE5C /* PromiseFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseFlow.swift; sourceTree = "<group>"; };
@@ -176,9 +191,6 @@
 		31C33F692AB5A94E00A99D7E /* Promise.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promise.swift; sourceTree = "<group>"; };
 		31C33F782AB8093E00A99D7E /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		31C33F7A2AB809D200A99D7E /* TabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewModel.swift; sourceTree = "<group>"; };
-		31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
-		31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
-		31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		31C33F882AB977D400A99D7E /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		31C33F8D2ABAA8EB00A99D7E /* Promise.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Promise.entitlements; sourceTree = "<group>"; };
 		31C33F922ABD4F2A00A99D7E /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
@@ -316,6 +328,7 @@
 				31258EFF2ACE7F29004D764C /* PromiseHeaderView.swift */,
 				31258F012ACE7F3A004D764C /* PromiseTableViewCell.swift */,
 				31EF2A842AECDA530082B664 /* PastPromiseTableViewCell.swift */,
+				317C8F7E2AF75460003010BA /* SelectPromiseResultTableViewCell.swift */,
 			);
 			path = PromiseTableViewCells;
 			sourceTree = "<group>";
@@ -368,6 +381,26 @@
 				317C8F6B2AF2675C003010BA /* InquiryTableViewCell.swift */,
 			);
 			path = InquiryTableViewCells;
+			sourceTree = "<group>";
+		};
+		317C8F792AF74EAC003010BA /* SelectPromiseResultPage */ = {
+			isa = PBXGroup;
+			children = (
+				317C8F8A2AF8A5F9003010BA /* SelectMemberResultPage */,
+				317C8F7A2AF74EC9003010BA /* SelectPromiseResultViewController.swift */,
+				317C8F7C2AF74ED4003010BA /* SelectPromiseResultViewModel.swift */,
+			);
+			path = SelectPromiseResultPage;
+			sourceTree = "<group>";
+		};
+		317C8F8A2AF8A5F9003010BA /* SelectMemberResultPage */ = {
+			isa = PBXGroup;
+			children = (
+				317C8F8B2AF8A616003010BA /* SelectMemberResultViewController.swift */,
+				317C8F8D2AF8A626003010BA /* SelectMemberResultViewModel.swift */,
+				317C8F8F2AF8A695003010BA /* SelectMemberResultTableViewCell.swift */,
+			);
+			path = SelectMemberResultPage;
 			sourceTree = "<group>";
 		};
 		317D69D82ADBC54F004CEE5C /* App */ = {
@@ -535,10 +568,10 @@
 		31C33F7C2AB81A1500A99D7E /* FontStyle */ = {
 			isa = PBXGroup;
 			children = (
-				31C33F7D2AB81A1500A99D7E /* Pretendard-Regular.otf */,
-				317D69E12ADC04B1004CEE5C /* Sriracha-Regular.ttf */,
-				31C33F7E2AB81A1500A99D7E /* Pretendard-Medium.otf */,
-				31C33F7F2AB81A1500A99D7E /* Pretendard-SemiBold.otf */,
+				317C8F822AF7D03A003010BA /* Sriracha-Regular.ttf */,
+				317C8F862AF7D077003010BA /* Pretendard-Regular.otf */,
+				317C8F842AF7D071003010BA /* Pretendard-Medium.otf */,
+				317C8F882AF7D07E003010BA /* Pretendard-SemiBold.otf */,
 			);
 			name = FontStyle;
 			path = ../../../FontStyle;
@@ -679,6 +712,7 @@
 		31F1A0E02AAEF7BB00B99DC4 /* PromiseScene */ = {
 			isa = PBXGroup;
 			children = (
+				317C8F792AF74EAC003010BA /* SelectPromiseResultPage */,
 				31EF2A812AECD65E0082B664 /* PastPromisePage */,
 				31258EFE2ACE7EE9004D764C /* PromiseTableViewCells */,
 				31F1A0F12AB46C6800B99DC4 /* SelectFriendPage */,
@@ -809,12 +843,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				317D69E22ADC04B1004CEE5C /* Sriracha-Regular.ttf in Resources */,
 				312476B12AA0588D00D318C7 /* LaunchScreen.storyboard in Resources */,
-				31C33F802AB81A1500A99D7E /* Pretendard-Regular.otf in Resources */,
-				31C33F822AB81A1500A99D7E /* Pretendard-SemiBold.otf in Resources */,
 				312476AE2AA0588D00D318C7 /* Assets.xcassets in Resources */,
-				31C33F812AB81A1500A99D7E /* Pretendard-Medium.otf in Resources */,
+				317C8F872AF7D077003010BA /* Pretendard-Regular.otf in Resources */,
+				317C8F892AF7D07E003010BA /* Pretendard-SemiBold.otf in Resources */,
+				317C8F832AF7D03A003010BA /* Sriracha-Regular.ttf in Resources */,
+				317C8F852AF7D071003010BA /* Pretendard-Medium.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -827,6 +861,8 @@
 			files = (
 				31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */,
 				317D69DB2ADBC57C004CEE5C /* SignupStep.swift in Sources */,
+				317C8F7F2AF75460003010BA /* SelectPromiseResultTableViewCell.swift in Sources */,
+				317C8F7B2AF74EC9003010BA /* SelectPromiseResultViewController.swift in Sources */,
 				317D69E72ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift in Sources */,
 				317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */,
 				31EF2A852AECDA530082B664 /* PastPromiseTableViewCell.swift in Sources */,
@@ -868,6 +904,7 @@
 				31C33F892AB977D400A99D7E /* TestViewController.swift in Sources */,
 				317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */,
 				31BBE2842AEE83D800B69803 /* AnnouncementTableViewCell.swift in Sources */,
+				317C8F8C2AF8A616003010BA /* SelectMemberResultViewController.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */,
 				31EF2A802AECD6590082B664 /* PastPromiseViewModel.swift in Sources */,
@@ -883,6 +920,7 @@
 				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
 				317D69FB2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift in Sources */,
+				317C8F8E2AF8A626003010BA /* SelectMemberResultViewModel.swift in Sources */,
 				31F1A0EB2AB03F3100B99DC4 /* LimitedCollectionViewCell.swift in Sources */,
 				31BBE2822AEE83CA00B69803 /* AnnouncementHeaderView.swift in Sources */,
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
@@ -890,6 +928,7 @@
 				31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */,
 				31EF2A922AEE78D10082B664 /* AnnouncementModel.swift in Sources */,
 				317D69F02ADC1F6E004CEE5C /* FriendStep.swift in Sources */,
+				317C8F902AF8A695003010BA /* SelectMemberResultTableViewCell.swift in Sources */,
 				31EF2A8F2AEE76E40082B664 /* AnnouncementViewModel.swift in Sources */,
 				317C8F6E2AF26B31003010BA /* InquiryModel.swift in Sources */,
 				317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */,
@@ -897,6 +936,7 @@
 				31EF2A8D2AEE76D90082B664 /* AnnouncementViewController.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* InputErrorPopUpViewController.swift in Sources */,
+				317C8F7D2AF74ED4003010BA /* SelectPromiseResultViewModel.swift in Sources */,
 				31F1A0FC2AB488A400B99DC4 /* FriendCollectionViewCell.swift in Sources */,
 				31F1A0F72AB46E9E00B99DC4 /* FriendTableViewCell.swift in Sources */,
 				317C8F702AF35EE1003010BA /* WriteInquiryViewController.swift in Sources */,
