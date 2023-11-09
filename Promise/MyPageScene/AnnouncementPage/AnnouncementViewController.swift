@@ -11,6 +11,7 @@ class AnnouncementViewController: UIViewController {
     
     let titleLabel = UILabel()
     let leftButton = UIButton()
+    let writeButton = UIButton()
     let separateView = UIView()
     lazy var announcementTableView = UITableView()
     
@@ -32,8 +33,16 @@ class AnnouncementViewController: UIViewController {
     }
     
     private func bind(){
+        announcementViewModel.isMasterRelay
+            .bind(to: self.writeButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         leftButton.rx.tap
             .bind(to: announcementViewModel.leftButtonTapped)
+            .disposed(by: disposeBag)
+        
+        writeButton.rx.tap
+            .bind(to: announcementViewModel.writeButtonTapped)
             .disposed(by: disposeBag)
         
         announcementTableView.rx.setDelegate(self)
@@ -68,6 +77,10 @@ class AnnouncementViewController: UIViewController {
             $0.setImage(UIImage(named: "left"), for: .normal)
         }
         
+        writeButton.do{
+            $0.setImage(UIImage(named: "write"), for: .normal)
+        }
+        
         separateView.do{
             $0.backgroundColor = UIColor(named: "line")
         }
@@ -82,7 +95,7 @@ class AnnouncementViewController: UIViewController {
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,announcementTableView]
+        [titleLabel,leftButton,writeButton,separateView,announcementTableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -93,6 +106,12 @@ class AnnouncementViewController: UIViewController {
         leftButton.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.centerY.equalTo(titleLabel)
+        }
+        
+        writeButton.snp.makeConstraints { make in
+            make.width.height.equalTo(24*Constants.standardHeight)
+            make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
             make.centerY.equalTo(titleLabel)
         }
         

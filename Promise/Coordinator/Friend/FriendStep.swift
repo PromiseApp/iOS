@@ -5,5 +5,7 @@ enum FriendStep: Step {
     case addFriendPopup
     case requestFriend
     case rejectFriendPopup
+    case networkErrorPopup
     case popView
+    case dismissView
 }

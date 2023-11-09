@@ -8,6 +8,8 @@ class WriteInquiryViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
+    var role: String
+    
     let leftButtonTapped = PublishRelay<Void>()
     let uploadButtonTapped = PublishRelay<Void>()
     
@@ -17,7 +19,8 @@ class WriteInquiryViewModel: Stepper{
     let titleLengthRelay = BehaviorRelay<Int>(value: 0)
     let contentLengthRelay = BehaviorRelay<Int>(value: 0)
     
-    init() {
+    init(role: String) {
+        self.role = role
         
         titleRelay
             .map { $0.count }

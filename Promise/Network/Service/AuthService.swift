@@ -2,20 +2,20 @@ import Moya
 import RxMoya
 import RxSwift
 
-protocol LoginServiceProtocol {
-    func signUp(account: String, password: String, nickname:String, image: String?) -> Single<SingupResponse>
+protocol AuthServiceProtocol {
+    func signUp(account: String, password: String, nickname:String, image: String?) -> Single<SignupResponse>
     func login(account: String, password: String) -> Single<LoginResponse>
     func duplicateCheckAccount(account: String) -> Single<DuplicateCheckResponse>
     func duplicateCheckNickname(nickname: String) -> Single<DuplicateCheckResponse>
 }
 
-class LoginService: LoginServiceProtocol {
-    private let provider = MoyaProvider<LoginAPI>()
+class AuthService: AuthServiceProtocol {
+    private let provider = MoyaProvider<AuthAPI>()
     
-    func signUp(account: String, password: String, nickname:String, image: String?) -> Single<SingupResponse> {
+    func signUp(account: String, password: String, nickname:String, image: String?) -> Single<SignupResponse> {
         return provider.rx.request(.signup(account: account, password: password, nickname: nickname, image: image))
             .filterSuccessfulStatusCodes()
-            .map(SingupResponse.self)
+            .map(SignupResponse.self)
     }
     
     func login(account: String, password: String) -> Single<LoginResponse> {

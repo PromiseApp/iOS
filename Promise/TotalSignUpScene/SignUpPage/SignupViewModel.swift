@@ -10,7 +10,7 @@ class SignupViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: LoginService
+    let loginService: AuthService
     
     let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account ?? "이메일")
     let pwTextRelay = BehaviorRelay<String>(value: "")
@@ -48,7 +48,7 @@ class SignupViewModel: Stepper{
             }
     }
     
-    init(loginService: LoginService){
+    init(loginService: AuthService){
         self.loginService = loginService
         
         leftButtonTapped
@@ -67,9 +67,7 @@ class SignupViewModel: Stepper{
             .withLatestFrom(Observable.combineLatest(pwTextRelay.asObservable(), rePwTextRelay.asObservable()))
             .flatMapLatest { [weak self] (password, confirmPassword) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                
                 if(password == confirmPassword){
-                    
                     return self.loginService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, image: UserSession.shared.image)
                         .asObservable()
                         .map{_ in Void() }

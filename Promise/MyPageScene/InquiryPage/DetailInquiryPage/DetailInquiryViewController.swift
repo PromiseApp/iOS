@@ -10,6 +10,7 @@ class DetailInquiryViewController: UIViewController {
 
     let titleLabel = UILabel()
     let leftButton = UIButton()
+    let uploadButton = UIButton()
     let separateView = UIView()
     let inquiryTitleLabel = UILabel()
     let writerLabel = UILabel()
@@ -37,6 +38,23 @@ class DetailInquiryViewController: UIViewController {
     }
 
     private func bind(){
+        
+        detailInquiryViewModel.isMasterRelay
+            .subscribe(onNext: { [weak self] isMaster in
+                if(isMaster){
+                    self?.replyTextView.isEditable = true
+                    self?.uploadButton.isHidden = false
+                }
+                else{
+                    self?.replyTextView.isEditable = false
+                    self?.uploadButton.isHidden = true
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        uploadButton.rx.tap
+            .bind(to: detailInquiryViewModel.uploadButtonTapped)
+            .disposed(by: disposeBag)
 
         leftButton.rx.tap
             .bind(to: detailInquiryViewModel.leftButtonTapped)
@@ -79,6 +97,10 @@ class DetailInquiryViewController: UIViewController {
 
         leftButton.do{
             $0.setImage(UIImage(named: "left"), for: .normal)
+        }
+        
+        uploadButton.do{
+            $0.setImage(UIImage(named: "upload"), for: .normal)
         }
         
         separateView.do{
@@ -134,7 +156,7 @@ class DetailInquiryViewController: UIViewController {
     }
 
     private func layout(){
-        [titleLabel,leftButton,separateView,inquiryTitleLabel,writerLabel,inquiryTitleTextField,inquiryContentLabel,inquiryContentTextView,replyLabel,replyTextView]
+        [titleLabel,leftButton,uploadButton,separateView,inquiryTitleLabel,writerLabel,inquiryTitleTextField,inquiryContentLabel,inquiryContentTextView,replyLabel,replyTextView]
             .forEach{ view.addSubview($0) }
 
         titleLabel.snp.makeConstraints { make in
@@ -145,6 +167,12 @@ class DetailInquiryViewController: UIViewController {
         leftButton.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.centerY.equalTo(titleLabel)
+        }
+        
+        uploadButton.snp.makeConstraints { make in
+            make.width.height.equalTo(24*Constants.standardHeight)
+            make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
             make.centerY.equalTo(titleLabel)
         }
         

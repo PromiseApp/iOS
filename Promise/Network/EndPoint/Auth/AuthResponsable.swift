@@ -16,7 +16,7 @@ struct UserInfo: Codable{
     let nickname: String
     let level: Int
     let exp: Int
-    let img: String
+    let img: String?
     let roles: [Role]
 }
 
@@ -24,7 +24,7 @@ struct Role: Codable {
     let name: String
 }
 
-struct SingupResponse: Codable{
+struct SignupResponse: Codable{
     let resultCode: String
     let resultMessage: String
 }

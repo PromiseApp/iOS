@@ -7,6 +7,7 @@ import SnapKit
 class FriendViewController: UIViewController {
     var disposeBag = DisposeBag()
     var friendViewModel:FriendViewModel
+    var addFriendPopupViewModel: AddFriendPopupViewModel
     
     let titleLabel = UILabel()
     let settingButton = UIButton()
@@ -18,9 +19,12 @@ class FriendViewController: UIViewController {
     lazy var searchImageView = UIImageView()
     let searchTextField = UITextField()
     lazy var tableView = UITableView()
+    let successView = UIView()
+    let successLabel = UILabel()
         
-    init(friendViewModel: FriendViewModel) {
+    init(friendViewModel: FriendViewModel, addFriendPopupViewModel: AddFriendPopupViewModel) {
         self.friendViewModel = friendViewModel
+        self.addFriendPopupViewModel = addFriendPopupViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -44,8 +48,12 @@ class FriendViewController: UIViewController {
             .map { !self.settingView.isHidden }
             .bind(to: settingView.rx.isHidden)
             .disposed(by: disposeBag)
-
         
+        friendViewModel.settingViewRelay
+            .map { !self.settingView.isHidden }
+            .bind(to: settingView.rx.isHidden)
+            .disposed(by: disposeBag)
+
         addFriendButton.rx.tap
             .bind(to: friendViewModel.addFriendButtonTapped)
             .disposed(by: disposeBag)
@@ -68,6 +76,12 @@ class FriendViewController: UIViewController {
                 cell.configure(with: friend)
                 cell.isHiddenSelectImageView(with: true)
             }
+            .disposed(by: disposeBag)
+        
+        addFriendPopupViewModel.requestSuccessRelay
+            .subscribe(onNext: { [weak self] nickname in
+                self?.showSuccessView(nickname: nickname)
+            })
             .disposed(by: disposeBag)
 
     }
@@ -132,11 +146,27 @@ class FriendViewController: UIViewController {
             $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
         }
         
+        successView.do{
+            $0.backgroundColor = UIColor(named: "prLight")
+            $0.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+            $0.layer.shadowOpacity = 1
+            $0.layer.shadowRadius = 2*Constants.standardHeight
+            $0.layer.shadowOffset = CGSize(width: 2*Constants.standardWidth, height: 2*Constants.standardHeight)
+            $0.layer.cornerRadius = 8*Constants.standardHeight
+            $0.isHidden = true
+        }
+        
+        successLabel.do{
+            $0.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
+        }
+        
     }
     
     private func layout(){
-        [titleLabel,settingButton,separateView,searchTextField,searchImageView,settingView,tableView]
+        [titleLabel,settingButton,separateView,searchTextField,searchImageView,settingView,tableView,successView]
             .forEach{ view.addSubview($0) }
+        
+        successView.addSubview(successLabel)
         
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -183,6 +213,17 @@ class FriendViewController: UIViewController {
             make.bottom.equalToSuperview()
         }
         
+        successView.snp.makeConstraints { make in
+            make.width.equalTo(351*Constants.standardWidth)
+            make.height.equalTo(32*Constants.standardHeight)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-12*Constants.standardHeight)
+        }
+        
+        successLabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalToSuperview()
+        }
+        
         [addFriendButton,secSeparateView,requestFriendButton]
             .forEach{settingView.addSubview($0)}
 
@@ -207,6 +248,15 @@ class FriendViewController: UIViewController {
             make.top.equalTo(secSeparateView.snp.bottom)
         }
         
+    }
+    
+    private func showSuccessView(nickname: String){
+        successLabel.text = "\(nickname)님에게 친구 요청을 보냈습니다!"
+        successView.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            self.successView.isHidden = true
+        }
     }
     
 }

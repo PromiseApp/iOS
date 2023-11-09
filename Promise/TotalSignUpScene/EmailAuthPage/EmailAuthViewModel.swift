@@ -8,7 +8,7 @@ class EmailAuthViewModel: Stepper {
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: LoginService
+    let loginService: AuthService
     
     let emailTextRelay = PublishRelay<String>()
     let leftButtonTapped = PublishRelay<Void>()
@@ -22,7 +22,7 @@ class EmailAuthViewModel: Stepper {
     
     var serverValidationResult = PublishRelay<(String,Bool)>()
     
-    init(loginService: LoginService){
+    init(loginService: AuthService){
         self.loginService = loginService
         
         leftButtonTapped

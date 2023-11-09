@@ -9,7 +9,7 @@ class LoginViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: LoginService
+    let loginService: AuthService
     
     let firstIsChecked = PublishRelay<Bool>()
     let secondIsChecked = BehaviorRelay(value: false)
@@ -23,7 +23,7 @@ class LoginViewModel: Stepper{
     let emailTextRelay = PublishRelay<String>()
     let passwordTextRelay = PublishRelay<String>()
     
-    init(loginService: LoginService){
+    init(loginService: AuthService){
         self.loginService = loginService
         print("Realm저장위치=\n\(Realm.Configuration.defaultConfiguration.fileURL!)\n")
 

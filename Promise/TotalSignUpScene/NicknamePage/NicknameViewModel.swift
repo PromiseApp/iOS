@@ -7,7 +7,7 @@ class NicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: LoginService
+    let loginService: AuthService
     let currentFlow: FlowType
     
     let nicknameTextRelay = BehaviorRelay<String>(value: "")
@@ -35,7 +35,7 @@ class NicknameViewModel: Stepper{
             .map { $0 && $1 }
     }
     
-    init(flowType: FlowType, loginService: LoginService){
+    init(flowType: FlowType, loginService: AuthService){
         self.currentFlow = flowType
         self.loginService = loginService
         

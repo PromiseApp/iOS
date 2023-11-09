@@ -11,8 +11,8 @@ class PastPromiseViewModel: Stepper{
     
     let yearAndMonth: BehaviorSubject<(year: Int?, month: Int?)> = BehaviorSubject(value: (Calendar.current.component(.year, from: Date()), Calendar.current.component(.month, from: Date())))
     
-    let pastPromisesRelay = BehaviorRelay<[PastPromiseHeader]>(value: [])
-    let pastPromiseDatas: Driver<[PastPromiseHeader]>
+    var pastPromisesRelay = BehaviorRelay<[PastPromiseHeader]>(value: [])
+    var pastPromiseDatas: Driver<[PastPromiseHeader]>
     var allPromises: [PastPromiseHeader] = []
     
     init(){
@@ -51,12 +51,17 @@ class PastPromiseViewModel: Stepper{
         
         pastPromisesRelay.accept(filteredPromises)
     }
-
     
     func toggleSectionExpansion(at section: Int) {
         var currentPromises = pastPromisesRelay.value
         currentPromises[section].isExpanded.toggle()
         pastPromisesRelay.accept(currentPromises)
+    }
+    
+    func toggleMemoViewHidden(section: Int, row: Int) {
+        var updatedSections = pastPromisesRelay.value
+        updatedSections[section].promises[row].isMemoViewHidden.toggle()
+        pastPromisesRelay.accept(updatedSections)
     }
     
 }

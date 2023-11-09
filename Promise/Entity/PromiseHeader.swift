@@ -18,7 +18,7 @@ struct PromiseCell{
 
 struct PastPromiseHeader{
     let date: String
-    let promises: [PastPromiseCell]
+    var promises: [PastPromiseCell]
     let cntPromise: Int
     var isExpanded: Bool = false
 }
@@ -30,4 +30,5 @@ struct PastPromiseCell{
     let place: String?
     let penalty: String?
     let memo: String?
+    var isMemoViewHidden: Bool = true
 }

@@ -5,13 +5,14 @@ import SnapKit
 import Then
 
 class AddFriendPopupViewController: UIViewController {
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
+    let addFriendPopupViewModel: AddFriendPopupViewModel
     
     let popupView = UIView()
     let titleLabel = UILabel()
     let textField = UITextField()
     let cancelButton = UIButton()
-    let okButton = UIButton()
+    let addButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,18 +21,28 @@ class AddFriendPopupViewController: UIViewController {
         layout()
     }
     
+    init(addFriendPopupViewModel: AddFriendPopupViewModel) {
+        self.addFriendPopupViewModel = addFriendPopupViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private func bind(){
         cancelButton.rx.tap
-          .bind { [weak self] in
-              self?.dismiss(animated: false)
-          }
-          .disposed(by: disposeBag)
+            .bind(to: addFriendPopupViewModel.cancelButtonTapped)
+            .disposed(by: disposeBag)
         
-        okButton.rx.tap
-          .bind { [weak self] in
-              self?.dismiss(animated: false)
-          }
-          .disposed(by: disposeBag)
+        addButton.rx.tap
+            .bind(to: addFriendPopupViewModel.addButtonTapped)
+            .disposed(by: disposeBag)
+        
+        textField.rx.text.orEmpty
+            .bind(to: addFriendPopupViewModel.nicknameTextRelay)
+            .disposed(by: disposeBag)
+        
     }
     
     private func attribute(){
@@ -63,8 +74,8 @@ class AddFriendPopupViewController: UIViewController {
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
         }
         
-        okButton.do{
-            $0.setTitle("확인", for: .normal)
+        addButton.do{
+            $0.setTitle("추가하기", for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.backgroundColor = UIColor(named: "prStrong")
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
@@ -81,7 +92,7 @@ class AddFriendPopupViewController: UIViewController {
             $0.centerX.centerY.equalToSuperview()
         }
         
-        [titleLabel,textField,cancelButton,okButton]
+        [titleLabel,textField,cancelButton,addButton]
             .forEach{ popupView.addSubview($0) }
         
         
@@ -104,7 +115,7 @@ class AddFriendPopupViewController: UIViewController {
             $0.bottom.equalTo(popupView.snp.bottom)
         }
         
-        okButton.snp.makeConstraints {
+        addButton.snp.makeConstraints {
             $0.width.equalToSuperview().multipliedBy(0.5)
             $0.height.equalTo(40*Constants.standardHeight)
             $0.trailing.equalToSuperview()

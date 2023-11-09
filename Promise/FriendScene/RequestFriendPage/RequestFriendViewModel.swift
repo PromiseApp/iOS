@@ -6,37 +6,22 @@ import RxFlow
 class RequestFriendViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    let friendService: FriendService
     
     let leftButtonTapped = PublishRelay<Void>()
-    let rejectButtonTapped = PublishRelay<Void>()
-    let acceptButtonTapped = PublishRelay<Void>()
     
     var allFriends: [Friend] = []
     
     let friendsRelay = BehaviorRelay<[Friend]>(value: [])
     
     var friendDatas: Driver<[Friend]> {
-        return friendsRelay
-            .asDriver()
-            .map { friends in
-                friends.sorted { $0.isSelected && !$1.isSelected }
-            }
+        return friendsRelay.asDriver()
     }
     
-    init() {
+    init(friendService: FriendService) {
+        self.friendService = friendService
+        
         leftButtonTapped
-            .subscribe(onNext: { [weak self] in
-                self?.steps.accept(FriendStep.popView)
-            })
-            .disposed(by: disposeBag)
-        
-        rejectButtonTapped
-            .subscribe(onNext: { [weak self] in
-                self?.steps.accept(FriendStep.rejectFriendPopup)
-            })
-            .disposed(by: disposeBag)
-        
-        acceptButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(FriendStep.popView)
             })
@@ -64,8 +49,20 @@ class RequestFriendViewModel: Stepper{
         allFriends = currentFriends
     }
     
-    
-    
+//    func loadRequestFriendList(){
+//        self.friendService.requestFriendList()
+//            .subscribe(onSuccess: { [weak self] response in
+//                let friends = response.data.list.map { FriendData in
+//                    let friendImg = (FriendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
+//                    return Friend(userImage: friendImg!, name: FriendData.nickname, level: FriendData.level, isSelected: false)
+//                }
+//                self?.allFriends = friends
+//                self?.friendsRelay.accept(self?.allFriends ?? [])
+//            }, onFailure: { [weak self] error in
+//                self?.steps.accept(FriendStep.networkErrorPopup)
+//            })
+//            .disposed(by: disposeBag)
+//    }
     
 }
 

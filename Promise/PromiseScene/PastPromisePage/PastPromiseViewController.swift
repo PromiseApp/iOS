@@ -65,8 +65,8 @@ class PastPromiseViewController: UIViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PastPromiseTableViewCell", for: indexPath) as! PastPromiseTableViewCell
                 cell.configure(data: promiseView)
                 cell.memoButton.rx.tap
-                    .subscribe(onNext: {
-                        cell.memoView.isHidden.toggle()
+                    .subscribe(onNext: { [weak self] in
+                        self?.pastPromiseViewModel.toggleMemoViewHidden(section: indexPath.section, row: indexPath.row)
                     })
                     .disposed(by: cell.disposeBag)
                 return cell

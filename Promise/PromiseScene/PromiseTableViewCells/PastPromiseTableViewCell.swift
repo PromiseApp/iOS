@@ -4,7 +4,7 @@ import SnapKit
 import Then
 
 class PastPromiseTableViewCell: UITableViewCell {
-    let disposeBag = DisposeBag()
+    var disposeBag = DisposeBag()
     
     let greyView = UIView()
     lazy var timeLabel = UILabel()
@@ -32,6 +32,11 @@ class PastPromiseTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
     }
     
     override func layoutSubviews() {
@@ -87,9 +92,7 @@ class PastPromiseTableViewCell: UITableViewCell {
         
         memoLabel.do{
             $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
-            $0.layer.cornerRadius = 4*Constants.standardHeight
             $0.sizeToFit()
-            
         }
         
         memoView.do{
@@ -187,6 +190,7 @@ class PastPromiseTableViewCell: UITableViewCell {
         friendsLabel.text = data.friends
         locaLabel.text = data.place ?? "미정"
         penaltyLabel.text = data.penalty ?? "없음"
+        memoView.isHidden = data.isMemoViewHidden
         var memoText = data.memo ?? "없음"
         
         if memoText.count > 20 {

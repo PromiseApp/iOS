@@ -12,8 +12,6 @@ class RequestFriendViewController: UIViewController {
     let leftButton = UIButton()
     let separateView = UIView()
     lazy var tableView = UITableView()
-    let rejectButton = UIButton()
-    let acceptButton = UIButton()
         
     init(requestFriendViewModel: RequestFriendViewModel) {
         self.requestFriendViewModel = requestFriendViewModel
@@ -41,7 +39,7 @@ class RequestFriendViewController: UIViewController {
             .disposed(by: disposeBag)
         
         requestFriendViewModel.friendDatas
-            .drive(tableView.rx.items(cellIdentifier: "FriendTableViewCell", cellType: FriendTableViewCell.self)) { row, friend, cell in
+            .drive(tableView.rx.items(cellIdentifier: "RequestFriendTableViewCell", cellType: RequestFriendTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
             }
             .disposed(by: disposeBag)
@@ -51,15 +49,7 @@ class RequestFriendViewController: UIViewController {
                 self?.requestFriendViewModel.toggleSelection(at: indexPath.row)
             }
             .disposed(by: disposeBag)
-        
-        rejectButton.rx.tap
-            .bind(to: requestFriendViewModel.rejectButtonTapped)
-            .disposed(by: disposeBag)
-        
-        acceptButton.rx.tap
-            .bind(to: requestFriendViewModel.acceptButtonTapped)
 
-            .disposed(by: disposeBag)
     }
     
     private func attribute(){
@@ -81,27 +71,14 @@ class RequestFriendViewController: UIViewController {
         tableView.do{
             $0.separatorStyle = .none
             $0.rowHeight = 48*Constants.standardHeight
-            $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
+            $0.register(RequestFriendTableViewCell.self, forCellReuseIdentifier: "RequestFriendTableViewCell")
         }
         
-        rejectButton.do{
-            $0.setTitle("거절", for: .normal)
-            $0.setTitleColor(UIColor.black, for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.backgroundColor = UIColor(named: "prNormal")
-        }
-        
-        acceptButton.do{
-            $0.setTitle("완료", for: .normal)
-            $0.setTitleColor(UIColor.black, for: .normal)
-            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.backgroundColor = UIColor(named: "prStrong")
-        }
         
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,rejectButton,acceptButton,tableView]
+        [titleLabel,leftButton,separateView,tableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -122,25 +99,11 @@ class RequestFriendViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
-        rejectButton.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(48*Constants.standardWidth)
-            make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
-        acceptButton.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(48*Constants.standardWidth)
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
         tableView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.leading.equalToSuperview()
             make.top.equalTo(separateView.snp.bottom)
-            make.bottom.equalTo(rejectButton.snp.top)
+            make.bottom.equalToSuperview()
         }
         
         

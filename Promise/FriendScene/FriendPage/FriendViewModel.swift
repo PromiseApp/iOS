@@ -7,47 +7,38 @@ class FriendViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
+    let friendService: FriendService
+    
+    let settingViewRelay = PublishRelay<Void>()
+    
     let addFriendButtonTapped = PublishRelay<Void>()
     let requestFriendButtonTapped = PublishRelay<Void>()
     
     var allFriends: [Friend] = []
-    
     let friendsRelay = BehaviorRelay<[Friend]>(value: [])
-    
     var friendDatas: Driver<[Friend]> {
-        return friendsRelay
-            .asDriver()
-            .map { friends in
-                friends.sorted { $0.isSelected && !$1.isSelected }
-            }
+        return friendsRelay.asDriver()
     }
     
-    init() {
+    init(friendService: FriendService) {
+        self.friendService = friendService
+        
+        self.loadFriendList()
+        
         addFriendButtonTapped
             .subscribe(onNext: { [weak self] in
+                self?.settingViewRelay.accept(())
                 self?.steps.accept(FriendStep.addFriendPopup)
             })
             .disposed(by: disposeBag)
         
         requestFriendButtonTapped
             .subscribe(onNext: { [weak self] in
+                self?.settingViewRelay.accept(())
                 self?.steps.accept(FriendStep.requestFriend)
             })
             .disposed(by: disposeBag)
         
-        allFriends = [
-            Friend(userImage: UIImage(named: "plus")!, name: "가", level: "1", isSelected: false),
-            Friend(userImage: UIImage(named: "plus")!, name: "나", level: "1", isSelected: false),
-            Friend(userImage: UIImage(named: "down")!, name: "가나", level: "3", isSelected: false),
-            Friend(userImage: UIImage(named: "left")!, name: "가다", level: "12", isSelected: false),
-            Friend(userImage: UIImage(named: "plus")!, name: "다", level: "5", isSelected: false),
-            Friend(userImage: UIImage(named: "left")!, name: "라라", level: "1", isSelected: false),
-            Friend(userImage: UIImage(named: "user")!, name: "가나다라", level: "9", isSelected: false),
-            Friend(userImage: UIImage(named: "user")!, name: "나다", level: "1", isSelected: false),
-            Friend(userImage: UIImage(named: "plus")!, name: "마가나", level: "1", isSelected: false)
-        ]
-        
-        friendsRelay.accept(allFriends)
     }
     
     func search(query: String?) {
@@ -56,6 +47,21 @@ class FriendViewModel: Stepper{
             return
         }
         friendsRelay.accept(allFriends.filter { $0.name.contains(query) })
+    }
+    
+    func loadFriendList(){
+        self.friendService.friendList()
+            .subscribe(onSuccess: { [weak self] response in
+                let friends = response.data.list.map { FriendData in
+                    let friendImg = (FriendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
+                    return Friend(userImage: friendImg!, name: FriendData.nickname, level: FriendData.level, isSelected: false)
+                }
+                self?.allFriends = friends
+                self?.friendsRelay.accept(self?.allFriends ?? [])
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(FriendStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
     }
     
 }

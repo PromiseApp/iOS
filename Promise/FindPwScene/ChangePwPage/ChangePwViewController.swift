@@ -71,22 +71,16 @@ class ChangePwViewController: UIViewController {
         firstVisibleButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.pwTextField.isSecureTextEntry.toggle()
-                if ((self?.pwTextField.isSecureTextEntry) != nil) {
-                    self?.firstVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
-                } else {
-                    self?.firstVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
-                }
+                let imageName = self?.pwTextField.isSecureTextEntry ?? true ? "invisible" : "visible"
+                self?.firstVisibleButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
         
         secVisibleButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.rePwTextField.isSecureTextEntry.toggle()
-                if ((self?.rePwTextField.isSecureTextEntry) != nil) {
-                    self?.secVisibleButton.setImage(UIImage(named: "invisible"), for: .normal)
-                } else {
-                    self?.secVisibleButton.setImage(UIImage(named: "visible"), for: .normal)
-                }
+                let imageName = self?.rePwTextField.isSecureTextEntry ?? true ? "invisible" : "visible"
+                self?.secVisibleButton.setImage(UIImage(named: imageName), for: .normal)
             })
             .disposed(by: disposeBag)
         

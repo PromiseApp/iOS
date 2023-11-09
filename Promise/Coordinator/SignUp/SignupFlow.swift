@@ -8,7 +8,7 @@ class SignupFlow: Flow {
     
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel()
-    let loginService = LoginService()
+    let loginService = AuthService()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController

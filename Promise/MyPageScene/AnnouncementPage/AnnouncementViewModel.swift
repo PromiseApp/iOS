@@ -6,14 +6,22 @@ class AnnouncementViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
+    var role: String
+    
     let leftButtonTapped = PublishRelay<Void>()
+    let writeButtonTapped = PublishRelay<Void>()
     
+    let isMasterRelay = PublishRelay<Bool>()
     let announcementRelay = BehaviorRelay<[AnnouncementHeader]>(value: [])
-    let announcementDriver: Driver<[AnnouncementHeader]>
-    
-    init(){
-        announcementDriver = announcementRelay
+    var announcementDriver: Driver<[AnnouncementHeader]>{
+        return announcementRelay
             .asDriver(onErrorJustReturn: [])
+    }
+    
+    init(role: String){
+        self.role = role
+        
+        isMasterRelay.accept(role == "ROLE_USER" ? true : false)
         
         let sampleData = [
             AnnouncementHeader(title: "Sample Title", date: "2023-10-30", announcementContent: AnnouncementCell(content: "Sample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample Content")),
@@ -26,6 +34,12 @@ class AnnouncementViewModel: Stepper{
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        writeButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(MyPageStep.writeInquiry)
             })
             .disposed(by: disposeBag)
         

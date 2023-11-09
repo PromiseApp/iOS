@@ -1,14 +1,14 @@
 import Foundation
 import Moya
 
-enum LoginAPI {
+enum AuthAPI {
     case signup(account: String, password: String, nickname: String, image: String?)
     case login(account: String, password: String)
     case duplicateCheckAccount(account: String)
     case duplicateCheckNickname(nickname: String)
 }
 
-extension LoginAPI: TargetType {
+extension AuthAPI: TargetType {
 
     var baseURL: URL {
         return URL(string: "http://localhost:8080")!

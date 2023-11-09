@@ -73,14 +73,14 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToChangeNickname() -> FlowContributors {
-        let VM = NicknameViewModel(flowType: .myPageFlow,loginService: LoginService())
+        let VM = NicknameViewModel(flowType: .myPageFlow,loginService: AuthService())
         let VC = ChangeNicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToAnnouncement() -> FlowContributors {
-        let VM = AnnouncementViewModel()
+        let VM = AnnouncementViewModel(role: UserSession.shared.role)
         let VC = AnnouncementViewController(announcementViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -88,7 +88,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToInquiryList() -> FlowContributors {
-        let VM = InquiryViewModel()
+        let VM = InquiryViewModel(role: UserSession.shared.role)
         let VC = InquiryViewController(inquiryViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -96,14 +96,14 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToWriteInquiry() -> FlowContributors {
-        let VM = WriteInquiryViewModel()
+        let VM = WriteInquiryViewModel(role: UserSession.shared.role)
         let VC = WriteInquiryViewController(writeInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToDetailInquiry() -> FlowContributors {
-        let VM = DetailInquiryViewModel()
+        let VM = DetailInquiryViewModel(role: UserSession.shared.role)
         let VC = DetailInquiryViewController(detailInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

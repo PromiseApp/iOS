@@ -76,11 +76,9 @@ class LoginViewController: UIViewController {
         visiblePwButton.rx.tap
             .subscribe(onNext: { [weak self] in
                 self?.pwTextField.isSecureTextEntry.toggle()
-                if ((self?.pwTextField.isSecureTextEntry) != nil) {
-                    self?.visiblePwButton.setImage(UIImage(named: "invisible"), for: .normal)
-                } else {
-                    self?.visiblePwButton.setImage(UIImage(named: "visible"), for: .normal)
-                }
+                let imageName = self?.pwTextField.isSecureTextEntry ?? true ? "invisible" : "visible"
+                self?.visiblePwButton.setImage(UIImage(named: imageName), for: .normal)
+                
             })
             .disposed(by: disposeBag)
         

@@ -54,6 +54,11 @@ class InquiryViewController: UIViewController {
     }
     
     private func bind(){
+
+        inquiryViewModel.isMasterRelay
+            .bind(to: self.writeButton.rx.isHidden)
+            .disposed(by: disposeBag)
+        
         leftButton.rx.tap
             .bind(to: inquiryViewModel.leftButtonTapped)
             .disposed(by: disposeBag)

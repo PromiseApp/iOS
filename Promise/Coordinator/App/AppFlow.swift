@@ -36,7 +36,7 @@ class AppFlow: Flow {
     }
 
     private func navigateToLogin() -> FlowContributors {
-        let VM = LoginViewModel(loginService: LoginService())
+        let VM = LoginViewModel(loginService: AuthService())
         let VC = LoginViewController(loginViewModel: VM)
         self.rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
