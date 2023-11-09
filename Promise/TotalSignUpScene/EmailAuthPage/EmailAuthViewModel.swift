@@ -2,10 +2,14 @@ import RxSwift
 import Foundation
 import RxCocoa
 import RxFlow
+import Moya
 
 class EmailAuthViewModel: Stepper {
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    
+    let loginService: LoginService
+    
     let emailTextRelay = PublishRelay<String>()
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -16,31 +20,44 @@ class EmailAuthViewModel: Stepper {
             .map { [weak self] in self?.isValidEmail($0) ?? false }
     }
     
-    var serverValidationResult: Driver<Bool> {
-        return nextButtonTapped
-            .withLatestFrom(emailTextRelay)
-            .flatMapLatest { [weak self] text -> Driver<Bool> in
-                guard let self = self else { return Driver.just(false) }
-                return self.checkDuplicate(email: text)
-            }
-            .asDriver(onErrorDriveWith: .empty())
-    }
-    let serverResponseRelay = BehaviorRelay<Bool>(value: true)
+    var serverValidationResult = PublishRelay<(String,Bool)>()
     
-    init(){
+    init(loginService: LoginService){
+        self.loginService = loginService
+        
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(SignupStep.popView)
             })
             .disposed(by: disposeBag)
         
+        nextButtonTapped
+            .withLatestFrom(emailTextRelay)
+            .flatMapLatest { [weak self] account in
+                return self?.loginService.duplicateCheckAccount(account: account)
+                    .asObservable()
+                    .map {
+                        //print($0)
+                        return (account,!$0.data.isDuplicated)
+                        
+                    }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(SignupStep.networkErrorPopup)
+                        return Observable.empty()
+                    } ?? Observable.empty()
+            }
+            .bind(to: serverValidationResult)
+            .disposed(by: disposeBag)
+        
         serverValidationResult
-            .drive(onNext: {[weak self] isValid in
+            .subscribe(onNext: { [weak self] (account,isValid) in
                 if(isValid){
                     self?.steps.accept(SignupStep.confirmEmailAuth)
+                    UserSession.shared.account = account
                 }
                 if !isValid {
-                    self?.steps.accept(SignupStep.inputErrorPopup)
+                    self?.steps.accept(SignupStep.duplicateAccountErrorPopup)
                 }
                 
             })
@@ -54,10 +71,5 @@ class EmailAuthViewModel: Stepper {
         return emailTest.evaluate(with: email)
     }
     
-    private func checkDuplicate(email: String) -> Driver<Bool> {
-        // 이 메소드에서 실제로 서버 요청을 처리하고 결과를 serverResponseRelay에 저장해야 합니다.
-        // 여기에서는 단순화를 위해 serverResponseRelay의 현재 값을 반환합니다.
-        return serverResponseRelay.asDriver()
-    }
 }
 

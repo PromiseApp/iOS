@@ -73,7 +73,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToChangeNickname() -> FlowContributors {
-        let VM = NicknameViewModel(flowType: .myPageFlow)
+        let VM = NicknameViewModel(flowType: .myPageFlow,loginService: LoginService())
         let VC = ChangeNicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

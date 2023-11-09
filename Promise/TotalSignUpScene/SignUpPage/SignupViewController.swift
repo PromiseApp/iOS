@@ -79,6 +79,10 @@ class SignupViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        signupViewModel.emailTextRelay
+            .bind(to: emailTextField.rx.text)
+            .disposed(by: disposeBag)
+        
         pwTextField.rx.text.orEmpty
             .bind(to: signupViewModel.pwTextRelay)
             .disposed(by: disposeBag)
@@ -226,6 +230,7 @@ class SignupViewController: UIViewController {
             $0.backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.3)
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.textColor = UIColor(named: "greyOne")
             $0.placeholder = "이메일"
             $0.addLeftPadding(width: 12*Constants.standardWidth)
         }

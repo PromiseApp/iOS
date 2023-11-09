@@ -7,4 +7,5 @@ enum AppStep: Step {
     case findPw
     case signupCompleted
     case findPwCompleted
+    case networkErrorPopup
 }

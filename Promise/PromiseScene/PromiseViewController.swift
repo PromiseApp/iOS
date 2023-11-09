@@ -74,20 +74,27 @@ class PromiseViewController: UIViewController {
         promiseListTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
-            configureCell: { (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
-                cell.configure(data: promiseView, manager: promiseView.manager)
-                return cell
-            }
-        )
-        
-        promiseViewModel.promiseDriver
-            .map { promises in
-                promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
-            }
-            .drive(promiseListTableView.rx.items(dataSource: dataSource))
-            .disposed(by: disposeBag)
+//        let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
+//            configureCell: { [weak self] (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
+//                guard let self = self else {return}
+//                let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
+//                cell.configure(data: promiseView, manager: promiseView.manager)
+//                cell.modifyButton.rx.tap
+//                    .map{
+//                        return (cell.id,cell.manager)
+//                    }
+//                    .bind(to: self.promiseViewModel.modifyButtonTapped)
+//                    .disposed(by: cell.disposeBag)
+//                return cell
+//            }
+//        )
+//        
+//        promiseViewModel.promiseDriver
+//            .map { promises in
+//                promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
+//            }
+//            .drive(promiseListTableView.rx.items(dataSource: dataSource))
+//            .disposed(by: disposeBag)
 
         promiseViewModel.cntPromise
             .subscribe(onNext: { [weak self] cnt in

@@ -1,77 +1,71 @@
 import Foundation
-import Alamofire
+import Moya
 
-enum LoginAPI: Requestable, Responsable {
-    
-    case getEmailExists(email: String)
-    case postRegister(account: String, password: String, nickname: String)
-    case postLogin(account: String, password: String)
+enum LoginAPI {
+    case signup(account: String, password: String, nickname: String, image: String?)
+    case login(account: String, password: String)
+    case duplicateCheckAccount(account: String)
+    case duplicateCheckNickname(nickname: String)
+}
+
+extension LoginAPI: TargetType {
 
     var baseURL: URL {
-        return URL(string: "http://43.201.252.19:8080")!
+        return URL(string: "http://localhost:8080")!
     }
     
     var path: String {
         switch self {
-        case .getEmailExists(let email):
-            return "/\(email)/exists"
-        case .postRegister:
+        case .signup:
             return "/register"
-        case .postLogin:
+        case .login:
             return "/login"
+        case .duplicateCheckNickname(let nickname):
+            return "/\(nickname)/exists/nickname"
+        case .duplicateCheckAccount(let account):
+            return "/\(account)/exists/account"
         }
     }
     
-    var method: HTTPMethod {
+    var method: Moya.Method {
         switch self {
-        case .getEmailExists:
+        case .signup:
+            return .post
+        case .login:
+            return .post
+        case .duplicateCheckNickname:
             return .get
-        case .postRegister:
-            return .post
-        case .postLogin:
-            return .post
-
+        case .duplicateCheckAccount:
+            return .get
         }
     }
     
-    var parameters: [String: Any]? {
+    var task: Task {
         switch self {
-        case .getEmailExists:
-            return nil
-        case .postRegister(let account, let password, let nickname):
-            return ["account": account, "password": password, "nickname": nickname]
-        case .postLogin(let account, let password):
-            return ["account": account, "password": password]
+        case .signup(let account, let password, let nickname, let image):
+            var parameters: [String: Any] = [
+                "account": account,
+                "password": password,
+                "nickname": nickname
+            ]
+            
+            if let image = image {
+                parameters["img"] = image
+            }
+            
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
+        case .login(let account, let password):
+            return .requestParameters(parameters: ["account": account, "password": password], encoding: JSONEncoding.default)
+        case .duplicateCheckNickname:
+            return .requestPlain
+        case .duplicateCheckAccount:
+            return .requestPlain
         }
     }
     
-    var headers: HTTPHeaders? {
+    var headers: [String: String]? {
         return ["Content-Type": "application/json"]
     }
     
-    typealias ResponseType = Decodable
-
-        var responseType: ResponseType.Type {
-            switch self {
-            case .getEmailExists:
-                return EmailDetails.self
-            case .postRegister:
-                return RegisterDetails.self
-            case .postLogin:
-                return LoginDetails.self
-            }
-        }
-
-}
-struct EmailDetails: Decodable {
-    let email: String
-}
-
-struct RegisterDetails: Decodable {
-    let account: String
-    let password: String
-}
-
-struct LoginDetails: Decodable {
-    let result: Bool
 }

@@ -10,6 +10,9 @@ class SignupViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
+    let loginService: LoginService
+    
+    let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account ?? "이메일")
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
     let selectedImage = PublishRelay<UIImage?>()
@@ -45,22 +48,53 @@ class SignupViewModel: Stepper{
             }
     }
     
-    init(){
+    init(loginService: LoginService){
+        self.loginService = loginService
+        
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(SignupStep.popView)
             })
             .disposed(by: disposeBag)
         
+        goToLimitedCollectionView
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(SignupStep.limitedCollectionView)
+            })
+            .disposed(by: disposeBag)
+        
         nextButtonTapped
+            .withLatestFrom(Observable.combineLatest(pwTextRelay.asObservable(), rePwTextRelay.asObservable()))
+            .flatMapLatest { [weak self] (password, confirmPassword) -> Observable<Void> in
+                guard let self = self else { return Observable.empty() }
+                
+                if(password == confirmPassword){
+                    
+                    return self.loginService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, image: UserSession.shared.image)
+                        .asObservable()
+                        .map{_ in Void() }
+                        .catch { [weak self] error in
+                            print(error)
+                            self?.steps.accept(SignupStep.networkErrorPopup)
+                            return Observable.empty()
+                        }
+                }
+                return Observable.empty()
+            }
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(SignupStep.signupCompleted)
             })
             .disposed(by: disposeBag)
         
-        goToLimitedCollectionView
-            .subscribe(onNext: { [weak self] in
-                self?.steps.accept(SignupStep.limitedCollectionView)
+        selectedImage
+            .subscribe(onNext: { [weak self] image in
+                if let imageData = image?.pngData() {
+                    let base64String = imageData.base64EncodedString()
+                    UserSession.shared.image = base64String
+                    print(UserSession.shared.account)
+                    print(UserSession.shared.nickname)
+                    print(UserSession.shared.image)
+                }
             })
             .disposed(by: disposeBag)
     }
@@ -72,5 +106,5 @@ class SignupViewModel: Stepper{
         return test.evaluate(with: text)
     }
     
-   
+    
 }

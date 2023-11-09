@@ -8,6 +8,7 @@ class SignupFlow: Flow {
     
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel()
+    let loginService = LoginService()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -29,8 +30,12 @@ class SignupFlow: Flow {
             return navigateToLimitedCollectionView()
         case .signupCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.signupCompleted)
+        case .duplicateAccountErrorPopup:
+            return presentDuplicateAccountErrorPopUp()
         case .inputErrorPopup:
             return presentInputErrorPopup()
+        case .networkErrorPopup:
+            return presentNetworkErrorPopup()
         case .dismissView:
             return dismissViewController()
         case .popView:
@@ -39,7 +44,7 @@ class SignupFlow: Flow {
     }
     
     private func navigateToEmailAuth() -> FlowContributors {
-        let VM = EmailAuthViewModel()
+        let VM = EmailAuthViewModel(loginService: loginService)
         let VC = EmailAuthViewController(emailAuthViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -53,14 +58,14 @@ class SignupFlow: Flow {
     }
     
     private func navigateToNickname() -> FlowContributors {
-        let VM = NicknameViewModel(flowType: .singupFlow)
+        let VM = NicknameViewModel(flowType: .singupFlow,loginService: loginService)
         let VC = NicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToSignup() -> FlowContributors {
-        let VM = SignupViewModel()
+        let VM = SignupViewModel(loginService: loginService)
         let VC = SignupViewController(signupViewModel: VM, limitedViewModel: self.limitedVM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -72,6 +77,27 @@ class SignupFlow: Flow {
         return .none
     }
     
+    private func presentDuplicateAccountErrorPopUp() -> FlowContributors {
+        let VC = DuplicateAccountErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func presentInputErrorPopup() -> FlowContributors {
+        let VC = InputErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func presentNetworkErrorPopup() -> FlowContributors {
+        let VC = NetworkErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
     private func popViewController() -> FlowContributors {
         rootViewController.popViewController(animated: true)
         return .none
@@ -79,13 +105,6 @@ class SignupFlow: Flow {
     
     private func dismissViewController() -> FlowContributors {
         rootViewController.dismiss(animated: true)
-        return .none
-    }
-    
-    private func presentInputErrorPopup() -> FlowContributors {
-        let VC = InputErrorPopUpViewController()
-        VC.modalPresentationStyle = .overFullScreen
-        rootViewController.present(VC, animated: false)
         return .none
     }
     

@@ -29,6 +29,8 @@ class PromiseFlow: Flow {
             return navigateToSelectPromiseResult()
         case .selectMemberResult:
             return navigateToSelectMemberResult()
+//        case .modifyPromise(let id, let isManager):
+//            return navigateToModifyPromise(id: id, isManager: isManager)
         case .popView:
             return popViewController()
         }
@@ -78,6 +80,14 @@ class PromiseFlow: Flow {
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
+    
+//    private func navigateToModifyPromise(id: String, isManager: Bool) -> FlowContributors {
+//        let VM = ModifyPromiseViewModel(shareFriendViewModel: shareVM, id: id, isManager: isManager)
+//        let VC = ModifyPromiseViewController(modifyPromiseViewModel: VM)
+//        VC.hidesBottomBarWhenPushed = true
+//        rootViewController.pushViewController(VC, animated: true)
+//        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+//    }
     
     private func popViewController() -> FlowContributors {
         rootViewController.popViewController(animated: true)

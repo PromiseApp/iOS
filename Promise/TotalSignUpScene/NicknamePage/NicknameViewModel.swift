@@ -6,6 +6,8 @@ import RxFlow
 class NicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    
+    let loginService: LoginService
     let currentFlow: FlowType
     
     let nicknameTextRelay = BehaviorRelay<String>(value: "")
@@ -33,8 +35,9 @@ class NicknameViewModel: Stepper{
             .map { $0 && $1 }
     }
     
-    init(flowType: FlowType){
+    init(flowType: FlowType, loginService: LoginService){
         self.currentFlow = flowType
+        self.loginService = loginService
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -68,13 +71,24 @@ class NicknameViewModel: Stepper{
         
         duplicateButtonTapped
             .withLatestFrom(nicknameTextRelay)
-            .flatMapLatest { [weak self] text -> Driver<Bool> in
-                guard let self = self else { return Driver.just(false) }
-                
-                return self.checkDuplicate(nickname: text)
+            .flatMapLatest { [weak self] nickname in
+                return self?.loginService.duplicateCheckNickname(nickname: nickname)
+                    .asObservable()
+                    .map {
+                        return (nickname,!$0.data.isDuplicated)
+                        
+                    }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(SignupStep.networkErrorPopup)
+                        return Observable.empty()
+                    } ?? Observable.empty()
             }
-            .subscribe(onNext: { [weak self] isDuplicate in
+            .subscribe(onNext: { [weak self] (nickname,isDuplicate) in
                 self?.duplicateCheckPassed.accept(isDuplicate)
+                if(isDuplicate){
+                    UserSession.shared.nickname = nickname
+                }
             })
             .disposed(by: disposeBag)
         
@@ -91,9 +105,4 @@ class NicknameViewModel: Stepper{
         return test.evaluate(with: text)
     }
     
-    private func checkDuplicate(nickname: String) -> Driver<Bool> {
-        // 이 메소드에서 실제로 서버 요청을 처리하고 결과를 serverResponseRelay에 저장해야 합니다.
-        // 여기에서는 단순화를 위해 serverResponseRelay의 현재 값을 반환합니다.
-        return serverResponseRelay.asDriver()
-    }
 }

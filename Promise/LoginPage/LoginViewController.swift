@@ -9,7 +9,7 @@ class LoginViewController: UIViewController {
     var loginViewModel: LoginViewModel
     
     let logoLabel = UILabel()
-    let idTextField = UITextField()
+    let emailTextField = UITextField()
     let pwTextField = UITextField()
     let visiblePwButton = UIButton()
     let autoLoginLabel = UILabel()
@@ -41,6 +41,14 @@ class LoginViewController: UIViewController {
     }
 
     private func bind(){
+        emailTextField.rx.text.orEmpty
+            .bind(to: loginViewModel.emailTextRelay)
+            .disposed(by: disposeBag)
+        
+        pwTextField.rx.text.orEmpty
+            .bind(to: loginViewModel.passwordTextRelay)
+            .disposed(by: disposeBag)
+        
         autoLoginCheckBox.rx.tap
             .scan(false) { lastState, newState in !lastState }
             .bind(to: loginViewModel.firstIsChecked)
@@ -100,7 +108,7 @@ class LoginViewController: UIViewController {
             $0.textColor = UIColor(named: "prHeavy")
         }
         
-        idTextField.do{
+        emailTextField.do{
             $0.layer.borderColor = UIColor(red: 0.721, green: 0.721, blue: 0.721, alpha: 1).cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.layer.borderWidth = 1
@@ -195,7 +203,7 @@ class LoginViewController: UIViewController {
     }
     
     private func layout(){
-        [logoLabel,idTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signupButton,findPwButton,separateView,kakaoButton,appleButton]
+        [logoLabel,emailTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signupButton,findPwButton,separateView,kakaoButton,appleButton]
             .forEach{view.addSubview($0)}
         
         logoLabel.snp.makeConstraints { make in
@@ -203,7 +211,7 @@ class LoginViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        idTextField.snp.makeConstraints { make in
+        emailTextField.snp.makeConstraints { make in
             make.width.equalTo(351*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
             make.centerX.equalToSuperview()
@@ -214,7 +222,7 @@ class LoginViewController: UIViewController {
             make.width.equalTo(351*Constants.standardWidth)
             make.height.equalTo(40*Constants.standardHeight)
             make.centerX.equalToSuperview()
-            make.top.equalTo(idTextField.snp.bottom).offset(12*Constants.standardHeight)
+            make.top.equalTo(emailTextField.snp.bottom).offset(12*Constants.standardHeight)
         }
         
         visiblePwButton.snp.makeConstraints { make in

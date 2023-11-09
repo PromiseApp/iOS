@@ -7,6 +7,8 @@ class FindPwViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
+    //let loginService: LoginService
+    
     let emailTextRelay = PublishRelay<String>()
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -17,16 +19,7 @@ class FindPwViewModel: Stepper{
             .map { [weak self] in self?.isValidEmail($0) ?? false }
     }
     
-    var serverValidationResult: Driver<Bool> {
-        return nextButtonTapped
-            .withLatestFrom(emailTextRelay)
-            .flatMapLatest { [weak self] text -> Driver<Bool> in
-                guard let self = self else { return Driver.just(false) }
-                return self.checkDuplicate(email: text)
-            }
-            .asDriver(onErrorDriveWith: .empty())
-    }
-    let serverResponseRelay = BehaviorRelay<Bool>(value: true)
+    var serverValidationResult = PublishRelay<Bool>()
     
     init(){
         leftButtonTapped
@@ -35,13 +28,15 @@ class FindPwViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
+        
+        
         serverValidationResult
-            .drive(onNext: {[weak self] isValid in
+            .subscribe(onNext: {[weak self] isValid in
                 if(isValid){
                     self?.steps.accept(FindPwStep.confirmEmailAuth)
                 }
                 if !isValid {
-                    self?.steps.accept(FindPwStep.inputErrorPopup)
+                    self?.steps.accept(FindPwStep.confirmEmailAuth)
                 }
                 
             })
@@ -55,9 +50,4 @@ class FindPwViewModel: Stepper{
         return emailTest.evaluate(with: email)
     }
     
-    private func checkDuplicate(email: String) -> Driver<Bool> {
-        // 이 메소드에서 실제로 서버 요청을 처리하고 결과를 serverResponseRelay에 저장해야 합니다.
-        // 여기에서는 단순화를 위해 serverResponseRelay의 현재 값을 반환합니다.
-        return serverResponseRelay.asDriver()
-    }
 }

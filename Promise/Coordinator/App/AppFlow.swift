@@ -30,11 +30,13 @@ class AppFlow: Flow {
         case .findPwCompleted:
             self.rootViewController.popToRootViewController(animated: true)
             return .none
+        case .networkErrorPopup:
+            return presentNetworkErrorPopup()
         }
     }
 
     private func navigateToLogin() -> FlowContributors {
-        let VM = LoginViewModel()
+        let VM = LoginViewModel(loginService: LoginService())
         let VC = LoginViewController(loginViewModel: VM)
         self.rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -86,6 +88,13 @@ class AppFlow: Flow {
     private func navigateToFindPw() -> FlowContributors {
         let findPwFlow = FindPwFlow(with: rootViewController)
         return .one(flowContributor: .contribute(withNextPresentable: findPwFlow, withNextStepper: OneStepper(withSingleStep: FindPwStep.inputEmail)))
+    }
+    
+    private func presentNetworkErrorPopup() -> FlowContributors {
+        let VC = NetworkErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
     }
     
 }

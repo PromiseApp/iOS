@@ -4,7 +4,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class InputErrorPopUpViewController: UIViewController {
+class InputErrorPopupViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     let popupView = UIView()

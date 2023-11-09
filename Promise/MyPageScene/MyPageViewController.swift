@@ -54,6 +54,30 @@ class MyPageViewController: UIViewController {
             .bind(to: myPageViewModel.inquiryButtonTapped)
             .disposed(by: disposeBag)
         
+        myPageViewModel.emailRelay
+            .bind(to: emailLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        myPageViewModel.nicknameRelay
+            .bind(to: nicknameLabel.rx.text)
+            .disposed(by: disposeBag)
+        
+        myPageViewModel.userImageRelay
+            .bind(to: userImageView.rx.image)
+            .disposed(by: disposeBag)
+        
+        myPageViewModel.levelRelay
+            .subscribe(onNext: { [weak self] level in
+                self?.levelLabel.text = "Lv.\(level)"
+            })
+            .disposed(by: disposeBag)
+        
+        myPageViewModel.expRelay
+            .subscribe(onNext: { [weak self] exp in
+                self?.expLabel.text = "다음 레벨까지 \(10-exp)개 남으셨어요:)"
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func attribute(){
@@ -89,12 +113,10 @@ class MyPageViewController: UIViewController {
         
         nicknameLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.text = "약속이"
         }
         
         emailLabel.do{
             $0.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
-            $0.text = "text@gamil.com"
         }
         
         infoSettingButton.do{
@@ -112,12 +134,10 @@ class MyPageViewController: UIViewController {
         levelLabel.do{
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.textColor = UIColor(named: "prHeavy")
-            $0.text = "Lv.4"
         }
         
         expLabel.do{
             $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
-            $0.text = "다음 레벨까지 5개 남으셨어요:)"
         }
         
         announcementButton.do{

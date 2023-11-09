@@ -28,15 +28,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         switch PHPhotoLibrary.authorizationStatus(for: .readWrite) {
         case .denied:
-            print("거부")
+            //print("거부")
             showSettingsAlert()
         case .limited:
-            print("선택 사진 허용")
+            //print("선택 사진 허용")
+            break
         case .authorized:
-            print("허용")
-            
+            //print("허용")
+            break
         case .notDetermined, .restricted:
-            print("아직 결정하지 않은 상태")
+            //print("아직 결정하지 않은 상태")
             PHPhotoLibrary.requestAuthorization(for: .readWrite) { [weak self] (state) in
                 if state == .authorized || state == .limited{
                     

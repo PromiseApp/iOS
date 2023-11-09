@@ -7,5 +7,6 @@ enum PromiseStep: Step {
     case pastPromise
     case selectPromiseResult
     case selectMemberResult
+    //case modifyPromise(id: String, isManager: Bool)
     case popView
 }

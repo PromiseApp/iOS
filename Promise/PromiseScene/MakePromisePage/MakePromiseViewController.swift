@@ -296,7 +296,7 @@ class MakePromiseViewController: UIViewController {
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            $0.setTitle("YY-MM-DD", for: .normal)
+            $0.setTitle("YYYY-MM-DD", for: .normal)
             $0.setTitleColor(UIColor(named: "greyOne"), for: .normal)
         }
         

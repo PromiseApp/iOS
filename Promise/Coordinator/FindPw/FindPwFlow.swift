@@ -24,8 +24,12 @@ class FindPwFlow: Flow {
             return navigateToChangePw()
         case .findPwCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.findPwCompleted)
+        case .duplicateAccountErrorPopup:
+            return presentDuplicateAccountErrorPopUp()
         case .inputErrorPopup:
             return presentInputErrorPopup()
+        case .networkErrorPopup:
+            return presentNetworkErrorPopup()
         case .dismissView:
             return dismissViewController()
         case .popView:
@@ -54,8 +58,22 @@ class FindPwFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
+    private func presentDuplicateAccountErrorPopUp() -> FlowContributors {
+        let VC = DuplicateAccountErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
     private func presentInputErrorPopup() -> FlowContributors {
-        let VC = InputErrorPopUpViewController()
+        let VC = InputErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func presentNetworkErrorPopup() -> FlowContributors {
+        let VC = NetworkErrorPopupViewController()
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .none

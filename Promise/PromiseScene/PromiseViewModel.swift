@@ -12,10 +12,12 @@ class PromiseViewModel: Stepper{
     let plusButtonTapped = PublishRelay<Void>()
     let viewPastPromiseButtonTapped = PublishRelay<Void>()
     let selectPromiseResultButtonTapped = PublishRelay<Void>()
+    let modifyButtonTapped = PublishRelay<(id: String, isManager: Bool)>()
     
     let promisesRelay = BehaviorRelay<[PromiseHeader]>(value: [])
     let cntPromise = BehaviorRelay<Int>(value: 0)
     let promiseDriver: Driver<[PromiseHeader]>
+    
     
     init(){
         
@@ -51,6 +53,12 @@ class PromiseViewModel: Stepper{
         selectPromiseResultButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(PromiseStep.selectPromiseResult)
+            })
+            .disposed(by: disposeBag)
+        
+        modifyButtonTapped
+            .subscribe(onNext: { [weak self] (id, isManager) in
+                //self?.steps.accept(PromiseStep.modifyPromise(id: id, isManager: isManager))
             })
             .disposed(by: disposeBag)
         
