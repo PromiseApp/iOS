@@ -1,4 +1,5 @@
 import RxSwift
+import Moya
 import RxCocoa
 import Alamofire
 import RxAlamofire
@@ -25,23 +26,27 @@ class LoginViewModel: Stepper{
     
     init(loginService: AuthService){
         self.loginService = loginService
-        print("Realm저장위치=\n\(Realm.Configuration.defaultConfiguration.fileURL!)\n")
 
         loginButtonTapped
             .withLatestFrom(Observable.combineLatest(emailTextRelay.asObservable(), passwordTextRelay.asObservable()))
             .flatMapLatest { [weak self] (email, password) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                
                 return self.loginService.login(account: email, password: password)
                     .asObservable()
                     .map{ response in
-                        print(response)
+                        print(response.data.userInfo)
                         return self.saveUser(account: response.data.userInfo.account, nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
                     }
                     .catch { [weak self] error in
-                        print(error)
-                        
-                        self?.steps.accept(AppStep.networkErrorPopup)
+                        if let moyaError = error as? MoyaError, case .statusCode(let response) = moyaError {
+                            if response.statusCode == 401 {
+                                self?.steps.accept(AppStep.inputErrorPopup)
+                            } else {
+                                self?.steps.accept(AppStep.networkErrorPopup)
+                            }
+                        } else {
+                            self?.steps.accept(AppStep.networkErrorPopup)
+                        }
                         return Observable.empty()
                     }
             }

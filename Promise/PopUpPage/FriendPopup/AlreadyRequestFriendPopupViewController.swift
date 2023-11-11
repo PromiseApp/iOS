@@ -4,13 +4,12 @@ import RxCocoa
 import SnapKit
 import Then
 
-class RejectFriendPopupViewController: UIViewController {
+class AlreadyRequestFriendPopupViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     let popupView = UIView()
     let titleLabel = UILabel()
     let descLabel = UILabel()
-    let cancelButton = UIButton()
     let okButton = UIButton()
     
     override func viewDidLoad() {
@@ -21,12 +20,6 @@ class RejectFriendPopupViewController: UIViewController {
     }
     
     private func bind(){
-        cancelButton.rx.tap
-          .bind { [weak self] in
-              self?.dismiss(animated: false)
-          }
-          .disposed(by: disposeBag)
-        
         okButton.rx.tap
           .bind { [weak self] in
               self?.dismiss(animated: false)
@@ -46,20 +39,13 @@ class RejectFriendPopupViewController: UIViewController {
         titleLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
             $0.textAlignment = .center
-            $0.text = "친구 추가"
+            $0.text = "입력오류"
         }
         
         descLabel.do{
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.textAlignment = .center
-            $0.text = "정말 거절하시겠습니까?"
-        }
-        
-        cancelButton.do{
-            $0.setTitle("취소", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.backgroundColor = UIColor(named: "prNormal")
-            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
+            $0.text = "이미 친구 요청을 보냈습니다!"
         }
         
         okButton.do{
@@ -80,7 +66,7 @@ class RejectFriendPopupViewController: UIViewController {
             $0.centerX.centerY.equalToSuperview()
         }
         
-        [titleLabel,descLabel,cancelButton,okButton]
+        [titleLabel,descLabel,okButton]
             .forEach{ popupView.addSubview($0) }
         
         
@@ -94,17 +80,10 @@ class RejectFriendPopupViewController: UIViewController {
             $0.top.equalTo(titleLabel.snp.bottom).offset(24*Constants.standardHeight)
         }
         
-        cancelButton.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.5)
-            $0.height.equalTo(42*Constants.standardHeight)
-            $0.leading.equalToSuperview()
-            $0.bottom.equalTo(popupView.snp.bottom)
-        }
-        
         okButton.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.5)
+            $0.width.equalTo(260*Constants.standardWidth)
             $0.height.equalTo(42*Constants.standardHeight)
-            $0.trailing.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.bottom.equalTo(popupView.snp.bottom)
         }
     }

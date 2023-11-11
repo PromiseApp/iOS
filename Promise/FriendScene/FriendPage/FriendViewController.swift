@@ -40,7 +40,10 @@ class FriendViewController: UIViewController {
         layout()
     }
    
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.friendViewModel.loadFriendList()
+    }
     
     private func bind(){
 

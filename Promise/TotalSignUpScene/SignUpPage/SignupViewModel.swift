@@ -89,9 +89,6 @@ class SignupViewModel: Stepper{
                 if let imageData = image?.pngData() {
                     let base64String = imageData.base64EncodedString()
                     UserSession.shared.image = base64String
-                    print(UserSession.shared.account)
-                    print(UserSession.shared.nickname)
-                    print(UserSession.shared.image)
                 }
             })
             .disposed(by: disposeBag)

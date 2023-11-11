@@ -30,9 +30,21 @@ class AddFriendPopupViewModel: Stepper{
                 
                 return self.friendService.requestFriend(respondent: nickname)
                     .asObservable()
-                    .map{ _ in
-                        self.requestSuccessRelay.accept(nickname)
-                        return Void()
+                    .flatMap { response -> Observable<Void> in
+                        if response.resultCode == "423" {
+                            self.steps.accept(FriendStep.dismissView)
+                            self.steps.accept(FriendStep.alreadyRequestFriendPopup)
+                            return Observable.empty()
+                        }
+                        else if response.resultCode == "422" {
+                            self.steps.accept(FriendStep.dismissView)
+                            self.steps.accept(FriendStep.requestNotExistFriendPopup)
+                            return Observable.empty()
+                        }
+                        else {
+                            self.requestSuccessRelay.accept(nickname)
+                            return Observable.empty()
+                        }
                     }
                     .catch { [weak self] error in
                         print(error)

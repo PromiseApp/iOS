@@ -68,6 +68,10 @@ class LimitedViewController: UIViewController {
                 PHImageManager.default().requestImage(for: asset!, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { image, _ in
                     guard let image = image else { return }
                     self?.limitedViewModel.selectedPhoto.onNext(image)
+                    if let imageData = image.pngData() {
+                        let base64String = imageData.base64EncodedString()
+                        UserSession.shared.image = base64String
+                    }
                     self?.limitedViewModel.itemSelected.accept(())
                 }
             })

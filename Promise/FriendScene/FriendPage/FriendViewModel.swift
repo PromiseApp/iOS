@@ -22,9 +22,7 @@ class FriendViewModel: Stepper{
     
     init(friendService: FriendService) {
         self.friendService = friendService
-        
-        self.loadFriendList()
-        
+                
         addFriendButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.settingViewRelay.accept(())
@@ -52,13 +50,14 @@ class FriendViewModel: Stepper{
     func loadFriendList(){
         self.friendService.friendList()
             .subscribe(onSuccess: { [weak self] response in
-                let friends = response.data.list.map { FriendData in
-                    let friendImg = (FriendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
-                    return Friend(userImage: friendImg!, name: FriendData.nickname, level: FriendData.level, isSelected: false)
+                let friends = response.data.list.map { friendData in
+                    let friendImg = (friendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
+                    return Friend(userImage: friendImg!, name: friendData.nickname, level: friendData.level, isSelected: false)
                 }
                 self?.allFriends = friends
                 self?.friendsRelay.accept(self?.allFriends ?? [])
             }, onFailure: { [weak self] error in
+                print(error)
                 self?.steps.accept(FriendStep.networkErrorPopup)
             })
             .disposed(by: disposeBag)

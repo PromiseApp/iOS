@@ -32,6 +32,8 @@ class AppFlow: Flow {
             return .none
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
+        case .inputErrorPopup:
+            return presentInputErrorPopup()
         }
     }
 
@@ -92,6 +94,13 @@ class AppFlow: Flow {
     
     private func presentNetworkErrorPopup() -> FlowContributors {
         let VC = NetworkErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func presentInputErrorPopup() -> FlowContributors {
+        let VC = InputErrorPopupViewController()
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .none

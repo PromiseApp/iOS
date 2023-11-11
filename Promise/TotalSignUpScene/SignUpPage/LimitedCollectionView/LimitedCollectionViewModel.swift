@@ -12,7 +12,7 @@ class LimitedViewModel: Stepper{
     let itemSelected = PublishRelay<Void>()
     
     let photos = BehaviorRelay<[PHAsset]>(value: [])
-    var selectedPhoto: PublishSubject<UIImage> = PublishSubject()
+    var selectedPhoto = PublishSubject<UIImage>()
     
     init() {
         fetchLimitedPhotos()

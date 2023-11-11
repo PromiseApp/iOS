@@ -73,8 +73,9 @@ class SignupFlow: Flow {
     
     private func navigateToLimitedCollectionView() -> FlowContributors {
         let VC = LimitedViewController(limitedViewModel: limitedVM)
+        VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: true)
-        return .none
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: limitedVM))
     }
     
     private func presentDuplicateAccountErrorPopUp() -> FlowContributors {

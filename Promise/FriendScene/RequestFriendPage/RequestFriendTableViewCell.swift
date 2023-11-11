@@ -11,6 +11,7 @@ class RequestFriendTableViewCell: UITableViewCell {
     lazy var userImageView = UIImageView()
     lazy var nameLabel = UILabel()
     lazy var levelLabel = UILabel()
+    lazy var requesterID = ""
     let rejectButton = UIButton()
     let acceptButton = UIButton()
     
@@ -101,10 +102,11 @@ class RequestFriendTableViewCell: UITableViewCell {
         
     }
     
-    func configure(with model: Friend) {
+    func configure(with model: RequestFriend) {
         userImageView.image = model.userImage
         nameLabel.text = model.name
         levelLabel.text = "Lv " + model.level
+        requesterID = model.requesterID
     }
     
 }

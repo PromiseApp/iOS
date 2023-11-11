@@ -29,8 +29,6 @@ class RequestFriendViewController: UIViewController {
         attribute()
         layout()
     }
-   
-    
     
     private func bind(){
         
@@ -41,13 +39,32 @@ class RequestFriendViewController: UIViewController {
         requestFriendViewModel.friendDatas
             .drive(tableView.rx.items(cellIdentifier: "RequestFriendTableViewCell", cellType: RequestFriendTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
+                
+                cell.rejectButton.rx.tap
+                    .subscribe(onNext: { [weak self, weak cell] in
+                        if let requesterID = cell?.requesterID {
+                            self?.requestFriendViewModel.rejectButtonTapped.accept(requesterID)
+                        }
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                cell.acceptButton.rx.tap
+                    .subscribe(onNext: { [weak self, weak cell] in
+                        if let requesterID = cell?.requesterID {
+                            self?.requestFriendViewModel.acceptButtonTapped.accept(requesterID)
+                        }
+                    })
+                    .disposed(by: cell.disposeBag)
+                
+                
             }
             .disposed(by: disposeBag)
-
-        tableView.rx.itemSelected
-            .bind { [weak self] indexPath in
-                self?.requestFriendViewModel.toggleSelection(at: indexPath.row)
-            }
+        
+        requestFriendViewModel.rejectFriendSuccessViewModel.requestSuccessRelay
+            .subscribe(onNext: { [weak self] requesterID in
+                self?.requestFriendViewModel.allFriends.removeAll { $0.requesterID == requesterID }
+                self?.requestFriendViewModel.friendsRelay.accept(self?.requestFriendViewModel.allFriends ?? [])
+            })
             .disposed(by: disposeBag)
 
     }
@@ -105,7 +122,6 @@ class RequestFriendViewController: UIViewController {
             make.top.equalTo(separateView.snp.bottom)
             make.bottom.equalToSuperview()
         }
-        
         
     }
     

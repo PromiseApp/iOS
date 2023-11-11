@@ -11,7 +11,6 @@ struct FriendList: Codable{
 }
 
 struct FriendData:Codable{
-    let id: String
     let level: String
     let nickname: String
     let img: String?
@@ -26,14 +25,26 @@ struct RequestFriendListResponse: Codable{
 }
 
 struct RequestFriendList: Codable{
-    let list: RequestFriendData
+    let info: [RequestFriendData]
 }
 
 struct RequestFriendData: Codable{
+    let memberInfo: MemberInfo
+    let requestInfo: RequestInfo
+}
+
+struct MemberInfo: Codable{
+    let memberId: Int
+    let nickname: String
+    let level: Int
+    let img: String?
+}
+
+struct RequestInfo: Codable{
     let id: String
-    let accepted: String
-    let respondent: String
     let requester: String
+    let respondent: String
+    let accepted: String
 }
 
 struct RequestFriendResponse: Codable{
