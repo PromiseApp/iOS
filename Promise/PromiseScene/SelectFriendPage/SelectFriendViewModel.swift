@@ -50,14 +50,10 @@ class SelectFriendViewModel: Stepper{
     }
     
     func toggleSelection(at index: Int) {
-        
         var currentFriends = shareFriendViewModel.friendsRelay.value.sorted { $0.isSelected && !$1.isSelected }
         currentFriends[index].isSelected.toggle()
         shareFriendViewModel.friendsRelay.accept(currentFriends)
         allFriends = currentFriends
     }
-   
-
-
     
 }

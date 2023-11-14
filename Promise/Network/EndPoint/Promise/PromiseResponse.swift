@@ -1,8 +1,74 @@
-//
-//  PromiseResponse.swift
-//  Promise
-//
-//  Created by 박중선 on 2023/11/11.
-//
+struct PromiseResponse: Codable{
+    let resultCode: String
+    let resultMessage: String
+}
 
-import Foundation
+struct RegisterPromiseResponse: Codable{
+    let resultCode: String
+    let resultMessage: String
+    let data: RegisterPromiseData
+}
+
+struct RegisterPromiseData: Codable {
+    let info: Info
+}
+
+struct Info: Codable {
+    let id: Int
+    let title: String
+    let location: String?
+    let coordinate: String?
+    let penalty: String?
+    let leader: String
+    let date: String
+    let memo: String?
+    let completed: String
+    let createdDate: String
+    let modifiedDate: String
+    let members: [Member]
+}
+
+struct Member: Codable {
+    let nickname: String
+    let accepted: String
+}
+
+struct PromiseListResponse: Codable{
+    let resultCode: String
+    let resultMessage: String
+    let data: PromiseListData
+}
+
+struct PromiseListData: Codable {
+    let list: [PromiseListItem]
+}
+
+struct PromiseListItem: Codable{
+    let location: String?
+    let id: String
+    let date: String
+    let title: String
+    let penalty: String?
+    let leader: String
+    let memo: String?
+}
+
+struct NewPromiseListResponse: Codable {
+    let resultCode: String
+    let resultMessage: String
+    let data: NewPromiseListData
+}
+
+struct NewPromiseListData: Codable {
+    let list: [NewPromiseListItem]
+}
+
+struct NewPromiseListItem: Codable {
+    let location: String?
+    let id: String
+    let date: String
+    let title: String
+    let penalty: String?
+    let leader: String
+    let memo: String?
+}

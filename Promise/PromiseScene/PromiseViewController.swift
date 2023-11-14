@@ -24,10 +24,11 @@ class PromiseViewController: UIViewController {
     let selectPromiseResultButton = UIButton()
     lazy var promiseListTableView = UITableView()
     let plusButton = UIButton()
+    let newPromiseButton = UIButton()
     
     var years: [Int] = Array(2000...2100)
     var months: [Int] = Array(1...12)
-    
+    var tabBarHeight: CGFloat = 0.0
     
     init(promiseViewModel: PromiseViewModel) {
         self.promiseViewModel = promiseViewModel
@@ -44,6 +45,21 @@ class PromiseViewController: UIViewController {
         bind()
         attribute()
         layout()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        if let tabBarVC = self.tabBarController {
+            tabBarHeight = tabBarVC.tabBar.frame.size.height
+            newPromiseButton.snp.makeConstraints { make in
+                make.width.equalTo(100*Constants.standardWidth)
+                make.height.equalTo(32*Constants.standardHeight)
+                make.centerX.equalToSuperview()
+                make.bottom.equalToSuperview().offset(-(tabBarHeight+12)*Constants.standardHeight)
+            }
+
+        }
     }
     
     private func bind(){
@@ -71,37 +87,40 @@ class PromiseViewController: UIViewController {
             .bind(to: promiseViewModel.selectPromiseResultButtonTapped)
             .disposed(by: disposeBag)
         
+        newPromiseButton.rx.tap
+            .bind(to: promiseViewModel.newPromiseButtonTapped)
+            .disposed(by: disposeBag)
+        
+        
         promiseListTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-//        let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
-//            configureCell: { [weak self] (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
-//                guard let self = self else {return}
-//                let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
-//                cell.configure(data: promiseView, manager: promiseView.manager)
+        let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
+            configureCell: { [weak self] (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
+                cell.configure(data: promiseView)
 //                cell.modifyButton.rx.tap
 //                    .map{
 //                        return (cell.id,cell.manager)
 //                    }
 //                    .bind(to: self.promiseViewModel.modifyButtonTapped)
 //                    .disposed(by: cell.disposeBag)
-//                return cell
-//            }
-//        )
-//        
-//        promiseViewModel.promiseDriver
-//            .map { promises in
-//                promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
-//            }
-//            .drive(promiseListTableView.rx.items(dataSource: dataSource))
-//            .disposed(by: disposeBag)
+                return cell
+            }
+        )
 
-        promiseViewModel.cntPromise
+        promiseViewModel.promiseDriver
+            .map { promises in
+                promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
+            }
+            .drive(promiseListTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+
+        promiseViewModel.cntNotDetPromise
             .subscribe(onNext: { [weak self] cnt in
                 if(cnt == 0){
                     self?.cntLabel.text = "아직 결과를 선택할 약속이 없어요 :)"
-                    self?.promiseListTableView.isHidden = true
-                    self?.plusButton.isHidden = false
+                    self?.selectPromiseResultButton.isHidden = true
                 }
                 else{
                     let text = "결과 선택할 약속 : \(cnt)"
@@ -110,6 +129,18 @@ class PromiseViewController: UIViewController {
                     attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: (text as NSString).range(of: "\(cnt)"))
                     
                     self?.cntLabel.attributedText = attributedString
+                    self?.selectPromiseResultButton.isHidden = false
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        promiseViewModel.promisesRelay
+            .subscribe(onNext: { [weak self] promises in
+                if(promises.count == 0){
+                    self?.promiseListTableView.isHidden = true
+                    self?.plusButton.isHidden = false
+                }
+                else{
                     self?.promiseListTableView.isHidden = false
                     self?.plusButton.isHidden = true
                 }
@@ -194,14 +225,25 @@ class PromiseViewController: UIViewController {
         promiseListTableView.do{
             $0.separatorStyle = .singleLine
             $0.register(PromiseTableViewCell.self, forCellReuseIdentifier: "PromiseTableViewCell")
-            $0.register(PromiseHeaderView.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderView")
+            $0.register(PromiseHeaderCell.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderCell")
             $0.sectionHeaderTopPadding = 0
+        }
+        
+        newPromiseButton.do{
+            $0.setTitle("새로운 약속", for: .normal)
+            $0.setTitleColor(UIColor(named: "prHeavy"), for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
+            $0.setImage(UIImage(named: "rightPrHeavy"), for: .normal)
+            $0.semanticContentAttribute = .forceRightToLeft
+            $0.layer.cornerRadius = 16*Constants.standardHeight
+            $0.layer.borderColor = UIColor(named: "prHeavy")?.cgColor
+            $0.layer.borderWidth = 2
         }
         
     }
     
     private func layout(){
-        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,selectPromiseResultButton,thirdSeparateView,promiseListTableView,plusButton]
+        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,selectPromiseResultButton,thirdSeparateView,promiseListTableView,plusButton,newPromiseButton]
             .forEach{view.addSubview($0)}
         
         logoLabel.snp.makeConstraints { make in
@@ -295,8 +337,6 @@ class PromiseViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.top.equalTo(thirdSeparateView.snp.bottom).offset(12*Constants.standardHeight)
         }
-
-        
         
         
     }
@@ -324,7 +364,7 @@ class PromiseViewController: UIViewController {
         let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
             let selectedYear = self?.years[picker.selectedRow(inComponent: 0)]
             let selectedMonth = self?.months[picker.selectedRow(inComponent: 1)]
-            self?.promiseViewModel.yearAndMonth.onNext((year: selectedYear, month: selectedMonth))
+            self?.promiseViewModel.yearAndMonth.accept((year: selectedYear, month: selectedMonth))
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -363,7 +403,7 @@ extension PromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource{
 typealias PromiseSectionModel = SectionModel<PromiseHeader, PromiseCell>
 extension PromiseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderCell") as! PromiseHeaderCell
         let promise = promiseViewModel.promisesRelay.value[section]
         header.configure(date: promise.date, isExpanded: promise.isExpanded)
         

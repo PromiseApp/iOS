@@ -44,7 +44,7 @@ class SelectPromiseResultViewController: UIViewController {
         let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
             configureCell: { [weak self] (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectPromiseResultTableViewCell", for: indexPath) as! SelectPromiseResultTableViewCell
-                cell.configure(data: promiseView, manager: promiseView.manager)
+                cell.configure(data: promiseView)
                 cell.selectMemberResultButton.rx.tap
                     .bind(to: (self?.selectPromiseResultViewModel.selectMemberResultButtonTapped)!)
                     .disposed(by: cell.disposeBag)
@@ -86,7 +86,7 @@ class SelectPromiseResultViewController: UIViewController {
         promiseListTableView.do{
             $0.separatorStyle = .singleLine
             $0.register(SelectPromiseResultTableViewCell.self, forCellReuseIdentifier: "SelectPromiseResultTableViewCell")
-            $0.register(PromiseHeaderView.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderView")
+            $0.register(PromiseHeaderCell.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderCell")
             $0.sectionHeaderTopPadding = 0
         }
         
@@ -129,7 +129,7 @@ class SelectPromiseResultViewController: UIViewController {
 
 extension SelectPromiseResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderCell") as! PromiseHeaderCell
         let promise = selectPromiseResultViewModel.resultPromiseRelay.value[section]
         header.configure(date: promise.date, isExpanded: promise.isExpanded)
         

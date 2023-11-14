@@ -33,8 +33,6 @@ class SelectFriendViewController: UIViewController {
         attribute()
         layout()
     }
-   
-    
     
     private func bind(){
         

@@ -69,6 +69,10 @@ class MakePromiseViewController: UIViewController {
             .bind(to: makePromiseViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
+        nextButton.rx.tap
+            .bind(to: makePromiseViewModel.nextButtonTapped)
+            .disposed(by: disposeBag)
+        
         promiseTitleTextField.rx.text.orEmpty
             .map { String($0.prefix(16)) }
             .bind(to: promiseTitleTextField.rx.text)

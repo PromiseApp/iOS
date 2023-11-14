@@ -6,7 +6,7 @@ import SnapKit
 
 class ConfirmEmailAuthInFindPwViewController: UIViewController {
     let disposeBag = DisposeBag()
-    var confirmEmailAuthViewModel:ConfirmEmailAuthViewModel
+    var confirmEmailAuthViewModel: ConfirmEmailAuthViewModel
 
     
     let titleLabel = UILabel()

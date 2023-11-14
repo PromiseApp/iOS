@@ -1,25 +1,39 @@
 import RxCocoa
 import RxSwift
 import UIKit
+import RxFlow
 
-class ShareFriendViewModel{
-    var allFriends: [Friend] = [
-        Friend(userImage: UIImage(named: "plus")!, name: "가", level: "1", isSelected: false),
-        Friend(userImage: UIImage(named: "plus")!, name: "나", level: "1", isSelected: false),
-        Friend(userImage: UIImage(named: "down")!, name: "가나", level: "3", isSelected: false),
-        Friend(userImage: UIImage(named: "left")!, name: "가다", level: "12", isSelected: false),
-        Friend(userImage: UIImage(named: "plus")!, name: "다", level: "5", isSelected: false),
-        Friend(userImage: UIImage(named: "left")!, name: "라라", level: "1", isSelected: false),
-        Friend(userImage: UIImage(named: "right")!, name: "가나다라", level: "9", isSelected: false),
-        Friend(userImage: UIImage(named: "camera")!, name: "나다", level: "1", isSelected: false),
-        Friend(userImage: UIImage(named: "plus")!, name: "마가나", level: "1", isSelected: false),
-    ]
+class ShareFriendViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
+    var friendService: FriendService
+    
+    var allFriends: [Friend] = []
     
     let friendsRelay = BehaviorRelay<[Friend]>(value: [])
     var isDataLoaded = false
     
-    init(){
-        friendsRelay.accept(allFriends)
+    init(friendService: FriendService){
+        self.friendService = friendService
+        
+        self.loadFriendList()
+        
+    }
+    
+    func loadFriendList(){
+        self.friendService.friendList()
+            .subscribe(onSuccess: { [weak self] response in
+                let friends = response.data.list.map { friendData in
+                    let friendImg = (friendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
+                    return Friend(userImage: friendImg!, name: friendData.nickname, level: friendData.level, isSelected: false)
+                }
+                self?.allFriends = friends
+                self?.friendsRelay.accept(self?.allFriends ?? [])
+            }, onFailure: { [weak self] error in
+                print(error)
+                self?.steps.accept(FriendStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
     }
     
 }

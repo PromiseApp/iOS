@@ -3,7 +3,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class PromiseHeaderView: UITableViewHeaderFooterView {
+class PromiseHeaderCell: UITableViewHeaderFooterView {
     var disposeBag = DisposeBag()
     
     lazy var dateLabel = UILabel()

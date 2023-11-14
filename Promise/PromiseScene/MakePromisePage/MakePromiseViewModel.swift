@@ -8,9 +8,11 @@ class MakePromiseViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     var shareFriendViewModel:ShareFriendViewModel
+    var promiseService: PromiseService
     
     let leftButtonTapped = PublishRelay<Void>()
     let addFriendButtonTapped = PublishRelay<Void>()
+    let nextButtonTapped = PublishRelay<Void>()
     
     let titleRelay = PublishRelay<String>()
     let dateRelay = PublishRelay<(year: Int, month: Int, day: Int)>()
@@ -30,8 +32,9 @@ class MakePromiseViewModel: Stepper{
     
     let isNextButtonEnabled: Observable<Bool>
     
-    init(shareFriendViewModel: ShareFriendViewModel) {
+    init(shareFriendViewModel: ShareFriendViewModel, promiseService: PromiseService) {
         self.shareFriendViewModel = shareFriendViewModel
+        self.promiseService = promiseService
         
         titleRelay
             .map { $0.count }
@@ -90,6 +93,43 @@ class MakePromiseViewModel: Stepper{
                 self?.steps.accept(PromiseStep.selectFriend)
             })
             .disposed(by: disposeBag)
+        
+        Observable.combineLatest(dateRelay,timeRelay)
+            .subscribe(onNext: { a,b in
+                print(a,b)
+            })
+            .disposed(by: disposeBag)
+        
+        selectedFriendDatas
+            .drive(onNext: { a in
+                print(a)
+            })
+            .disposed(by: disposeBag)
+        
+        nextButtonTapped
+            .withLatestFrom(Observable.combineLatest(titleRelay, dateRelay,timeRelay,selectedFriendDatas.asObservable(),placeRelay,penaltyRelay,memoRelay))
+            .flatMapLatest { [weak self] (title, date, time, friends, place, penalty, memo) -> Observable<Void> in
+                guard let self = self else { return Observable.empty() }
+                
+                let formattedDate = "\(date.year)-\(date.month)-\(date.day) \(time.hour):\(time.minute):00"
+                
+                let friendNames = friends.map { $0.name }
+                
+                return self.promiseService.registerPromise(title: title, date: formattedDate, friends: friendNames, place: place, penalty: penalty, memo: memo)
+                    .asObservable()
+                    .map{_ in Void() }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(PromiseStep.networkErrorPopup)
+                        return Observable.empty()
+                        
+                    }
+                return Observable.empty()
+            }
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.popView)
+            })
+            .disposed(by: disposeBag)
     }
     
     func toggleSelection(friend: Friend) {
@@ -99,6 +139,7 @@ class MakePromiseViewModel: Stepper{
             shareFriendViewModel.friendsRelay.accept(currentFriends)
         }
     }
-
+    
+    
     
 }

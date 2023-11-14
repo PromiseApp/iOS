@@ -3,7 +3,7 @@ import RxSwift
 import SnapKit
 import Then
 
-class PromiseTableViewCell: UITableViewCell {
+class NewPromiseTableViewCell: UITableViewCell {
     var disposeBag = DisposeBag()
 
     let greyView = UIView()
@@ -13,10 +13,9 @@ class PromiseTableViewCell: UITableViewCell {
     lazy var locaLabel = UILabel()
     let skullImageView = UIImageView()
     lazy var penaltyLabel = UILabel()
-    let modifyButton = UIButton()
+    let selectImageView = UIImageView()
 
     var id = ""
-    var manger: Bool = false
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -69,7 +68,7 @@ class PromiseTableViewCell: UITableViewCell {
     }
 
     func layout(){
-        [greyView,timeLabel,titleLabel,locaImageView,locaLabel,skullImageView,penaltyLabel,modifyButton]
+        [greyView,timeLabel,titleLabel,locaImageView,locaLabel,skullImageView,selectImageView,penaltyLabel]
             .forEach { UIView in
                 contentView.addSubview(UIView)
             }
@@ -115,27 +114,21 @@ class PromiseTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview().offset(-12*Constants.standardHeight)
         }
 
-        modifyButton.snp.makeConstraints { make in
-            make.width.height.equalTo(32*Constants.standardHeight)
-            make.trailing.equalToSuperview().offset(-16*Constants.standardWidth)
-            make.bottom.equalToSuperview().offset(-32*Constants.standardHeight)
+        selectImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(24*Constants.standardHeight)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-20*Constants.standardWidth)
+            make.centerY.equalTo(contentView)
         }
 
     }
     
-    func configure(data: PromiseCell){
+    func configure(data: NewPromiseCell){
+        id = data.id
         timeLabel.text = data.time
         titleLabel.text = data.title
         locaLabel.text = data.place ?? "미정"
         penaltyLabel.text = data.penalty ?? "미정"
-        manger = data.manager
-        if(manger){
-            modifyButton.setImage(UIImage(named: "pencil"), for: .normal)
-        }
-        else{
-            modifyButton.setImage(UIImage(named: "memo"), for: .normal)
-        }
-        
+        selectImageView.image = data.isSelected ? UIImage(named: "select") : UIImage(named: "unselect")
     }
-
+    
 }

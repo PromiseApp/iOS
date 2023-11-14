@@ -17,6 +17,8 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
     lazy var penaltyLabel = UILabel()
     let selectMemberResultButton = UIButton()
     
+    var manager: Bool = false
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         selectionStyle = .none
@@ -145,12 +147,12 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
         
     }
     
-    func configure(data: PromiseCell, manager: Bool){
+    func configure(data: PromiseCell){
         timeLabel.text = data.time
         titleLabel.text = data.title
-        cntLabel.text = "\(data.cnt)명"
         locaLabel.text = data.place ?? "미정"
         penaltyLabel.text = data.penalty ?? "미정"
+        manager = data.manager
         if(manager){
             selectMemberResultButton.do{
                 $0.setTitle("참여자 결과 선택하기", for: .normal)

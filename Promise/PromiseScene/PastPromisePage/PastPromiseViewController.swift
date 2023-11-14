@@ -60,22 +60,18 @@ class PastPromiseViewController: UIViewController {
         promiseListTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
         
-        let dataSource = RxTableViewSectionedReloadDataSource<PastPromiseSectionModel>(
+        let dataSource = RxTableViewSectionedReloadDataSource<PromiseSectionModel>(
             configureCell: { (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "PastPromiseTableViewCell", for: indexPath) as! PastPromiseTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
                 cell.configure(data: promiseView)
-                cell.memoButton.rx.tap
-                    .subscribe(onNext: { [weak self] in
-                        self?.pastPromiseViewModel.toggleMemoViewHidden(section: indexPath.section, row: indexPath.row)
-                    })
-                    .disposed(by: cell.disposeBag)
+
                 return cell
             }
         )
         
         pastPromiseViewModel.pastPromiseDatas
             .map { promises in
-                promises.map { PastPromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
+                promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
             }
             .drive(promiseListTableView.rx.items(dataSource: dataSource))
             .disposed(by: disposeBag)
@@ -131,8 +127,8 @@ class PastPromiseViewController: UIViewController {
         
         promiseListTableView.do{
             $0.separatorStyle = .singleLine
-            $0.register(PastPromiseTableViewCell.self, forCellReuseIdentifier: "PastPromiseTableViewCell")
-            $0.register(PromiseHeaderView.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderView")
+            $0.register(PromiseTableViewCell.self, forCellReuseIdentifier: "PromiseTableViewCell")
+            $0.register(PromiseHeaderCell.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderCell")
             $0.sectionHeaderTopPadding = 0
         }
         
@@ -264,10 +260,9 @@ extension PastPromiseViewController: UIPickerViewDelegate,UIPickerViewDataSource
     }
 }
 
-typealias PastPromiseSectionModel = SectionModel<PastPromiseHeader, PastPromiseCell>
 extension PastPromiseViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderView") as! PromiseHeaderView
+        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderCell") as! PromiseHeaderCell
         let promise = pastPromiseViewModel.pastPromisesRelay.value[section]
         header.configure(date: promise.date, isExpanded: promise.isExpanded)
         

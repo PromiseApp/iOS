@@ -70,7 +70,6 @@ class MyPageViewModel: Stepper{
         } else {
             userImageRelay.accept(UIImage(named: "user"))
         }
-        print("UserSession.shared.image: \(UserSession.shared.image)")
     }
     
 }

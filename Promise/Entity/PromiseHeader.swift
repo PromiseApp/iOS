@@ -8,27 +8,30 @@ struct PromiseHeader{
 }
 
 struct PromiseCell{
+    let id: String
+    let date: String
     let time: String
     let title: String
-    let cnt: Int
     let place: String?
     let penalty: String?
+    let memo: String?
     let manager: Bool
 }
 
-struct PastPromiseHeader{
+struct NewPromiseHeader{
     let date: String
-    var promises: [PastPromiseCell]
+    var newPromises: [NewPromiseCell]
     let cntPromise: Int
     var isExpanded: Bool = false
 }
 
-struct PastPromiseCell{
+struct NewPromiseCell{
+    let id: String
+    let date: String
     let time: String
     let title: String
-    let friends: String
     let place: String?
     let penalty: String?
     let memo: String?
-    var isMemoViewHidden: Bool = true
+    var isSelected: Bool = false
 }

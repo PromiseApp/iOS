@@ -7,7 +7,10 @@ class PromiseFlow: Flow {
     }
     
     private var rootViewController: UINavigationController
-    let shareVM = ShareFriendViewModel()
+    
+    let promiseService = PromiseService()
+    let shareVM = ShareFriendViewModel(friendService: FriendService())
+    
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -19,6 +22,8 @@ class PromiseFlow: Flow {
         switch step {
         case .home:
             return navigateToHome()
+        case .newPromise:
+            return navigateToNewPromise()
         case .makePromise:
             return navigateToMakePromise()
         case .selectFriend:
@@ -31,20 +36,30 @@ class PromiseFlow: Flow {
             return navigateToSelectMemberResult()
 //        case .modifyPromise(let id, let isManager):
 //            return navigateToModifyPromise(id: id, isManager: isManager)
+        case .networkErrorPopup:
+            return presentNetworkErrorPopup()
         case .popView:
             return popViewController()
         }
     }
     
     private func navigateToHome() -> FlowContributors {
-        let VM = PromiseViewModel()
+        let VM = PromiseViewModel(promiseService: promiseService)
         let VC = PromiseViewController(promiseViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
+    private func navigateToNewPromise() -> FlowContributors {
+        let VM = NewPromiseViewModel(promiseService: self.promiseService)
+        let VC = NewPromiseViewController(newPromiseViewModel: VM)
+        VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
     private func navigateToMakePromise() -> FlowContributors {
-        let VM = MakePromiseViewModel(shareFriendViewModel: self.shareVM)
+        let VM = MakePromiseViewModel(shareFriendViewModel: self.shareVM, promiseService: self.promiseService)
         let VC = MakePromiseViewController(makePromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -88,6 +103,13 @@ class PromiseFlow: Flow {
 //        rootViewController.pushViewController(VC, animated: true)
 //        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
 //    }
+    
+    private func presentNetworkErrorPopup() -> FlowContributors {
+        let VC = NetworkErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
     
     private func popViewController() -> FlowContributors {
         rootViewController.popViewController(animated: true)

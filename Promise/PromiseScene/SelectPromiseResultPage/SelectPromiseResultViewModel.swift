@@ -22,18 +22,19 @@ class SelectPromiseResultViewModel: Stepper{
     
     init(){
         
-        let promiseView: [PromiseCell] = [
-            .init(time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", cnt: 3, place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아",manager: true),
-            .init(time: "10:30", title: "bbb", cnt: 2, place: nil, penalty: "qweqwe",manager: false),
-            .init(time: "13:10", title: "ccc", cnt: 5, place: "부산", penalty: "yhtyht",manager: true),
-        ]
-        resultPromiseRelay.accept(
-            [
-                PromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
-                PromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
-                PromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
-            ]
-        )
+//        let promiseView: [PromiseCell] = [
+//            .init(id: "1", date: <#String#>, time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아",memo: "12", manager: false),
+//            .init(id: "2", time: "10:30", title: "bbb", place: nil, penalty: "qweqwe",memo: "12", manager: true),
+//            .init(id: "3", time: "13:10", title: "ccc", place: "부산", penalty: "yhtyht",memo: "12", manager: true),
+//        ]
+//        
+//        resultPromiseRelay.accept(
+//            [
+//                PromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
+//                PromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
+//                PromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
+//            ]
+//        )
         
         resultPromiseDriver = resultPromiseRelay.asDriver(onErrorDriveWith: .empty())
         

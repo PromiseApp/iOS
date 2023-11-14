@@ -184,22 +184,12 @@ class PastPromiseTableViewCell: UITableViewCell {
         }
     }
     
-    func configure(data: PastPromiseCell){
+    func configure(data: PromiseCell){
         timeLabel.text = data.time
         titleLabel.text = data.title
-        friendsLabel.text = data.friends
         locaLabel.text = data.place ?? "미정"
         penaltyLabel.text = data.penalty ?? "없음"
-        memoView.isHidden = data.isMemoViewHidden
-        var memoText = data.memo ?? "없음"
-        
-        if memoText.count > 20 {
-            let index = memoText.index(memoText.startIndex, offsetBy: 20)
-            memoText.insert("\n", at: index)
-        }
-        
-        memoLabel.text = memoText
-        memoLabel.numberOfLines = 2
+
         
     }
 }

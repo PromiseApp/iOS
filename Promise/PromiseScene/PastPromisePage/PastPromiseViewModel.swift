@@ -11,23 +11,25 @@ class PastPromiseViewModel: Stepper{
     
     let yearAndMonth: BehaviorSubject<(year: Int?, month: Int?)> = BehaviorSubject(value: (Calendar.current.component(.year, from: Date()), Calendar.current.component(.month, from: Date())))
     
-    var pastPromisesRelay = BehaviorRelay<[PastPromiseHeader]>(value: [])
-    var pastPromiseDatas: Driver<[PastPromiseHeader]>
-    var allPromises: [PastPromiseHeader] = []
+    var pastPromisesRelay = BehaviorRelay<[PromiseHeader]>(value: [])
+    var pastPromiseDatas: Driver<[PromiseHeader]>
+    var allPromises: [PromiseHeader] = []
     
     init(){
         pastPromiseDatas = pastPromisesRelay.asDriver(onErrorDriveWith: .empty())
         
-        let promiseView: [PastPromiseCell] = [
-            .init(time: "5:00", title: "qwe", friends: "aa bb cc", place: nil, penalty: "qweqwzx", memo: "erngkjer"),
-            .init(time: "9:00", title: "asd", friends: "aa bb cc", place: "ertert", penalty: "qweqweqwerqweqweqwerqweqweqwer", memo: "qweqweqwerqweqweqwerqweqweqwer"),
-            .init(time: "15:00", title: "zxc", friends: "aa bb cc", place: nil, penalty: nil, memo: "er"),
-        ]
-        allPromises = [
-            PastPromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
-            PastPromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
-            PastPromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
-        ]
+//        let promiseView: [PromiseCell] = [
+//            .init(id: "1", time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아",memo: "12", manager: false),
+//            .init(id: "2", time: "10:30", title: "bbb", place: nil, penalty: "qweqwe",memo: "12", manager: true),
+//            .init(id: "3", time: "13:10", title: "ccc", place: "부산", penalty: "yhtyht",memo: "12", manager: true),
+//        ]
+//        
+//        allPromises = [
+//            PromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
+//            PromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
+//            PromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
+//        ]
+        
         pastPromisesRelay.accept(allPromises)
         
         leftButtonTapped
@@ -44,9 +46,9 @@ class PastPromiseViewModel: Stepper{
             return
         }
         
-        let filteredPromises = allPromises.map { datePromise -> PastPromiseHeader in
+        let filteredPromises = allPromises.map { datePromise -> PromiseHeader in
             let filteredItems = datePromise.promises.filter { $0.title.contains(query) }
-            return PastPromiseHeader(date: datePromise.date, promises: filteredItems, cntPromise: filteredItems.count)
+            return PromiseHeader(date: datePromise.date, promises: filteredItems, cntPromise: filteredItems.count)
         }.filter { !$0.promises.isEmpty }
         
         pastPromisesRelay.accept(filteredPromises)
@@ -56,12 +58,6 @@ class PastPromiseViewModel: Stepper{
         var currentPromises = pastPromisesRelay.value
         currentPromises[section].isExpanded.toggle()
         pastPromisesRelay.accept(currentPromises)
-    }
-    
-    func toggleMemoViewHidden(section: Int, row: Int) {
-        var updatedSections = pastPromisesRelay.value
-        updatedSections[section].promises[row].isMemoViewHidden.toggle()
-        pastPromisesRelay.accept(updatedSections)
     }
     
 }
