@@ -12,31 +12,22 @@ import RxFlow
 
 class SelectPromiseResultViewModel: Stepper{
     let disposeBag = DisposeBag()
+    let vwaDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    var promiseIDViewModel: PromiseIDViewModel
+    var promiseService: PromiseService
 
     let leftButtonTapped = PublishRelay<Void>()
-    let selectMemberResultButtonTapped = PublishRelay<Void>()
+    let selectMemberResultButtonTapped = PublishRelay<String>()
     
-    let resultPromiseRelay = BehaviorRelay<[PromiseHeader]>(value: [])
-    let resultPromiseDriver: Driver<[PromiseHeader]>
+    let notDetPromiseRelay = BehaviorRelay<[PromiseHeader]>(value: [])
+    var notDetPromiseDriver: Driver<[PromiseHeader]>{
+        return notDetPromiseRelay.asDriver(onErrorDriveWith: .empty())
+    }
     
-    init(){
-        
-//        let promiseView: [PromiseCell] = [
-//            .init(id: "1", date: <#String#>, time: "10:10", title: "아아아아아아아아아아아아아아아아아아아아", place: "서울", penalty: "아아아아아아아아아아아아아아아아아아아아",memo: "12", manager: false),
-//            .init(id: "2", time: "10:30", title: "bbb", place: nil, penalty: "qweqwe",memo: "12", manager: true),
-//            .init(id: "3", time: "13:10", title: "ccc", place: "부산", penalty: "yhtyht",memo: "12", manager: true),
-//        ]
-//        
-//        resultPromiseRelay.accept(
-//            [
-//                PromiseHeader(date: "2023-10-3", promises: promiseView, cntPromise: promiseView.count),
-//                PromiseHeader(date: "2023-10-6", promises: promiseView, cntPromise: promiseView.count),
-//                PromiseHeader(date: "2023-10-9", promises: promiseView, cntPromise: promiseView.count)
-//            ]
-//        )
-        
-        resultPromiseDriver = resultPromiseRelay.asDriver(onErrorDriveWith: .empty())
+    init(promiseIDViewModel: PromiseIDViewModel, promiseService: PromiseService){
+        self.promiseIDViewModel = promiseIDViewModel
+        self.promiseService = promiseService
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -45,17 +36,44 @@ class SelectPromiseResultViewModel: Stepper{
             .disposed(by: disposeBag)
         
         selectMemberResultButtonTapped
-            .subscribe(onNext: { [weak self] in
+            .subscribe(onNext: { [weak self] id in
                 self?.steps.accept(PromiseStep.selectMemberResult)
+                self?.promiseIDViewModel.promiseIdRelay.accept(id)
             })
             .disposed(by: disposeBag)
         
     }
     
     func toggleSectionExpansion(at section: Int) {
-        var currentPromises = resultPromiseRelay.value
+        var currentPromises = notDetPromiseRelay.value
         currentPromises[section].isExpanded.toggle()
-        resultPromiseRelay.accept(currentPromises)
+        notDetPromiseRelay.accept(currentPromises)
+    }
+    
+    func loadNotDetPromiseList(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        let nowDateTime = formatter.string(from: Date())
+        self.promiseService.promiseList(startDateTime: "2023-01-01 12:00:00", endDateTime: nowDateTime, completed: "N")
+            .subscribe(onSuccess: { [weak self] response in
+                let promises = response.data.list.map { item -> PromiseCell in
+                    let dateTimeComponents = item.date.split(separator: " ")
+                    let date = String(dateTimeComponents[0])
+                    let time = String(dateTimeComponents[1].split(separator: ":")[0...1].joined(separator: ":"))
+
+                    return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: item.location, penalty: item.penalty, memo: item.memo, manager: UserSession.shared.nickname == item.leader ? true : false)
+                }
+
+                let groupedPromises = Dictionary(grouping: promises, by: { $0.date })
+                let promiseHeaders = groupedPromises.map { date, promises -> PromiseHeader in
+                    PromiseHeader(date: date, promises: promises, cntPromise: promises.count)
+                }.sorted { $0.date < $1.date }
+
+                self?.notDetPromiseRelay.accept(promiseHeaders)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(PromiseStep.networkErrorPopup)
+            })
+            .disposed(by: vwaDisposeBag)
     }
     
 }

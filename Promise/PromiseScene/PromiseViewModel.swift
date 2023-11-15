@@ -5,6 +5,7 @@ import RxFlow
 
 class PromiseViewModel: Stepper{
     let disposeBag = DisposeBag()
+    let vwaDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     var promiseService: PromiseService
     
@@ -25,8 +26,6 @@ class PromiseViewModel: Stepper{
     
     init(promiseService: PromiseService){
         self.promiseService = promiseService
-        self.loadPromiseList()
-        self.loadNotDetPromiseList()
         
         plusButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -115,7 +114,7 @@ class PromiseViewModel: Stepper{
             .subscribe(onNext: { _ in
                 
             })
-            .disposed(by: disposeBag)
+            .disposed(by: vwaDisposeBag)
     }
 
     func loadNotDetPromiseList(){
@@ -128,7 +127,7 @@ class PromiseViewModel: Stepper{
             }, onFailure: { [weak self] error in
                 self?.steps.accept(PromiseStep.networkErrorPopup)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: vwaDisposeBag)
     }
     
 }

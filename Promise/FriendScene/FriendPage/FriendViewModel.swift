@@ -5,6 +5,7 @@ import RxFlow
 
 class FriendViewModel: Stepper{
     let disposeBag = DisposeBag()
+    let vwaDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
     let friendService: FriendService
@@ -60,7 +61,7 @@ class FriendViewModel: Stepper{
                 print(error)
                 self?.steps.accept(FriendStep.networkErrorPopup)
             })
-            .disposed(by: disposeBag)
+            .disposed(by: vwaDisposeBag)
     }
     
 }

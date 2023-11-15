@@ -8,6 +8,8 @@ protocol PromiseServiceProtocol {
     func newPormiseList() -> Single<NewPromiseListResponse>
     func acceptPromise(id: String) -> Single<PromiseResponse>
     func rejectPromise(id: String) -> Single<PromiseResponse>
+    func detailPromise(promiseId: String) -> Single<PromiseDetailResponse>
+    func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse>
 }
 
 class PromiseService: PromiseServiceProtocol {
@@ -38,6 +40,18 @@ class PromiseService: PromiseServiceProtocol {
     
     func rejectPromise(id: String) -> Single<PromiseResponse> {
         return provider.rx.request(.RejectPromise(id: id))
+            .filterSuccessfulStatusCodes()
+            .map(PromiseResponse.self)
+    }
+    
+    func detailPromise(promiseId: String) -> Single<PromiseDetailResponse> {
+        return provider.rx.request(.DetailPromise(promiseId: promiseId))
+            .filterSuccessfulStatusCodes()
+            .map(PromiseDetailResponse.self)
+    }
+    
+    func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse> {
+        return provider.rx.request(.ResultPromise(promiseId: promiseId, nickname: nickname, isSucceed: isSucceed))
             .filterSuccessfulStatusCodes()
             .map(PromiseResponse.self)
     }

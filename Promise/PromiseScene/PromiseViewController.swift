@@ -47,6 +47,12 @@ class PromiseViewController: UIViewController {
         layout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.promiseViewModel.loadPromiseList()
+        self.promiseViewModel.loadNotDetPromiseList()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         

@@ -124,10 +124,11 @@ class PromiseTableViewCell: UITableViewCell {
     }
     
     func configure(data: PromiseCell){
+        id = data.id
         timeLabel.text = data.time
         titleLabel.text = data.title
-        locaLabel.text = data.place ?? "미정"
-        penaltyLabel.text = data.penalty ?? "미정"
+        locaLabel.text = data.place == "" ? "미정" : data.place
+        penaltyLabel.text = data.penalty == "" ? "미정" : data.penalty
         manger = data.manager
         if(manger){
             modifyButton.setImage(UIImage(named: "pencil"), for: .normal)

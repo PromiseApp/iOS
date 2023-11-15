@@ -10,7 +10,7 @@ class PromiseFlow: Flow {
     
     let promiseService = PromiseService()
     let shareVM = ShareFriendViewModel(friendService: FriendService())
-    
+    let promiseIDViewModel = PromiseIDViewModel()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -82,7 +82,7 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToSelectPromiseResult() -> FlowContributors {
-        let VM = SelectPromiseResultViewModel()
+        let VM = SelectPromiseResultViewModel(promiseIDViewModel: promiseIDViewModel, promiseService: promiseService)
         let VC = SelectPromiseResultViewController(selectPromiseResultViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -90,7 +90,7 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToSelectMemberResult() -> FlowContributors {
-        let VM = SelectMemberResultViewModel()
+        let VM = SelectMemberResultViewModel(promiseIDViewModel: promiseIDViewModel, promiseService: promiseService)
         let VC = SelectMemberResultViewController(selectMemberResultViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

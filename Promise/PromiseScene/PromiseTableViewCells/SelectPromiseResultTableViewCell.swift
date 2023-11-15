@@ -9,14 +9,13 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
     let greyView = UIView()
     lazy var timeLabel = UILabel()
     lazy var titleLabel = UILabel()
-    let separateLabel = UILabel()
-    lazy var cntLabel = UILabel()
     let locaImageView = UIImageView()
     lazy var locaLabel = UILabel()
     let skullImageView = UIImageView()
     lazy var penaltyLabel = UILabel()
     let selectMemberResultButton = UIButton()
     
+    var id = ""
     var manager: Bool = false
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -50,15 +49,6 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
             $0.font = UIFont(name: "Pretendard-Medium", size: 18*Constants.standartFont)
         }
         
-        separateLabel.do{
-            $0.text = "|"
-            $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
-        }
-        
-        cntLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
-        }
-        
         locaImageView.do{
             $0.image = UIImage(named: "loca")
         }
@@ -84,7 +74,7 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
     }
     
     func layout(){
-        [greyView,timeLabel,titleLabel,separateLabel,cntLabel,locaImageView,locaLabel,skullImageView,penaltyLabel,selectMemberResultButton]
+        [greyView,timeLabel,titleLabel,locaImageView,locaLabel,skullImageView,penaltyLabel,selectMemberResultButton]
             .forEach { UIView in
                 contentView.addSubview(UIView)
             }
@@ -104,16 +94,6 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
             make.top.equalTo(greyView.snp.bottom).offset(12*Constants.standardHeight)
-        }
-        
-        separateLabel.snp.makeConstraints { make in
-            make.leading.equalTo(titleLabel.snp.trailing).offset(8*Constants.standardWidth)
-            make.centerY.equalTo(titleLabel)
-        }
-        
-        cntLabel.snp.makeConstraints { make in
-            make.leading.equalTo(separateLabel.snp.trailing).offset(8*Constants.standardWidth)
-            make.centerY.equalTo(titleLabel)
         }
         
         locaImageView.snp.makeConstraints { make in
@@ -148,10 +128,11 @@ class SelectPromiseResultTableViewCell: UITableViewCell {
     }
     
     func configure(data: PromiseCell){
+        id = data.id
         timeLabel.text = data.time
         titleLabel.text = data.title
-        locaLabel.text = data.place ?? "미정"
-        penaltyLabel.text = data.penalty ?? "미정"
+        locaLabel.text = data.place == "" ? "미정" : data.place
+        penaltyLabel.text = data.penalty == "" ? "미정" : data.penalty
         manager = data.manager
         if(manager){
             selectMemberResultButton.do{

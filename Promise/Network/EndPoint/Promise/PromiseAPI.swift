@@ -14,6 +14,8 @@ enum PromiseAPI {
     case NewPromiseList
     case AcceptPromise(id: String)
     case RejectPromise(id: String)
+    case DetailPromise(promiseId: String)
+    case ResultPromise(promiseId: String, nickname: String, isSucceed: String)
 }
 
 extension PromiseAPI: TargetType {
@@ -34,6 +36,10 @@ extension PromiseAPI: TargetType {
             return "/promise/acceptPromiseRequest"
         case .RejectPromise:
             return "/promise/rejectPromiseRequest"
+        case .DetailPromise:
+            return "/promise/getPromiseInfo"
+        case .ResultPromise:
+            return "/promise/result"
         }
     }
     
@@ -48,6 +54,10 @@ extension PromiseAPI: TargetType {
         case .AcceptPromise:
             return .post
         case .RejectPromise:
+            return .post
+        case .DetailPromise:
+            return .get
+        case .ResultPromise:
             return .post
         }
     }
@@ -85,6 +95,16 @@ extension PromiseAPI: TargetType {
             return .requestParameters(parameters: ["id": id], encoding: JSONEncoding.default)
         case .RejectPromise(let id):
             return .requestParameters(parameters: ["id": id], encoding: JSONEncoding.default)
+        case .DetailPromise(let promiseId):
+            return .requestParameters(parameters: ["promiseId": promiseId], encoding: URLEncoding.queryString)
+        case .ResultPromise(let promiseId, let nickname, let isSucceed):
+            let result: [String: String] = ["nickname": nickname, "isSucceed": isSucceed]
+                let parameters: [String: Any] = [
+                    "promiseId": promiseId,
+                    "result": [result]
+                ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+            
         }
     }
     

@@ -20,8 +20,6 @@ class SelectMemberResultViewController: UIViewController {
     let leftButton = UIButton()
     let separateView = UIView()
     lazy var tableView = UITableView()
-    let cancelButton = UIButton()
-    let nextButton = UIButton()
         
     init(selectMemberResultViewModel: SelectMemberResultViewModel) {
         self.selectMemberResultViewModel = selectMemberResultViewModel
@@ -48,37 +46,41 @@ class SelectMemberResultViewController: UIViewController {
             .bind(to: selectMemberResultViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
-        cancelButton.rx.tap
-            .bind(to: selectMemberResultViewModel.leftButtonTapped)
-            .disposed(by: disposeBag)
-        
-        nextButton.rx.tap
-            .bind(to: selectMemberResultViewModel.nextButtonTapped)
-            .disposed(by: disposeBag)
-        
         selectMemberResultViewModel.resultMemberDriver
             .drive(tableView.rx.items(cellIdentifier: "SelectMemberResultTableViewCell", cellType: SelectMemberResultTableViewCell.self)) { row, friend, cell in
                 cell.configure(with: friend)
                 
                 cell.failButton.rx.tap
-                    .subscribe(onNext: {
+                    .subscribe(onNext: { [weak self] in
                         cell.failButton.backgroundColor = UIColor(named: "prStrong")
                         cell.successButton.layer.borderWidth = 1
                         cell.successButton.layer.borderColor = UIColor(named: "line")?.cgColor
                         cell.successButton.backgroundColor = .white
+                        let nickname = cell.nameLabel.text
+                        self?.selectMemberResultViewModel.failButtonTapped.accept(nickname ?? "")
                     })
                     .disposed(by: cell.disposeBag)
                 
                 cell.successButton.rx.tap
-                    .subscribe(onNext: {
+                    .subscribe(onNext: { [weak self] in
                         cell.successButton.backgroundColor = UIColor(named: "prStrong")
                         cell.failButton.layer.borderWidth = 1
                         cell.failButton.layer.borderColor = UIColor(named: "line")?.cgColor
                         cell.failButton.backgroundColor = .white
+                        let nickname = cell.nameLabel.text
+                        self?.selectMemberResultViewModel.successButtonTapped.accept(nickname ?? "")
                     })
                     .disposed(by: cell.disposeBag)
                 
             }
+            .disposed(by: disposeBag)
+        
+        selectMemberResultViewModel.requestSuccessRelay
+            .subscribe(onNext: { [weak self] nickname in
+                guard let self = self else { return }
+                self.selectMemberResultViewModel.allFriends.removeAll { $0.name == nickname }
+                self.selectMemberResultViewModel.resultMemberRelay.accept(self.selectMemberResultViewModel.allFriends)
+            })
             .disposed(by: disposeBag)
         
     }
@@ -105,24 +107,10 @@ class SelectMemberResultViewController: UIViewController {
             $0.register(SelectMemberResultTableViewCell.self, forCellReuseIdentifier: "SelectMemberResultTableViewCell")
         }
         
-        cancelButton.do{
-            $0.setTitle("취소", for: .normal)
-            $0.setTitleColor(.black, for: .normal)
-            $0.titleLabel?.font =  UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
-            $0.backgroundColor = UIColor(named: "prLight")
-        }
-        
-        nextButton.do{
-            $0.setTitle("완료", for: .normal)
-            $0.setTitleColor(UIColor.black, for: .normal)
-            $0.titleLabel?.font =  UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
-            $0.backgroundColor = UIColor(named: "prStrong")
-        }
-        
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,cancelButton,nextButton,tableView]
+        [titleLabel,leftButton,separateView,tableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -143,25 +131,11 @@ class SelectMemberResultViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
-        cancelButton.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(48*Constants.standardWidth)
-            make.leading.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
-        nextButton.snp.makeConstraints { make in
-            make.width.equalToSuperview().multipliedBy(0.5)
-            make.height.equalTo(48*Constants.standardWidth)
-            make.leading.equalTo(cancelButton.snp.trailing)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
         tableView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.leading.equalToSuperview()
             make.top.equalTo(separateView.snp.bottom)
-            make.bottom.equalTo(nextButton.snp.top)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
         

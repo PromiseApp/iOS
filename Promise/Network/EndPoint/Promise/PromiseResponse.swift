@@ -72,3 +72,43 @@ struct NewPromiseListItem: Codable {
     let leader: String
     let memo: String?
 }
+
+struct PromiseDetailResponse: Codable {
+    let resultCode: String
+    let resultMessage: String
+    let data: PromiseDetailData
+}
+
+struct PromiseDetailData: Codable {
+    let membersInfo: [PromiseDetailMemberInfo]
+    let promiseInfo: PromiseInfo
+}
+
+struct PromiseDetailMemberInfo: Codable {
+    let level: String
+    let img: String?
+    let nickname: String
+}
+
+struct PromiseInfo: Codable {
+    let id: Int
+    let title: String
+    let location: String
+    let coordinate: String?
+    let penalty: String
+    let leader: String
+    let date: String
+    let memo: String
+    let completed: String
+    let createdDate: String
+    let modifiedDate: String
+    let members: [PromiseMember]
+}
+
+struct PromiseMember: Codable {
+    let nickname: String
+    let accepted: String
+    let isSucceed: String?
+}
+
+

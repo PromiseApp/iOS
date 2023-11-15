@@ -32,6 +32,11 @@ class SelectPromiseResultViewController: UIViewController {
         layout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.selectPromiseResultViewModel.loadNotDetPromiseList()
+    }
+    
     private func bind(){
         
         leftButton.rx.tap
@@ -46,13 +51,15 @@ class SelectPromiseResultViewController: UIViewController {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "SelectPromiseResultTableViewCell", for: indexPath) as! SelectPromiseResultTableViewCell
                 cell.configure(data: promiseView)
                 cell.selectMemberResultButton.rx.tap
-                    .bind(to: (self?.selectPromiseResultViewModel.selectMemberResultButtonTapped)!)
+                    .subscribe(onNext: { [weak self] in
+                        self?.selectPromiseResultViewModel.selectMemberResultButtonTapped.accept(cell.id)
+                    })
                     .disposed(by: cell.disposeBag)
                 return cell
             }
         )
         
-        selectPromiseResultViewModel.resultPromiseDriver
+        selectPromiseResultViewModel.notDetPromiseDriver
             .map { promises in
                 promises.map { PromiseSectionModel(model: $0, items: $0.isExpanded ? $0.promises : []) }
             }
@@ -130,7 +137,7 @@ class SelectPromiseResultViewController: UIViewController {
 extension SelectPromiseResultViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "PromiseHeaderCell") as! PromiseHeaderCell
-        let promise = selectPromiseResultViewModel.resultPromiseRelay.value[section]
+        let promise = selectPromiseResultViewModel.notDetPromiseRelay.value[section]
         header.configure(date: promise.date, isExpanded: promise.isExpanded)
         
         header.direButton.rx.tap
