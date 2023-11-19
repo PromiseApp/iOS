@@ -43,6 +43,8 @@
 		314F906D2AFF599900312846 /* NewPromiseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F906C2AFF599900312846 /* NewPromiseViewModel.swift */; };
 		314F906F2AFF5C3500312846 /* NewPromiseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F906E2AFF5C3500312846 /* NewPromiseTableViewCell.swift */; };
 		314F90732B03ACA200312846 /* PromiseIDViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F90722B03ACA200312846 /* PromiseIDViewModel.swift */; };
+		314F90762B06272900312846 /* OutPromisePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F90752B06272900312846 /* OutPromisePopupViewController.swift */; };
+		314F90782B0627AF00312846 /* OutPromisePopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */; };
 		315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */; };
 		315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC862ACEED4600B7DF20 /* FriendViewController.swift */; };
 		317C8F632AF25FA0003010BA /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F622AF25FA0003010BA /* InquiryViewController.swift */; };
@@ -173,6 +175,8 @@
 		314F906C2AFF599900312846 /* NewPromiseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPromiseViewModel.swift; sourceTree = "<group>"; };
 		314F906E2AFF5C3500312846 /* NewPromiseTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPromiseTableViewCell.swift; sourceTree = "<group>"; };
 		314F90722B03ACA200312846 /* PromiseIDViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromiseIDViewModel.swift; sourceTree = "<group>"; };
+		314F90752B06272900312846 /* OutPromisePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutPromisePopupViewController.swift; sourceTree = "<group>"; };
+		314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutPromisePopupViewModel.swift; sourceTree = "<group>"; };
 		315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		315BDC862ACEED4600B7DF20 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
 		317C8F622AF25FA0003010BA /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
@@ -420,6 +424,15 @@
 				314F906E2AFF5C3500312846 /* NewPromiseTableViewCell.swift */,
 			);
 			path = NewPromisePage;
+			sourceTree = "<group>";
+		};
+		314F90742B0626FB00312846 /* PromisePopup */ = {
+			isa = PBXGroup;
+			children = (
+				314F90752B06272900312846 /* OutPromisePopupViewController.swift */,
+				314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */,
+			);
+			path = PromisePopup;
 			sourceTree = "<group>";
 		};
 		317C8F612AF25F87003010BA /* InquiryPage */ = {
@@ -828,6 +841,7 @@
 		31F1A0DB2AADD3AE00B99DC4 /* PopUpPage */ = {
 			isa = PBXGroup;
 			children = (
+				314F90742B0626FB00312846 /* PromisePopup */,
 				314F90642AFF443700312846 /* FriendPopup */,
 				31F1A0DC2AADD3C500B99DC4 /* InputErrorPopupViewController.swift */,
 				317D69FA2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift */,
@@ -1016,6 +1030,7 @@
 				318586AF2AE00652005EBC31 /* MyPageFlow.swift in Sources */,
 				317D69FF2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift in Sources */,
 				317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */,
+				314F90782B0627AF00312846 /* OutPromisePopupViewModel.swift in Sources */,
 				314F905C2AFF229800312846 /* RejectFriendSuccessViewModel.swift in Sources */,
 				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
@@ -1044,6 +1059,7 @@
 				314F90662AFF44DC00312846 /* RequestNotExistFriendPopupViewController.swift in Sources */,
 				318586B42AE24B3A005EBC31 /* ChangeNicknameViewController.swift in Sources */,
 				317C8F9B2AFA05CB003010BA /* NetworkError.swift in Sources */,
+				314F90762B06272900312846 /* OutPromisePopupViewController.swift in Sources */,
 				315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */,
 				318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */,
 				317D69F22ADC1F75004CEE5C /* FriendFlow.swift in Sources */,

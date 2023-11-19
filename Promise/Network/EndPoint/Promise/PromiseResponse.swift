@@ -93,12 +93,12 @@ struct PromiseDetailMemberInfo: Codable {
 struct PromiseInfo: Codable {
     let id: Int
     let title: String
-    let location: String
+    let location: String?
     let coordinate: String?
-    let penalty: String
+    let penalty: String?
     let leader: String
     let date: String
-    let memo: String
+    let memo: String?
     let completed: String
     let createdDate: String
     let modifiedDate: String
@@ -111,4 +111,16 @@ struct PromiseMember: Codable {
     let isSucceed: String?
 }
 
+struct GetUserExp: Codable{
+    let resultCode: String
+    let resultMessage: String
+    let data: UserExpData
+}
 
+struct UserExpData: Codable{
+    let userInfo: UserExpInfo
+}
+
+struct UserExpInfo: Codable{
+    let exp: Int
+}

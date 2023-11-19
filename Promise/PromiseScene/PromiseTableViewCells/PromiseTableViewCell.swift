@@ -62,7 +62,7 @@ class PromiseTableViewCell: UITableViewCell {
         }
 
         penaltyLabel.do{
-            $0.font = UIFont(name: "Pretendard-Bold", size: 13*Constants.standartFont)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
             $0.textColor = .red
         }
 

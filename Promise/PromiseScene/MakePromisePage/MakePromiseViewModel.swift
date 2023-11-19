@@ -94,18 +94,6 @@ class MakePromiseViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
-        Observable.combineLatest(dateRelay,timeRelay)
-            .subscribe(onNext: { a,b in
-                print(a,b)
-            })
-            .disposed(by: disposeBag)
-        
-        selectedFriendDatas
-            .drive(onNext: { a in
-                print(a)
-            })
-            .disposed(by: disposeBag)
-        
         nextButtonTapped
             .withLatestFrom(Observable.combineLatest(titleRelay, dateRelay,timeRelay,selectedFriendDatas.asObservable(),placeRelay,penaltyRelay,memoRelay))
             .flatMapLatest { [weak self] (title, date, time, friends, place, penalty, memo) -> Observable<Void> in
@@ -114,8 +102,9 @@ class MakePromiseViewModel: Stepper{
                 let formattedDate = "\(date.year)-\(date.month)-\(date.day) \(time.hour):\(time.minute):00"
                 
                 let friendNames = friends.map { $0.name }
+                let realMemo = memo == "중요한 내용을 메모해두세요" ? nil : memo
                 
-                return self.promiseService.registerPromise(title: title, date: formattedDate, friends: friendNames, place: place, penalty: penalty, memo: memo)
+                return self.promiseService.registerPromise(title: title, date: formattedDate, friends: friendNames, place: place, penalty: penalty, memo: realMemo)
                     .asObservable()
                     .map{_ in Void() }
                     .catch { [weak self] error in
@@ -135,7 +124,7 @@ class MakePromiseViewModel: Stepper{
     func toggleSelection(friend: Friend) {
         var currentFriends = shareFriendViewModel.friendsRelay.value
         if let index = currentFriends.firstIndex(where: { $0.name == friend.name }) {
-            currentFriends.remove(at: index)
+            currentFriends[index].isSelected = false
             shareFriendViewModel.friendsRelay.accept(currentFriends)
         }
     }

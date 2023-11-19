@@ -29,7 +29,7 @@ class DonutProgressView: UIView {
         backgroundLayer.lineCap = .round
         layer.addSublayer(backgroundLayer)
         
-        progressLayer.strokeColor = UIColor.red.cgColor
+        progressLayer.strokeColor = UIColor(hexCode: "#F59564").cgColor
         progressLayer.fillColor = UIColor.clear.cgColor
         progressLayer.lineWidth = 23 * Constants.standardHeight
         progressLayer.lineCap = .round

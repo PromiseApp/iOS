@@ -9,7 +9,8 @@ class PromiseFlow: Flow {
     private var rootViewController: UINavigationController
     
     let promiseService = PromiseService()
-    let shareVM = ShareFriendViewModel(friendService: FriendService())
+    var shareVM: ShareFriendViewModel?
+    var shareVMForModify: ShareFriendViewModel?
     let promiseIDViewModel = PromiseIDViewModel()
     
     init(with rootViewController: UINavigationController) {
@@ -34,12 +35,18 @@ class PromiseFlow: Flow {
             return navigateToSelectPromiseResult()
         case .selectMemberResult:
             return navigateToSelectMemberResult()
-//        case .modifyPromise(let id, let isManager):
-//            return navigateToModifyPromise(id: id, isManager: isManager)
+        case .modifyPromise(let promiseId, let type):
+            return navigateToModifyPromise(promiseId: promiseId, type: type)
+        case .selectFriendForModify:
+            return navigateToSelectFriendForModify()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
+        case .outPromisePopup(let promiseId):
+            return prsentOutPromisePopup(promiseId: promiseId)
         case .popView:
             return popViewController()
+        case .dismissView:
+            return dismissViewController()
         }
     }
     
@@ -59,7 +66,9 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToMakePromise() -> FlowContributors {
-        let VM = MakePromiseViewModel(shareFriendViewModel: self.shareVM, promiseService: self.promiseService)
+        //let shareVM = ShareFriendViewModel(friendService: FriendService())
+        self.shareVM = ShareFriendViewModel(friendService: FriendService())
+        let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService)
         let VC = MakePromiseViewController(makePromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -67,14 +76,14 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToSelectFriend() -> FlowContributors {
-        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVM)
+        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVM!)
         let VC = SelectFriendViewController(selectFriendViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToPastPromise() -> FlowContributors {
-        let VM = PastPromiseViewModel()
+        let VM = PastPromiseViewModel(promiseService: promiseService)
         let VC = PastPromiseViewController(pastPromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -96,13 +105,22 @@ class PromiseFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-//    private func navigateToModifyPromise(id: String, isManager: Bool) -> FlowContributors {
-//        let VM = ModifyPromiseViewModel(shareFriendViewModel: shareVM, id: id, isManager: isManager)
-//        let VC = ModifyPromiseViewController(modifyPromiseViewModel: VM)
-//        VC.hidesBottomBarWhenPushed = true
-//        rootViewController.pushViewController(VC, animated: true)
-//        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
-//    }
+    private func navigateToModifyPromise(promiseId: String, type: String) -> FlowContributors {
+        self.shareVMForModify = ShareFriendViewModel(friendService: FriendService())
+        let VM = ModifyPromiseViewModel(shareFriendViewModel: shareVMForModify!, promiseService: promiseService, promiseId: promiseId, type: type)
+        let VC = ModifyPromiseViewController(modifyPromiseViewModel: VM)
+        VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToSelectFriendForModify() -> FlowContributors {
+        
+        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVMForModify!)
+        let VC = SelectFriendViewController(selectFriendViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
     
     private func presentNetworkErrorPopup() -> FlowContributors {
         let VC = NetworkErrorPopupViewController()
@@ -111,8 +129,21 @@ class PromiseFlow: Flow {
         return .none
     }
     
+    private func prsentOutPromisePopup(promiseId: String) -> FlowContributors {
+        let VM = OutPromisePopupViewModel(promiseService: promiseService, promiseId: promiseId)
+        let VC = OutPromisePopupViewController(outPromisePopupViewModel: VM)
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
     private func popViewController() -> FlowContributors {
         rootViewController.popViewController(animated: true)
+        return .none
+    }
+    
+    private func dismissViewController() -> FlowContributors {
+        rootViewController.dismiss(animated: false)
         return .none
     }
     

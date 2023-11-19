@@ -51,6 +51,7 @@ class PromiseViewController: UIViewController {
         super.viewWillAppear(animated)
         self.promiseViewModel.loadPromiseList()
         self.promiseViewModel.loadNotDetPromiseList()
+        self.promiseViewModel.loadLevelExp()
     }
     
     override func viewDidLayoutSubviews() {
@@ -97,6 +98,15 @@ class PromiseViewController: UIViewController {
             .bind(to: promiseViewModel.newPromiseButtonTapped)
             .disposed(by: disposeBag)
         
+        promiseViewModel.expRelay
+            .subscribe(onNext: { [weak self] value in
+                let exp = value % 10
+                let level = ( value / 10 ) + 1
+                self?.levelLabel.text = "Lv \(level)"
+                self?.expLabel.text = "\(exp)/10"
+                self?.progressView.progress = CGFloat(Float(value) / 10.0)
+            })
+            .disposed(by: disposeBag)
         
         promiseListTableView.rx.setDelegate(self)
             .disposed(by: disposeBag)
@@ -105,12 +115,18 @@ class PromiseViewController: UIViewController {
             configureCell: { [weak self] (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
                 cell.configure(data: promiseView)
-//                cell.modifyButton.rx.tap
-//                    .map{
-//                        return (cell.id,cell.manager)
-//                    }
-//                    .bind(to: self.promiseViewModel.modifyButtonTapped)
-//                    .disposed(by: cell.disposeBag)
+                cell.modifyButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        var type = ""
+                        if(cell.manger){
+                            type = "isManager"
+                        }
+                        else{
+                            type = "isNotManager"
+                        }
+                        self?.promiseViewModel.modifyButtonTapped.accept((cell.id,type))
+                    })
+                    .disposed(by: cell.disposeBag)
                 return cell
             }
         )
@@ -191,12 +207,10 @@ class PromiseViewController: UIViewController {
         levelLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 24*Constants.standartFont)
             $0.textColor = UIColor(hexCode: "F59564")
-            $0.text = "Lv 1"
         }
         
         expLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
-            $0.text = "1/10"
         }
         
         cntLabel.do{

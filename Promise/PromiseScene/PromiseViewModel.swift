@@ -5,7 +5,7 @@ import RxFlow
 
 class PromiseViewModel: Stepper{
     let disposeBag = DisposeBag()
-    let vwaDisposeBag = DisposeBag()
+    var vwaDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     var promiseService: PromiseService
     
@@ -14,7 +14,7 @@ class PromiseViewModel: Stepper{
     let plusButtonTapped = PublishRelay<Void>()
     let viewPastPromiseButtonTapped = PublishRelay<Void>()
     let selectPromiseResultButtonTapped = PublishRelay<Void>()
-    let modifyButtonTapped = PublishRelay<(id: String, isManager: Bool)>()
+    let modifyButtonTapped = PublishRelay<(id: String, type: String)>()
     let newPromiseButtonTapped = PublishRelay<Void>()
     
     let promisesRelay = BehaviorRelay<[PromiseHeader]>(value: [])
@@ -22,7 +22,7 @@ class PromiseViewModel: Stepper{
         return promisesRelay.asDriver(onErrorDriveWith: .empty())
     }
     let cntNotDetPromise = BehaviorRelay<Int>(value: 0)
-    
+    let expRelay = PublishRelay<Int>()
     
     init(promiseService: PromiseService){
         self.promiseService = promiseService
@@ -46,8 +46,8 @@ class PromiseViewModel: Stepper{
             .disposed(by: disposeBag)
         
         modifyButtonTapped
-            .subscribe(onNext: { [weak self] (id, isManager) in
-                //self?.steps.accept(PromiseStep.modifyPromise(id: id, isManager: isManager))
+            .subscribe(onNext: { [weak self] (promiseId, type) in
+                self?.steps.accept(PromiseStep.modifyPromise(promiseId: promiseId, type: type))
             })
             .disposed(by: disposeBag)
         
@@ -93,8 +93,11 @@ class PromiseViewModel: Stepper{
                             let dateTimeComponents = item.date.split(separator: " ")
                             let date = String(dateTimeComponents[0])
                             let time = String(dateTimeComponents[1].split(separator: ":")[0...1].joined(separator: ":"))
+                            let location = item.location ?? "미정"
+                            let penalty = item.penalty ?? "미정"
+                            let memo = item.memo ?? "미정"
 
-                            return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: item.location, penalty: item.penalty, memo: item.memo, manager: UserSession.shared.nickname == item.leader ? true : false)
+                            return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: location, penalty: penalty, memo: memo, manager: UserSession.shared.nickname == item.leader ? true : false)
                         }
 
                         let groupedPromises = Dictionary(grouping: promises, by: { $0.date })
@@ -124,6 +127,16 @@ class PromiseViewModel: Stepper{
         self.promiseService.promiseList(startDateTime: "2023-01-01 12:00:00", endDateTime: nowDateTime, completed: "N")
             .subscribe(onSuccess: { [weak self] response in
                 self?.cntNotDetPromise.accept(response.data.list.count)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(PromiseStep.networkErrorPopup)
+            })
+            .disposed(by: vwaDisposeBag)
+    }
+    
+    func loadLevelExp(){
+        self.promiseService.GetExp()
+            .subscribe(onSuccess: { [weak self] response in
+                self?.expRelay.accept(response.data.userInfo.exp)
             }, onFailure: { [weak self] error in
                 self?.steps.accept(PromiseStep.networkErrorPopup)
             })

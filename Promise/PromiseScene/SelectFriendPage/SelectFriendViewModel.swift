@@ -9,7 +9,6 @@ class SelectFriendViewModel: Stepper{
     let steps = PublishRelay<Step>()
     
     var allFriends: [Friend] = []
-    var tempSelectedFriends: [Friend] = []
     
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -25,11 +24,11 @@ class SelectFriendViewModel: Stepper{
     init(shareFriendViewModel: ShareFriendViewModel) {
         self.shareFriendViewModel = shareFriendViewModel
         self.allFriends = shareFriendViewModel.friendsRelay.value
-        self.tempSelectedFriends = shareFriendViewModel.friendsRelay.value
+        //self.shareFriendViewModel.loadFriendList()
+        
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.shareFriendViewModel.friendsRelay.accept((self?.tempSelectedFriends)!)
                 self?.steps.accept(PromiseStep.popView)
             })
             .disposed(by: disposeBag)

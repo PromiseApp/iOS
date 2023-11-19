@@ -8,7 +8,10 @@ enum PromiseStep: Step {
     case pastPromise
     case selectPromiseResult
     case selectMemberResult
-    //case modifyPromise(id: String, isManager: Bool)
+    case modifyPromise(promiseId: String, type: String)
+    case selectFriendForModify
     case networkErrorPopup
+    case outPromisePopup(promiseId: String)
     case popView
+    case dismissView
 }

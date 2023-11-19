@@ -6,10 +6,15 @@ protocol PromiseServiceProtocol {
     func registerPromise(title: String, date: String,  friends:[String], place: String?, penalty: String?, memo: String?) -> Single<RegisterPromiseResponse>
     func promiseList(startDateTime: String, endDateTime: String, completed: String) -> Single<PromiseListResponse>
     func newPormiseList() -> Single<NewPromiseListResponse>
+    func inviteFriend(promiseId: String, members: [String]) -> Single<PromiseResponse>
     func acceptPromise(id: String) -> Single<PromiseResponse>
     func rejectPromise(id: String) -> Single<PromiseResponse>
     func detailPromise(promiseId: String) -> Single<PromiseDetailResponse>
+    func deletePromise(promiseId: String) -> Single<PromiseResponse>
+    func outPromise(promiseId: String) -> Single<PromiseResponse>
+    func modifyPromise(promiseId:String, title: String, date: String, place: String?, penalty: String?, memo: String?) -> Single<PromiseResponse>
     func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse>
+    func GetExp() -> Single<GetUserExp>
 }
 
 class PromiseService: PromiseServiceProtocol {
@@ -32,6 +37,12 @@ class PromiseService: PromiseServiceProtocol {
             .map(NewPromiseListResponse.self)
     }
     
+    func inviteFriend(promiseId: String, members: [String]) -> Single<PromiseResponse> {
+        provider.rx.request(.InviteFriend(promiseId: promiseId, members: members))
+            .filterSuccessfulStatusCodes()
+            .map(PromiseResponse.self)
+    }
+    
     func acceptPromise(id: String) -> Single<PromiseResponse> {
         return provider.rx.request(.AcceptPromise(id: id))
             .filterSuccessfulStatusCodes()
@@ -50,10 +61,34 @@ class PromiseService: PromiseServiceProtocol {
             .map(PromiseDetailResponse.self)
     }
     
+    func deletePromise(promiseId: String) -> Single<PromiseResponse> {
+        return provider.rx.request(.DeletePromise(promiseId: promiseId))
+            .filterSuccessfulStatusCodes()
+            .map(PromiseResponse.self)
+    }
+    
+    func outPromise(promiseId: String) -> Single<PromiseResponse> {
+        return provider.rx.request(.OutPromise(promiseId: promiseId))
+            .filterSuccessfulStatusCodes()
+            .map(PromiseResponse.self)
+    }
+    
+    func modifyPromise(promiseId:String, title: String, date: String, place: String?, penalty: String?, memo: String?) -> Single<PromiseResponse> {
+        return provider.rx.request(.ModifyPromise(promiseId: promiseId, title: title, date: date, place: place, penalty: penalty, memo: memo))
+            .filterSuccessfulStatusCodes()
+            .map(PromiseResponse.self)
+    }
+    
     func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse> {
         return provider.rx.request(.ResultPromise(promiseId: promiseId, nickname: nickname, isSucceed: isSucceed))
             .filterSuccessfulStatusCodes()
             .map(PromiseResponse.self)
+    }
+    
+    func GetExp() -> Single<GetUserExp> {
+        return provider.rx.request(.GetExp)
+            .filterSuccessfulStatusCodes()
+            .map(GetUserExp.self)
     }
     
 }

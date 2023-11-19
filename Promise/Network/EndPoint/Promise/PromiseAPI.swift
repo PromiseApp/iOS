@@ -1,10 +1,3 @@
-//
-//  PromiseAPI.swift
-//  Promise
-//
-//  Created by 박중선 on 2023/11/11.
-//
-
 import Foundation
 import Moya
 
@@ -12,10 +5,15 @@ enum PromiseAPI {
     case RegisterPromise(title: String, date: String,  friends:[String], place: String?, penalty: String?, memo: String?)
     case PromiseList(startDateTime: String, endDateTime: String, completed: String)
     case NewPromiseList
+    case InviteFriend(promiseId: String, members:[String])
     case AcceptPromise(id: String)
     case RejectPromise(id: String)
     case DetailPromise(promiseId: String)
+    case DeletePromise(promiseId: String)
+    case OutPromise(promiseId: String)
+    case ModifyPromise(promiseId: String ,title: String, date: String, place: String?, penalty: String?, memo: String?)
     case ResultPromise(promiseId: String, nickname: String, isSucceed: String)
+    case GetExp
 }
 
 extension PromiseAPI: TargetType {
@@ -32,14 +30,24 @@ extension PromiseAPI: TargetType {
             return "/promise/getPromiseList"
         case .NewPromiseList:
             return "/promise/getPromiseRequestList"
+        case .InviteFriend:
+            return "/promise/inviteFriend"
         case .AcceptPromise:
             return "/promise/acceptPromiseRequest"
         case .RejectPromise:
             return "/promise/rejectPromiseRequest"
         case .DetailPromise:
             return "/promise/getPromiseInfo"
+        case .DeletePromise:
+            return "/promise/deletePromise"
+        case .OutPromise:
+            return "/promise/exitPromise"
+        case .ModifyPromise:
+            return "/promise/editPromise"
         case .ResultPromise:
             return "/promise/result"
+        case .GetExp:
+            return "/member/info"
         }
     }
     
@@ -51,14 +59,24 @@ extension PromiseAPI: TargetType {
             return .get
         case .NewPromiseList:
             return .get
+        case .InviteFriend:
+            return .post
         case .AcceptPromise:
             return .post
         case .RejectPromise:
             return .post
         case .DetailPromise:
             return .get
+        case .DeletePromise:
+            return .post
+        case .OutPromise:
+            return .post
+        case .ModifyPromise:
+            return .post
         case .ResultPromise:
             return .post
+        case .GetExp:
+            return .get
         }
     }
     
@@ -91,12 +109,40 @@ extension PromiseAPI: TargetType {
             return .requestParameters(parameters: parameters, encoding: URLEncoding.queryString)
         case .NewPromiseList:
             return .requestPlain
+        case .InviteFriend(let promiseId, let members):
+            let memberDicts = members.map { ["nickname": $0] }
+            let parameters: [String: Any] = [
+                "promiseId": promiseId,
+                "members": memberDicts
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .AcceptPromise(let id):
             return .requestParameters(parameters: ["id": id], encoding: JSONEncoding.default)
         case .RejectPromise(let id):
             return .requestParameters(parameters: ["id": id], encoding: JSONEncoding.default)
         case .DetailPromise(let promiseId):
             return .requestParameters(parameters: ["promiseId": promiseId], encoding: URLEncoding.queryString)
+        case .DeletePromise(let promiseId):
+            return .requestParameters(parameters: ["promiseId": promiseId], encoding: JSONEncoding.default)
+        case .OutPromise(let promiseId):
+            return .requestParameters(parameters: ["promiseId": promiseId], encoding: JSONEncoding.default)
+        case .ModifyPromise(let promiseId, let title, let date, let place, let penalty, let memo):
+            var parameters: [String: Any] = [
+                "promiseId": promiseId,
+                "title": title,
+                "date": date
+            ]
+            if let place = place {
+                parameters["location"] = place
+            }
+            if let penalty = penalty {
+                parameters["penalty"] = penalty
+            }
+            if let memo = memo {
+                parameters["memo"] = memo
+            }
+            
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .ResultPromise(let promiseId, let nickname, let isSucceed):
             let result: [String: String] = ["nickname": nickname, "isSucceed": isSucceed]
                 let parameters: [String: Any] = [
@@ -104,7 +150,8 @@ extension PromiseAPI: TargetType {
                     "result": [result]
                 ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-            
+        case .GetExp:
+            return .requestPlain
         }
     }
     

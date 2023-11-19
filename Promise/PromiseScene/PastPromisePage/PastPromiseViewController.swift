@@ -64,7 +64,11 @@ class PastPromiseViewController: UIViewController {
             configureCell: { (dataSource, tableView, indexPath, promiseView) -> UITableViewCell in
                 let cell = tableView.dequeueReusableCell(withIdentifier: "PromiseTableViewCell", for: indexPath) as! PromiseTableViewCell
                 cell.configure(data: promiseView)
-
+                cell.modifyButton.rx.tap
+                    .subscribe(onNext: { [weak self] in
+                        self?.pastPromiseViewModel.modifyButtonTapped.accept((cell.id,"past"))
+                    })
+                    .disposed(by: cell.disposeBag)
                 return cell
             }
         )

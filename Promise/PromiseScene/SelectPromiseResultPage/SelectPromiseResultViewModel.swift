@@ -61,7 +61,11 @@ class SelectPromiseResultViewModel: Stepper{
                     let date = String(dateTimeComponents[0])
                     let time = String(dateTimeComponents[1].split(separator: ":")[0...1].joined(separator: ":"))
 
-                    return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: item.location, penalty: item.penalty, memo: item.memo, manager: UserSession.shared.nickname == item.leader ? true : false)
+                    let location = item.location ?? "미정"
+                    let penalty = item.penalty ?? "미정"
+                    let memo = item.memo ?? "미정"
+
+                    return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: location, penalty: penalty, memo: memo, manager: UserSession.shared.nickname == item.leader ? true : false)
                 }
 
                 let groupedPromises = Dictionary(grouping: promises, by: { $0.date })

@@ -9,15 +9,13 @@ class ShareFriendViewModel: Stepper{
     var friendService: FriendService
     
     var allFriends: [Friend] = []
-    
+    let friendsLoadedRelay = PublishRelay<Void>()
     let friendsRelay = BehaviorRelay<[Friend]>(value: [])
     var isDataLoaded = false
     
     init(friendService: FriendService){
         self.friendService = friendService
-        
         self.loadFriendList()
-        
     }
     
     func loadFriendList(){
@@ -29,6 +27,7 @@ class ShareFriendViewModel: Stepper{
                 }
                 self?.allFriends = friends
                 self?.friendsRelay.accept(self?.allFriends ?? [])
+                self?.friendsLoadedRelay.accept(())
             }, onFailure: { [weak self] error in
                 print(error)
                 self?.steps.accept(FriendStep.networkErrorPopup)
