@@ -234,6 +234,7 @@ class LoginViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.backgroundColor = UIColor(hexCode: "#FEE500")
             $0.setImage(UIImage(named: "kakao"), for: .normal)
+            $0.isHidden = true
         }
         
         appleButton.do{
@@ -244,6 +245,7 @@ class LoginViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.backgroundColor = .black
             $0.setImage(UIImage(named: "apple"), for: .normal)
+            //$0.isHidden = true
         }
         
     }

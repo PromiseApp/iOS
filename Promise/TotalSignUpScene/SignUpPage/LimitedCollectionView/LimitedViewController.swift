@@ -87,7 +87,7 @@ class LimitedViewController: UIViewController {
         }
         
         leftButton.do{
-            $0.setImage(UIImage(named: "left"), for: .normal)
+            $0.setImage(UIImage(systemName: "xmark"), for: .normal)
         }
         
         separateView.do{

@@ -8,6 +8,7 @@ class WriteInquiryViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     let myPageService: MyPageService
+    let type: String
     
     let leftButtonTapped = PublishRelay<Void>()
     let uploadButtonTapped = PublishRelay<Void>()
@@ -18,8 +19,9 @@ class WriteInquiryViewModel: Stepper{
     let titleLengthRelay = BehaviorRelay<Int>(value: 0)
     let contentLengthRelay = BehaviorRelay<Int>(value: 0)
     
-    init(myPageService: MyPageService) {
+    init(myPageService: MyPageService, type: String) {
         self.myPageService = myPageService
+        self.type = type
         
         titleRelay
             .map { $0.count }
@@ -49,7 +51,7 @@ class WriteInquiryViewModel: Stepper{
             .flatMapLatest { [weak self] (title, content) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
                 
-                return self.myPageService.createInquiry(author: UserSession.shared.nickname, title: title, content: content, type: "INQUIRY")
+                return self.myPageService.createInquiry(author: UserSession.shared.nickname, title: title, content: content, type: self.type)
                     .asObservable()
                     .map{_ in Void() }
                     .catch { [weak self] error in

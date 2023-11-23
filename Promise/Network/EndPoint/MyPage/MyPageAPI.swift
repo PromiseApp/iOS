@@ -6,7 +6,6 @@ enum MyPageAPI {
     case ReplyInquiry(postId: String, author: String, title: String, content: String)
     case InquiryList(nickname: String, period: String, statusType: String)
     case NoticeList
-    case DetailNotice(noticeId: String)
     case GetExp
 }
 
@@ -26,8 +25,6 @@ extension MyPageAPI: TargetType {
             return "/post/inquiry/list/\(nickname)"
         case .NoticeList:
             return "/post/notice/all"
-        case .DetailNotice(let noticeId):
-            return "/post/notice/find/\(noticeId)"
         case .GetExp:
             return "/member/info"
         }
@@ -42,8 +39,6 @@ extension MyPageAPI: TargetType {
         case .InquiryList:
             return .get
         case .NoticeList:
-            return .get
-        case .DetailNotice:
             return .get
         case .GetExp:
             return .get
@@ -82,8 +77,6 @@ extension MyPageAPI: TargetType {
                 return .requestPlain
             }
         case .NoticeList:
-            return .requestPlain
-        case .DetailNotice:
             return .requestPlain
         case .GetExp:
             return .requestPlain

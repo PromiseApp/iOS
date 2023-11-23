@@ -28,7 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         //coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
         self.autoLogin()
         
-        //print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)
+        print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)
         
         
     }

@@ -68,7 +68,7 @@ class DetailInquiryViewController: UIViewController {
             .bind(to: writerLabel.rx.text)
             .disposed(by: disposeBag)
         
-        detailInquiryViewModel.contnetRelay
+        detailInquiryViewModel.contentRelay
             .bind(to:inquiryContentTextView.rx.text)
             .disposed(by: disposeBag)
         

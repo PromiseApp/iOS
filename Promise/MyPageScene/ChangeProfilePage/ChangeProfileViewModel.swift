@@ -57,6 +57,15 @@ class ChangeProfileViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
+        selectedImage
+            .subscribe(onNext: { [weak self] image in
+                if let imageData = image?.pngData() {
+                    let base64String = imageData.base64EncodedString()
+                    UserSession.shared.image = base64String
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
    

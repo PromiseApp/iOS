@@ -7,7 +7,7 @@ class SignupFlow: Flow {
     }
     
     private var rootViewController: UINavigationController
-    let limitedVM = LimitedViewModel()
+    let limitedVM = LimitedViewModel(currentFlow: .singupFlow)
     let loginService = AuthService()
     
     init(with rootViewController: UINavigationController) {
@@ -58,7 +58,7 @@ class SignupFlow: Flow {
     }
     
     private func navigateToNickname() -> FlowContributors {
-        let VM = NicknameViewModel(flowType: .singupFlow,loginService: loginService)
+        let VM = NicknameViewModel(flowType: .singupFlow, loginService: loginService)
         let VC = NicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -73,7 +73,6 @@ class SignupFlow: Flow {
     
     private func navigateToLimitedCollectionView() -> FlowContributors {
         let VC = LimitedViewController(limitedViewModel: limitedVM)
-        VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: limitedVM))
     }

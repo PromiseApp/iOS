@@ -9,10 +9,3 @@ struct InquiryHeader {
 struct InquiryReplyDate {
     let date: String
 }
-
-struct DetailInquiry{
-    let title: String
-    let writer: String
-    let content: String
-    let reply: String?
-}

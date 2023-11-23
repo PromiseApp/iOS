@@ -22,16 +22,9 @@ class AnnouncementViewModel: Stepper{
     init(myPageService: MyPageService, role: String){
         self.myPageService = myPageService
         self.role = role
+        self.loadNoticeList()
         
         isMasterRelay.accept(role == "ROLE_USER" ? true : false)
-        
-//        let sampleData = [
-//            AnnouncementHeader(title: "Sample Title", date: "2023-10-30", announcementContent: AnnouncementCell(content: "Sample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample Content")),
-//            AnnouncementHeader(title: "Sample Title", date: "2023-10-31", announcementContent: AnnouncementCell(content: "Sample ContentSample ContentSample ContentSample ContentSample ContentSample ContentSample")),
-//            AnnouncementHeader(title: "Sample Title", date: "2023-10-31", announcementContent: AnnouncementCell(content: "Sample Content"))
-//        ]
-        
-        //announcementRelay.accept(sampleData)
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -41,7 +34,7 @@ class AnnouncementViewModel: Stepper{
         
         writeButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(MyPageStep.writeInquiry)
+                self?.steps.accept(MyPageStep.writeInquiry(type: "NOTICE"))
             })
             .disposed(by: disposeBag)
         
@@ -54,7 +47,20 @@ class AnnouncementViewModel: Stepper{
     }
     
     func loadNoticeList(){
-        
+        self.myPageService.noticeList()
+            .subscribe(onSuccess: { [weak self] response in
+                let announcements = response.data.noticeList.map { notice in
+                    AnnouncementHeader(
+                        title: notice.title,
+                        date: String(notice.createdDate.prefix(8)),
+                        announcementContent: AnnouncementCell(content: notice.content)
+                    )
+                }
+                self?.announcementRelay.accept(announcements)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(MyPageStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
     }
     
 }

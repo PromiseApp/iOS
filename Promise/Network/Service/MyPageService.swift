@@ -7,7 +7,6 @@ protocol MyPageServiceProtocol {
     func replyInquiry(postId: String, author: String, title: String, content: String) -> Single<MyPageResponse>
     func inquiryList(nickname: String, period: String, statusType: String) -> Single<InquiryListResponse>
     func noticeList() -> Single<NoticeListResponse>
-    func detailNotice(noticeId: String) -> Single<NoticeDetailResponse>
     func GetExp() -> Single<GetUserExp>
 }
 
@@ -36,12 +35,6 @@ class MyPageService: MyPageServiceProtocol {
         return provider.rx.request(.NoticeList)
             .filterSuccessfulStatusCodes()
             .map(NoticeListResponse.self)
-    }
-    
-    func detailNotice(noticeId: String) -> Single<NoticeDetailResponse> {
-        return provider.rx.request(.DetailNotice(noticeId: noticeId))
-            .filterSuccessfulStatusCodes()
-            .map(NoticeDetailResponse.self)
     }
     
     func GetExp() -> Single<GetUserExp> {

@@ -7,7 +7,7 @@ class MyPageFlow: Flow {
     }
     
     private var rootViewController: UINavigationController
-    let limitedVM = LimitedViewModel()
+    let limitedVM = LimitedViewModel(currentFlow: .myPageFlow)
     let myPageService = MyPageService()
     
     init(with rootViewController: UINavigationController) {
@@ -32,8 +32,8 @@ class MyPageFlow: Flow {
             return navigateToAnnouncement()
         case .inquiryList:
             return navigateToInquiryList()
-        case .writeInquiry:
-            return navigateToWriteInquiry()
+        case .writeInquiry(let type):
+            return navigateToWriteInquiry(type: type)
         case .detailInquiry(let inquiryId):
             return navigateToDetailInquiry(inquiryId: inquiryId)
         case .logoutCompleted:
@@ -67,7 +67,7 @@ class MyPageFlow: Flow {
     private func navigateToLimitedCollectionView() -> FlowContributors {
         let VC = LimitedViewController(limitedViewModel: limitedVM)
         rootViewController.present(VC, animated: true)
-        return .none
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: limitedVM))
     }
     
     private func navigateToChangePw() -> FlowContributors {
@@ -100,15 +100,15 @@ class MyPageFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-    private func navigateToWriteInquiry() -> FlowContributors {
-        let VM = WriteInquiryViewModel(myPageService: myPageService)
+    private func navigateToWriteInquiry(type: String) -> FlowContributors {
+        let VM = WriteInquiryViewModel(myPageService: myPageService, type: type)
         let VC = WriteInquiryViewController(writeInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToDetailInquiry( inquiryId: String) -> FlowContributors {
-        let VM = DetailInquiryViewModel(role: UserSession.shared.role, inquiryId: inquiryId)
+        let VM = DetailInquiryViewModel(myPageService: myPageService, role: UserSession.shared.role, inquiryId: inquiryId)
         let VC = DetailInquiryViewController(detailInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

@@ -40,7 +40,7 @@ class InquiryViewModel: Stepper{
         
         writeButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(MyPageStep.writeInquiry)
+                self?.steps.accept(MyPageStep.writeInquiry(type: "INQUIRY"))
             })
             .disposed(by: disposeBag)
         
@@ -74,7 +74,6 @@ class InquiryViewModel: Stepper{
                 else if(period == "1년"){
                     realPeriod = "12"
                 }
-                print(realStatus,realPeriod)
                 return self.myPageService.inquiryList(nickname: UserSession.shared.nickname, period: realPeriod, statusType: realStatus)
                     .asObservable()
                     .map{ [weak self] response in

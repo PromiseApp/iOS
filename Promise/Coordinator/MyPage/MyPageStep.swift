@@ -8,7 +8,7 @@ enum MyPageStep: Step {
     case changeNickname
     case announcement
     case inquiryList
-    case writeInquiry
+    case writeInquiry(type: String)
     case detailInquiry(inquiryId: String)
     case logoutCompleted
     case withdrawPopup
