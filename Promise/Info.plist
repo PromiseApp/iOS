@@ -4,8 +4,6 @@
 <dict>
 	<key>PHPhotoLibraryPreventAutomaticLimitedAccessAlert</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>유저 이미지 추가를 위한 사진 권한</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Sriracha-Regular.ttf</string>

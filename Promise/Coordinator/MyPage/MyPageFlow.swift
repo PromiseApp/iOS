@@ -8,6 +8,7 @@ class MyPageFlow: Flow {
     
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel()
+    let myPageService = MyPageService()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -33,10 +34,14 @@ class MyPageFlow: Flow {
             return navigateToInquiryList()
         case .writeInquiry:
             return navigateToWriteInquiry()
-        case .detailInquiry:
-            return navigateToDetailInquiry()
+        case .detailInquiry(let inquiryId):
+            return navigateToDetailInquiry(inquiryId: inquiryId)
+        case .logoutCompleted:
+            return .end(forwardToParentFlowWithStep: AppStep.logoutCompleted)
         case .withdrawPopup:
             return presentWithdrawPopup()
+        case .networkErrorPopup:
+            return presentNetworkErrorPopup()
         case .dismissView:
             return dismissViewController()
         case .popView:
@@ -45,7 +50,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToMyPage() -> FlowContributors {
-        let VM = MyPageViewModel()
+        let VM = MyPageViewModel(myPageService: myPageService)
         let VC = MyPageViewController(myPageViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -80,7 +85,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToAnnouncement() -> FlowContributors {
-        let VM = AnnouncementViewModel(role: UserSession.shared.role)
+        let VM = AnnouncementViewModel(myPageService: myPageService, role: UserSession.shared.role)
         let VC = AnnouncementViewController(announcementViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -88,7 +93,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToInquiryList() -> FlowContributors {
-        let VM = InquiryViewModel(role: UserSession.shared.role)
+        let VM = InquiryViewModel(myPageService: myPageService, role: UserSession.shared.role)
         let VC = InquiryViewController(inquiryViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -96,14 +101,14 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToWriteInquiry() -> FlowContributors {
-        let VM = WriteInquiryViewModel(role: UserSession.shared.role)
+        let VM = WriteInquiryViewModel(myPageService: myPageService)
         let VC = WriteInquiryViewController(writeInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-    private func navigateToDetailInquiry() -> FlowContributors {
-        let VM = DetailInquiryViewModel(role: UserSession.shared.role)
+    private func navigateToDetailInquiry( inquiryId: String) -> FlowContributors {
+        let VM = DetailInquiryViewModel(role: UserSession.shared.role, inquiryId: inquiryId)
         let VC = DetailInquiryViewController(detailInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -111,6 +116,13 @@ class MyPageFlow: Flow {
     
     private func presentWithdrawPopup() -> FlowContributors {
         let VC = WithdrawPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func presentNetworkErrorPopup() -> FlowContributors {
+        let VC = NetworkErrorPopupViewController()
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .none

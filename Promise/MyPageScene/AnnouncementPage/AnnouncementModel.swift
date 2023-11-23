@@ -1,5 +1,6 @@
 
 struct AnnouncementHeader {
+    let id: Int
     let title: String
     let date: String
     let announcementContent: AnnouncementCell

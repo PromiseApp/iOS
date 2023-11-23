@@ -7,8 +7,7 @@ import RxFlow
 class WriteInquiryViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
-    
-    var role: String
+    let myPageService: MyPageService
     
     let leftButtonTapped = PublishRelay<Void>()
     let uploadButtonTapped = PublishRelay<Void>()
@@ -19,8 +18,8 @@ class WriteInquiryViewModel: Stepper{
     let titleLengthRelay = BehaviorRelay<Int>(value: 0)
     let contentLengthRelay = BehaviorRelay<Int>(value: 0)
     
-    init(role: String) {
-        self.role = role
+    init(myPageService: MyPageService) {
+        self.myPageService = myPageService
         
         titleRelay
             .map { $0.count }
@@ -46,6 +45,20 @@ class WriteInquiryViewModel: Stepper{
             .disposed(by: disposeBag)
         
         uploadButtonTapped
+            .withLatestFrom(Observable.combineLatest(titleRelay.asObservable(), contentRelay.asObservable()))
+            .flatMapLatest { [weak self] (title, content) -> Observable<Void> in
+                guard let self = self else { return Observable.empty() }
+                
+                return self.myPageService.createInquiry(author: UserSession.shared.nickname, title: title, content: content, type: "INQUIRY")
+                    .asObservable()
+                    .map{_ in Void() }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(MyPageStep.networkErrorPopup)
+                        return Observable.empty()
+                    }
+                
+            }
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.popView)
             })

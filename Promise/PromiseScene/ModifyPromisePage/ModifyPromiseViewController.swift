@@ -101,6 +101,7 @@ class ModifyPromiseViewController: UIViewController {
                     self?.modifyButton.isHidden = true
                 }
                 if type == "past"{
+                    self?.titleLabel.text = "약속 내용"
                     self?.outButton.isHidden = true
                     self?.firstConditionImageView.isHidden = true
                     self?.firstConditionLabel.isHidden = true
@@ -111,6 +112,7 @@ class ModifyPromiseViewController: UIViewController {
         if(type != "past"){
             modifyPromiseViewModel.isDateBeforeCurrent
                 .drive(onNext: { [weak self] bool in
+                    self?.titleLabel.text = "약속 수정하기"
                     self?.firstConditionImageView.isHidden = !bool
                     self?.firstConditionLabel.isHidden = !bool
                     if(bool){
@@ -296,7 +298,6 @@ class ModifyPromiseViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.do{
-            $0.text = "약속 수정하기"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         

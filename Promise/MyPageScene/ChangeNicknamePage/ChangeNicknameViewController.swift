@@ -18,7 +18,7 @@ class ChangeNicknameViewController: UIViewController {
     let conditionLabel = UILabel()
     let secConditionImageView = UIImageView()
     let secConditionLabel = UILabel()
-    let nextButton = UIButton()
+    let modifyButton = UIButton()
     
     init(nicknameViewModel: NicknameViewModel) {
         self.nicknameViewModel = nicknameViewModel
@@ -108,17 +108,17 @@ class ChangeNicknameViewController: UIViewController {
         nicknameViewModel.isNextButtonEnabled
             .drive(onNext: { [weak self] isValid in
                 if(isValid){
-                    self?.nextButton.isEnabled = true
-                    self?.nextButton.alpha = 1
+                    self?.modifyButton.isEnabled = true
+                    self?.modifyButton.alpha = 1
                 }
                 else{
-                    self?.nextButton.isEnabled = false
-                    self?.nextButton.alpha = 0.3
+                    self?.modifyButton.isEnabled = false
+                    self?.modifyButton.alpha = 0.3
                 }
             })
             .disposed(by: disposeBag)
         
-        nextButton.rx.tap
+        modifyButton.rx.tap
             .bind(to: nicknameViewModel.nextButtonTapped)
             .disposed(by: disposeBag)
         
@@ -193,7 +193,7 @@ class ChangeNicknameViewController: UIViewController {
             $0.textColor = .red
         }
         
-        nextButton.do{
+        modifyButton.do{
             $0.setTitle("완료", for: .normal)
             $0.setTitleColor(UIColor.black, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
@@ -205,7 +205,7 @@ class ChangeNicknameViewController: UIViewController {
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,nicknameLabel,nicknameTextField,duplicateButton,conditionImageView,conditionLabel,secConditionImageView,secConditionLabel,nextButton]
+        [titleLabel,leftButton,separateView,nicknameLabel,nicknameTextField,duplicateButton,conditionImageView,conditionLabel,secConditionImageView,secConditionLabel,modifyButton]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -267,7 +267,7 @@ class ChangeNicknameViewController: UIViewController {
             make.top.equalTo(nicknameTextField.snp.bottom).offset(22*Constants.standardHeight)
         }
         
-        nextButton.snp.makeConstraints { make in
+        modifyButton.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.height.equalTo(48*Constants.standardHeight)
             make.leading.equalToSuperview()

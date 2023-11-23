@@ -66,12 +66,12 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToMakePromise() -> FlowContributors {
-        //let shareVM = ShareFriendViewModel(friendService: FriendService())
         self.shareVM = ShareFriendViewModel(friendService: FriendService())
         let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService)
         let VC = MakePromiseViewController(makePromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
+    
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     

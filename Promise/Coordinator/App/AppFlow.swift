@@ -30,6 +30,8 @@ class AppFlow: Flow {
         case .findPwCompleted:
             self.rootViewController.popToRootViewController(animated: true)
             return .none
+        case .logoutCompleted:
+            return navigateToLogin()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .inputErrorPopup:
@@ -40,7 +42,8 @@ class AppFlow: Flow {
     private func navigateToLogin() -> FlowContributors {
         let VM = LoginViewModel(loginService: AuthService())
         let VC = LoginViewController(loginViewModel: VM)
-        self.rootViewController.pushViewController(VC, animated: true)
+        self.rootViewController.setViewControllers([VC], animated: true)
+
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
@@ -50,18 +53,22 @@ class AppFlow: Flow {
         
         let promiseNC = UINavigationController()
         promiseNC.isNavigationBarHidden = true
+        let chatNC = UINavigationController()
+        chatNC.isNavigationBarHidden = true
         let friendNC = UINavigationController()
         friendNC.isNavigationBarHidden = true
         let myPageNC = UINavigationController()
         myPageNC.isNavigationBarHidden = true
         
         let promiseFlow = PromiseFlow(with: promiseNC)
+        let chatFlow = ChatFlow(with: chatNC)
         let friendFlow = FriendFlow(with: friendNC)
         let myPageFlow = MyPageFlow(with: myPageNC)
         
-        Flows.use(promiseFlow, friendFlow, myPageFlow, when: .created) { [weak self] (promiseVC, friendVC, myPageVC) in
+        Flows.use(promiseFlow, chatFlow, friendFlow, myPageFlow, when: .created) { [weak self] (promiseVC, chatVC, friendVC, myPageVC) in
             
             promiseVC.tabBarItem = UITabBarItem(title: "홈", image: UIImage(named: "home"),tag: 0)
+            chatVC.tabBarItem = UITabBarItem(title: "채팅방", image: UIImage(named: "chat")?.withRenderingMode(.alwaysOriginal),tag: 1)
             friendVC.tabBarItem = UITabBarItem(title: "친구", image: UIImage(named: "friend")?.withRenderingMode(.alwaysOriginal), tag: 3)
             myPageVC.tabBarItem = UITabBarItem(title: "사용자", image: UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal), tag: 4)
 
@@ -70,13 +77,15 @@ class AppFlow: Flow {
             dummyVC.tabBarItem.isEnabled = false
             
             
-            VC.viewControllers = [promiseVC, dummyVC, friendVC, myPageVC]
+            VC.viewControllers = [promiseVC, chatVC, dummyVC, friendVC, myPageVC]
             self?.rootViewController.setViewControllers([VC], animated: false)
+            
         }
 
         return .multiple(flowContributors: [
             .contribute(withNextPresentable: promiseFlow, withNextStepper: VM),
             .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.home)),
+            .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.chat)),
             .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.friend)),
             .contribute(withNextPresentable: myPageFlow, withNextStepper: OneStepper(withSingleStep: MyPageStep.myPage))
         ])

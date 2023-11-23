@@ -1,4 +1,5 @@
 import RxSwift
+import Foundation
 import Moya
 import RxCocoa
 import Alamofire
@@ -13,7 +14,7 @@ class LoginViewModel: Stepper{
     let loginService: AuthService
     
     let firstIsChecked = PublishRelay<Bool>()
-    let secondIsChecked = BehaviorRelay(value: false)
+    let secondIsChecked = PublishRelay<Bool>()
     
     let loginButtonTapped = PublishRelay<Void>()
     let loginPossible = PublishRelay<Void>()
@@ -26,7 +27,8 @@ class LoginViewModel: Stepper{
     
     init(loginService: AuthService){
         self.loginService = loginService
-
+        self.loadSavedEmail()
+        
         loginButtonTapped
             .withLatestFrom(Observable.combineLatest(emailTextRelay.asObservable(), passwordTextRelay.asObservable()))
             .flatMapLatest { [weak self] (email, password) -> Observable<Void> in
@@ -34,8 +36,7 @@ class LoginViewModel: Stepper{
                 return self.loginService.login(account: email, password: password)
                     .asObservable()
                     .map{ response in
-                        print(response.data.userInfo)
-                        return self.saveUser(account: response.data.userInfo.account, nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
+                        return self.saveUser(account: response.data.userInfo.account,password: password , nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
                     }
                     .catch { [weak self] error in
                         if let moyaError = error as? MoyaError, case .statusCode(let response) = moyaError {
@@ -69,42 +70,67 @@ class LoginViewModel: Stepper{
         
     }
     
-//    func saveUser(account: String, nickname: String, image: String?, level: Int, exp: Int, role: String, token: String){
-//        do{
-//            let realm = try Realm()
-//            let user = User()
-//            user.account = account
-//            user.nickname = nickname
-//            user.level = level
-//            user.exp = exp
-//            user.role = role
-//            user.token = token
-//
-//            if let image = image{
-//                user.image = image
-//            }
-//
-//            try realm.write {
-//                realm.add(user, update: .modified)
-//            }
-//        }catch {
-//            print("An error occurred while saving the user: \(error)")
-//        }
-//    }
-    
-    func saveUser(account: String, nickname: String, image: String?, level: Int, exp: Int, role: String, token: String){
-        
-        UserSession.shared.account = account
-        UserSession.shared.nickname = nickname
-        UserSession.shared.level = level
-        UserSession.shared.exp = exp
-        UserSession.shared.role = role
-        UserSession.shared.token = token
-        
-        if let image = image{
-            UserSession.shared.image = image
+    func saveUser(account: String, password: String , nickname: String, image: String?, level: Int, exp: Int, role: String, token: String){
+        do{
+            
+            let realm = try Realm()
+            if let existingUser = realm.objects(User.self).filter("account == %@", account).first {
+                try realm.write {
+                    existingUser.account = account
+                    existingUser.password = password
+                    existingUser.level = level
+                    existingUser.exp = exp
+                    existingUser.role = role
+                    existingUser.token = token
+                    if let image = image{
+                        existingUser.image = image
+                    }
+                    //print("existingUser:\(existingUser)")
+                }
+            } else {
+                let newUser = User()
+                //print("newUser:\(newUser)")
+                newUser.account = account
+                newUser.password = password
+                newUser.nickname = nickname
+                newUser.level = level
+                newUser.exp = exp
+                newUser.role = role
+                newUser.token = token
+                if let image = image{
+                    newUser.image = image
+                }
+                try realm.write {
+                    realm.add(newUser)
+                }
+            }
+            
+            UserSession.shared.account = account
+            UserSession.shared.nickname = nickname
+            UserSession.shared.role = role
+            UserSession.shared.token = token
+            if let image = image{
+                UserSession.shared.image = image
+            }
+            
+            
+        }catch {
+            print("An error occurred while saving the user: \(error)")
         }
     }
     
+    func loadSavedEmail() {
+        let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled)
+        if isRememberEmailEnabled == "Y" {
+            if let email = fetchEmailFromRealm() {
+                emailTextRelay.accept(email)
+            }
+        }
+    }
+
+    private func fetchEmailFromRealm() -> String? {
+        let realm = try! Realm()
+        return realm.objects(User.self).first?.account
+    }
     
 }

@@ -22,6 +22,7 @@ class PromiseViewModel: Stepper{
         return promisesRelay.asDriver(onErrorDriveWith: .empty())
     }
     let cntNotDetPromise = BehaviorRelay<Int>(value: 0)
+    let levelRelay = PublishRelay<Int>()
     let expRelay = PublishRelay<Int>()
     
     init(promiseService: PromiseService){
@@ -96,7 +97,6 @@ class PromiseViewModel: Stepper{
                             let location = item.location ?? "미정"
                             let penalty = item.penalty ?? "미정"
                             let memo = item.memo ?? "미정"
-
                             return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: location, penalty: penalty, memo: memo, manager: UserSession.shared.nickname == item.leader ? true : false)
                         }
 
@@ -136,6 +136,7 @@ class PromiseViewModel: Stepper{
     func loadLevelExp(){
         self.promiseService.GetExp()
             .subscribe(onSuccess: { [weak self] response in
+                self?.levelRelay.accept(response.data.userInfo.level)
                 self?.expRelay.accept(response.data.userInfo.exp)
             }, onFailure: { [weak self] error in
                 self?.steps.accept(PromiseStep.networkErrorPopup)

@@ -6,7 +6,9 @@ import RealmSwift
 
 class MyPageViewModel: Stepper{
     let disposeBag = DisposeBag()
+    var vwaDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    let myPageService: MyPageService
     
     let infoSettingButtonTapped = PublishRelay<Void>()
     let announcementButtonTapped = PublishRelay<Void>()
@@ -18,8 +20,10 @@ class MyPageViewModel: Stepper{
     let levelRelay = BehaviorRelay<Int>(value: 0)
     let expRelay = BehaviorRelay<Int>(value: 0)
     
-    init(){
+    init(myPageService: MyPageService){
+        self.myPageService = myPageService
         self.loadUser()
+        self.loadLevelExp()
         
         infoSettingButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -41,27 +45,9 @@ class MyPageViewModel: Stepper{
         
     }
     
-//    private func loadUser(){
-//        let realm = try! Realm()
-//        let user = realm.objects(User.self).first
-//        print(user)
-//        emailRelay.accept(user?.account ?? "")
-//        nicknameRelay.accept(user?.nickname ?? "")
-//
-//        if let imageBase64 = user?.image,
-//           let imageData = Data(base64Encoded: imageBase64),
-//           let image = UIImage(data: imageData) {
-//            userImageRelay.accept(image)
-//        } else {
-//            userImageRelay.accept(UIImage(named: "user"))
-//        }
-//    }
-    
     private func loadUser(){
         emailRelay.accept(UserSession.shared.account)
         nicknameRelay.accept(UserSession.shared.nickname)
-        levelRelay.accept(UserSession.shared.level)
-        expRelay.accept(UserSession.shared.exp)
         
         if let imageBase64 = UserSession.shared.image,
            let imageData = Data(base64Encoded: imageBase64),
@@ -70,6 +56,17 @@ class MyPageViewModel: Stepper{
         } else {
             userImageRelay.accept(UIImage(named: "user"))
         }
+    }
+    
+    func loadLevelExp(){
+        self.myPageService.GetExp()
+            .subscribe(onSuccess: { [weak self] response in
+                self?.levelRelay.accept(response.data.userInfo.level)
+                self?.expRelay.accept(response.data.userInfo.exp)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(MyPageStep.networkErrorPopup)
+            })
+            .disposed(by: vwaDisposeBag)
     }
     
 }

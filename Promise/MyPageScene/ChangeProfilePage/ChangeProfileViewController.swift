@@ -44,6 +44,11 @@ class ChangeProfileViewController: UIViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        userEmailLabel.text = UserSession.shared.account
+    }
+    
     private func bind(){
         
         leftButton.rx.tap
@@ -69,13 +74,17 @@ class ChangeProfileViewController: UIViewController {
                 self?.checkPhotoLibraryPermission()
             })
             .disposed(by: disposeBag)
-        
+                
         changePwButton.rx.tap
             .bind(to: changeProfileViewModel.changePwButtonTapped)
             .disposed(by: disposeBag)
 
         changeNicknameButton.rx.tap
             .bind(to: changeProfileViewModel.changeNicknameButtonTapped)
+            .disposed(by: disposeBag)
+        
+        logoutButton.rx.tap
+            .bind(to: changeProfileViewModel.logoutButtonTapped)
             .disposed(by: disposeBag)
         
         withdrawButton.rx.tap
@@ -121,7 +130,6 @@ class ChangeProfileViewController: UIViewController {
         userEmailLabel.do{
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
             $0.textColor = UIColor(named: "greyOne")
-            $0.text = "test@gamil.com"
         }
         
         stackView.do{

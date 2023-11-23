@@ -98,8 +98,11 @@ class MakePromiseViewModel: Stepper{
             .withLatestFrom(Observable.combineLatest(titleRelay, dateRelay,timeRelay,selectedFriendDatas.asObservable(),placeRelay,penaltyRelay,memoRelay))
             .flatMapLatest { [weak self] (title, date, time, friends, place, penalty, memo) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                
-                let formattedDate = "\(date.year)-\(date.month)-\(date.day) \(time.hour):\(time.minute):00"
+                var minute = String(time.minute)
+                if(minute == "0"){
+                    minute = "00"
+                }
+                let formattedDate = "\(date.year)-\(date.month)-\(date.day) \(time.hour):\(minute):00"
                 
                 let friendNames = friends.map { $0.name }
                 let realMemo = memo == "중요한 내용을 메모해두세요" ? nil : memo

@@ -18,7 +18,7 @@ class DetailInquiryViewModel: Stepper{
     
     let isMasterRelay = PublishRelay<Bool>()
     
-    init(role: String){
+    init(role: String, inquiryId: String){
         self.role = role
         
         isMasterRelay.accept(role == "ROLE_USER" ? false : true)

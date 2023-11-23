@@ -149,9 +149,8 @@ class ModifyPromiseViewModel: Stepper{
                         return Observable.empty()
                         
                     }
-                return Observable.empty()
             }
-            .subscribe(onNext: { [weak self] in
+            .subscribe(onNext: { _ in
                 //self?.steps.accept(PromiseStep.popView)
             })
             .disposed(by: disposeBag)

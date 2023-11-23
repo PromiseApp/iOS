@@ -47,6 +47,15 @@
 		314F90782B0627AF00312846 /* OutPromisePopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */; };
 		315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */; };
 		315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC862ACEED4600B7DF20 /* FriendViewController.swift */; };
+		317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688A82B0B2FF700C266FE /* MyPageAPI.swift */; };
+		317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AA2B0B300200C266FE /* MyPageResponse.swift */; };
+		317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AC2B0B38B300C266FE /* MyPageService.swift */; };
+		317688AF2B0B4B1D00C266FE /* UserDefaultsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AE2B0B4B1D00C266FE /* UserDefaultsKeys.swift */; };
+		317688B12B0B4FFD00C266FE /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688B02B0B4FFD00C266FE /* DatabaseManager.swift */; };
+		317688B42B0C893600C266FE /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688B32B0C893600C266FE /* ChatViewController.swift */; };
+		317688B62B0C894100C266FE /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688B52B0C894100C266FE /* ChatViewModel.swift */; };
+		317688B92B0C8A3000C266FE /* ChatStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688B82B0C8A3000C266FE /* ChatStep.swift */; };
+		317688BB2B0C8A3600C266FE /* ChatFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688BA2B0C8A3600C266FE /* ChatFlow.swift */; };
 		317C8F632AF25FA0003010BA /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F622AF25FA0003010BA /* InquiryViewController.swift */; };
 		317C8F652AF25FAF003010BA /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F642AF25FAF003010BA /* InquiryViewModel.swift */; };
 		317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F692AF2674C003010BA /* InquiryHeaderView.swift */; };
@@ -179,6 +188,15 @@
 		314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutPromisePopupViewModel.swift; sourceTree = "<group>"; };
 		315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		315BDC862ACEED4600B7DF20 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		317688A82B0B2FF700C266FE /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
+		317688AA2B0B300200C266FE /* MyPageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageResponse.swift; sourceTree = "<group>"; };
+		317688AC2B0B38B300C266FE /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
+		317688AE2B0B4B1D00C266FE /* UserDefaultsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKeys.swift; sourceTree = "<group>"; };
+		317688B02B0B4FFD00C266FE /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		317688B32B0C893600C266FE /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		317688B52B0C894100C266FE /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		317688B82B0C8A3000C266FE /* ChatStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatStep.swift; sourceTree = "<group>"; };
+		317688BA2B0C8A3600C266FE /* ChatFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFlow.swift; sourceTree = "<group>"; };
 		317C8F622AF25FA0003010BA /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		317C8F642AF25FAF003010BA /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		317C8F692AF2674C003010BA /* InquiryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHeaderView.swift; sourceTree = "<group>"; };
@@ -351,6 +369,7 @@
 				31F1A0D22AADA1D900B99DC4 /* FindPwScene */,
 				31C33F772AB8092400A99D7E /* TabBar */,
 				31F1A0E02AAEF7BB00B99DC4 /* PromiseScene */,
+				317688B22B0C892200C266FE /* ChatScene */,
 				31258F052ACE9622004D764C /* FriendScene */,
 				317D6A062ADF8697004CEE5C /* MyPageScene */,
 				312476B22AA0588D00D318C7 /* Info.plist */,
@@ -435,6 +454,33 @@
 			path = PromisePopup;
 			sourceTree = "<group>";
 		};
+		317688A72B0B2FE800C266FE /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				317688A82B0B2FF700C266FE /* MyPageAPI.swift */,
+				317688AA2B0B300200C266FE /* MyPageResponse.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		317688B22B0C892200C266FE /* ChatScene */ = {
+			isa = PBXGroup;
+			children = (
+				317688B32B0C893600C266FE /* ChatViewController.swift */,
+				317688B52B0C894100C266FE /* ChatViewModel.swift */,
+			);
+			path = ChatScene;
+			sourceTree = "<group>";
+		};
+		317688B72B0C8A2400C266FE /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				317688B82B0C8A3000C266FE /* ChatStep.swift */,
+				317688BA2B0C8A3600C266FE /* ChatFlow.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
 		317C8F612AF25F87003010BA /* InquiryPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -503,6 +549,7 @@
 				317C8F972AF8FE13003010BA /* AuthService.swift */,
 				317C8FB52AFCCCAE003010BA /* FriendService.swift */,
 				314F90672AFF553900312846 /* PromiseService.swift */,
+				317688AC2B0B38B300C266FE /* MyPageService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -688,6 +735,7 @@
 				317D69D92ADBC566004CEE5C /* SignUp */,
 				317D69DC2ADBD387004CEE5C /* FindPw */,
 				317D69E82ADC1F34004CEE5C /* Promise */,
+				317688B72B0C8A2400C266FE /* Chat */,
 				317D69EA2ADC1F48004CEE5C /* Friend */,
 				318586AB2AE00623005EBC31 /* MyPage */,
 			);
@@ -758,6 +806,7 @@
 		31C33F912ABD4F0100A99D7E /* EndPoint */ = {
 			isa = PBXGroup;
 			children = (
+				317688A72B0B2FE800C266FE /* MyPage */,
 				314F905D2AFF3C8E00312846 /* Promise */,
 				317C8FB02AFCC47E003010BA /* Friend */,
 				317C8FAF2AFCC44C003010BA /* Auth */,
@@ -906,6 +955,8 @@
 				31C33F692AB5A94E00A99D7E /* Promise.swift */,
 				31258F032ACE8C9F004D764C /* PromiseHeader.swift */,
 				317D69CD2AD53031004CEE5C /* UserSession.swift */,
+				317688AE2B0B4B1D00C266FE /* UserDefaultsKeys.swift */,
+				317688B02B0B4FFD00C266FE /* DatabaseManager.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1036,9 +1087,12 @@
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				317C8F762AF37F02003010BA /* DetailInquiryViewModel.swift in Sources */,
 				314F905A2AFE63E000312846 /* RejectFriendPopupViewModel.swift in Sources */,
+				317688AF2B0B4B1D00C266FE /* UserDefaultsKeys.swift in Sources */,
 				317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */,
 				317C8F9F2AFA090D003010BA /* NetworkErrorPopupViewController.swift in Sources */,
 				31F1A0D62AADA2AE00B99DC4 /* FindPwViewModel.swift in Sources */,
+				317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */,
+				317688B62B0C894100C266FE /* ChatViewModel.swift in Sources */,
 				31EF2A8A2AEE48F50082B664 /* WithdrawPopupViewController.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				317D6A0A2ADF86CB004CEE5C /* MyPageViewController.swift in Sources */,
@@ -1063,8 +1117,10 @@
 				315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */,
 				318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */,
 				317D69F22ADC1F75004CEE5C /* FriendFlow.swift in Sources */,
+				317688B12B0B4FFD00C266FE /* DatabaseManager.swift in Sources */,
 				314F906F2AFF5C3500312846 /* NewPromiseTableViewCell.swift in Sources */,
 				317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */,
+				317688B42B0C893600C266FE /* ChatViewController.swift in Sources */,
 				31BBE2842AEE83D800B69803 /* AnnouncementTableViewCell.swift in Sources */,
 				314F906B2AFF598900312846 /* NewPromiseViewController.swift in Sources */,
 				317C8F8C2AF8A616003010BA /* SelectMemberResultViewController.swift in Sources */,
@@ -1079,10 +1135,12 @@
 				317D69CE2AD53031004CEE5C /* UserSession.swift in Sources */,
 				31EF2A832AECD6770082B664 /* PastPromiseViewController.swift in Sources */,
 				3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */,
+				317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */,
 				318586AA2AE0047D005EBC31 /* ChangeProfileViewController.swift in Sources */,
 				31C33F952ABD4F3500A99D7E /* AuthResponsable.swift in Sources */,
 				31F1A0F02AB0756800B99DC4 /* MakePromiseViewModel.swift in Sources */,
 				31F1A0FA2AB4769C00B99DC4 /* Friend.swift in Sources */,
+				317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */,
 				317D69FB2ADD18B5004CEE5C /* EmailDuplicateErrorPopupViewController.swift in Sources */,
 				317C8F8E2AF8A626003010BA /* SelectMemberResultViewModel.swift in Sources */,
 				314F90612AFF3CAA00312846 /* PromiseResponse.swift in Sources */,
@@ -1112,8 +1170,10 @@
 				314F90632AFF442F00312846 /* AlreadyRequestFriendPopupViewController.swift in Sources */,
 				317C8F782AF39772003010BA /* InquiryConditionCollectionViewCell.swift in Sources */,
 				312476A72AA0588C00D318C7 /* SceneDelegate.swift in Sources */,
+				317688B92B0C8A3000C266FE /* ChatStep.swift in Sources */,
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
 				317D69D72ADBC53A004CEE5C /* SignupFlow.swift in Sources */,
+				317688BB2B0C8A3600C266FE /* ChatFlow.swift in Sources */,
 				317C8FB62AFCCCAE003010BA /* FriendService.swift in Sources */,
 				317D6A082ADF86B7004CEE5C /* MyPageViewModel.swift in Sources */,
 				31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */,
@@ -1266,8 +1326,9 @@
 				DEVELOPMENT_TEAM = 9A5MT7L34S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Promise/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "유저 이미지 추가를 위한 사진 권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1294,8 +1355,9 @@
 				DEVELOPMENT_TEAM = 9A5MT7L34S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Promise/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "유저 이미지 추가를 위한 사진 권한";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

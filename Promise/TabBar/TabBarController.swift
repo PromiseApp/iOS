@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        self.delegate = self
         bind()
         attribute()
         layout()
@@ -83,33 +83,22 @@ class TabBarController: UITabBarController {
     
 }
 
-
-//#if DEBUG
-//import SwiftUI
-//struct Preview: UIViewControllerRepresentable {
-//
-//    // 여기 ViewController를 변경해주세요
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        TabBarController(tabBarViewModel: TabBarViewModel(localizationManager: LocalizationManager.shared))
-//    }
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//        // leave this empty
-//    }
-//}
-//
-//struct ViewController_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
-//
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
-//
-//    }
-//}
-//#endif
+extension TabBarController: UITabBarControllerDelegate{
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let viewControllers = viewControllers {
+            for (index, vc) in viewControllers.enumerated() {
+                if let tabItem = vc.tabBarItem {
+                    if index == 1 {
+                        tabItem.image = viewController == vc ? UIImage(named: "selectedChat")?.withRenderingMode(.alwaysOriginal) : UIImage(named: "chat")?.withRenderingMode(.alwaysOriginal)
+                    }
+                    else if index == 3 {
+                        tabItem.image = viewController == vc ? UIImage(named: "selectedFriend")?.withRenderingMode(.alwaysOriginal) : UIImage(named: "friend")?.withRenderingMode(.alwaysOriginal)
+                    }
+                    else if index == 4 {
+                        tabItem.image = viewController == vc ? UIImage(named: "selectedUser")?.withRenderingMode(.alwaysOriginal) : UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal)
+                    }
+                }
+            }
+        }
+    }
+}

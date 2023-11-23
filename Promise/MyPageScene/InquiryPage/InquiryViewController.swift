@@ -53,6 +53,11 @@ class InquiryViewController: UIViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        inquiryViewModel.loadInquiryList()
+    }
+    
     private func bind(){
 
         inquiryViewModel.isMasterRelay
@@ -96,10 +101,13 @@ class InquiryViewController: UIViewController {
                 switch indexPath.item{
                 case 0:
                     self?.stateValueLabel.text = "전체"
+                    self?.inquiryViewModel.stateRelay.accept("전체")
                 case 1:
                     self?.stateValueLabel.text = "접수"
+                    self?.inquiryViewModel.stateRelay.accept("접수")
                 case 2:
-                    self?.stateValueLabel.text = "접수완료"
+                    self?.stateValueLabel.text = "답변완료"
+                    self?.inquiryViewModel.stateRelay.accept("답변완료")
                 default:
                     break
                 }
@@ -133,12 +141,16 @@ class InquiryViewController: UIViewController {
                 switch indexPath.item{
                 case 0:
                     self?.periodValueLabel.text = "전체"
+                    self?.inquiryViewModel.periodRelay.accept("전체")
                 case 1:
                     self?.periodValueLabel.text = "3개월"
+                    self?.inquiryViewModel.periodRelay.accept("3개월")
                 case 2:
                     self?.periodValueLabel.text = "6개월"
+                    self?.inquiryViewModel.periodRelay.accept("6개월")
                 case 3:
                     self?.periodValueLabel.text = "1년"
+                    self?.inquiryViewModel.periodRelay.accept("1년")
                 default:
                     break
                 }
@@ -177,7 +189,11 @@ class InquiryViewController: UIViewController {
             .disposed(by: disposeBag)
         
         inquiryTableView.rx.itemSelected
-            .map{ _ in }
+            .map { indexPath in
+                let sectionModel = dataSource.sectionModels[indexPath.section]
+                let inquiryItem = sectionModel.model
+                return inquiryItem.id
+            }
             .bind(to: inquiryViewModel.detailInquiryTapped)
             .disposed(by: disposeBag)
         
@@ -385,7 +401,7 @@ extension InquiryViewController: UITableViewDelegate {
         let tapGestureRecognizer = UITapGestureRecognizer()
         header.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.rx.event
-            .map { _ in inquiry }
+            .map { _ in inquiry.id }
             .bind(to: inquiryViewModel.detailInquiryTapped)
             .disposed(by: disposeBag)
         

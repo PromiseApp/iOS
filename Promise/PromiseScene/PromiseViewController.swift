@@ -98,13 +98,16 @@ class PromiseViewController: UIViewController {
             .bind(to: promiseViewModel.newPromiseButtonTapped)
             .disposed(by: disposeBag)
         
-        promiseViewModel.expRelay
-            .subscribe(onNext: { [weak self] value in
-                let exp = value % 10
-                let level = ( value / 10 ) + 1
+        promiseViewModel.levelRelay
+            .subscribe(onNext: {[weak self] level in
                 self?.levelLabel.text = "Lv \(level)"
+            })
+            .disposed(by: disposeBag)
+        
+        promiseViewModel.expRelay
+            .subscribe(onNext: { [weak self] exp in
                 self?.expLabel.text = "\(exp)/10"
-                self?.progressView.progress = CGFloat(Float(value) / 10.0)
+                self?.progressView.progress = CGFloat(Float(exp) / 10.0)
             })
             .disposed(by: disposeBag)
         

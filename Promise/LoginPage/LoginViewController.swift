@@ -3,6 +3,7 @@ import RxSwift
 import RxCocoa
 import SnapKit
 import Then
+import RealmSwift
 
 class LoginViewController: UIViewController {
     let disposeBag = DisposeBag()
@@ -34,13 +35,48 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        firstCheckboxState()
+        secondCheckboxState()
+        setupEmailField()
         
         bind()
         attribute()
         layout()
     }
+    
+    func setupEmailField() {
+        let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled) ?? "N"
+        if isRememberEmailEnabled == "Y", let user = fetchUserFromRealm() {
+            emailTextField.text = user.account
+        }
+    }
+
+    func fetchUserFromRealm() -> User? {
+        let realm = try! Realm()
+        return realm.objects(User.self).first
+    }
+    
+    func firstCheckboxState() {
+        let isAutoLoginEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isAutoLoginEnabled) ?? "N"
+        print("isAutoLoginEnabled: \(isAutoLoginEnabled)")
+        let isSelected = (isAutoLoginEnabled == "Y")
+        autoLoginCheckBox.isSelected = isSelected
+        autoLoginCheckBox.setImage(isSelected ? UIImage(systemName: "checkmark") : nil, for: .normal)
+    }
+    
+    func secondCheckboxState() {
+        let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled) ?? "N"
+        print("isRememberEmailEnabled: \(isRememberEmailEnabled)")
+        let isSelected = (isRememberEmailEnabled == "Y")
+        saveIdCheckBox.isSelected = isSelected
+        saveIdCheckBox.setImage(isSelected ? UIImage(systemName: "checkmark") : nil, for: .normal)
+    }
 
     private func bind(){
+        loginViewModel.emailTextRelay
+            .bind(to: emailTextField.rx.text)
+            .disposed(by: disposeBag)
+        
         emailTextField.rx.text.orEmpty
             .bind(to: loginViewModel.emailTextRelay)
             .disposed(by: disposeBag)
@@ -50,25 +86,37 @@ class LoginViewController: UIViewController {
             .disposed(by: disposeBag)
         
         autoLoginCheckBox.rx.tap
-            .scan(false) { lastState, newState in !lastState }
+            .map { [weak self] in
+                self?.autoLoginCheckBox.isSelected.toggle()
+                return self?.autoLoginCheckBox.isSelected ?? false
+            }
             .bind(to: loginViewModel.firstIsChecked)
             .disposed(by: disposeBag)
         
         loginViewModel.firstIsChecked
             .subscribe(onNext: { [weak self] isChecked in
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
+                let status = isChecked ? "Y" : "N"
+                UserDefaults.standard.set(status, forKey: UserDefaultsKeys.isAutoLoginEnabled)
+                print(status)
                 self?.autoLoginCheckBox.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)
         
         saveIdCheckBox.rx.tap
-            .scan(false) { lastState, newState in !lastState }
+            .map { [weak self] in
+                self?.saveIdCheckBox.isSelected.toggle()
+                return self?.saveIdCheckBox.isSelected ?? false
+            }
             .bind(to: loginViewModel.secondIsChecked)
             .disposed(by: disposeBag)
         
         loginViewModel.secondIsChecked
             .subscribe(onNext: { [weak self] isChecked in
+                print(isChecked)
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
+                let status = isChecked ? "Y" : "N"
+                UserDefaults.standard.set(status, forKey: UserDefaultsKeys.isRememberEmailEnabled)
                 self?.saveIdCheckBox.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)

@@ -16,6 +16,7 @@ class ChangeProfileViewModel: Stepper{
     let changePwButtonTapped = PublishRelay<Void>()
     let changeNicknameButtonTapped = PublishRelay<Void>()
     let goToLimitedCollectionView = PublishRelay<Void>()
+    let logoutButtonTapped = PublishRelay<Void>()
     let withdrawButtonTapped = PublishRelay<Void>()
     
     
@@ -41,6 +42,12 @@ class ChangeProfileViewModel: Stepper{
         goToLimitedCollectionView
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.limitedCollectionView)
+            })
+            .disposed(by: disposeBag)
+        
+        logoutButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(MyPageStep.logoutCompleted)
             })
             .disposed(by: disposeBag)
         
