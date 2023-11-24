@@ -34,6 +34,19 @@ class DetailInquiryViewModel: Stepper{
             .disposed(by: disposeBag)
         
         uploadButtonTapped
+            .withLatestFrom(replyRelay)
+            .flatMapLatest { [weak self] reply -> Observable<Void> in
+                guard let self = self else { return Observable.empty() }
+                print(reply)
+                return self.myPageService.replyInquiry(postId: self.inquiryId, author: "관리자", title: "답변", content: reply ?? "")
+                    .asObservable()
+                    .map{ _ in Void() }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(MyPageStep.networkErrorPopup)
+                        return Observable.empty()
+                    }
+            }
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.popView)
             })
@@ -42,12 +55,17 @@ class DetailInquiryViewModel: Stepper{
     }
     
     func loadNoticeList(){
-        self.myPageService.inquiryList(nickname: UserSession.shared.nickname, period: "전체", statusType: "전체")
+        var account = ""
+        if let user = DatabaseManager.shared.fetchUser(){
+            account = user.account
+        }
+        
+        self.myPageService.inquiryList(account: account, period: "전체", statusType: "전체")
             .subscribe(onSuccess: { [weak self] response in
                 for inquiry in response.data.inquiryList{
                     if(self?.inquiryId == String(inquiry.id)){
                         self?.titleRelay.accept(inquiry.title)
-                        self?.writerRelay.accept("작성자 : \(UserSession.shared.nickname)")
+                        self?.writerRelay.accept("작성자 : \(inquiry.author)")
                         self?.contentRelay.accept(inquiry.content)
                         if(inquiry.statusType == "WAITING"){
                             self?.replyRelay.accept("접수하여 답변 작성중이오니 조금만 기다려주세요 :)")

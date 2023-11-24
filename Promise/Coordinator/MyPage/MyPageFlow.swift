@@ -9,6 +9,7 @@ class MyPageFlow: Flow {
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel(currentFlow: .myPageFlow)
     let myPageService = MyPageService()
+    let authService = AuthService()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -57,7 +58,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToChangeProfile() -> FlowContributors {
-        let VM = ChangeProfileViewModel()
+        let VM = ChangeProfileViewModel(authService: authService)
         let VC = ChangeProfileViewController(changeProfileViewModel: VM, limitedViewModel: limitedVM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -71,14 +72,14 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToChangePw() -> FlowContributors {
-        let VM = ChangePwViewModel(flowType: .myPageFlow)
+        let VM = ChangePwViewModel(authService: authService, flowType: .myPageFlow)
         let VC = ChangePwViewController(changePwViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToChangeNickname() -> FlowContributors {
-        let VM = NicknameViewModel(flowType: .myPageFlow,loginService: AuthService())
+        let VM = NicknameViewModel(flowType: .myPageFlow, authService: authService)
         let VC = ChangeNicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

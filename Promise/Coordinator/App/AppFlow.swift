@@ -6,6 +6,8 @@ class AppFlow: Flow {
         return self.rootViewController
     }
     
+    let authService = AuthService()
+    
     private lazy var rootViewController: UINavigationController = {
         let navigationController = UINavigationController()
         navigationController.isNavigationBarHidden = true
@@ -16,6 +18,8 @@ class AppFlow: Flow {
         guard let step = step as? AppStep else { return .none }
         
         switch step {
+        case .loading:
+            return navigateToLoading()
         case .login:
             return navigateToLogin()
         case .tabBar:
@@ -38,12 +42,20 @@ class AppFlow: Flow {
             return presentInputErrorPopup()
         }
     }
-
-    private func navigateToLogin() -> FlowContributors {
-        let VM = LoginViewModel(loginService: AuthService())
-        let VC = LoginViewController(loginViewModel: VM)
+    
+    private func navigateToLoading() -> FlowContributors {
+        let VM = LoadingViewModel(authService: authService)
+        let VC = LoadingViewController(loadingViewModel: VM)
         self.rootViewController.setViewControllers([VC], animated: true)
 
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+
+    private func navigateToLogin() -> FlowContributors {
+        let VM = LoginViewModel(authService: authService)
+        let VC = LoginViewController(loginViewModel: VM)
+        self.rootViewController.setViewControllers([VC], animated: false)
+        
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     

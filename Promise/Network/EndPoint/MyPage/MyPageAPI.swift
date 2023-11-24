@@ -4,7 +4,7 @@ import Moya
 enum MyPageAPI {
     case CreateInquiry(author: String, title: String, content: String, type: String)
     case ReplyInquiry(postId: String, author: String, title: String, content: String)
-    case InquiryList(nickname: String, period: String, statusType: String)
+    case InquiryList(account: String, period: String, statusType: String)
     case NoticeList
     case GetExp
 }
@@ -21,8 +21,8 @@ extension MyPageAPI: TargetType {
             return "/post/inquiry"
         case .ReplyInquiry:
             return "/post/inquiry/reply"
-        case .InquiryList(let nickname,_,_):
-            return "/post/inquiry/list/\(nickname)"
+        case .InquiryList(let account,_,_):
+            return "/post/inquiry/list/\(account)"
         case .NoticeList:
             return "/post/notice/all"
         case .GetExp:

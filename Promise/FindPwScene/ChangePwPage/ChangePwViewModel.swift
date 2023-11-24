@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 import RxSwift
 import RxCocoa
 import RxFlow
@@ -6,6 +7,8 @@ import RxFlow
 class ChangePwViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    
+    let authService: AuthService
     let currentFlow: FlowType
     
     let pwTextRelay = BehaviorRelay<String>(value: "")
@@ -42,7 +45,8 @@ class ChangePwViewModel: Stepper{
             }
     }
     
-    init(flowType: FlowType){
+    init(authService: AuthService, flowType: FlowType){
+        self.authService = authService
         self.currentFlow = flowType
         
         leftButtonTapped
@@ -61,14 +65,48 @@ class ChangePwViewModel: Stepper{
             .disposed(by: disposeBag)
         
         nextButtonTapped
-            .subscribe(onNext: { [weak self] in
+            .withLatestFrom(rePwTextRelay)
+            .subscribe(onNext: { [weak self] pw in
                 switch self?.currentFlow {
                 case .singupFlow:
                     break
                 case .findPwFlow:
-                    self?.steps.accept(FindPwStep.findPwCompleted)
+                    self?.authService.changePassword(password: pw)
+                        .subscribe(onSuccess: { [weak self] _ in
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    if let user = realm.objects(User.self).first {
+                                        user.password = pw
+                                    }
+                                }
+                            } catch {
+                                print("Error updating image in Realm: \(error)")
+                            }
+                            self?.steps.accept(FindPwStep.findPwCompleted)
+                        }, onFailure: { [weak self] error in
+                            self?.steps.accept(FindPwStep.networkErrorPopup)
+                        })
+                        .disposed(by: self!.disposeBag)
                 case .myPageFlow:
-                    self?.steps.accept(MyPageStep.popView)
+                    self?.authService.changePassword(password: pw)
+                        .subscribe(onSuccess: { [weak self] _ in
+                            do {
+                                let realm = try Realm()
+                                try realm.write {
+                                    if let user = realm.objects(User.self).first {
+                                        user.password = pw
+                                    }
+                                }
+                            } catch {
+                                print("Error updating image in Realm: \(error)")
+                            }
+                            self?.steps.accept(MyPageStep.popView)
+                        }, onFailure: { [weak self] error in
+                            print(error)
+                            self?.steps.accept(MyPageStep.networkErrorPopup)
+                        })
+                        .disposed(by: self!.disposeBag)
                 case .none:
                     break
                 }
@@ -81,4 +119,5 @@ class ChangePwViewModel: Stepper{
         let test = NSPredicate(format:"SELF MATCHES %@", regex)
         return test.evaluate(with: text)
     }
+    
 }

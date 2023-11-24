@@ -85,6 +85,10 @@ class DetailInquiryViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        replyTextView.rx.text
+            .bind(to: detailInquiryViewModel.replyRelay)
+            .disposed(by: disposeBag)
+        
     }
 
     private func attribute(){
@@ -150,7 +154,6 @@ class DetailInquiryViewController: UIViewController {
             $0.layer.cornerRadius = 8 * Constants.standardHeight
             $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
             $0.addLeftPadding(width: 12*Constants.standardWidth)
-            $0.isEditable = false
         }
 
     }

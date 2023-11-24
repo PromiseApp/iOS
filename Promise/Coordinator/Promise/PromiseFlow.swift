@@ -41,6 +41,8 @@ class PromiseFlow: Flow {
             return navigateToSelectFriendForModify()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
+        case .deletedPromisePopup:
+            return presentDeletedPromisePopup()
         case .outPromisePopup(let promiseId):
             return prsentOutPromisePopup(promiseId: promiseId)
         case .popView:
@@ -124,6 +126,13 @@ class PromiseFlow: Flow {
     
     private func presentNetworkErrorPopup() -> FlowContributors {
         let VC = NetworkErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func presentDeletedPromisePopup() -> FlowContributors {
+        let VC = DeletedPromisePopupViewController()
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .none

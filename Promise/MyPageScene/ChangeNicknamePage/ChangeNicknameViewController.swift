@@ -119,7 +119,7 @@ class ChangeNicknameViewController: UIViewController {
             .disposed(by: disposeBag)
         
         modifyButton.rx.tap
-            .bind(to: nicknameViewModel.nextButtonTapped)
+            .bind(to: nicknameViewModel.modifyButtonTapped)
             .disposed(by: disposeBag)
         
         

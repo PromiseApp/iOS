@@ -46,7 +46,6 @@ class InquiryViewModel: Stepper{
         
         detailInquiryTapped
             .subscribe(onNext: { [weak self] id in
-                print(id)
                 self?.steps.accept(MyPageStep.detailInquiry(inquiryId: id))
             })
             .disposed(by: disposeBag)
@@ -74,7 +73,12 @@ class InquiryViewModel: Stepper{
                 else if(period == "1년"){
                     realPeriod = "12"
                 }
-                return self.myPageService.inquiryList(nickname: UserSession.shared.nickname, period: realPeriod, statusType: realStatus)
+                var account = ""
+                if let user = DatabaseManager.shared.fetchUser(){
+                    account = user.account
+                }
+                
+                return self.myPageService.inquiryList(account: account, period: realPeriod, statusType: realStatus)
                     .asObservable()
                     .map{ [weak self] response in
                         let inquiryList = response.data.inquiryList.map{ inquiry in

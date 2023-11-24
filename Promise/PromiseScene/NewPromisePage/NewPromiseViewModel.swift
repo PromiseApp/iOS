@@ -45,7 +45,12 @@ class NewPromiseViewModel: Stepper{
                 guard let self = self, let selectedID = self.selectedCellID else { return Observable.empty() }
                 return self.promiseService.rejectPromise(id: selectedID)
                     .asObservable()
-                    .map{_ in Void()}
+                    .map{ response in
+                        if(response.resultCode == "424"){
+                            self.steps.accept(PromiseStep.deletedPromisePopup)
+                        }
+                        return Void()
+                    }
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
@@ -64,7 +69,12 @@ class NewPromiseViewModel: Stepper{
                 guard let self = self, let selectedID = self.selectedCellID else { return Observable.empty() }
                 return self.promiseService.acceptPromise(id: selectedID)
                     .asObservable()
-                    .map{_ in Void()}
+                    .map{ response in
+                        if(response.resultCode == "424"){
+                            self.steps.accept(PromiseStep.deletedPromisePopup)
+                        }
+                        return Void()
+                    }
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)

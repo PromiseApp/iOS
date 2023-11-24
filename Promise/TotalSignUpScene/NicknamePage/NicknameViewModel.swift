@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 import RxCocoa
 import RxSwift
 import RxFlow
@@ -7,11 +8,13 @@ class NicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: AuthService
+    let authService: AuthService
     let currentFlow: FlowType
     
     let nicknameTextRelay = BehaviorRelay<String>(value: "")
     let duplicateButtonTapped = PublishRelay<Void>()
+    let modifyButtonTapped = PublishRelay<Void>()
+    
     var resetDuplicateCheckRelay = PublishRelay<Void>()
     let duplicateCheckPassed = BehaviorRelay<Bool>(value: false)
     
@@ -35,9 +38,9 @@ class NicknameViewModel: Stepper{
             .map { $0 && $1 }
     }
     
-    init(flowType: FlowType, loginService: AuthService){
+    init(flowType: FlowType, authService: AuthService){
         self.currentFlow = flowType
-        self.loginService = loginService
+        self.authService = authService
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -69,15 +72,41 @@ class NicknameViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
+        modifyButtonTapped
+            .withLatestFrom(nicknameTextRelay)
+            .flatMapLatest { [weak self] nickname in
+                return self?.authService.changeNickname(nickname: nickname)
+                    .asObservable()
+                    .map{ _ in
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                if let user = realm.objects(User.self).first {
+                                    user.nickname = nickname
+                                }
+                            }
+                        } catch {
+                            print("Error updating image in Realm: \(error)")
+                        }
+                        return Void()
+                    }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(SignupStep.networkErrorPopup)
+                        return Observable.empty()
+                    } ?? Observable.empty()
+            }
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(MyPageStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
         duplicateButtonTapped
             .withLatestFrom(nicknameTextRelay)
             .flatMapLatest { [weak self] nickname in
-                return self?.loginService.duplicateCheckNickname(nickname: nickname)
+                return self?.authService.duplicateCheckNickname(nickname: nickname)
                     .asObservable()
-                    .map {
-                        return (nickname,!$0.data.isDuplicated)
-                        
-                    }
+                    .map { (nickname,!$0.data.isDuplicated) }
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(SignupStep.networkErrorPopup)

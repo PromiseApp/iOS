@@ -1,6 +1,7 @@
 import RxFlow
 
 enum AppStep: Step {
+    case loading
     case login
     case tabBar
     case signup

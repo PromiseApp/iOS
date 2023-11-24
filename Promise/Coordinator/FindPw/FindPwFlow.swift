@@ -7,6 +7,7 @@ class FindPwFlow: Flow {
     }
     
     private var rootViewController: UINavigationController
+    let authService = AuthService()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -45,14 +46,14 @@ class FindPwFlow: Flow {
     }
     
     private func navigateToConfirmEmailAuth() -> FlowContributors {
-        let VM = ConfirmEmailAuthViewModel()
+        let VM = ConfirmEmailAuthViewModel(authService: authService)
         let VC = ConfirmEmailAuthInFindPwViewController(confirmEmailAuthViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToChangePw() -> FlowContributors {
-        let VM = ChangePwViewModel(flowType: .findPwFlow)
+        let VM = ChangePwViewModel(authService: authService, flowType: .findPwFlow)
         let VC = ChangePwViewController(changePwViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

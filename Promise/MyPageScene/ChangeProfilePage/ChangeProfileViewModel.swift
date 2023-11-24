@@ -1,4 +1,5 @@
 import UIKit
+import RealmSwift
 import RxSwift
 import RxCocoa
 import RxFlow
@@ -9,8 +10,12 @@ import PhotosUI
 class ChangeProfileViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    
+    let authService: AuthService
 
     let selectedImage = PublishRelay<UIImage?>()
+    let emailRelay = BehaviorRelay<String>(value: "")
+    let userImageRelay = BehaviorRelay<UIImage?>(value: nil)
     
     let leftButtonTapped = PublishRelay<Void>()
     let changePwButtonTapped = PublishRelay<Void>()
@@ -20,7 +25,9 @@ class ChangeProfileViewModel: Stepper{
     let withdrawButtonTapped = PublishRelay<Void>()
     
     
-    init(){
+    init(authService: AuthService){
+        self.authService = authService
+        
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.popView)
@@ -47,6 +54,14 @@ class ChangeProfileViewModel: Stepper{
         
         logoutButtonTapped
             .subscribe(onNext: { [weak self] in
+                do {
+                    let realm = try Realm()
+                    try realm.write {
+                        realm.deleteAll()
+                    }
+                } catch {
+                    print("Error clearing Realm data: \(error)")
+                }
                 self?.steps.accept(MyPageStep.logoutCompleted)
             })
             .disposed(by: disposeBag)
@@ -56,17 +71,53 @@ class ChangeProfileViewModel: Stepper{
                 self?.steps.accept(MyPageStep.withdrawPopup)
             })
             .disposed(by: disposeBag)
-        
+
         selectedImage
-            .subscribe(onNext: { [weak self] image in
+            .flatMapLatest { [weak self] image -> Observable<Void> in
+                guard let self = self else { return Observable.empty() }
+                var base64String = ""
                 if let imageData = image?.pngData() {
-                    let base64String = imageData.base64EncodedString()
-                    UserSession.shared.image = base64String
+                    base64String = imageData.base64EncodedString()
+                    do {
+                        let realm = try Realm()
+                        try realm.write {
+                            if let user = realm.objects(User.self).first {
+                                user.image = base64String
+                            }
+                        }
+                    } catch {
+                        print("Error updating image in Realm: \(error)")
+                    }
                 }
+                
+                return self.authService.changeImage(img: base64String)
+                    .asObservable()
+                    .map{ _ in Void() }
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(MyPageStep.networkErrorPopup)
+                        return Observable.empty()
+                    }
+            }
+            .subscribe(onNext: { _ in
+                
             })
             .disposed(by: disposeBag)
         
     }
     
+    func loadUser(){
+        if let user = DatabaseManager.shared.fetchUser() {
+            emailRelay.accept(user.account)
+        }
+        if let user = DatabaseManager.shared.fetchUser(),
+           let imageBase64 = user.image,
+           let imageData = Data(base64Encoded: imageBase64),
+           let image = UIImage(data: imageData) {
+            userImageRelay.accept(image)
+        } else {
+            userImageRelay.accept(UIImage(named: "user"))
+        }
+    }
    
 }

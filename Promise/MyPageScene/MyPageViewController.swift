@@ -41,6 +41,12 @@ class MyPageViewController: UIViewController {
         bind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        myPageViewModel.loadUser()
+        myPageViewModel.loadLevelExp()
+    }
+    
     private func bind(){
         infoSettingButton.rx.tap
             .bind(to: myPageViewModel.infoSettingButtonTapped)

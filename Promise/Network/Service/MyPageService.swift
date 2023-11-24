@@ -5,7 +5,7 @@ import RxSwift
 protocol MyPageServiceProtocol {
     func createInquiry(author: String, title: String, content: String, type: String) -> Single<MyPageResponse>
     func replyInquiry(postId: String, author: String, title: String, content: String) -> Single<MyPageResponse>
-    func inquiryList(nickname: String, period: String, statusType: String) -> Single<InquiryListResponse>
+    func inquiryList(account: String, period: String, statusType: String) -> Single<InquiryListResponse>
     func noticeList() -> Single<NoticeListResponse>
     func GetExp() -> Single<GetUserExp>
 }
@@ -25,8 +25,8 @@ class MyPageService: MyPageServiceProtocol {
             .map(MyPageResponse.self)
     }
     
-    func inquiryList(nickname: String, period: String, statusType: String) -> Single<InquiryListResponse> {
-        return provider.rx.request(.InquiryList(nickname: nickname, period: period, statusType: statusType))
+    func inquiryList(account: String, period: String, statusType: String) -> Single<InquiryListResponse> {
+        return provider.rx.request(.InquiryList(account: account, period: period, statusType: statusType))
             .filterSuccessfulStatusCodes()
             .map(InquiryListResponse.self)
     }

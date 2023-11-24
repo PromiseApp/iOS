@@ -8,7 +8,7 @@ class SignupFlow: Flow {
     
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel(currentFlow: .singupFlow)
-    let loginService = AuthService()
+    let authService = AuthService()
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
@@ -44,28 +44,28 @@ class SignupFlow: Flow {
     }
     
     private func navigateToEmailAuth() -> FlowContributors {
-        let VM = EmailAuthViewModel(loginService: loginService)
+        let VM = EmailAuthViewModel(authService: authService)
         let VC = EmailAuthViewController(emailAuthViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToConfirmEmailAuth() -> FlowContributors {
-        let VM = ConfirmEmailAuthViewModel()
+        let VM = ConfirmEmailAuthViewModel(authService: authService)
         let VC = ConfirmEmailAuthViewController(confirmEmailAuthViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToNickname() -> FlowContributors {
-        let VM = NicknameViewModel(flowType: .singupFlow, loginService: loginService)
+        let VM = NicknameViewModel(flowType: .singupFlow, authService: authService)
         let VC = NicknameViewController(nicknameViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToSignup() -> FlowContributors {
-        let VM = SignupViewModel(loginService: loginService)
+        let VM = SignupViewModel(authService: authService)
         let VC = SignupViewController(signupViewModel: VM, limitedViewModel: self.limitedVM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

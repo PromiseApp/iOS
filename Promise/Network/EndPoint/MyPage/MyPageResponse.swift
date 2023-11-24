@@ -15,6 +15,7 @@ struct InquiryListData: Codable {
 
 struct InquiryList: Codable {
     let id: Int
+    let author: String
     let title: String
     let content: String
     let createdDate: String
@@ -24,6 +25,7 @@ struct InquiryList: Codable {
 
 struct Replies: Codable {
     let id: Int
+    let author: String
     let title: String
     let content: String
     let modifiedDate: String

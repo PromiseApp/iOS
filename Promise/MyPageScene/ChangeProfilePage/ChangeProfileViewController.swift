@@ -46,7 +46,7 @@ class ChangeProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        userEmailLabel.text = UserSession.shared.account
+        changeProfileViewModel.loadUser()
     }
     
     private func bind(){
@@ -55,11 +55,15 @@ class ChangeProfileViewController: UIViewController {
             .bind(to: changeProfileViewModel.leftButtonTapped)
             .disposed(by: disposeBag)
         
+        limitedViewModel.selectedPhoto
+            .bind(to: changeProfileViewModel.selectedImage)
+            .disposed(by: disposeBag)
+        
         changeProfileViewModel.selectedImage
             .bind(to: userProfileButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
-        limitedViewModel.selectedPhoto
+        changeProfileViewModel.userImageRelay
             .bind(to: userProfileButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
@@ -73,6 +77,10 @@ class ChangeProfileViewController: UIViewController {
             .bind(onNext: { [weak self] in
                 self?.checkPhotoLibraryPermission()
             })
+            .disposed(by: disposeBag)
+        
+        changeProfileViewModel.emailRelay
+            .bind(to: userEmailLabel.rx.text)
             .disposed(by: disposeBag)
                 
         changePwButton.rx.tap
@@ -284,12 +292,14 @@ class ChangeProfileViewController: UIViewController {
 extension ChangeProfileViewController: PHPickerViewControllerDelegate{
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        
+        print(results)
         guard let result = results.first else { return }
         result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
+            print(object)
             if let image = object as? UIImage {
                 DispatchQueue.main.async {
                     self?.changeProfileViewModel.selectedImage.accept(image)
+                    print(image)
                 }
             }
         }

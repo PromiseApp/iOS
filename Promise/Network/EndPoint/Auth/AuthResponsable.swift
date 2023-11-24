@@ -1,4 +1,7 @@
-import Foundation
+struct AuthResponse: Codable{
+    let resultCode: String
+    let resultMessage: String
+}
 
 struct LoginResponse: Codable {
     let resultCode: String
@@ -24,11 +27,6 @@ struct Role: Codable {
     let name: String
 }
 
-struct SignupResponse: Codable{
-    let resultCode: String
-    let resultMessage: String
-}
-
 struct DuplicateCheckResponse: Codable{
     let resultCode: String
     let resultMessage: String
@@ -37,4 +35,8 @@ struct DuplicateCheckResponse: Codable{
 
 struct DuplicateCheckData: Codable{
     let isDuplicated: Bool
+}
+
+struct WithdrawResponse: Codable{
+    let resultMessage: String
 }

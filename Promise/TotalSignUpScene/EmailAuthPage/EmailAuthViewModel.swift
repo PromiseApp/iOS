@@ -8,7 +8,7 @@ class EmailAuthViewModel: Stepper {
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: AuthService
+    let authService: AuthService
     
     let emailTextRelay = PublishRelay<String>()
     let leftButtonTapped = PublishRelay<Void>()
@@ -22,8 +22,8 @@ class EmailAuthViewModel: Stepper {
     
     var serverValidationResult = PublishRelay<(String,Bool)>()
     
-    init(loginService: AuthService){
-        self.loginService = loginService
+    init(authService: AuthService){
+        self.authService = authService
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -34,10 +34,9 @@ class EmailAuthViewModel: Stepper {
         nextButtonTapped
             .withLatestFrom(emailTextRelay)
             .flatMapLatest { [weak self] account in
-                return self?.loginService.duplicateCheckAccount(account: account)
+                return self?.authService.duplicateCheckAccount(account: account)
                     .asObservable()
                     .map {
-                        //print($0)
                         return (account,!$0.data.isDuplicated)
                         
                     }

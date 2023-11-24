@@ -23,14 +23,22 @@ class LoadingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .white
+        
         weMeetImageView.do{
             $0.image = UIImage(named: "weMeet")
         }
         
+        view.addSubview(weMeetImageView)
+        
         weMeetImageView.snp.makeConstraints { make in
             make.width.equalTo(172*Constants.standardWidth)
-            make.height.equalTo(85*Constants.standardHeight)
-            make.center.equalToSuperview()
+            make.height.equalTo(55*Constants.standardHeight)
+            make.centerX.centerY.equalToSuperview()
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.loadingViewModel.autoLogin()
         }
         
     }

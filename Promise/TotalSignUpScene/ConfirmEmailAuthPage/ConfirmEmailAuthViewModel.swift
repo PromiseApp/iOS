@@ -8,6 +8,8 @@ class ConfirmEmailAuthViewModel: Stepper{
     var timerDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
+    let authService: AuthService
+    
     private let timerSubject = PublishSubject<String>()
     var timerDriver: Driver<String> {
         return timerSubject.asDriver(onErrorJustReturn: "00:00")
@@ -34,7 +36,9 @@ class ConfirmEmailAuthViewModel: Stepper{
             }
     }
     
-    init() {
+    init(authService: AuthService) {
+        self.authService = authService
+        
         startTimer()
         
         startTimerRelay

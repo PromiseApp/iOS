@@ -11,7 +11,7 @@ class LoginViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
-    let loginService: AuthService
+    let authService: AuthService
     
     let firstIsChecked = PublishRelay<Bool>()
     let secondIsChecked = PublishRelay<Bool>()
@@ -25,15 +25,15 @@ class LoginViewModel: Stepper{
     let emailTextRelay = PublishRelay<String>()
     let passwordTextRelay = PublishRelay<String>()
     
-    init(loginService: AuthService){
-        self.loginService = loginService
+    init(authService: AuthService){
+        self.authService = authService
         self.loadSavedEmail()
         
         loginButtonTapped
             .withLatestFrom(Observable.combineLatest(emailTextRelay.asObservable(), passwordTextRelay.asObservable()))
             .flatMapLatest { [weak self] (email, password) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                return self.loginService.login(account: email, password: password)
+                return self.authService.login(account: email, password: password)
                     .asObservable()
                     .map{ response in
                         return self.saveUser(account: response.data.userInfo.account,password: password , nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
@@ -85,11 +85,10 @@ class LoginViewModel: Stepper{
                     if let image = image{
                         existingUser.image = image
                     }
-                    //print("existingUser:\(existingUser)")
                 }
             } else {
                 let newUser = User()
-                //print("newUser:\(newUser)")
+                
                 newUser.account = account
                 newUser.password = password
                 newUser.nickname = nickname

@@ -9,14 +9,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var coordinator = FlowCoordinator()
     var appFlow: AppFlow!
-    let loginService = AuthService()
-    let disposeBag = DisposeBag()
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
                 
-        
-        
         window = UIWindow(windowScene: windowScene)
         appFlow = AppFlow()
         self.checkImageAuth()
@@ -25,84 +21,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             self.window?.rootViewController = root
             self.window?.makeKeyAndVisible()
         }
-        //coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
-        self.autoLogin()
+        coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.loading))
         
         print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)
         
         
-    }
-    
-    func autoLogin() {
-        let isAutoLoginEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isAutoLoginEnabled)
-        if isAutoLoginEnabled == "Y" {
-            if let user = fetchEmailFromRealm() {
-                self.loginService.login(account: user.account, password: user.password)
-                    .subscribe(onSuccess: { [weak self] response in
-                        self!.saveUser(account: response.data.userInfo.account, password: user.password , nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
-                        self?.coordinator.coordinate(flow: self!.appFlow, with: OneStepper(withSingleStep: AppStep.tabBar))
-                    }, onFailure: { [weak self] error in
-                        self?.coordinator.coordinate(flow: self!.appFlow, with: OneStepper(withSingleStep: AppStep.networkErrorPopup))
-                    })
-                    .disposed(by: disposeBag)
-            }
-        }
-        else{
-            coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.login))
-        }
-        
-    }
-    
-    func saveUser(account: String, password: String , nickname: String, image: String?, level: Int, exp: Int, role: String, token: String){
-        do{
-            
-            let realm = try Realm()
-            if let existingUser = realm.objects(User.self).filter("account == %@", account).first {
-                try realm.write {
-                    existingUser.account = account
-                    existingUser.password = password
-                    existingUser.level = level
-                    existingUser.exp = exp
-                    existingUser.role = role
-                    existingUser.token = token
-                    if let image = image{
-                        existingUser.image = image
-                    }
-                    //print("existingUser:\(existingUser)")
-                }
-            } else {
-                let newUser = User()
-                //print("newUser:\(newUser)")
-                newUser.account = account
-                newUser.password = password
-                newUser.nickname = nickname
-                newUser.level = level
-                newUser.exp = exp
-                newUser.role = role
-                newUser.token = token
-                if let image = image{
-                    newUser.image = image
-                }
-                try realm.write {
-                    realm.add(newUser)
-                }
-            }
-            UserSession.shared.account = account
-            UserSession.shared.nickname = nickname
-            UserSession.shared.role = role
-            UserSession.shared.token = token
-            if let image = image{
-                UserSession.shared.image = image
-            }
-            
-        }catch {
-            print("An error occurred while saving the user: \(error)")
-        }
-    }
-    
-    func fetchEmailFromRealm() -> User? {
-        let realm = try! Realm()
-        return realm.objects(User.self).first
     }
     
     func checkImageAuth(){

@@ -6,6 +6,10 @@ enum AuthAPI {
     case login(account: String, password: String)
     case duplicateCheckAccount(account: String)
     case duplicateCheckNickname(nickname: String)
+    case ChangePassword(password: String)
+    case ChangeNickname(nickname: String)
+    case ChangeImage(img: String)
+    case Withdraw
 }
 
 extension AuthAPI: TargetType {
@@ -24,6 +28,14 @@ extension AuthAPI: TargetType {
             return "/\(nickname)/exists/nickname"
         case .duplicateCheckAccount(let account):
             return "/\(account)/exists/account"
+        case .ChangePassword:
+            return "/member/update-profile"
+        case .ChangeNickname:
+            return "/member/update-profile"
+        case .ChangeImage:
+            return "/member/update-profile"
+        case .Withdraw:
+            return "/member/withdraw"
         }
     }
     
@@ -37,6 +49,14 @@ extension AuthAPI: TargetType {
             return .get
         case .duplicateCheckAccount:
             return .get
+        case .ChangePassword:
+            return .patch
+        case .ChangeNickname:
+            return .patch
+        case .ChangeImage:
+            return .patch
+        case .Withdraw:
+            return .delete
         }
     }
     
@@ -61,11 +81,30 @@ extension AuthAPI: TargetType {
             return .requestPlain
         case .duplicateCheckAccount:
             return .requestPlain
+        case .ChangePassword(let password):
+            let parameters = [
+                "password": password
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .ChangeNickname(let nickname):
+            let parameters = [
+                "nickname": nickname
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .ChangeImage(let img):
+            let parameters = [
+                "img": img
+            ]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
+        case .Withdraw:
+            return .requestPlain
         }
     }
     
     var headers: [String: String]? {
-        return ["Content-Type": "application/json"]
+        var headers = ["Content-Type": "application/json"]
+        headers["Authorization"] = "Bearer \(UserSession.shared.token)"
+        return headers
     }
     
 }

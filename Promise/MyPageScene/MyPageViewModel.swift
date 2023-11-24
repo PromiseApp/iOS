@@ -22,8 +22,6 @@ class MyPageViewModel: Stepper{
     
     init(myPageService: MyPageService){
         self.myPageService = myPageService
-        self.loadUser()
-        self.loadLevelExp()
         
         infoSettingButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -45,11 +43,13 @@ class MyPageViewModel: Stepper{
         
     }
     
-    private func loadUser(){
-        emailRelay.accept(UserSession.shared.account)
-        nicknameRelay.accept(UserSession.shared.nickname)
-        
-        if let imageBase64 = UserSession.shared.image,
+    func loadUser(){
+        if let user = DatabaseManager.shared.fetchUser() {
+            emailRelay.accept(user.account)
+            nicknameRelay.accept(user.nickname)
+        }
+        if let user = DatabaseManager.shared.fetchUser(),
+           let imageBase64 = user.image,
            let imageData = Data(base64Encoded: imageBase64),
            let image = UIImage(data: imageData) {
             userImageRelay.accept(image)
