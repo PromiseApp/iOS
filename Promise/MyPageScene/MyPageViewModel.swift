@@ -13,6 +13,7 @@ class MyPageViewModel: Stepper{
     let infoSettingButtonTapped = PublishRelay<Void>()
     let announcementButtonTapped = PublishRelay<Void>()
     let inquiryButtonTapped = PublishRelay<Void>()
+    let tpButtonTapped = PublishRelay<Void>()
     
     let emailRelay = BehaviorRelay<String>(value: "")
     let nicknameRelay = BehaviorRelay<String>(value: "")
@@ -38,6 +39,12 @@ class MyPageViewModel: Stepper{
         inquiryButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(MyPageStep.inquiryList)
+            })
+            .disposed(by: disposeBag)
+        
+        tpButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(MyPageStep.termsAndPolicies)
             })
             .disposed(by: disposeBag)
         

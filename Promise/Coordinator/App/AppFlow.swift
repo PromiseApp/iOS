@@ -36,15 +36,18 @@ class AppFlow: Flow {
         case .findPwCompleted:
             self.rootViewController.popToRootViewController(animated: true)
             return .none
-        case .aa:
-            self.rootViewController.popToRootViewController(animated: true)
-            return .none
+        case .terms:
+            return navigateToTerms()
+        case .policies:
+            return navigatePolicies()
         case .logoutCompleted:
             return navigateToLogin()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .inputErrorPopup:
             return presentInputErrorPopup()
+        case .popView:
+            return popViewController()
         }
     }
     
@@ -57,7 +60,7 @@ class AppFlow: Flow {
     }
 
     private func navigateToLogin() -> FlowContributors {
-        let VM = LoginViewModel(authService: authService)
+        let VM = LoginViewModel(authService: authService, currentFlow: .AppFlow)
         let VC = LoginViewController(loginViewModel: VM)
         self.rootViewController.setViewControllers([VC], animated: false)
         
@@ -124,6 +127,20 @@ class AppFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: findPwFlow, withNextStepper: OneStepper(withSingleStep: FindPwStep.inputEmail)))
     }
     
+    private func navigateToTerms() -> FlowContributors {
+        let VM = TPViewModel(currentFlow: .AppFlow)
+        let VC = TermViewController(tPViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigatePolicies() -> FlowContributors {
+        let VM = TPViewModel(currentFlow: .AppFlow)
+        let VC = PolicyViewController(tPViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
     private func presentNetworkErrorPopup() -> FlowContributors {
         let VC = NetworkErrorPopupViewController()
         VC.modalPresentationStyle = .overFullScreen
@@ -135,6 +152,11 @@ class AppFlow: Flow {
         let VC = InputErrorPopupViewController()
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func popViewController() -> FlowContributors {
+        rootViewController.popViewController(animated: true)
         return .none
     }
     

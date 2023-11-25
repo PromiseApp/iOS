@@ -23,6 +23,9 @@ class LoginViewController: UIViewController {
     let separateView = UIView()
     let kakaoButton = UIButton()
     let appleButton = UIButton()
+    var termsTapGesture = UITapGestureRecognizer()
+    var privacyPolicyTapGesture = UITapGestureRecognizer()
+    let tpTextView = UITextView()
     
     init(loginViewModel: LoginViewModel) {
         self.loginViewModel = loginViewModel
@@ -58,7 +61,6 @@ class LoginViewController: UIViewController {
     
     func firstCheckboxState() {
         let isAutoLoginEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isAutoLoginEnabled) ?? "N"
-        print("isAutoLoginEnabled: \(isAutoLoginEnabled)")
         let isSelected = (isAutoLoginEnabled == "Y")
         autoLoginCheckBox.isSelected = isSelected
         autoLoginCheckBox.setImage(isSelected ? UIImage(systemName: "checkmark") : nil, for: .normal)
@@ -66,7 +68,6 @@ class LoginViewController: UIViewController {
     
     func secondCheckboxState() {
         let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled) ?? "N"
-        print("isRememberEmailEnabled: \(isRememberEmailEnabled)")
         let isSelected = (isRememberEmailEnabled == "Y")
         saveIdCheckBox.isSelected = isSelected
         saveIdCheckBox.setImage(isSelected ? UIImage(systemName: "checkmark") : nil, for: .normal)
@@ -98,7 +99,6 @@ class LoginViewController: UIViewController {
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
                 let status = isChecked ? "Y" : "N"
                 UserDefaults.standard.set(status, forKey: UserDefaultsKeys.isAutoLoginEnabled)
-                print(status)
                 self?.autoLoginCheckBox.setImage(image, for: .normal)
             })
             .disposed(by: disposeBag)
@@ -140,6 +140,15 @@ class LoginViewController: UIViewController {
         
         loginButton.rx.tap
             .bind(to: loginViewModel.loginButtonTapped)
+            .disposed(by: disposeBag)
+        
+        let tapGesture = UITapGestureRecognizer()
+        tpTextView.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event
+            .bind { [weak self] gesture in
+                self?.handleTap(gesture: gesture)
+            }
             .disposed(by: disposeBag)
         
     }
@@ -245,13 +254,34 @@ class LoginViewController: UIViewController {
             $0.layer.cornerRadius = 4 * Constants.standardHeight
             $0.backgroundColor = .black
             $0.setImage(UIImage(named: "apple"), for: .normal)
-            //$0.isHidden = true
+            $0.isHidden = true
+        }
+        
+        tpTextView.do{
+            let fullText = "로그인하면 WeMeet 이용약관 및\n 개인정보처리방침에 동의하는 것으로 간주합니다."
+            let attributedString = NSMutableAttributedString(string: fullText)
+            
+            let weMeetRange = (fullText as NSString).range(of: "WeMeet")
+            attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: weMeetRange)
+            
+            let termsRange = (fullText as NSString).range(of: "이용약관")
+            let privacyPolicyRange = (fullText as NSString).range(of: "개인정보처리방침")
+            let underlineAttributes: [NSAttributedString.Key: Any] = [.underlineStyle: NSUnderlineStyle.single.rawValue]
+            
+            attributedString.addAttributes(underlineAttributes, range: termsRange)
+            attributedString.addAttributes(underlineAttributes, range: privacyPolicyRange)
+            
+            $0.attributedText = attributedString
+            $0.isEditable = false
+            $0.isScrollEnabled = false
+            $0.backgroundColor = .clear
+            $0.textAlignment = .center
         }
         
     }
     
     private func layout(){
-        [logoLabel,emailTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signupButton,findPwButton,separateView,kakaoButton,appleButton]
+        [logoLabel,emailTextField,pwTextField,visiblePwButton,autoLoginLabel,autoLoginCheckBox,saveIdLabel,saveIdCheckBox,loginButton,signupButton,findPwButton,separateView,kakaoButton,appleButton,tpTextView]
             .forEach{view.addSubview($0)}
         
         logoLabel.snp.makeConstraints { make in
@@ -354,8 +384,36 @@ class LoginViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
         
+        tpTextView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        
     }
-
+    
+    func handleTap(gesture: UITapGestureRecognizer) {
+        let location = gesture.location(in: tpTextView)
+        if let textPosition = tpTextView.closestPosition(to: location),
+           let textRange = tpTextView.tokenizer.rangeEnclosingPosition(textPosition, with: .word, inDirection: UITextDirection.layout(.right)),
+           let tappedWord = tpTextView.text(in: textRange) {
+            if tappedWord == "이용약관" {
+                self.termsTapped()
+            }
+            else if tappedWord == "개인정보처리방침에" {
+                
+                self.privacyPolicyTapped()
+            }
+        }
+    }
+    
+    private func termsTapped() {
+        self.loginViewModel.termButtonTapped.accept(())
+    }
+    
+    private func privacyPolicyTapped() {
+        self.loginViewModel.policyButtonTapped.accept(())
+    }
+    
 }
 
 //#if DEBUG

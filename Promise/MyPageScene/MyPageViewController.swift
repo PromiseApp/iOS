@@ -60,6 +60,10 @@ class MyPageViewController: UIViewController {
             .bind(to: myPageViewModel.inquiryButtonTapped)
             .disposed(by: disposeBag)
         
+        tpButton.rx.tap
+            .bind(to: myPageViewModel.tpButtonTapped)
+            .disposed(by: disposeBag)
+        
         myPageViewModel.emailRelay
             .bind(to: emailLabel.rx.text)
             .disposed(by: disposeBag)

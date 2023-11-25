@@ -8,8 +8,15 @@ enum AppStep: Step {
     case findPw
     case signupCompleted
     case findPwCompleted
-    case aa
     case logoutCompleted
+    case terms
+    case policies
     case networkErrorPopup
     case inputErrorPopup
+    case popView
+}
+
+enum TPFlowType {
+    case AppFlow
+    case myPageFlow
 }

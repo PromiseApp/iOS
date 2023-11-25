@@ -31,6 +31,9 @@ class LoadingViewModel: Stepper{
                     })
                     .disposed(by: disposeBag)
             }
+            else{
+                self.steps.accept(AppStep.login)
+            }
         }
         else{
             self.steps.accept(AppStep.login)

@@ -12,6 +12,7 @@ class LoginViewModel: Stepper{
     let steps = PublishRelay<Step>()
     
     let authService: AuthService
+    let currentFlow: TPFlowType
     
     let firstIsChecked = PublishRelay<Bool>()
     let secondIsChecked = PublishRelay<Bool>()
@@ -21,12 +22,15 @@ class LoginViewModel: Stepper{
     
     let signupButtonTapped = PublishRelay<Void>()
     let findPwButtonTapped = PublishRelay<Void>()
+    let termButtonTapped = PublishRelay<Void>()
+    let policyButtonTapped = PublishRelay<Void>()
     
     let emailTextRelay = PublishRelay<String>()
     let passwordTextRelay = PublishRelay<String>()
     
-    init(authService: AuthService){
+    init(authService: AuthService, currentFlow: TPFlowType){
         self.authService = authService
+        self.currentFlow = currentFlow
         self.loadSavedEmail()
         
         loginButtonTapped
@@ -65,6 +69,32 @@ class LoginViewModel: Stepper{
         findPwButtonTapped
             .subscribe(onNext: {
                 self.steps.accept(AppStep.findPw)
+            })
+            .disposed(by: disposeBag)
+        
+        termButtonTapped
+            .subscribe(onNext: { [weak self] in
+                switch self?.currentFlow{
+                case .AppFlow:
+                    self?.steps.accept(AppStep.terms)
+                case .myPageFlow:
+                    self?.steps.accept(MyPageStep.terms)
+                case .none:
+                    break
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        policyButtonTapped
+            .subscribe(onNext: { [weak self] in
+                switch self?.currentFlow{
+                case .AppFlow:
+                    self?.steps.accept(AppStep.policies)
+                case .myPageFlow:
+                    self?.steps.accept(MyPageStep.policies)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
         

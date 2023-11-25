@@ -39,6 +39,12 @@ class MyPageFlow: Flow {
             return navigateToWriteInquiry(type: type)
         case .detailInquiry(let inquiryId):
             return navigateToDetailInquiry(inquiryId: inquiryId)
+        case .termsAndPolicies:
+            return navigateToTermsAndPolicies()
+        case .terms:
+            return navigateToTerms()
+        case .policies:
+            return navigatePolicies()
         case .logoutCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.logoutCompleted)
         case .withdrawPopup:
@@ -113,6 +119,28 @@ class MyPageFlow: Flow {
     private func navigateToDetailInquiry( inquiryId: String) -> FlowContributors {
         let VM = DetailInquiryViewModel(myPageService: myPageService, role: user!.role, inquiryId: inquiryId)
         let VC = DetailInquiryViewController(detailInquiryViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToTermsAndPolicies() -> FlowContributors {
+        let VM = TPViewModel(currentFlow: .myPageFlow)
+        let VC = TPViewController(tPViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        VC.hidesBottomBarWhenPushed = true
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToTerms() -> FlowContributors {
+        let VM = TPViewModel(currentFlow: .myPageFlow)
+        let VC = TermViewController(tPViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigatePolicies() -> FlowContributors {
+        let VM = TPViewModel(currentFlow: .myPageFlow)
+        let VC = PolicyViewController(tPViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }

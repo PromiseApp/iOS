@@ -10,6 +10,9 @@ enum MyPageStep: Step {
     case inquiryList
     case writeInquiry(type: String)
     case detailInquiry(inquiryId: String)
+    case termsAndPolicies
+    case terms
+    case policies
     case logoutCompleted
     case withdrawPopup
     case networkErrorPopup

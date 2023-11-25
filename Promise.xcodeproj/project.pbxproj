@@ -61,6 +61,10 @@
 		317688C52B106E1D00C266FE /* WithdrawPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688C42B106E1D00C266FE /* WithdrawPopupViewModel.swift */; };
 		317688CA2B1207A600C266FE /* TabBarStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688C92B1207A600C266FE /* TabBarStep.swift */; };
 		317688CC2B1207B100C266FE /* TabBarFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688CB2B1207B100C266FE /* TabBarFlow.swift */; };
+		317688CF2B121B1200C266FE /* TPViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688CE2B121B1200C266FE /* TPViewController.swift */; };
+		317688D12B121B1B00C266FE /* TPViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688D02B121B1B00C266FE /* TPViewModel.swift */; };
+		317688D32B121B4500C266FE /* TermViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688D22B121B4500C266FE /* TermViewController.swift */; };
+		317688D52B121B5300C266FE /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688D42B121B5300C266FE /* PolicyViewController.swift */; };
 		317C8F632AF25FA0003010BA /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F622AF25FA0003010BA /* InquiryViewController.swift */; };
 		317C8F652AF25FAF003010BA /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F642AF25FAF003010BA /* InquiryViewModel.swift */; };
 		317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F692AF2674C003010BA /* InquiryHeaderView.swift */; };
@@ -207,6 +211,10 @@
 		317688C42B106E1D00C266FE /* WithdrawPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawPopupViewModel.swift; sourceTree = "<group>"; };
 		317688C92B1207A600C266FE /* TabBarStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStep.swift; sourceTree = "<group>"; };
 		317688CB2B1207B100C266FE /* TabBarFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarFlow.swift; sourceTree = "<group>"; };
+		317688CE2B121B1200C266FE /* TPViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPViewController.swift; sourceTree = "<group>"; };
+		317688D02B121B1B00C266FE /* TPViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPViewModel.swift; sourceTree = "<group>"; };
+		317688D22B121B4500C266FE /* TermViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermViewController.swift; sourceTree = "<group>"; };
+		317688D42B121B5300C266FE /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		317C8F622AF25FA0003010BA /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		317C8F642AF25FAF003010BA /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		317C8F692AF2674C003010BA /* InquiryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHeaderView.swift; sourceTree = "<group>"; };
@@ -520,6 +528,17 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		317688CD2B121AEA00C266FE /* TPPage */ = {
+			isa = PBXGroup;
+			children = (
+				317688CE2B121B1200C266FE /* TPViewController.swift */,
+				317688D02B121B1B00C266FE /* TPViewModel.swift */,
+				317688D22B121B4500C266FE /* TermViewController.swift */,
+				317688D42B121B5300C266FE /* PolicyViewController.swift */,
+			);
+			path = TPPage;
+			sourceTree = "<group>";
+		};
 		317C8F612AF25F87003010BA /* InquiryPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -711,6 +730,7 @@
 		317D6A062ADF8697004CEE5C /* MyPageScene */ = {
 			isa = PBXGroup;
 			children = (
+				317688CD2B121AEA00C266FE /* TPPage */,
 				317C8F612AF25F87003010BA /* InquiryPage */,
 				31EF2A8B2AEE76BB0082B664 /* AnnouncementPage */,
 				318586B02AE24B1A005EBC31 /* ChangeNicknamePage */,
@@ -1105,6 +1125,7 @@
 				317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */,
 				314F90782B0627AF00312846 /* OutPromisePopupViewModel.swift in Sources */,
 				314F905C2AFF229800312846 /* RejectFriendSuccessViewModel.swift in Sources */,
+				317688D32B121B4500C266FE /* TermViewController.swift in Sources */,
 				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				317C8F762AF37F02003010BA /* DetailInquiryViewModel.swift in Sources */,
@@ -1137,6 +1158,7 @@
 				314F90662AFF44DC00312846 /* RequestNotExistFriendPopupViewController.swift in Sources */,
 				318586B42AE24B3A005EBC31 /* ChangeNicknameViewController.swift in Sources */,
 				317C8F9B2AFA05CB003010BA /* NetworkError.swift in Sources */,
+				317688CF2B121B1200C266FE /* TPViewController.swift in Sources */,
 				314F90762B06272900312846 /* OutPromisePopupViewController.swift in Sources */,
 				315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */,
 				318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */,
@@ -1150,6 +1172,7 @@
 				314F906B2AFF598900312846 /* NewPromiseViewController.swift in Sources */,
 				317C8F8C2AF8A616003010BA /* SelectMemberResultViewController.swift in Sources */,
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
+				317688D52B121B5300C266FE /* PolicyViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */,
 				317688C22B10482000C266FE /* DeletedPromisePopupViewController.swift in Sources */,
 				31EF2A802AECD6590082B664 /* PastPromiseViewModel.swift in Sources */,
@@ -1202,6 +1225,7 @@
 				312476C72AA068E500D318C7 /* Constants.swift in Sources */,
 				317D69D72ADBC53A004CEE5C /* SignupFlow.swift in Sources */,
 				317688BB2B0C8A3600C266FE /* ChatFlow.swift in Sources */,
+				317688D12B121B1B00C266FE /* TPViewModel.swift in Sources */,
 				317C8FB62AFCCCAE003010BA /* FriendService.swift in Sources */,
 				317D6A082ADF86B7004CEE5C /* MyPageViewModel.swift in Sources */,
 				31F1A0F32AB46C9400B99DC4 /* SelectFriendViewModel.swift in Sources */,
