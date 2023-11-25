@@ -50,8 +50,8 @@ class WriteInquiryViewModel: Stepper{
             .withLatestFrom(Observable.combineLatest(titleRelay.asObservable(), contentRelay.asObservable()))
             .flatMapLatest { [weak self] (title, content) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                
-                return self.myPageService.createInquiry(author: UserSession.shared.nickname, title: title, content: content, type: self.type)
+                let user = DatabaseManager.shared.fetchUser()
+                return self.myPageService.createInquiry(author: user!.nickname, title: title, content: content, type: self.type)
                     .asObservable()
                     .map{_ in Void() }
                     .catch { [weak self] error in

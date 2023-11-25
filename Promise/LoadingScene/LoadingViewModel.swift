@@ -16,7 +16,6 @@ class LoadingViewModel: Stepper{
     init(authService: AuthService){
         self.authService = authService
         
-        
     }
     
     func autoLogin() {
@@ -74,12 +73,6 @@ class LoadingViewModel: Stepper{
                 }
             }
             UserSession.shared.account = account
-            UserSession.shared.nickname = nickname
-            UserSession.shared.role = role
-            UserSession.shared.token = token
-            if let image = image{
-                UserSession.shared.image = image
-            }
             
         }catch {
             print("An error occurred while saving the user: \(error)")

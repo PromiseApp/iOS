@@ -7,6 +7,8 @@ class AppFlow: Flow {
     }
     
     let authService = AuthService()
+    let promiseService = PromiseService()
+    var shareVM: ShareFriendViewModel?
     
     private lazy var rootViewController: UINavigationController = {
         let navigationController = UINavigationController()
@@ -32,6 +34,9 @@ class AppFlow: Flow {
             self.rootViewController.popToRootViewController(animated: true)
             return .none
         case .findPwCompleted:
+            self.rootViewController.popToRootViewController(animated: true)
+            return .none
+        case .aa:
             self.rootViewController.popToRootViewController(animated: true)
             return .none
         case .logoutCompleted:
@@ -72,6 +77,7 @@ class AppFlow: Flow {
         let myPageNC = UINavigationController()
         myPageNC.isNavigationBarHidden = true
         
+        let tabBarFlow = TabBarFlow(with: rootViewController)
         let promiseFlow = PromiseFlow(with: promiseNC)
         let chatFlow = ChatFlow(with: chatNC)
         let friendFlow = FriendFlow(with: friendNC)
@@ -95,12 +101,17 @@ class AppFlow: Flow {
         }
 
         return .multiple(flowContributors: [
-            .contribute(withNextPresentable: promiseFlow, withNextStepper: VM),
+            .contribute(withNextPresentable: tabBarFlow, withNextStepper: VM),
             .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.home)),
             .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.chat)),
             .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.friend)),
             .contribute(withNextPresentable: myPageFlow, withNextStepper: OneStepper(withSingleStep: MyPageStep.myPage))
         ])
+    }
+    
+    private func aa() -> FlowContributors {
+        let aa = TabBarFlow(with: rootViewController)
+        return .one(flowContributor: .contribute(withNextPresentable: aa, withNextStepper: OneStepper(withSingleStep: TabBarStep.makePromise)))
     }
     
     private func navigateToSignup() -> FlowContributors {

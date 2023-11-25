@@ -37,6 +37,16 @@ struct DuplicateCheckData: Codable{
     let isDuplicated: Bool
 }
 
+struct PostEmailResponse: Codable{
+    let resultCode: String
+    let resultMessage: String
+    let data: PostEmailData
+}
+
+struct PostEmailData: Codable{
+    let verifyCode: String
+}
+
 struct WithdrawResponse: Codable{
     let resultMessage: String
 }

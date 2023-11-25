@@ -31,7 +31,9 @@ class SelectMemberResultTableViewCell: UITableViewCell {
     
     private func attribute(){
         userImageView.do{
-            $0.layer.cornerRadius = $0.frame.size.height / 2
+            $0.layer.cornerRadius = 24*Constants.standardHeight / 2
+            $0.sizeToFit()
+            $0.clipsToBounds = true
         }
         
         nameLabel.do{

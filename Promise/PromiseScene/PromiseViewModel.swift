@@ -97,7 +97,8 @@ class PromiseViewModel: Stepper{
                             let location = item.location ?? "미정"
                             let penalty = item.penalty ?? "미정"
                             let memo = item.memo ?? "미정"
-                            return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: location, penalty: penalty, memo: memo, manager: UserSession.shared.nickname == item.leader ? true : false)
+                            let user = DatabaseManager.shared.fetchUser()
+                            return PromiseCell(id: item.id, date: date, time: time, title: item.title, place: location, penalty: penalty, memo: memo, manager: user!.nickname == item.leader ? true : false)
                         }
 
                         let groupedPromises = Dictionary(grouping: promises, by: { $0.date })

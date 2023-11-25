@@ -1,4 +1,5 @@
 import UIKit
+import RealmSwift
 import RxSwift
 import RxCocoa
 import RxFlow
@@ -68,6 +69,8 @@ class SignupViewModel: Stepper{
             .flatMapLatest { [weak self] (password, confirmPassword) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
                 if(password == confirmPassword){
+                    let user = DatabaseManager.shared.fetchUser()
+                    
                     return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, image: UserSession.shared.image)
                         .asObservable()
                         .map{_ in Void() }

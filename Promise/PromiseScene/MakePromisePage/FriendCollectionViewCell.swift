@@ -7,7 +7,7 @@ import Then
 class FriendCollectionViewCell: UICollectionViewCell {
     var disposeBag = DisposeBag()
     
-    let userImageView = UIImageView()
+    lazy var userImageView = UIImageView()
     let nameLabel = UILabel()
     let deleteButton = UIButton()
   
@@ -34,7 +34,9 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         
         userImageView.do{
-            $0.layer.cornerRadius = $0.frame.size.height / 2
+            $0.layer.cornerRadius = 24*Constants.standardHeight / 2
+            $0.sizeToFit()
+            $0.clipsToBounds = true
         }
         
         nameLabel.do{

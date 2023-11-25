@@ -17,7 +17,7 @@ class ConfirmEmailAuthViewModel: Stepper{
     let startTimerRelay = PublishRelay<Void>()
     
     let authTextRelay = BehaviorRelay<String>(value: "")
-    let serverAuthCode = BehaviorRelay<String>(value: "123456")
+    let serverAuthCode = BehaviorRelay<String>(value: "")
     let leftButtonTapped = PublishRelay<Void>()
     let leftButtonInFindPwTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -38,12 +38,13 @@ class ConfirmEmailAuthViewModel: Stepper{
     
     init(authService: AuthService) {
         self.authService = authService
-        
-        startTimer()
+        self.startTimer()
+        self.postEmail()
         
         startTimerRelay
             .subscribe(onNext: { [weak self] in
                 self?.startTimer()
+                self?.postEmail()
             })
             .disposed(by: disposeBag)
         
@@ -99,4 +100,15 @@ class ConfirmEmailAuthViewModel: Stepper{
             .bind(to: timerSubject)
             .disposed(by: timerDisposeBag)
     }
+    
+    func postEmail(){
+        self.authService.postEmail(account: UserSession.shared.account)
+            .subscribe(onSuccess: { [weak self] response in
+                self?.serverAuthCode.accept(response.data.verifyCode)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(SignupStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
+    }
+    
 }

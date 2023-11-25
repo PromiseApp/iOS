@@ -7,6 +7,7 @@ protocol AuthServiceProtocol {
     func login(account: String, password: String) -> Single<LoginResponse>
     func duplicateCheckAccount(account: String) -> Single<DuplicateCheckResponse>
     func duplicateCheckNickname(nickname: String) -> Single<DuplicateCheckResponse>
+    func postEmail(account: String) -> Single<PostEmailResponse>
     func changePassword(password: String) -> Single<AuthResponse>
     func changeNickname(nickname: String) -> Single<AuthResponse>
     func changeImage(img: String) -> Single<AuthResponse>
@@ -40,26 +41,32 @@ class AuthService: AuthServiceProtocol {
             .map(DuplicateCheckResponse.self)
     }
     
+    func postEmail(account: String) -> Single<PostEmailResponse> {
+        return provider.rx.request(.postEmail(account: account))
+            .filterSuccessfulStatusCodes()
+            .map(PostEmailResponse.self)
+    }
+    
     func changePassword(password: String) -> Single<AuthResponse> {
-        return provider.rx.request(.ChangePassword(password: password))
+        return provider.rx.request(.changePassword(password: password))
             .filterSuccessfulStatusCodes()
             .map(AuthResponse.self)
     }
     
     func changeNickname(nickname: String) -> Single<AuthResponse> {
-        return provider.rx.request(.ChangeNickname(nickname: nickname))
+        return provider.rx.request(.changeNickname(nickname: nickname))
             .filterSuccessfulStatusCodes()
             .map(AuthResponse.self)
     }
     
     func changeImage(img: String) -> Single<AuthResponse> {
-        return provider.rx.request(.ChangeImage(img: img))
+        return provider.rx.request(.changeImage(img: img))
             .filterSuccessfulStatusCodes()
             .map(AuthResponse.self)
     }
     
     func withdraw() -> Single<WithdrawResponse> {
-        return provider.rx.request(.Withdraw)
+        return provider.rx.request(.withdraw)
             .filterSuccessfulStatusCodes()
             .map(WithdrawResponse.self)
     }

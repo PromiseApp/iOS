@@ -6,9 +6,7 @@ import RxFlow
 class FindPwViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
-    
-    //let loginService: LoginService
-    
+        
     let emailTextRelay = PublishRelay<String>()
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -22,23 +20,16 @@ class FindPwViewModel: Stepper{
     var serverValidationResult = PublishRelay<Bool>()
     
     init(){
+        
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(FindPwStep.popView)
             })
             .disposed(by: disposeBag)
         
-        
-        
-        serverValidationResult
-            .subscribe(onNext: {[weak self] isValid in
-                if(isValid){
-                    self?.steps.accept(FindPwStep.confirmEmailAuth)
-                }
-                if !isValid {
-                    self?.steps.accept(FindPwStep.confirmEmailAuth)
-                }
-                
+        nextButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(FindPwStep.confirmEmailAuth)
             })
             .disposed(by: disposeBag)
     }

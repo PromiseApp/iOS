@@ -1,4 +1,5 @@
 import UIKit
+import RealmSwift
 import RxSwift
 import RxCocoa
 import Photos
@@ -70,7 +71,16 @@ class LimitedViewController: UIViewController {
                     self?.limitedViewModel.selectedPhoto.onNext(image)
                     if let imageData = image.pngData() {
                         let base64String = imageData.base64EncodedString()
-                        UserSession.shared.image = base64String
+                        do {
+                            let realm = try Realm()
+                            try realm.write {
+                                if let user = realm.objects(User.self).first {
+                                    user.image = base64String
+                                }
+                            }
+                        } catch {
+                            print("Error updating image in Realm: \(error)")
+                        }
                     }
                     self?.limitedViewModel.itemSelected.accept(())
                 }

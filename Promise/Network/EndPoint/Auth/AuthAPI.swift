@@ -6,10 +6,11 @@ enum AuthAPI {
     case login(account: String, password: String)
     case duplicateCheckAccount(account: String)
     case duplicateCheckNickname(nickname: String)
-    case ChangePassword(password: String)
-    case ChangeNickname(nickname: String)
-    case ChangeImage(img: String)
-    case Withdraw
+    case postEmail(account: String)
+    case changePassword(password: String)
+    case changeNickname(nickname: String)
+    case changeImage(img: String)
+    case withdraw
 }
 
 extension AuthAPI: TargetType {
@@ -28,13 +29,15 @@ extension AuthAPI: TargetType {
             return "/\(nickname)/exists/nickname"
         case .duplicateCheckAccount(let account):
             return "/\(account)/exists/account"
-        case .ChangePassword:
+        case .postEmail:
+            return "/verify-code"
+        case .changePassword:
             return "/member/update-profile"
-        case .ChangeNickname:
+        case .changeNickname:
             return "/member/update-profile"
-        case .ChangeImage:
+        case .changeImage:
             return "/member/update-profile"
-        case .Withdraw:
+        case .withdraw:
             return "/member/withdraw"
         }
     }
@@ -49,13 +52,15 @@ extension AuthAPI: TargetType {
             return .get
         case .duplicateCheckAccount:
             return .get
-        case .ChangePassword:
+        case .postEmail:
+            return .post
+        case .changePassword:
             return .patch
-        case .ChangeNickname:
+        case .changeNickname:
             return .patch
-        case .ChangeImage:
+        case .changeImage:
             return .patch
-        case .Withdraw:
+        case .withdraw:
             return .delete
         }
     }
@@ -81,29 +86,33 @@ extension AuthAPI: TargetType {
             return .requestPlain
         case .duplicateCheckAccount:
             return .requestPlain
-        case .ChangePassword(let password):
+        case .postEmail(let account):
+            return .requestParameters(parameters: ["account": account], encoding: JSONEncoding.default)
+        case .changePassword(let password):
             let parameters = [
                 "password": password
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .ChangeNickname(let nickname):
+        case .changeNickname(let nickname):
             let parameters = [
                 "nickname": nickname
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .ChangeImage(let img):
+        case .changeImage(let img):
             let parameters = [
                 "img": img
             ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .Withdraw:
+        case .withdraw:
             return .requestPlain
         }
     }
     
     var headers: [String: String]? {
         var headers = ["Content-Type": "application/json"]
-        headers["Authorization"] = "Bearer \(UserSession.shared.token)"
+        if let user = DatabaseManager.shared.fetchUser(){
+            headers["Authorization"] = "Bearer \(user.token)"
+        }
         return headers
     }
     

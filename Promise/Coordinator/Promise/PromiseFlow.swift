@@ -69,7 +69,7 @@ class PromiseFlow: Flow {
     
     private func navigateToMakePromise() -> FlowContributors {
         self.shareVM = ShareFriendViewModel(friendService: FriendService())
-        let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService)
+        let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService, currentFlow: .promiseFlow)
         let VC = MakePromiseViewController(makePromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -78,7 +78,7 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToSelectFriend() -> FlowContributors {
-        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVM!)
+        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVM!, currentFlow: .promiseFlow)
         let VC = SelectFriendViewController(selectFriendViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -118,7 +118,7 @@ class PromiseFlow: Flow {
     
     private func navigateToSelectFriendForModify() -> FlowContributors {
         
-        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVMForModify!)
+        let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVMForModify!, currentFlow: .promiseFlow)
         let VC = SelectFriendViewController(selectFriendViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

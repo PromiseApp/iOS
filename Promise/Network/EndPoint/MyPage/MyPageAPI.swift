@@ -85,9 +85,10 @@ extension MyPageAPI: TargetType {
     
     var headers: [String: String]? {
         var headers = ["Content-Type": "application/json"]
-        headers["Authorization"] = "Bearer \(UserSession.shared.token)"
+        if let user = DatabaseManager.shared.fetchUser(){
+            headers["Authorization"] = "Bearer \(user.token)"
+        }
         return headers
-        
     }
     
 }

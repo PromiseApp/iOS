@@ -11,6 +11,8 @@ class MyPageFlow: Flow {
     let myPageService = MyPageService()
     let authService = AuthService()
     
+    let user = DatabaseManager.shared.fetchUser()
+    
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
     }
@@ -86,7 +88,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToAnnouncement() -> FlowContributors {
-        let VM = AnnouncementViewModel(myPageService: myPageService, role: UserSession.shared.role)
+        let VM = AnnouncementViewModel(myPageService: myPageService, role: user!.role)
         let VC = AnnouncementViewController(announcementViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -94,7 +96,7 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToInquiryList() -> FlowContributors {
-        let VM = InquiryViewModel(myPageService: myPageService, role: UserSession.shared.role)
+        let VM = InquiryViewModel(myPageService: myPageService, role: user!.role)
         let VC = InquiryViewController(inquiryViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -109,17 +111,18 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToDetailInquiry( inquiryId: String) -> FlowContributors {
-        let VM = DetailInquiryViewModel(myPageService: myPageService, role: UserSession.shared.role, inquiryId: inquiryId)
+        let VM = DetailInquiryViewModel(myPageService: myPageService, role: user!.role, inquiryId: inquiryId)
         let VC = DetailInquiryViewController(detailInquiryViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func presentWithdrawPopup() -> FlowContributors {
-        let VC = WithdrawPopupViewController()
+        let VM = WithdrawPopupViewModel(authService: authService)
+        let VC = WithdrawPopupViewController(withdrawPopupViewModel: VM)
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
-        return .none
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func presentNetworkErrorPopup() -> FlowContributors {
@@ -129,13 +132,13 @@ class MyPageFlow: Flow {
         return .none
     }
     
-    private func dismissViewController() -> FlowContributors {
-        rootViewController.dismiss(animated: true)
+    private func popViewController() -> FlowContributors {
+        rootViewController.popViewController(animated: true)
         return .none
     }
     
-    private func popViewController() -> FlowContributors {
-        rootViewController.popViewController(animated: true)
+    private func dismissViewController() -> FlowContributors {
+        rootViewController.dismiss(animated: false)
         return .none
     }
     

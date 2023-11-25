@@ -13,7 +13,7 @@ class TabBarViewModel: Stepper {
     init(){
         plusButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.makePromise)
+                self?.steps.accept(TabBarStep.makePromise)
             })
             .disposed(by: disposeBag)
     }

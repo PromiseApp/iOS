@@ -16,3 +16,8 @@ enum PromiseStep: Step {
     case popView
     case dismissView
 }
+
+enum PromiseFlowType {
+    case tabBarFlow
+    case promiseFlow
+}

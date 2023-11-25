@@ -1,8 +1,56 @@
-//
-//  WithdrawPopupViewModel.swift
-//  Promise
-//
-//  Created by 박중선 on 2023/11/24.
-//
+import RxSwift
+import RealmSwift
+import RxCocoa
+import RxFlow
 
-import Foundation
+class WithdrawPopupViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
+    
+    let authService: AuthService
+    
+    let nicknameTextRelay = PublishRelay<String>()
+    
+    let cancelButtonTapped = PublishRelay<Void>()
+    let okButtonTapped = PublishRelay<Void>()
+    let requestSuccessRelay = PublishRelay<String>()
+    
+    init(authService: AuthService) {
+        self.authService = authService
+        
+        cancelButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(MyPageStep.dismissView)
+            })
+            .disposed(by: disposeBag)
+        
+        okButtonTapped
+            .flatMapLatest { [weak self] () -> Observable<Void> in
+                guard let self = self else { return Observable.empty() }
+
+                return self.authService.withdraw()
+                    .asObservable()
+                    .map{_ in Void()}
+                    .catch { [weak self] error in
+                        print(error)
+                        self?.steps.accept(MyPageStep.networkErrorPopup)
+                        return Observable.empty()
+                    }
+
+            }
+            .subscribe(onNext: { [weak self] in
+                do {
+                    let realm = try Realm()
+                    try realm.write {
+                        realm.deleteAll()
+                    }
+                } catch {
+                    print("Error clearing Realm data: \(error)")
+                }
+                self?.steps.accept(MyPageStep.dismissView)
+                self?.steps.accept(MyPageStep.logoutCompleted)
+            })
+            .disposed(by: disposeBag)
+        
+    }
+}

@@ -80,13 +80,13 @@ class FindPwFlow: Flow {
         return .none
     }
     
-    private func dismissViewController() -> FlowContributors {
-        rootViewController.dismiss(animated: true)
+    private func popViewController() -> FlowContributors {
+        rootViewController.popViewController(animated: true)
         return .none
     }
     
-    private func popViewController() -> FlowContributors {
-        rootViewController.popViewController(animated: true)
+    private func dismissViewController() -> FlowContributors {
+        rootViewController.dismiss(animated: false)
         return .none
     }
     

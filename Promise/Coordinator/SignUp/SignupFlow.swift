@@ -104,7 +104,7 @@ class SignupFlow: Flow {
     }
     
     private func dismissViewController() -> FlowContributors {
-        rootViewController.dismiss(animated: true)
+        rootViewController.dismiss(animated: false)
         return .none
     }
     

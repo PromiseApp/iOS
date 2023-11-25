@@ -6,12 +6,22 @@ import Then
 
 class WithdrawPopupViewController: UIViewController {
     let disposeBag = DisposeBag()
+    let withdrawPopupViewModel: WithdrawPopupViewModel
     
     let popupView = UIView()
     let titleLabel = UILabel()
     let descLabel = UILabel()
     let cancelButton = UIButton()
     let okButton = UIButton()
+    
+    init(withdrawPopupViewModel: WithdrawPopupViewModel) {
+        self.withdrawPopupViewModel = withdrawPopupViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,16 +32,12 @@ class WithdrawPopupViewController: UIViewController {
     
     private func bind(){
         cancelButton.rx.tap
-          .bind { [weak self] in
-              self?.dismiss(animated: false)
-          }
-          .disposed(by: disposeBag)
+            .bind(to: withdrawPopupViewModel.cancelButtonTapped)
+            .disposed(by: disposeBag)
         
         okButton.rx.tap
-          .bind { [weak self] in
-              self?.dismiss(animated: false)
-          }
-          .disposed(by: disposeBag)
+            .bind(to: withdrawPopupViewModel.okButtonTapped)
+            .disposed(by: disposeBag)
     }
     
     private func attribute(){

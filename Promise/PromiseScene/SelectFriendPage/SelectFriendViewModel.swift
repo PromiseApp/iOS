@@ -5,8 +5,10 @@ import RxFlow
 
 class SelectFriendViewModel: Stepper{
     let disposeBag = DisposeBag()
-    var shareFriendViewModel: ShareFriendViewModel
     let steps = PublishRelay<Step>()
+    
+    var shareFriendViewModel: ShareFriendViewModel
+    let currentFlow: PromiseFlowType
     
     var allFriends: [Friend] = []
     
@@ -21,21 +23,35 @@ class SelectFriendViewModel: Stepper{
             }
     }
     
-    init(shareFriendViewModel: ShareFriendViewModel) {
+    init(shareFriendViewModel: ShareFriendViewModel, currentFlow: PromiseFlowType) {
         self.shareFriendViewModel = shareFriendViewModel
+        self.currentFlow = currentFlow
         self.allFriends = shareFriendViewModel.friendsRelay.value
-        //self.shareFriendViewModel.loadFriendList()
         
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.popView)
+                switch self?.currentFlow{
+                case .tabBarFlow:
+                    self?.steps.accept(TabBarStep.popView)
+                case .promiseFlow:
+                    self?.steps.accept(PromiseStep.popView)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
         
         nextButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.popView)
+                switch self?.currentFlow{
+                case .tabBarFlow:
+                    self?.steps.accept(TabBarStep.popView)
+                case .promiseFlow:
+                    self?.steps.accept(PromiseStep.popView)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
     }

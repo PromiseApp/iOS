@@ -7,8 +7,10 @@ import RxFlow
 class MakePromiseViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
-    var shareFriendViewModel:ShareFriendViewModel
+    
+    var shareFriendViewModel: ShareFriendViewModel
     var promiseService: PromiseService
+    let currentFlow: PromiseFlowType
     
     let leftButtonTapped = PublishRelay<Void>()
     let addFriendButtonTapped = PublishRelay<Void>()
@@ -32,9 +34,10 @@ class MakePromiseViewModel: Stepper{
     
     let isNextButtonEnabled: Observable<Bool>
     
-    init(shareFriendViewModel: ShareFriendViewModel, promiseService: PromiseService) {
+    init(shareFriendViewModel: ShareFriendViewModel, promiseService: PromiseService, currentFlow: PromiseFlowType) {
         self.shareFriendViewModel = shareFriendViewModel
         self.promiseService = promiseService
+        self.currentFlow = currentFlow
         
         titleRelay
             .map { $0.count }
@@ -84,13 +87,27 @@ class MakePromiseViewModel: Stepper{
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.popView)
+                switch self?.currentFlow{
+                case .tabBarFlow:
+                    self?.steps.accept(TabBarStep.popView)
+                case .promiseFlow:
+                    self?.steps.accept(PromiseStep.popView)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
         
         addFriendButtonTapped
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.selectFriend)
+                switch self?.currentFlow{
+                case .tabBarFlow:
+                    self?.steps.accept(TabBarStep.selectFriend)
+                case .promiseFlow:
+                    self?.steps.accept(PromiseStep.selectFriend)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
         
@@ -119,7 +136,14 @@ class MakePromiseViewModel: Stepper{
                 return Observable.empty()
             }
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.popView)
+                switch self?.currentFlow{
+                case .tabBarFlow:
+                    self?.steps.accept(TabBarStep.popView)
+                case .promiseFlow:
+                    self?.steps.accept(PromiseStep.popView)
+                case .none:
+                    break
+                }
             })
             .disposed(by: disposeBag)
     }
