@@ -19,7 +19,7 @@ enum PromiseAPI {
 extension PromiseAPI: TargetType {
 
     var baseURL: URL {
-        return URL(string: "http://localhost:8080")!
+        return URL(string: "http://43.200.141.247:8080")!
     }
     
     var path: String {
