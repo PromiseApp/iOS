@@ -25,13 +25,13 @@ class InquiryViewController: UIViewController {
     let secStateLabel = UILabel()
     let stateCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.itemSize = CGSize(width: 117*Constants.standardWidth, height: 32*Constants.standardHeight)
+        $0.itemSize = CGSize(width: 117*Constants.standardWidth, height: 30*Constants.standardHeight)
         $0.minimumLineSpacing = 0
     })
     let secPeriodLabel = UILabel()
     let periodCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout().then {
         $0.scrollDirection = .horizontal
-        $0.itemSize = CGSize(width: 87.75*Constants.standardWidth, height: 32*Constants.standardHeight)
+        $0.itemSize = CGSize(width: 87.75*Constants.standardWidth, height: 30*Constants.standardHeight)
         $0.minimumLineSpacing = 0
     })
     lazy var inquiryTableView = UITableView()

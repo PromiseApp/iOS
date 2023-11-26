@@ -5,9 +5,11 @@ import Then
 import SnapKit
 
 class MakePromiseViewController: UIViewController {
+    
     let disposeBag = DisposeBag()
     var makePromiseViewModel:MakePromiseViewModel
     
+    let aaView = UIView()
     let titleLabel = UILabel()
     let leftButton = UIButton()
     let separateView = UIView()
@@ -40,6 +42,11 @@ class MakePromiseViewController: UIViewController {
     lazy var memoLengthLabel = UILabel()
     let nextButton = UIButton()
     
+    var activeTextField: UITextField?
+    var activeTextView: UITextView?
+    var keyboardHeight = 0.0
+    var zz = false
+    
     let years = Array(2000...2100)
     let months = Array(1...12)
     let days = Array(1...31)
@@ -50,17 +57,61 @@ class MakePromiseViewController: UIViewController {
         self.makePromiseViewModel = makePromiseViewModel
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
-        super.viewDidLoad()        
-
+        super.viewDidLoad()
+        hideKeyboardWhenTappedAround(disposeBag: disposeBag)
+        
         bind()
         attribute()
         layout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        addKeyboardNotifications()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeKeyboardNotifications()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        if(zz){
+            self.aaView.frame.origin.y = -keyboardHeight
+        }
+    }
+    
+    func addKeyboardNotifications(){
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    func removeKeyboardNotifications(){
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc func keyboardWillShow(_ noti: NSNotification) {
+        if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+           let activeField = activeTextField ?? activeTextView {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            UIView.animate(withDuration: 0.3) {
+                self.keyboardHeight = keyboardHeight
+                self.zz = true
+                self.aaView.frame.origin.y = -keyboardHeight
+            }
+        }
+    }
+    
+    @objc func keyboardWillHide(_ noti: NSNotification) {
+        self.aaView.frame.origin.y = 0
+        zz = false
     }
     
     private func bind(){
@@ -162,70 +213,70 @@ class MakePromiseViewController: UIViewController {
         makePromiseViewModel.dateRelay
             .map { "\($0.year)년 \($0.month)월 \($0.day)일" }
             .do(onNext: { [weak self] _ in
-                    self?.dateButton.setTitleColor(.black, for: .normal)
-                })
-            .bind(to: dateButton.rx.title(for: .normal))
-            .disposed(by: disposeBag)
-
-        timeButton.rx.tap
-            .subscribe(onNext: { [weak self] in
-                self?.showTimePicker()
+                self?.dateButton.setTitleColor(.black, for: .normal)
             })
-            .disposed(by: disposeBag)
-        
-        makePromiseViewModel.isDateBeforeCurrent
-            .drive(onNext: { [weak self] bool in
-                self?.firstConditionImageView.isHidden = !bool
-                self?.firstConditionLabel.isHidden = !bool
-            })
-            .disposed(by: disposeBag)
+                .bind(to: dateButton.rx.title(for: .normal))
+                .disposed(by: disposeBag)
                 
-        makePromiseViewModel.timeRelay
-            .map { String(format: "%02d:%02d", $0.hour, $0.minute) }
-            .do(onNext: { [weak self] _ in
-                self?.timeButton.setTitleColor(.black, for: .normal)
-            })
-            .bind(to: timeButton.rx.title(for: .normal))
-            .disposed(by: disposeBag)
+                timeButton.rx.tap
+                .subscribe(onNext: { [weak self] in
+                    self?.showTimePicker()
+                })
+                .disposed(by: disposeBag)
+                
+                makePromiseViewModel.isDateBeforeCurrent
+                .drive(onNext: { [weak self] bool in
+                    self?.firstConditionImageView.isHidden = !bool
+                    self?.firstConditionLabel.isHidden = !bool
+                })
+                .disposed(by: disposeBag)
+                
+                makePromiseViewModel.timeRelay
+                .map { String(format: "%02d:%02d", $0.hour, $0.minute) }
+                .do(onNext: { [weak self] _ in
+                    self?.timeButton.setTitleColor(.black, for: .normal)
+                })
+                    .bind(to: timeButton.rx.title(for: .normal))
+                    .disposed(by: disposeBag)
                     
-        addFriendButton.rx.tap
-            .bind(to: makePromiseViewModel.addFriendButtonTapped)
-            .disposed(by: disposeBag)
+                    addFriendButton.rx.tap
+                    .bind(to: makePromiseViewModel.addFriendButtonTapped)
+                    .disposed(by: disposeBag)
                     
-        secAddFriendButton.rx.tap
-            .bind(to: makePromiseViewModel.addFriendButtonTapped)
-            .disposed(by: disposeBag)
-
-        
-        makePromiseViewModel.selectedFriendDatas
-            .drive(onNext: { [weak self] friends in
-                if friends.isEmpty{
-                    self?.collectionView.isHidden = true
-                    self?.addFriendButton.isHidden = false
-                    self?.secAddFriendButton.isHidden = true
-                }
-                else{
-                    self?.collectionView.isHidden = false
-                    self?.addFriendButton.isHidden = true
-                    self?.secAddFriendButton.isHidden = false
-                }
-            })
-            .disposed(by: disposeBag)
-
-        
-        makePromiseViewModel.selectedFriendDatas
-            .drive(collectionView.rx.items(cellIdentifier: "FriendCollectionViewCell", cellType: FriendCollectionViewCell.self)) { row, friend, cell in
-                cell.configure(with: friend)
-                cell.deleteButton.rx.tap
-                    .subscribe(onNext: { [weak self] in
-                        self?.makePromiseViewModel.toggleSelection(friend: friend)
+                    secAddFriendButton.rx.tap
+                    .bind(to: makePromiseViewModel.addFriendButtonTapped)
+                    .disposed(by: disposeBag)
+                    
+                    
+                    makePromiseViewModel.selectedFriendDatas
+                    .drive(onNext: { [weak self] friends in
+                        if friends.isEmpty{
+                            self?.collectionView.isHidden = true
+                            self?.addFriendButton.isHidden = false
+                            self?.secAddFriendButton.isHidden = true
+                        }
+                        else{
+                            self?.collectionView.isHidden = false
+                            self?.addFriendButton.isHidden = true
+                            self?.secAddFriendButton.isHidden = false
+                        }
                     })
-                    .disposed(by: cell.disposeBag)
-
-            }
-            .disposed(by: disposeBag)
-
-      
+                    .disposed(by: disposeBag)
+                    
+                    
+                    makePromiseViewModel.selectedFriendDatas
+                    .drive(collectionView.rx.items(cellIdentifier: "FriendCollectionViewCell", cellType: FriendCollectionViewCell.self)) { row, friend, cell in
+                        cell.configure(with: friend)
+                        cell.deleteButton.rx.tap
+                            .subscribe(onNext: { [weak self] in
+                                self?.makePromiseViewModel.toggleSelection(friend: friend)
+                            })
+                            .disposed(by: cell.disposeBag)
+                        
+                    }
+                    .disposed(by: disposeBag)
+        
+        
         makePromiseViewModel.isNextButtonEnabled
             .subscribe(onNext: { [weak self] bool in
                 if(bool){
@@ -238,7 +289,7 @@ class MakePromiseViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-
+        
         
         
     }
@@ -384,6 +435,7 @@ class MakePromiseViewController: UIViewController {
             $0.placeholder = "벌칙을 정해보세요"
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.addLeftPadding(width: 12*Constants.standardWidth)
+            $0.delegate = self
         }
         
         secondConditionLabel.do{
@@ -404,11 +456,11 @@ class MakePromiseViewController: UIViewController {
             $0.layer.borderWidth = 1
             $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 4 * Constants.standardHeight
-            $0.delegate = self
             $0.text = "중요한 내용을 메모해두세요"
             $0.textColor = UIColor(named: "line")
             $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.addLeftPadding(width: 12*Constants.standardWidth)
+            $0.delegate = self
         }
         
         thirdConditionLabel.do{
@@ -437,11 +489,15 @@ class MakePromiseViewController: UIViewController {
     }
     
     private func layout(){
+        view.addSubview(aaView)
+        aaView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         [titleLabel,leftButton,separateView,nextButton]
-            .forEach{ view.addSubview($0) }
+            .forEach{ aaView.addSubview($0) }
         
         [promiseTitleLabel,promiseTitleTextField,promiseTitleLengthLabel,scheduleLabel,dateButton,timeButton,firstConditionImageView,firstConditionLabel,friendLabel,addFriendButton,secAddFriendButton,collectionView,placeLabel,placeTextField,placeLengthLabel,penaltyLabel,penaltyTextField,penaltyLengthLabel,secondConditionLabel,memoLabel,memoTextView,memoLengthLabel,thirdConditionLabel]
-            .forEach{ view.addSubview($0) }
+            .forEach{ aaView.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -644,7 +700,7 @@ class MakePromiseViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-
+    
     private func showTimePicker() {
         let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
         let picker = UIPickerView()
@@ -678,8 +734,18 @@ class MakePromiseViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-
     
+    
+}
+
+extension MakePromiseViewController: UITextFieldDelegate{
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        activeTextField = textField
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        activeTextField = nil
+    }
 }
 
 extension MakePromiseViewController: UITextViewDelegate{
@@ -688,6 +754,7 @@ extension MakePromiseViewController: UITextViewDelegate{
             textView.text = nil
             textView.textColor = UIColor.black
         }
+        activeTextView = textView
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -695,8 +762,11 @@ extension MakePromiseViewController: UITextViewDelegate{
             textView.text = "중요한 내용을 메모해두세요"
             textView.textColor = UIColor(named: "line")
         }
+        activeTextView = nil
     }
 }
+
+
 
 extension MakePromiseViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -707,7 +777,7 @@ extension MakePromiseViewController: UIPickerViewDelegate, UIPickerViewDataSourc
             return 2
         }
     }
-
+    
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView.tag == 0 {
             switch component {
@@ -731,7 +801,7 @@ extension MakePromiseViewController: UIPickerViewDelegate, UIPickerViewDataSourc
             }
         }
     }
-
+    
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView.tag == 0 {
             switch component {
@@ -756,34 +826,3 @@ extension MakePromiseViewController: UIPickerViewDelegate, UIPickerViewDataSourc
         }
     }
 }
-
-
-
-//#if DEBUG
-//import SwiftUI
-//struct Preview: UIViewControllerRepresentable {
-//
-//    // 여기 ViewController를 변경해주세요
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
-//    }
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//    }
-//}
-//
-//struct ViewController_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
-//
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
-//
-//    }
-//}
-//#endif

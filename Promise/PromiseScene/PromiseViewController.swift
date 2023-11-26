@@ -54,21 +54,6 @@ class PromiseViewController: UIViewController {
         self.promiseViewModel.loadLevelExp()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
-        if let tabBarVC = self.tabBarController {
-            tabBarHeight = tabBarVC.tabBar.frame.size.height
-            newPromiseButton.snp.makeConstraints { make in
-                make.width.equalTo(100*Constants.standardWidth)
-                make.height.equalTo(32*Constants.standardHeight)
-                make.centerX.equalToSuperview()
-                make.bottom.equalToSuperview().offset(-(tabBarHeight+12)*Constants.standardHeight)
-            }
-
-        }
-    }
-    
     private func bind(){
         
         promiseViewModel.yearAndMonth
@@ -361,6 +346,12 @@ class PromiseViewController: UIViewController {
             make.top.equalTo(thirdSeparateView.snp.bottom).offset(12*Constants.standardHeight)
         }
         
+        newPromiseButton.snp.makeConstraints { make in
+            make.width.equalTo(100*Constants.standardWidth)
+            make.height.equalTo(32*Constants.standardHeight)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-12*Constants.standardHeight)
+        }
         
     }
     

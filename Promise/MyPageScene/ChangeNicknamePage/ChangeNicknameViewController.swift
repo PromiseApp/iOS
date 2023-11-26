@@ -275,8 +275,6 @@ class ChangeNicknameViewController: UIViewController {
         }
         
     }
-    
-
 
 }
 

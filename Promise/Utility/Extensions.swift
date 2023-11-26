@@ -1,4 +1,5 @@
 import UIKit
+import RxSwift
 
 class DonutProgressView: UIView {
     
@@ -37,7 +38,7 @@ class DonutProgressView: UIView {
         
         updatePath()
     }
-
+    
     
     private func updatePath() {
         let startAngle = deg2rad(120)
@@ -102,23 +103,34 @@ extension UIColor {
 
 extension UIButton {
     func alignTextBelow(spacing: CGFloat) {
-            guard let image = self.imageView?.image else {
-                return
-            }
-
-            guard let titleLabel = self.titleLabel else {
-                return
-            }
-
-            guard let titleText = titleLabel.text else {
-                return
-            }
-
-            let titleSize = titleText.size(withAttributes: [
-                NSAttributedString.Key.font: titleLabel.font as Any
-            ])
-
-            titleEdgeInsets = UIEdgeInsets(top: spacing, left: -image.size.width, bottom: image.size.height+spacing, right: 0)
-            imageEdgeInsets = UIEdgeInsets(top: (titleSize.height + spacing), left: 0, bottom: 0, right: -titleSize.width)
+        guard let image = self.imageView?.image else {
+            return
         }
+        
+        guard let titleLabel = self.titleLabel else {
+            return
+        }
+        
+        guard let titleText = titleLabel.text else {
+            return
+        }
+        
+        let titleSize = titleText.size(withAttributes: [
+            NSAttributedString.Key.font: titleLabel.font as Any
+        ])
+        
+        titleEdgeInsets = UIEdgeInsets(top: spacing, left: -image.size.width, bottom: image.size.height+spacing, right: 0)
+        imageEdgeInsets = UIEdgeInsets(top: (titleSize.height + spacing), left: 0, bottom: 0, right: -titleSize.width)
+    }
+}
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround(disposeBag: DisposeBag) {
+        let tapGesture = UITapGestureRecognizer()
+        view.addGestureRecognizer(tapGesture)
+        
+        tapGesture.rx.event.bind { [unowned self] _ in
+            self.view.endEditing(true)
+        }.disposed(by: disposeBag)
+    }
 }
