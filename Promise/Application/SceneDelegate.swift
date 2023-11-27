@@ -25,7 +25,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         //print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)
         
-        
     }
     
     func checkImageAuth(){

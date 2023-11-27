@@ -67,8 +67,8 @@
 		317688D52B121B5300C266FE /* PolicyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688D42B121B5300C266FE /* PolicyViewController.swift */; };
 		317688DB2B13325100C266FE /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688D72B13325100C266FE /* Pretendard-Regular.otf */; };
 		317688DC2B13325100C266FE /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688D82B13325100C266FE /* Pretendard-Medium.otf */; };
-		317688DD2B13325100C266FE /* Sriracha-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 317688D92B13325100C266FE /* Sriracha-Regular.ttf */; };
-		317688DE2B13325100C266FE /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688DA2B13325100C266FE /* Pretendard-SemiBold.otf */; };
+		317688E02B1374DE00C266FE /* Sriracha-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688DF2B1374DE00C266FE /* Sriracha-Regular.otf */; };
+		317688EB2B14977700C266FE /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688EA2B14977600C266FE /* Pretendard-SemiBold.otf */; };
 		317C8F632AF25FA0003010BA /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F622AF25FA0003010BA /* InquiryViewController.swift */; };
 		317C8F652AF25FAF003010BA /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F642AF25FAF003010BA /* InquiryViewModel.swift */; };
 		317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F692AF2674C003010BA /* InquiryHeaderView.swift */; };
@@ -217,8 +217,8 @@
 		317688D42B121B5300C266FE /* PolicyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PolicyViewController.swift; sourceTree = "<group>"; };
 		317688D72B13325100C266FE /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		317688D82B13325100C266FE /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
-		317688D92B13325100C266FE /* Sriracha-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Sriracha-Regular.ttf"; sourceTree = "<group>"; };
-		317688DA2B13325100C266FE /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		317688DF2B1374DE00C266FE /* Sriracha-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Sriracha-Regular.otf"; path = "Promise/Resource/FontStyle/Sriracha-Regular.otf"; sourceTree = SOURCE_ROOT; };
+		317688EA2B14977600C266FE /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Pretendard-SemiBold.otf"; path = "Promise/Resource/FontStyle/Pretendard-SemiBold.otf"; sourceTree = SOURCE_ROOT; };
 		317C8F622AF25FA0003010BA /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		317C8F642AF25FAF003010BA /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		317C8F692AF2674C003010BA /* InquiryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHeaderView.swift; sourceTree = "<group>"; };
@@ -542,10 +542,10 @@
 		317688D62B13325100C266FE /* FontStyle */ = {
 			isa = PBXGroup;
 			children = (
+				317688EA2B14977600C266FE /* Pretendard-SemiBold.otf */,
 				317688D72B13325100C266FE /* Pretendard-Regular.otf */,
+				317688DF2B1374DE00C266FE /* Sriracha-Regular.otf */,
 				317688D82B13325100C266FE /* Pretendard-Medium.otf */,
-				317688D92B13325100C266FE /* Sriracha-Regular.ttf */,
-				317688DA2B13325100C266FE /* Pretendard-SemiBold.otf */,
 			);
 			name = FontStyle;
 			path = ../../../FontStyle;
@@ -1091,8 +1091,8 @@
 				317688DC2B13325100C266FE /* Pretendard-Medium.otf in Resources */,
 				312476AE2AA0588D00D318C7 /* Assets.xcassets in Resources */,
 				317688DB2B13325100C266FE /* Pretendard-Regular.otf in Resources */,
-				317688DD2B13325100C266FE /* Sriracha-Regular.ttf in Resources */,
-				317688DE2B13325100C266FE /* Pretendard-SemiBold.otf in Resources */,
+				317688EB2B14977700C266FE /* Pretendard-SemiBold.otf in Resources */,
+				317688E02B1374DE00C266FE /* Sriracha-Regular.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
