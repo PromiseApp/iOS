@@ -57,7 +57,7 @@
 		317688BB2B0C8A3600C266FE /* ChatFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688BA2B0C8A3600C266FE /* ChatFlow.swift */; };
 		317688BD2B0F219F00C266FE /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688BC2B0F219F00C266FE /* LoadingViewController.swift */; };
 		317688C02B0F23F700C266FE /* LoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688BF2B0F23F700C266FE /* LoadingViewModel.swift */; };
-		317688C22B10482000C266FE /* DeletedPromisePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688C12B10482000C266FE /* DeletedPromisePopupViewController.swift */; };
+		317688C22B10482000C266FE /* ErrorDeletedPromisePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688C12B10482000C266FE /* ErrorDeletedPromisePopupViewController.swift */; };
 		317688C52B106E1D00C266FE /* WithdrawPopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688C42B106E1D00C266FE /* WithdrawPopupViewModel.swift */; };
 		317688CA2B1207A600C266FE /* TabBarStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688C92B1207A600C266FE /* TabBarStep.swift */; };
 		317688CC2B1207B100C266FE /* TabBarFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688CB2B1207B100C266FE /* TabBarFlow.swift */; };
@@ -69,6 +69,8 @@
 		317688F22B14C3A600C266FE /* Pretendard-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688F12B14C3A600C266FE /* Pretendard-Medium.otf */; };
 		317688F42B14C3AB00C266FE /* Pretendard-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688F32B14C3AB00C266FE /* Pretendard-Regular.otf */; };
 		317688F62B14C3B000C266FE /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688F52B14C3B000C266FE /* Pretendard-SemiBold.otf */; };
+		317688FA2B15F44E00C266FE /* DeletePromisePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688F92B15F44E00C266FE /* DeletePromisePopupViewController.swift */; };
+		317688FC2B15F45800C266FE /* DeletePromisePopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688FB2B15F45800C266FE /* DeletePromisePopupViewModel.swift */; };
 		317C8F632AF25FA0003010BA /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F622AF25FA0003010BA /* InquiryViewController.swift */; };
 		317C8F652AF25FAF003010BA /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F642AF25FAF003010BA /* InquiryViewModel.swift */; };
 		317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F692AF2674C003010BA /* InquiryHeaderView.swift */; };
@@ -207,7 +209,7 @@
 		317688BA2B0C8A3600C266FE /* ChatFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatFlow.swift; sourceTree = "<group>"; };
 		317688BC2B0F219F00C266FE /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		317688BF2B0F23F700C266FE /* LoadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewModel.swift; sourceTree = "<group>"; };
-		317688C12B10482000C266FE /* DeletedPromisePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletedPromisePopupViewController.swift; sourceTree = "<group>"; };
+		317688C12B10482000C266FE /* ErrorDeletedPromisePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorDeletedPromisePopupViewController.swift; sourceTree = "<group>"; };
 		317688C42B106E1D00C266FE /* WithdrawPopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawPopupViewModel.swift; sourceTree = "<group>"; };
 		317688C92B1207A600C266FE /* TabBarStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarStep.swift; sourceTree = "<group>"; };
 		317688CB2B1207B100C266FE /* TabBarFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarFlow.swift; sourceTree = "<group>"; };
@@ -219,6 +221,8 @@
 		317688F12B14C3A600C266FE /* Pretendard-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Medium.otf"; sourceTree = "<group>"; };
 		317688F32B14C3AB00C266FE /* Pretendard-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-Regular.otf"; sourceTree = "<group>"; };
 		317688F52B14C3B000C266FE /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
+		317688F92B15F44E00C266FE /* DeletePromisePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePromisePopupViewController.swift; sourceTree = "<group>"; };
+		317688FB2B15F45800C266FE /* DeletePromisePopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePromisePopupViewModel.swift; sourceTree = "<group>"; };
 		317C8F622AF25FA0003010BA /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		317C8F642AF25FAF003010BA /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		317C8F692AF2674C003010BA /* InquiryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHeaderView.swift; sourceTree = "<group>"; };
@@ -467,9 +471,9 @@
 		314F90742B0626FB00312846 /* PromisePopup */ = {
 			isa = PBXGroup;
 			children = (
-				317688C12B10482000C266FE /* DeletedPromisePopupViewController.swift */,
-				314F90752B06272900312846 /* OutPromisePopupViewController.swift */,
-				314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */,
+				317688F82B15F43300C266FE /* DeletePromisePopup */,
+				317688F72B15F3E800C266FE /* OutPromisePopup */,
+				317688C12B10482000C266FE /* ErrorDeletedPromisePopupViewController.swift */,
 			);
 			path = PromisePopup;
 			sourceTree = "<group>";
@@ -548,6 +552,24 @@
 				317688F12B14C3A600C266FE /* Pretendard-Medium.otf */,
 			);
 			path = FontStyle;
+			sourceTree = "<group>";
+		};
+		317688F72B15F3E800C266FE /* OutPromisePopup */ = {
+			isa = PBXGroup;
+			children = (
+				314F90752B06272900312846 /* OutPromisePopupViewController.swift */,
+				314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */,
+			);
+			path = OutPromisePopup;
+			sourceTree = "<group>";
+		};
+		317688F82B15F43300C266FE /* DeletePromisePopup */ = {
+			isa = PBXGroup;
+			children = (
+				317688F92B15F44E00C266FE /* DeletePromisePopupViewController.swift */,
+				317688FB2B15F45800C266FE /* DeletePromisePopupViewModel.swift */,
+			);
+			path = DeletePromisePopup;
 			sourceTree = "<group>";
 		};
 		317C8F612AF25F87003010BA /* InquiryPage */ = {
@@ -1128,6 +1150,7 @@
 				31258F022ACE7F3A004D764C /* PromiseTableViewCell.swift in Sources */,
 				312476C92AA0690500D318C7 /* Extensions.swift in Sources */,
 				317C8F762AF37F02003010BA /* DetailInquiryViewModel.swift in Sources */,
+				317688FA2B15F44E00C266FE /* DeletePromisePopupViewController.swift in Sources */,
 				314F905A2AFE63E000312846 /* RejectFriendPopupViewModel.swift in Sources */,
 				317688AF2B0B4B1D00C266FE /* UserDefaultsKeys.swift in Sources */,
 				317D69D32ADBA48B004CEE5C /* AppStep.swift in Sources */,
@@ -1173,9 +1196,10 @@
 				312476A92AA0588C00D318C7 /* LoginViewController.swift in Sources */,
 				317688D52B121B5300C266FE /* PolicyViewController.swift in Sources */,
 				31F1A0CE2AAD896400B99DC4 /* SignupViewModel.swift in Sources */,
-				317688C22B10482000C266FE /* DeletedPromisePopupViewController.swift in Sources */,
+				317688C22B10482000C266FE /* ErrorDeletedPromisePopupViewController.swift in Sources */,
 				31EF2A802AECD6590082B664 /* PastPromiseViewModel.swift in Sources */,
 				317688CA2B1207A600C266FE /* TabBarStep.swift in Sources */,
+				317688FC2B15F45800C266FE /* DeletePromisePopupViewModel.swift in Sources */,
 				314F90732B03ACA200312846 /* PromiseIDViewModel.swift in Sources */,
 				317C8F742AF37EF9003010BA /* DetailInquiryViewController.swift in Sources */,
 				31F1A0D82AADD22300B99DC4 /* ChangePwViewController.swift in Sources */,

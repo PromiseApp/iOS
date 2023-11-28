@@ -47,7 +47,7 @@ class NewPromiseViewModel: Stepper{
                     .asObservable()
                     .map{ response in
                         if(response.resultCode == "424"){
-                            self.steps.accept(PromiseStep.deletedPromisePopup)
+                            self.steps.accept(PromiseStep.errorDeletedPromisePopup)
                         }
                         return Void()
                     }
@@ -71,7 +71,7 @@ class NewPromiseViewModel: Stepper{
                     .asObservable()
                     .map{ response in
                         if(response.resultCode == "424"){
-                            self.steps.accept(PromiseStep.deletedPromisePopup)
+                            self.steps.accept(PromiseStep.errorDeletedPromisePopup)
                         }
                         return Void()
                     }

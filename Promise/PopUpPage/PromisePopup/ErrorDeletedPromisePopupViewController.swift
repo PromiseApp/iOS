@@ -4,7 +4,7 @@ import RxCocoa
 import SnapKit
 import Then
 
-class DeletedPromisePopupViewController: UIViewController {
+class ErrorDeletedPromisePopupViewController: UIViewController {
     let disposeBag = DisposeBag()
     
     let popupView = UIView()

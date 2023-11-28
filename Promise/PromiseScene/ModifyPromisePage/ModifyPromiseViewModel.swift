@@ -111,21 +111,8 @@ class ModifyPromiseViewModel: Stepper{
             .disposed(by: disposeBag)
         
         deleteButtonTapped
-            .flatMapLatest { [weak self] () -> Observable<Void> in
-                guard let self = self else { return Observable.empty() }
-
-                return self.promiseService.deletePromise(promiseId: promiseId)
-                    .asObservable()
-                    .map{ _ in Void()}
-                    .catch { [weak self] error in
-                        print(error)
-                        self?.steps.accept(PromiseStep.networkErrorPopup)
-                        return Observable.empty()
-                    }
-
-            }
             .subscribe(onNext: { [weak self] in
-                self?.steps.accept(PromiseStep.popView)
+                self?.steps.accept(PromiseStep.deletePromisePopup(promiseId: promiseId))
             })
             .disposed(by: disposeBag)
         

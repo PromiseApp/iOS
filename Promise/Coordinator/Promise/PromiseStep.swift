@@ -11,7 +11,8 @@ enum PromiseStep: Step {
     case modifyPromise(promiseId: String, type: String)
     case selectFriendForModify
     case networkErrorPopup
-    case deletedPromisePopup
+    case errorDeletedPromisePopup
+    case deletePromisePopup(promiseId: String)
     case outPromisePopup(promiseId: String)
     case popView
     case dismissView

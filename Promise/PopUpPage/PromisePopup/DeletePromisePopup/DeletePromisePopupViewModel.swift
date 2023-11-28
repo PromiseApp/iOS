@@ -2,7 +2,7 @@ import RxSwift
 import RxCocoa
 import RxFlow
 
-class OutPromisePopupViewModel: Stepper{
+class DeletePromisePopupViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
@@ -11,8 +11,7 @@ class OutPromisePopupViewModel: Stepper{
     let nicknameTextRelay = PublishRelay<String>()
     
     let cancelButtonTapped = PublishRelay<Void>()
-    let outButtonTapped = PublishRelay<Void>()
-    let requestSuccessRelay = PublishRelay<String>()
+    let deleteButtonTapped = PublishRelay<Void>()
     
     init(promiseService: PromiseService, promiseId: String) {
         self.promiseService = promiseService
@@ -23,13 +22,13 @@ class OutPromisePopupViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
-        outButtonTapped
+        deleteButtonTapped
             .flatMapLatest { [weak self] () -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
 
-                return self.promiseService.outPromise(promiseId: promiseId)
+                return self.promiseService.deletePromise(promiseId: promiseId)
                     .asObservable()
-                    .map{_ in Void()}
+                    .map{ _ in Void()}
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
