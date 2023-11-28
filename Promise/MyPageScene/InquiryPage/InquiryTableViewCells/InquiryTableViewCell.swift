@@ -33,7 +33,7 @@ class InquiryTableViewCell: UITableViewCell {
         
         replyLabel.do{
             $0.font = UIFont(name: "Pretendard-Medium", size: 13*Constants.standartFont)
-            $0.text = "WeMeet이 답변을 남겼습니다:)"
+            $0.text = "PlaMeet이 답변을 남겼습니다:)"
         }
         
         dateLabel.do{

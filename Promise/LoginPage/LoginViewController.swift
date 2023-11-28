@@ -158,7 +158,7 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .white
         
         logoLabel.do{
-            $0.text = "WeMeet"
+            $0.text = "PlaMeet"
             $0.font = UIFont(name: "Sriracha-Regular", size: 48*Constants.standartFont)
             $0.textColor = UIColor(named: "prHeavy")
         }
@@ -258,11 +258,11 @@ class LoginViewController: UIViewController {
         }
         
         tpTextView.do{
-            let fullText = "로그인하면 WeMeet 이용약관 및\n 개인정보처리방침에 동의하는 것으로 간주합니다."
+            let fullText = "로그인하면 PlaMeet 이용약관 및\n 개인정보처리방침에 동의하는 것으로 간주합니다."
             let attributedString = NSMutableAttributedString(string: fullText)
             
-            let weMeetRange = (fullText as NSString).range(of: "WeMeet")
-            attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: weMeetRange)
+            let plaMeetRange = (fullText as NSString).range(of: "PlaMeet")
+            attributedString.addAttribute(.foregroundColor, value: UIColor(named: "prHeavy") ?? .black, range: plaMeetRange)
             
             let termsRange = (fullText as NSString).range(of: "이용약관")
             let privacyPolicyRange = (fullText as NSString).range(of: "개인정보처리방침")

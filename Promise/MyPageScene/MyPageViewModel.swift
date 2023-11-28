@@ -53,7 +53,6 @@ class MyPageViewModel: Stepper{
     func loadUser(){
         if let user = DatabaseManager.shared.fetchUser() {
             emailRelay.accept(user.account)
-            nicknameRelay.accept(user.nickname)
         }
         if let user = DatabaseManager.shared.fetchUser(),
            let imageBase64 = user.image,
@@ -68,6 +67,7 @@ class MyPageViewModel: Stepper{
     func loadLevelExp(){
         self.myPageService.GetExp()
             .subscribe(onSuccess: { [weak self] response in
+                self?.nicknameRelay.accept(response.data.userInfo.nickname)
                 self?.levelRelay.accept(response.data.userInfo.level)
                 self?.expRelay.accept(response.data.userInfo.exp)
             }, onFailure: { [weak self] error in

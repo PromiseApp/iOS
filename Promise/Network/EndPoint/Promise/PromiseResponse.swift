@@ -122,6 +122,7 @@ struct UserExpData: Codable{
 }
 
 struct UserExpInfo: Codable{
+    let nickname: String
     let level: Int
     let exp: Int
 }

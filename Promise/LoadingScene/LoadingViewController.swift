@@ -9,7 +9,7 @@ class LoadingViewController: UIViewController {
     let disposeBag = DisposeBag()
     var loadingViewModel: LoadingViewModel
     
-    let weMeetImageView = UIImageView()
+    let plaMeetImageView = UIImageView()
     
     init(loadingViewModel: LoadingViewModel) {
         self.loadingViewModel = loadingViewModel
@@ -25,13 +25,13 @@ class LoadingViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        weMeetImageView.do{
-            $0.image = UIImage(named: "weMeet")
+        plaMeetImageView.do{
+            $0.image = UIImage(named: "plaMeet")
         }
         
-        view.addSubview(weMeetImageView)
+        view.addSubview(plaMeetImageView)
         
-        weMeetImageView.snp.makeConstraints { make in
+        plaMeetImageView.snp.makeConstraints { make in
             make.width.equalTo(172*Constants.standardWidth)
             make.height.equalTo(55*Constants.standardHeight)
             make.centerX.centerY.equalToSuperview()

@@ -164,7 +164,7 @@ class PromiseViewController: UIViewController {
         view.backgroundColor = .white
         
         logoLabel.do{
-            $0.text = "WeMeet"
+            $0.text = "PlaMeet"
             $0.font = UIFont(name: "Sriracha-Regular", size: 24*Constants.standartFont)
             $0.textColor = UIColor(named: "prStrong")
         }

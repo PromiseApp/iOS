@@ -24,7 +24,6 @@ class LoadingViewModel: Stepper{
             if let user = fetchUserFromRealm() {
                 self.authService.login(account: user.account, password: user.password)
                     .subscribe(onSuccess: { [weak self] response in
-                        print(response)
                         self!.saveUser(account: response.data.userInfo.account, password: user.password , nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
                         self?.steps.accept(AppStep.tabBar)
                     }, onFailure: { [weak self] error in
