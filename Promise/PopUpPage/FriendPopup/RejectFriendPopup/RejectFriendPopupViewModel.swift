@@ -30,13 +30,12 @@ class RejectFriendPopupViewModel: Stepper{
             .disposed(by: disposeBag)
         
         rejectButtonTapped
-            .withLatestFrom(requesterIDRelay)
-            .flatMapLatest { [weak self] requestId -> Observable<Void> in
+            .flatMapLatest { [weak self] () -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                return self.friendService.requestFriendReject(requestId: requestId)
+                return self.friendService.requestFriendReject(requestId: self.requesterID)
                     .asObservable()
                     .map{ _ in
-                        self.rejectFriendSuccessViewModel.requestSuccessRelay.accept(requestId)
+                        self.rejectFriendSuccessViewModel.requestSuccessRelay.accept(self.requesterID)
                         return Void()
                     }
                     .catch { [weak self] error in

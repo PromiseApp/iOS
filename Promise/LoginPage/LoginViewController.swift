@@ -1,3 +1,4 @@
+import AuthenticationServices
 import UIKit
 import RxSwift
 import RxCocoa
@@ -5,7 +6,12 @@ import SnapKit
 import Then
 import RealmSwift
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, ASAuthorizationControllerPresentationContextProviding {
+    
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+    
     let disposeBag = DisposeBag()
     var loginViewModel: LoginViewModel
     
@@ -140,6 +146,23 @@ class LoginViewController: UIViewController {
         
         loginButton.rx.tap
             .bind(to: loginViewModel.loginButtonTapped)
+            .disposed(by: disposeBag)
+        
+        kakaoButton.rx.tap
+            .bind(to: loginViewModel.kakaoButtonTapped)
+            .disposed(by: disposeBag)
+        
+        appleButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                let appleIDProvider = ASAuthorizationAppleIDProvider()
+                let request = appleIDProvider.createRequest()
+                request.requestedScopes = [.fullName, .email]
+                
+                let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+                authorizationController.delegate = self?.loginViewModel
+                authorizationController.presentationContextProvider = self
+                authorizationController.performRequests()
+            })
             .disposed(by: disposeBag)
         
         let tapGesture = UITapGestureRecognizer()

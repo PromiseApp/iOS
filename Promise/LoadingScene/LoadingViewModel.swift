@@ -1,9 +1,14 @@
-import RxSwift
+import KakaoSDKCommon
+import RxKakaoSDKCommon
+import KakaoSDKAuth
+import RxKakaoSDKAuth
+import KakaoSDKUser
+import RxKakaoSDKUser
+import AuthenticationServices
 import Foundation
+import RxSwift
 import Moya
 import RxCocoa
-import Alamofire
-import RxAlamofire
 import RxFlow
 import RealmSwift
 
@@ -15,7 +20,50 @@ class LoadingViewModel: Stepper{
     
     init(authService: AuthService){
         self.authService = authService
-        
+        //self.kakaoAutoLogin()
+        //self.appleAutoLogin()
+    }
+    
+    func kakaoAutoLogin(){
+        if (AuthApi.hasToken()) {
+            UserApi.shared.rx.accessTokenInfo()
+                .subscribe(onSuccess:{ (response) in
+                    print("response : \(response)")
+                }, onFailure: {error in
+                    if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
+                        //로그인 필요
+                        print("토큰있지만 로그인 필요")
+                    }
+                    else {
+                        //기타 에러
+                        print("기타 에러")
+                    }
+                })
+                .disposed(by: disposeBag)
+        }
+        else {
+            //로그인 필요
+            print("토큰없고 로그인 필요")
+        }
+    }
+    
+    func appleAutoLogin(){
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        appleIDProvider.getCredentialState(forUserID: "000682.1063e74443af4d23a9c48787015606a8.0749") { (credentialState, error) in
+            switch credentialState {
+            case .authorized:
+                print("authorized")
+                // The Apple ID credential is valid.
+            case .revoked:
+                print("revoked")
+            case .notFound:
+                // The Apple ID credential is either revoked or was not found, so show the sign-in UI.
+                print("notFound")
+                
+            default:
+                break
+            }
+        }
     }
     
     func autoLogin() {

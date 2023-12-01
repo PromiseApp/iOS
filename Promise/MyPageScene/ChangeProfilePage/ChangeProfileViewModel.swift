@@ -1,4 +1,5 @@
 import UIKit
+import KakaoSDKUser
 import RealmSwift
 import RxSwift
 import RxCocoa
@@ -54,15 +55,8 @@ class ChangeProfileViewModel: Stepper{
         
         logoutButtonTapped
             .subscribe(onNext: { [weak self] in
-                do {
-                    let realm = try Realm()
-                    try realm.write {
-                        realm.deleteAll()
-                    }
-                } catch {
-                    print("Error clearing Realm data: \(error)")
-                }
-                self?.steps.accept(MyPageStep.logoutCompleted)
+                //self?.kakaoLogout()
+                self?.normalLogout()
             })
             .disposed(by: disposeBag)
         
@@ -103,6 +97,32 @@ class ChangeProfileViewModel: Stepper{
                 
             })
             .disposed(by: disposeBag)
+        
+    }
+    
+    func normalLogout(){
+        do {
+            let realm = try Realm()
+            try realm.write {
+                realm.deleteAll()
+            }
+        } catch {
+            print("Error clearing Realm data: \(error)")
+        }
+        self.steps.accept(MyPageStep.logoutCompleted)
+    }
+    
+    func kakaoLogout(){
+        UserApi.shared.rx.logout()
+            .subscribe(onCompleted:{
+                print("logout() success.")
+            }, onError: {error in
+                print(error)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func appleLogout(){
         
     }
     

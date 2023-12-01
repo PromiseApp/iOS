@@ -77,7 +77,8 @@ class NicknameViewModel: Stepper{
             .flatMapLatest { [weak self] nickname in
                 return self?.authService.changeNickname(nickname: nickname)
                     .asObservable()
-                    .map{ _ in
+                    .map{ response in
+                        print(response)
                         do {
                             let realm = try Realm()
                             try realm.write {

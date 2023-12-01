@@ -25,6 +25,8 @@ class TabBarFlow: Flow {
             return navigateToSelectFriend()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
+        case .popRootView:
+            return popRootViewController()
         case .popView:
             return popViewController()
         }
@@ -44,16 +46,6 @@ class TabBarFlow: Flow {
         return .none
     }
     
-//    private func navigateToMakePromise() -> FlowContributors {
-//        self.shareVM = ShareFriendViewModel(friendService: FriendService())
-//        let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService, currentFlow: .promiseFlow)
-//        let VC = MakePromiseViewController(makePromiseViewModel: VM)
-//        VC.hidesBottomBarWhenPushed = true
-//        rootViewController.pushViewController(VC, animated: true)
-//
-//        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
-//    }
-    
     private func navigateToSelectFriend() -> FlowContributors {
         let VM = SelectFriendViewModel(shareFriendViewModel: self.shareVM!, currentFlow: .tabBarFlow)
         let VC = SelectFriendViewController(selectFriendViewModel: VM)
@@ -68,9 +60,10 @@ class TabBarFlow: Flow {
         return .none
     }
     
-    private func popViewController() -> FlowContributors {
+    private func popRootViewController() -> FlowContributors {
         if let tabBarController = rootViewController.viewControllers.first as? UITabBarController,
            let currentNavController = tabBarController.selectedViewController as? UINavigationController {
+            print(currentNavController)
             currentNavController.popViewController(animated: true)
             
             return .none
@@ -78,4 +71,10 @@ class TabBarFlow: Flow {
         return .none
         
     }
+    
+    private func popViewController() -> FlowContributors {
+        rootViewController.popViewController(animated: true)
+        return .none
+    }
+    
 }

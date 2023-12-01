@@ -71,6 +71,7 @@
 		317688F62B14C3B000C266FE /* Pretendard-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 317688F52B14C3B000C266FE /* Pretendard-SemiBold.otf */; };
 		317688FA2B15F44E00C266FE /* DeletePromisePopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688F92B15F44E00C266FE /* DeletePromisePopupViewController.swift */; };
 		317688FC2B15F45800C266FE /* DeletePromisePopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688FB2B15F45800C266FE /* DeletePromisePopupViewModel.swift */; };
+		317689022B170AF200C266FE /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 317689012B170AF200C266FE /* RxKakaoSDK */; };
 		317C8F632AF25FA0003010BA /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F622AF25FA0003010BA /* InquiryViewController.swift */; };
 		317C8F652AF25FAF003010BA /* InquiryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F642AF25FAF003010BA /* InquiryViewModel.swift */; };
 		317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317C8F692AF2674C003010BA /* InquiryHeaderView.swift */; };
@@ -223,6 +224,7 @@
 		317688F52B14C3B000C266FE /* Pretendard-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pretendard-SemiBold.otf"; sourceTree = "<group>"; };
 		317688F92B15F44E00C266FE /* DeletePromisePopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePromisePopupViewController.swift; sourceTree = "<group>"; };
 		317688FB2B15F45800C266FE /* DeletePromisePopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletePromisePopupViewModel.swift; sourceTree = "<group>"; };
+		317689032B170B1F00C266FE /* libswiftWebKit.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftWebKit.tbd; path = usr/lib/swift/libswiftWebKit.tbd; sourceTree = SDKROOT; };
 		317C8F622AF25FA0003010BA /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		317C8F642AF25FAF003010BA /* InquiryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewModel.swift; sourceTree = "<group>"; };
 		317C8F692AF2674C003010BA /* InquiryHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryHeaderView.swift; sourceTree = "<group>"; };
@@ -320,6 +322,7 @@
 				317C8F952AF8E44E003010BA /* RxMoya in Frameworks */,
 				317D69D12ADBA414004CEE5C /* RxFlow in Frameworks */,
 				31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */,
+				317689022B170AF200C266FE /* RxKakaoSDK in Frameworks */,
 				317C8FA72AFA2759003010BA /* Realm in Frameworks */,
 				312476BC2AA05E1C00D318C7 /* RxCocoa in Frameworks */,
 				31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */,
@@ -364,6 +367,7 @@
 			children = (
 				312476A32AA0588C00D318C7 /* Promise */,
 				312476A22AA0588C00D318C7 /* Products */,
+				317689002B170AF200C266FE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -379,8 +383,9 @@
 			isa = PBXGroup;
 			children = (
 				31C33F8D2ABAA8EB00A99D7E /* Promise.entitlements */,
-				31C33F6C2AB6FE7F00A99D7E /* Resource */,
+				312476B22AA0588D00D318C7 /* Info.plist */,
 				31C33F6B2AB6FE3F00A99D7E /* Application */,
+				31C33F6C2AB6FE7F00A99D7E /* Resource */,
 				312476C52AA068CD00D318C7 /* Utility */,
 				31F1A0F82AB4768C00B99DC4 /* Entity */,
 				31C33F902ABD4EC300A99D7E /* Network */,
@@ -395,7 +400,6 @@
 				317688B22B0C892200C266FE /* ChatScene */,
 				31258F052ACE9622004D764C /* FriendScene */,
 				317D6A062ADF8697004CEE5C /* MyPageScene */,
-				312476B22AA0588D00D318C7 /* Info.plist */,
 			);
 			path = Promise;
 			sourceTree = "<group>";
@@ -570,6 +574,14 @@
 				317688FB2B15F45800C266FE /* DeletePromisePopupViewModel.swift */,
 			);
 			path = DeletePromisePopup;
+			sourceTree = "<group>";
+		};
+		317689002B170AF200C266FE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				317689032B170B1F00C266FE /* libswiftWebKit.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		317C8F612AF25F87003010BA /* InquiryPage */ = {
@@ -1055,6 +1067,7 @@
 				317C8F942AF8E44E003010BA /* RxMoya */,
 				317C8FA62AFA2759003010BA /* Realm */,
 				317C8FA82AFA2759003010BA /* RealmSwift */,
+				317689012B170AF200C266FE /* RxKakaoSDK */,
 			);
 			productName = Promise;
 			productReference = 312476A12AA0588C00D318C7 /* Promise.app */;
@@ -1094,6 +1107,7 @@
 				317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */,
 				317C8F912AF8E44E003010BA /* XCRemoteSwiftPackageReference "Moya" */,
 				317C8FA52AFA2759003010BA /* XCRemoteSwiftPackageReference "realm-swift" */,
+				317688FD2B15FE3000C266FE /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 			);
 			productRefGroup = 312476A22AA0588C00D318C7 /* Products */;
 			projectDirPath = "";
@@ -1501,6 +1515,14 @@
 				kind = branch;
 			};
 		};
+		317688FD2B15FE3000C266FE /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kakao/kakao-ios-sdk-rx";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		317C8F912AF8E44E003010BA /* XCRemoteSwiftPackageReference "Moya" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Moya/Moya.git";
@@ -1573,6 +1595,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 31258F062ACEB4C8004D764C /* XCRemoteSwiftPackageReference "RxDataSources" */;
 			productName = RxDataSources;
+		};
+		317689012B170AF200C266FE /* RxKakaoSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 317688FD2B15FE3000C266FE /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */;
+			productName = RxKakaoSDK;
 		};
 		317C8F922AF8E44E003010BA /* Moya */ = {
 			isa = XCSwiftPackageProductDependency;

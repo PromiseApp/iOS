@@ -1,4 +1,6 @@
 import UIKit
+import KakaoSDKAuth
+import RxKakaoSDKAuth
 import Photos
 import RxSwift
 import RxFlow
@@ -65,6 +67,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let rootVC = window?.rootViewController {
             rootVC.present(alert, animated: true, completion: nil)
+        }
+    }
+    
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        if let url = URLContexts.first?.url {
+            if (AuthApi.isKakaoTalkLoginUrl(url)) {
+                _ = AuthController.rx.handleOpenUrl(url: url)
+            }
         }
     }
     

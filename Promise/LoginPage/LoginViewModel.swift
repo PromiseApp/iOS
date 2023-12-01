@@ -1,13 +1,15 @@
-import RxSwift
+import KakaoSDKUser
+import RxKakaoSDKUser
+import AuthenticationServices
 import Foundation
 import Moya
+import RxSwift
 import RxCocoa
-import Alamofire
-import RxAlamofire
 import RxFlow
 import RealmSwift
 
-class LoginViewModel: Stepper{
+class LoginViewModel: NSObject, Stepper{
+    
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     
@@ -16,10 +18,11 @@ class LoginViewModel: Stepper{
     
     let firstIsChecked = PublishRelay<Bool>()
     let secondIsChecked = PublishRelay<Bool>()
-    
-    let loginButtonTapped = PublishRelay<Void>()
     let loginPossible = PublishRelay<Void>()
     
+    let loginButtonTapped = PublishRelay<Void>()
+    let kakaoButtonTapped = PublishRelay<Void>()
+    let appleButtonTapped = PublishRelay<ASAuthorizationControllerPresentationContextProviding>()
     let signupButtonTapped = PublishRelay<Void>()
     let findPwButtonTapped = PublishRelay<Void>()
     let termButtonTapped = PublishRelay<Void>()
@@ -31,6 +34,7 @@ class LoginViewModel: Stepper{
     init(authService: AuthService, currentFlow: TPFlowType){
         self.authService = authService
         self.currentFlow = currentFlow
+        super.init()
         self.loadSavedEmail()
         
         loginButtonTapped
@@ -50,6 +54,7 @@ class LoginViewModel: Stepper{
                                 self?.steps.accept(AppStep.networkErrorPopup)
                             }
                         } else {
+                            print(error)
                             self?.steps.accept(AppStep.networkErrorPopup)
                         }
                         return Observable.empty()
@@ -57,6 +62,25 @@ class LoginViewModel: Stepper{
             }
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(AppStep.tabBar)
+            })
+            .disposed(by: disposeBag)
+        
+        kakaoButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.kakaoLogin()
+            })
+            .disposed(by: disposeBag)
+        
+        appleButtonTapped
+            .subscribe(onNext: { provider in
+                let appleIDProvider = ASAuthorizationAppleIDProvider()
+                let request = appleIDProvider.createRequest()
+                request.requestedScopes = [.fullName, .email]
+                
+                let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+                authorizationController.delegate = self
+                authorizationController.presentationContextProvider = provider
+                authorizationController.performRequests()
             })
             .disposed(by: disposeBag)
         
@@ -98,6 +122,50 @@ class LoginViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
+    }
+    
+    func kakaoLogin(){
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.rx.loginWithKakaoTalk()
+                .subscribe(onNext:{ (oauthToken) in
+                    print("loginWithKakaoTalk() success.")
+                    print(oauthToken)
+                }, onError: { error in
+                    print(error)
+                })
+                .disposed(by: disposeBag)
+        } else {
+            UserApi.shared.rx.loginWithKakaoAccount()
+                .subscribe(onNext:{ (oauthToken) in
+                    print("loginWithKakaoAccount() success.")
+                    print(oauthToken)
+                }, onError: { error in
+                    print(error)
+                })
+                .disposed(by: disposeBag)
+        }
+        UserApi.shared.rx.me()
+            .subscribe (onSuccess:{ user in
+                print("me() success.")
+                
+                //do something
+                print("user : \(user)")
+                //self.steps.accept(AppStep.tabBar)
+            }, onFailure: {error in
+                print(error)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func appleLogin(){
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        //authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
     }
     
     func saveUser(account: String, password: String , nickname: String, image: String?, level: Int, exp: Int, role: String, token: String){
@@ -149,10 +217,59 @@ class LoginViewModel: Stepper{
             }
         }
     }
-
+    
     private func fetchEmailFromRealm() -> String? {
         let realm = try! Realm()
         return realm.objects(User.self).first?.account
     }
     
+}
+
+extension LoginViewModel: ASAuthorizationControllerDelegate{
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        //로그인 성공
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            let userIdentifier = appleIDCredential.user
+            let fullName = appleIDCredential.fullName
+            let email = appleIDCredential.email
+            
+            if  let authorizationCode = appleIDCredential.authorizationCode,
+                let identityToken = appleIDCredential.identityToken,
+                let authCodeString = String(data: authorizationCode, encoding: .utf8),
+                let identifyTokenString = String(data: identityToken, encoding: .utf8) {
+                print("authorizationCode: \(authorizationCode)")
+                print("identityToken: \(identityToken)")
+                print("authCodeString: \(authCodeString)")
+                print("identifyTokenString: \(identifyTokenString)")
+            }
+            
+            print("useridentifier: \(userIdentifier)")
+            print("fullName: \(fullName)")
+            print("email: \(email)")
+            
+            //Move to MainPage
+            //let validVC = SignValidViewController()
+            //validVC.modalPresentationStyle = .fullScreen
+            //present(validVC, animated: true, completion: nil)
+            //self.steps.accept(AppStep.tabBar)
+            
+        case let passwordCredential as ASPasswordCredential:
+            // Sign in using an existing iCloud Keychain credential.
+            let username = passwordCredential.user
+            let password = passwordCredential.password
+            
+            print("username: \(username)")
+            print("password: \(password)")
+            
+        default:
+            break
+        }
+    }
+    
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // 로그인 실패(유저의 취소도 포함)
+        print("login failed - \(error.localizedDescription)")
+    }
 }

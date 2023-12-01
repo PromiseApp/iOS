@@ -73,7 +73,6 @@ class RequestFriendViewModel: Stepper{
                                          level: String(friendData.memberInfo.level), requesterID: friendData.requestInfo.id)
                     
                 }
-                print(friends)
                 self?.allFriends = friends
                 self?.friendsRelay.accept(self?.allFriends ?? [])
             }, onFailure: { [weak self] error in

@@ -171,6 +171,7 @@ class PromiseViewController: UIViewController {
         
         bellButton.do{
             $0.setImage(UIImage(named: "bell"), for: .normal)
+            $0.isHidden = true
         }
         
         [firstSeparateView,secSeparateView,thirdSeparateView]

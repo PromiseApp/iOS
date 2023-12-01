@@ -1,11 +1,5 @@
-//
-//  AppDelegate.swift
-//  Promise
-//
-//  Created by 박중선 on 2023/08/31.
-//
-
 import UIKit
+import RxKakaoSDKCommon
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,7 +7,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        RxKakaoSDK.initSDK(appKey: "874157b4510490128a52620b19f7f306")
         return true
     }
 

@@ -63,6 +63,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         nameLabel.snp.makeConstraints { make in
             make.top.equalTo(userImageView.snp.bottom).offset(4*Constants.standardHeight)
+            make.width.equalTo(40*Constants.standardWidth)
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-4*Constants.standardHeight)
         }

@@ -89,7 +89,7 @@ class MakePromiseViewModel: Stepper{
             .subscribe(onNext: { [weak self] in
                 switch self?.currentFlow{
                 case .tabBarFlow:
-                    self?.steps.accept(TabBarStep.popView)
+                    self?.steps.accept(TabBarStep.popRootView)
                 case .promiseFlow:
                     self?.steps.accept(PromiseStep.popView)
                 case .none:
@@ -138,7 +138,7 @@ class MakePromiseViewModel: Stepper{
             .subscribe(onNext: { [weak self] in
                 switch self?.currentFlow{
                 case .tabBarFlow:
-                    self?.steps.accept(TabBarStep.popView)
+                    self?.steps.accept(TabBarStep.popRootView)
                 case .promiseFlow:
                     self?.steps.accept(PromiseStep.popView)
                 case .none:
