@@ -49,7 +49,7 @@ class LoadingViewModel: Stepper{
     
     func appleAutoLogin(){
         let appleIDProvider = ASAuthorizationAppleIDProvider()
-        appleIDProvider.getCredentialState(forUserID: "000682.1063e74443af4d23a9c48787015606a8.0749") { (credentialState, error) in
+        appleIDProvider.getCredentialState(forUserID: "") { (credentialState, error) in
             switch credentialState {
             case .authorized:
                 print("authorized")

@@ -51,7 +51,7 @@ class InquiryTableViewCell: UITableViewCell {
         
         backView.snp.makeConstraints { make in
             make.width.equalTo(323*Constants.standardWidth)
-            make.height.equalTo(49*Constants.standardHeight)
+            //make.height.equalTo(49*Constants.standardHeight)
             make.leading.equalToSuperview().offset(40*Constants.standardWidth)
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()

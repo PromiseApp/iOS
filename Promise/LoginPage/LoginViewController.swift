@@ -119,7 +119,6 @@ class LoginViewController: UIViewController, ASAuthorizationControllerPresentati
         
         loginViewModel.secondIsChecked
             .subscribe(onNext: { [weak self] isChecked in
-                print(isChecked)
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
                 let status = isChecked ? "Y" : "N"
                 UserDefaults.standard.set(status, forKey: UserDefaultsKeys.isRememberEmailEnabled)

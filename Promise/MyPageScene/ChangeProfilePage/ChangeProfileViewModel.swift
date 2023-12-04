@@ -55,7 +55,6 @@ class ChangeProfileViewModel: Stepper{
         
         logoutButtonTapped
             .subscribe(onNext: { [weak self] in
-                //self?.kakaoLogout()
                 self?.normalLogout()
             })
             .disposed(by: disposeBag)

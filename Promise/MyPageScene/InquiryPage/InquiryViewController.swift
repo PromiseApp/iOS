@@ -269,6 +269,7 @@ class InquiryViewController: UIViewController {
             $0.separatorStyle = .none
             $0.register(InquiryTableViewCell.self, forCellReuseIdentifier: "InquiryTableViewCell")
             $0.register(InquiryHeaderView.self, forHeaderFooterViewReuseIdentifier: "InquiryHeaderView")
+            $0.rowHeight = 49*Constants.standardHeight
             $0.sectionHeaderTopPadding = 0
         }
         
