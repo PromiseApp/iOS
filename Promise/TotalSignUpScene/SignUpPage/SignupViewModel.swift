@@ -13,7 +13,7 @@ class SignupViewModel: Stepper{
     
     let authService: AuthService
     
-    let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account ?? "이메일")
+    let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account )
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
     let selectedImage = PublishRelay<UIImage?>()

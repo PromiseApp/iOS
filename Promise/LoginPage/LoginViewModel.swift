@@ -172,35 +172,25 @@ class LoginViewModel: NSObject, Stepper{
         do{
             
             let realm = try Realm()
-            if let existingUser = realm.objects(User.self).filter("account == %@", account).first {
-                try realm.write {
-                    existingUser.account = account
-                    existingUser.password = password
-                    existingUser.level = level
-                    existingUser.exp = exp
-                    existingUser.role = role
-                    existingUser.token = token
-                    if let image = image{
-                        existingUser.image = image
-                    }
-                }
-            } else {
-                let newUser = User()
-                
-                newUser.account = account
-                newUser.password = password
-                newUser.nickname = nickname
-                newUser.level = level
-                newUser.exp = exp
-                newUser.role = role
-                newUser.token = token
-                if let image = image{
-                    newUser.image = image
-                }
-                try realm.write {
-                    realm.add(newUser)
-                }
+            try realm.write {
+                realm.deleteAll()
             }
+            let newUser = User()
+            
+            newUser.account = account
+            newUser.password = password
+            newUser.nickname = nickname
+            newUser.level = level
+            newUser.exp = exp
+            newUser.role = role
+            newUser.token = token
+            if let image = image{
+                newUser.image = image
+            }
+            try realm.write {
+                realm.add(newUser)
+            }
+            
             
             UserSession.shared.account = account
             
