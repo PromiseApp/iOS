@@ -25,7 +25,6 @@ class DeletePromisePopupViewModel: Stepper{
         deleteButtonTapped
             .flatMapLatest { [weak self] () -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-
                 return self.promiseService.deletePromise(promiseId: promiseId)
                     .asObservable()
                     .map{ _ in Void()}

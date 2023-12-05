@@ -25,7 +25,6 @@ class OutPromisePopupViewModel: Stepper{
         outButtonTapped
             .flatMapLatest { [weak self] () -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-
                 return self.promiseService.outPromise(promiseId: promiseId)
                     .asObservable()
                     .map{_ in Void()}

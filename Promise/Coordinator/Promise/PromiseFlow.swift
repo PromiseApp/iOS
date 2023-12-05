@@ -145,7 +145,7 @@ class PromiseFlow: Flow {
         let VC = DeletePromisePopupViewController(deletePromisePopupViewModel: VM)
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
-        return .none
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func prsentOutPromisePopup(promiseId: String) -> FlowContributors {

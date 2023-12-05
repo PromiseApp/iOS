@@ -46,10 +46,8 @@ class SelectFriendViewModel: Stepper{
             .subscribe(onNext: { [weak self] in
                 switch self?.currentFlow{
                 case .tabBarFlow:
-                    print(111)
                     self?.steps.accept(TabBarStep.popView)
                 case .promiseFlow:
-                    print(222)
                     self?.steps.accept(PromiseStep.popView)
                 case .none:
                     break

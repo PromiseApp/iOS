@@ -53,7 +53,7 @@ class EmailAuthViewModel: Stepper {
             .subscribe(onNext: { [weak self] (account,isValid) in
                 if(isValid){
                     UserSession.shared.account = account
-                    self?.steps.accept(SignupStep.nickname)
+                    self?.steps.accept(SignupStep.confirmEmailAuth)
                 }
                 if !isValid {
                     self?.steps.accept(SignupStep.duplicateAccountErrorPopup)

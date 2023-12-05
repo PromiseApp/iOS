@@ -363,9 +363,14 @@ class PromiseViewController: UIViewController {
         picker.dataSource = self
         alert.view.addSubview(picker)
         
+        let titleFont = UIFont.systemFont(ofSize: 17)
+        let titleLineHeight = titleFont.lineHeight
+        let numberOfTitleLines = 6
+        let titleHeight = titleLineHeight * CGFloat(numberOfTitleLines)
+
         picker.snp.makeConstraints { (make) in
             make.leading.top.trailing.equalToSuperview()
-            make.height.equalTo(150*Constants.standardHeight)
+            make.height.equalTo(titleHeight)
         }
         
         let calendar = Calendar.current

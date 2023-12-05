@@ -115,25 +115,41 @@ class MakePromiseViewModel: Stepper{
             .withLatestFrom(Observable.combineLatest(titleRelay, dateRelay,timeRelay,selectedFriendDatas.asObservable(),placeRelay,penaltyRelay,memoRelay))
             .flatMapLatest { [weak self] (title, date, time, friends, place, penalty, memo) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
+                var hour = String(time.hour)
                 var minute = String(time.minute)
-                if(minute == "0"){
-                    minute = "00"
+                if(hour.count == 1){
+                    hour = "0\(hour)"
                 }
-                let formattedDate = "\(date.year)-\(date.month)-\(date.day) \(time.hour):\(minute):00"
+                if(minute.count == 1){
+                    minute = "0\(minute)"
+                }
+                
+                var month = String(date.month)
+                var day = String(date.day)
+                if(month.count == 1){
+                    month = "0\(month)"
+                }
+                if(day.count == 1){
+                    day = "0\(day)"
+                }
+                print(hour,minute,month,day)
+                let formattedDate = "\(date.year)-\(month)-\(day) \(hour):\(minute):00"
                 
                 let friendNames = friends.map { $0.name }
                 let realMemo = memo == "중요한 내용을 메모해두세요" ? nil : memo
-                
+               
                 return self.promiseService.registerPromise(title: title, date: formattedDate, friends: friendNames, place: place, penalty: penalty, memo: realMemo)
                     .asObservable()
-                    .map{_ in Void() }
+                    .map{ response in
+                        print(response)
+                        return Void()
+                    }
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                         
                     }
-                return Observable.empty()
             }
             .subscribe(onNext: { [weak self] in
                 switch self?.currentFlow{

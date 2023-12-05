@@ -146,8 +146,24 @@ class ModifyPromiseViewModel: Stepper{
             .withLatestFrom(Observable.combineLatest(titleRelay, dateRelay,timeRelay.asObservable(),placeRelay,penaltyRelay,memoRelay))
             .flatMapLatest { [weak self] (title, date, time, place, penalty, memo) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
+                var hour = String(time.hour)
+                var minute = String(time.minute)
+                if(hour.count == 1){
+                    hour = "0\(hour)"
+                }
+                if(minute.count == 1){
+                    minute = "0\(minute)"
+                }
                 
-                let formattedDate = "\(date.year)-\(date.month)-\(date.day) \(time.hour):\(time.minute):00"
+                var month = String(date.month)
+                var day = String(date.day)
+                if(month.count == 1){
+                    month = "0\(month)"
+                }
+                if(day.count == 1){
+                    day = "0\(day)"
+                }
+                let formattedDate = "\(date.year)-\(month)-\(day) \(hour):\(minute):00"
                 
                 let realMemo = memo == "중요한 내용을 메모해두세요" ? nil : memo
                 return self.promiseService.modifyPromise(promiseId: promiseId, title: title, date: formattedDate, place: place, penalty: penalty, memo: realMemo)
@@ -159,7 +175,6 @@ class ModifyPromiseViewModel: Stepper{
                         return Observable.empty()
                         
                     }
-                return Observable.empty()
             }
             .subscribe(onNext: { [weak self] in
                 self?.steps.accept(PromiseStep.popView)

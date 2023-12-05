@@ -41,6 +41,7 @@ class FriendCollectionViewCell: UICollectionViewCell {
         
         nameLabel.do{
             $0.font = UIFont(name: "Pretendard-Medium", size: 11*Constants.standartFont)
+            $0.textAlignment = .center
         }
         
         deleteButton.do{
