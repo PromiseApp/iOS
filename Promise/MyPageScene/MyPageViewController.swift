@@ -177,7 +177,7 @@ class MyPageViewController: UIViewController {
         }
         
         versionLabel.do{
-            $0.text = "ver 1.0.0"
+            $0.text = "ver 1.1"
             $0.textColor = UIColor(named: "greyOne")
         }
         
