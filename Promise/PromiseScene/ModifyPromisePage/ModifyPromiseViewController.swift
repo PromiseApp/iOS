@@ -60,7 +60,7 @@ class ModifyPromiseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         bind()
         attribute()
         layout()

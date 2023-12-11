@@ -11,6 +11,8 @@ class FindPwFlow: Flow {
     
     init(with rootViewController: UINavigationController) {
         self.rootViewController = rootViewController
+        self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
+        self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     func navigate(to step: Step) -> FlowContributors {

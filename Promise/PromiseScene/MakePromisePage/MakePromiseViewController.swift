@@ -65,7 +65,7 @@ class MakePromiseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround(disposeBag: disposeBag)
-        
+        //navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         bind()
         attribute()
         layout()

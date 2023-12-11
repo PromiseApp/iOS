@@ -112,11 +112,6 @@ class AppFlow: Flow {
         ])
     }
     
-    private func aa() -> FlowContributors {
-        let aa = TabBarFlow(with: rootViewController)
-        return .one(flowContributor: .contribute(withNextPresentable: aa, withNextStepper: OneStepper(withSingleStep: TabBarStep.makePromise)))
-    }
-    
     private func navigateToSignup() -> FlowContributors {
         let signupFlow = SignupFlow(with: rootViewController)
         return .one(flowContributor: .contribute(withNextPresentable: signupFlow, withNextStepper: OneStepper(withSingleStep: SignupStep.emailAuth)))

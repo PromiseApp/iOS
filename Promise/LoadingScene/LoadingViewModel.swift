@@ -94,20 +94,24 @@ class LoadingViewModel: Stepper{
         do{
             
             let realm = try Realm()
-            let newUser = User()
-            //print("newUser:\(newUser)")
-            newUser.account = account
-            newUser.password = password
-            newUser.nickname = nickname
-            newUser.level = level
-            newUser.exp = exp
-            newUser.role = role
-            newUser.token = token
-            if let image = image{
-                newUser.image = image
-            }
-            try realm.write {
-                realm.add(newUser)
+            
+            if let existingUser = realm.objects(User.self).filter("account == %@", account).first {
+                try realm.write {
+                    existingUser.password = password
+                    existingUser.nickname = nickname
+                    existingUser.image = image
+                    existingUser.level = level
+                    existingUser.exp = exp
+                    existingUser.role = role
+                    existingUser.token = token
+                }
+            } else {
+                let newUser = User(account: account, password: password, nickname: nickname, image: image, level: level, exp: exp, role: role, token: token)
+                
+                try realm.write {
+                    realm.delete(realm.objects(User.self))
+                    realm.add(newUser)
+                }
             }
             UserSession.shared.account = account
             

@@ -8,6 +8,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: "874157b4510490128a52620b19f7f306")
+        
 //        // 1. 푸시 center (유저에게 권한 요청 용도)
 //        let center = UNUserNotificationCenter.current()
 //        center.delegate = self // push처리에 대한 delegate - UNUserNotificationCenterDelegate
@@ -36,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
 //        print("Failed to register for notifications: \(error.localizedDescription)")
 //    }
-
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
