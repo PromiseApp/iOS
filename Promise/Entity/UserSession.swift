@@ -6,7 +6,7 @@ import RealmSwift
 
 final class UserSession {
     static let shared = UserSession()
-    
+    var deviceToken: String = ""
     var account: String = ""
     var nickname: String = ""
     var image: String?

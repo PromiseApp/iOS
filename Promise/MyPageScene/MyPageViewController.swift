@@ -118,9 +118,9 @@ class MyPageViewController: UIViewController {
         
         userImageView.do{
             $0.layer.cornerRadius = 20*Constants.standardHeight
-            $0.image = UIImage(named: "user")
             $0.sizeToFit()
             $0.clipsToBounds = true
+            $0.image = UIImage(named: "user")
         }
         
         nicknameLabel.do{

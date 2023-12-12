@@ -7,7 +7,7 @@ import SnapKit
 class MakePromiseViewController: UIViewController {
     
     let disposeBag = DisposeBag()
-    var makePromiseViewModel:MakePromiseViewModel
+    var makePromiseViewModel: MakePromiseViewModel
     
     let superView = UIView()
     let titleLabel = UILabel()

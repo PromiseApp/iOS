@@ -81,7 +81,7 @@ extension AuthAPI: TargetType {
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
             
         case .login(let account, let password):
-            return .requestParameters(parameters: ["account": account, "password": password], encoding: JSONEncoding.default)
+            return .requestParameters(parameters: ["account": account, "password": password, "deviceToken": UserSession.shared.deviceToken], encoding: JSONEncoding.default)
         case .duplicateCheckNickname:
             return .requestPlain
         case .duplicateCheckAccount:

@@ -91,7 +91,6 @@ class PromiseViewModel: Stepper{
                 return self.promiseService.promiseList(startDateTime: startDateTime, endDateTime: endDateTime, completed: "N")
                     .asObservable()
                     .map{ response in
-                        print(response)
                         let promises = response.data.list.map { item -> PromiseCell in
                             let dateTimeComponents = item.date.split(separator: " ")
                             let date = String(dateTimeComponents[0])

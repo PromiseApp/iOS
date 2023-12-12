@@ -31,6 +31,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 //        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
 //        print("tokenString: \(tokenString)")
+//        UserSession.shared.deviceToken = tokenString
 //    }
 //    
 //    // 실패시
