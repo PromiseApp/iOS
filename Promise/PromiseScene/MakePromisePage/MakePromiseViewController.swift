@@ -9,7 +9,7 @@ class MakePromiseViewController: UIViewController {
     let disposeBag = DisposeBag()
     var makePromiseViewModel:MakePromiseViewModel
     
-    let aaView = UIView()
+    let superView = UIView()
     let titleLabel = UILabel()
     let leftButton = UIButton()
     let separateView = UIView()
@@ -45,7 +45,7 @@ class MakePromiseViewController: UIViewController {
     var activeTextField: UITextField?
     var activeTextView: UITextView?
     var keyboardHeight = 0.0
-    var zz = false
+    var isKeyboardUp = false
     
     let years = Array(2000...2100)
     let months = Array(1...12)
@@ -65,7 +65,7 @@ class MakePromiseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround(disposeBag: disposeBag)
-        //navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
         bind()
         attribute()
         layout()
@@ -82,8 +82,8 @@ class MakePromiseViewController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        if(zz){
-            self.aaView.frame.origin.y = -keyboardHeight
+        if(isKeyboardUp){
+            self.superView.frame.origin.y = -keyboardHeight
         }
     }
     
@@ -96,6 +96,7 @@ class MakePromiseViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+    
     @objc func keyboardWillShow(_ noti: NSNotification) {
         if let keyboardFrame: NSValue = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
            let activeField = activeTextField ?? activeTextView {
@@ -103,15 +104,15 @@ class MakePromiseViewController: UIViewController {
             let keyboardHeight = keyboardRectangle.height
             UIView.animate(withDuration: 0.3) {
                 self.keyboardHeight = keyboardHeight
-                self.zz = true
-                self.aaView.frame.origin.y = -keyboardHeight
+                self.isKeyboardUp = true
+                self.superView.frame.origin.y = -keyboardHeight
             }
         }
     }
     
     @objc func keyboardWillHide(_ noti: NSNotification) {
-        self.aaView.frame.origin.y = 0
-        zz = false
+        self.superView.frame.origin.y = 0
+        isKeyboardUp = false
     }
     
     private func bind(){
@@ -489,15 +490,15 @@ class MakePromiseViewController: UIViewController {
     }
     
     private func layout(){
-        view.addSubview(aaView)
-        aaView.snp.makeConstraints { make in
+        view.addSubview(superView)
+        superView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         [titleLabel,leftButton,separateView,nextButton]
-            .forEach{ aaView.addSubview($0) }
+            .forEach{ superView.addSubview($0) }
         
         [promiseTitleLabel,promiseTitleTextField,promiseTitleLengthLabel,scheduleLabel,dateButton,timeButton,firstConditionImageView,firstConditionLabel,friendLabel,addFriendButton,secAddFriendButton,collectionView,placeLabel,placeTextField,placeLengthLabel,penaltyLabel,penaltyTextField,penaltyLengthLabel,secondConditionLabel,memoLabel,memoTextView,memoLengthLabel,thirdConditionLabel]
-            .forEach{ aaView.addSubview($0) }
+            .forEach{ superView.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()

@@ -11,7 +11,7 @@ class FriendViewModel: Stepper{
     let friendService: FriendService
     
     let settingViewRelay = PublishRelay<Void>()
-    
+    let dataLoading = PublishRelay<Bool>()
     let addFriendButtonTapped = PublishRelay<Void>()
     let requestFriendButtonTapped = PublishRelay<Void>()
     
@@ -57,8 +57,10 @@ class FriendViewModel: Stepper{
                 }
                 self?.allFriends = friends
                 self?.friendsRelay.accept(self?.allFriends ?? [])
+                self?.dataLoading.accept(true)
             }, onFailure: { [weak self] error in
                 print(error)
+                self?.dataLoading.accept(true)
                 self?.steps.accept(FriendStep.networkErrorPopup)
             })
             .disposed(by: vwaDisposeBag)

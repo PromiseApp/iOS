@@ -22,6 +22,7 @@ class PromiseViewController: UIViewController {
     lazy var expLabel = UILabel()
     lazy var cntLabel = UILabel()
     let selectPromiseResultButton = UIButton()
+    let refreshControl = UIRefreshControl()
     lazy var promiseListTableView = UITableView()
     let plusButton = UIButton()
     let newPromiseButton = UIButton()
@@ -157,6 +158,20 @@ class PromiseViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(onNext: { [weak self] in
+                self?.promiseViewModel.loadPromiseList()
+            })
+            .disposed(by: disposeBag)
+        
+        promiseViewModel.dataLoading
+            .bind(onNext: { [weak self] loading in
+                if(loading){
+                    self?.refreshControl.endRefreshing()
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     
@@ -236,6 +251,7 @@ class PromiseViewController: UIViewController {
             $0.register(PromiseTableViewCell.self, forCellReuseIdentifier: "PromiseTableViewCell")
             $0.register(PromiseHeaderCell.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderCell")
             $0.sectionHeaderTopPadding = 0
+            $0.refreshControl = refreshControl
         }
         
         newPromiseButton.do{

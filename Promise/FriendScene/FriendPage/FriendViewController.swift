@@ -18,6 +18,7 @@ class FriendViewController: UIViewController {
     let requestFriendButton = UIButton()
     lazy var searchImageView = UIImageView()
     let searchTextField = UITextField()
+    let refreshControl = UIRefreshControl()
     lazy var tableView = UITableView()
     let successView = UIView()
     let successLabel = UILabel()
@@ -86,6 +87,20 @@ class FriendViewController: UIViewController {
                 self?.showSuccessView(nickname: nickname)
             })
             .disposed(by: disposeBag)
+        
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(onNext: { [weak self] in
+                self?.friendViewModel.loadFriendList()
+            })
+            .disposed(by: disposeBag)
+        
+        friendViewModel.dataLoading
+            .bind(onNext: { [weak self] loading in
+                if(loading){
+                    self?.refreshControl.endRefreshing()
+                }
+            })
+            .disposed(by: disposeBag)
 
     }
     
@@ -147,6 +162,7 @@ class FriendViewController: UIViewController {
             $0.separatorStyle = .none
             $0.rowHeight = 48*Constants.standardHeight
             $0.register(FriendTableViewCell.self, forCellReuseIdentifier: "FriendTableViewCell")
+            $0.refreshControl = refreshControl
         }
         
         successView.do{

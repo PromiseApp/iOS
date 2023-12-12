@@ -14,9 +14,9 @@ class NewPromiseViewModel: Stepper{
     let participationButtonTapped = PublishRelay<Void>()
     let cellSelected = PublishRelay<IndexPath>()
     let requestSuccessRelay = PublishRelay<String>()
+    let dataLoading = PublishRelay<Bool>()
     
     var newPromiseList:[NewPromiseHeader] = []
-    
     let newPromiseRelay = BehaviorRelay<[NewPromiseHeader]>(value: [])
     var newPromiseDriver: Driver<[NewPromiseHeader]>{
         return newPromiseRelay.asDriver(onErrorDriveWith: .empty())
@@ -131,8 +131,10 @@ class NewPromiseViewModel: Stepper{
                 }.sorted { $0.date < $1.date }
                 self?.newPromiseRelay.accept(newPromiseHeaders)
                 self?.newPromiseList = newPromiseHeaders
+                self?.dataLoading.accept(true)
             }, onFailure: { [weak self] error in
                 print(error)
+                self?.dataLoading.accept(true)
                 self?.steps.accept(PromiseStep.networkErrorPopup)
             })
             .disposed(by: disposeBag)

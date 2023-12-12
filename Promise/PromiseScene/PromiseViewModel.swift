@@ -17,6 +17,7 @@ class PromiseViewModel: Stepper{
     let modifyButtonTapped = PublishRelay<(id: String, type: String)>()
     let newPromiseButtonTapped = PublishRelay<Void>()
     
+    let dataLoading = PublishRelay<Bool>()
     let promisesRelay = BehaviorRelay<[PromiseHeader]>(value: [])
     var promiseDriver: Driver<[PromiseHeader]>{
         return promisesRelay.asDriver(onErrorDriveWith: .empty())
@@ -90,6 +91,7 @@ class PromiseViewModel: Stepper{
                 return self.promiseService.promiseList(startDateTime: startDateTime, endDateTime: endDateTime, completed: "N")
                     .asObservable()
                     .map{ response in
+                        print(response)
                         let promises = response.data.list.map { item -> PromiseCell in
                             let dateTimeComponents = item.date.split(separator: " ")
                             let date = String(dateTimeComponents[0])
@@ -107,10 +109,12 @@ class PromiseViewModel: Stepper{
                         }.sorted { $0.date < $1.date }
 
                         self.promisesRelay.accept(promiseHeaders)
+                        self.dataLoading.accept(true)
                         return Void()
                     }
                     .catch { [weak self] error in
                         print(error)
+                        self?.dataLoading.accept(true)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                     }

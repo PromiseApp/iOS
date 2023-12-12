@@ -132,7 +132,6 @@ class MakePromiseViewModel: Stepper{
                 if(day.count == 1){
                     day = "0\(day)"
                 }
-                print(hour,minute,month,day)
                 let formattedDate = "\(date.year)-\(month)-\(day) \(hour):\(minute):00"
                 
                 let friendNames = friends.map { $0.name }
@@ -140,10 +139,7 @@ class MakePromiseViewModel: Stepper{
                
                 return self.promiseService.registerPromise(title: title, date: formattedDate, friends: friendNames, place: place, penalty: penalty, memo: realMemo)
                     .asObservable()
-                    .map{ response in
-                        print(response)
-                        return Void()
-                    }
+                    .map{ _ in Void() }
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)

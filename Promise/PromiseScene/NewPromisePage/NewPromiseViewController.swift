@@ -12,6 +12,7 @@ class NewPromiseViewController: UIViewController {
     let titleLabel = UILabel()
     let leftButton = UIButton()
     let separateView = UIView()
+    let refreshControl = UIRefreshControl()
     lazy var newPromiseListTableView = UITableView()
     let absenceButton = UIButton()
     let participationButton = UIButton()
@@ -89,6 +90,20 @@ class NewPromiseViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        refreshControl.rx.controlEvent(.valueChanged)
+            .bind(onNext: { [weak self] in
+                self?.newPromiseViewModel.loadNewPromiseList()
+            })
+            .disposed(by: disposeBag)
+        
+        newPromiseViewModel.dataLoading
+            .bind(onNext: { [weak self] loading in
+                if(loading){
+                    self?.refreshControl.endRefreshing()
+                }
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func attribute(){
@@ -112,6 +127,7 @@ class NewPromiseViewController: UIViewController {
             $0.register(NewPromiseTableViewCell.self, forCellReuseIdentifier: "NewPromiseTableViewCell")
             $0.register(PromiseHeaderCell.self, forHeaderFooterViewReuseIdentifier: "PromiseHeaderCell")
             $0.sectionHeaderTopPadding = 0
+            $0.refreshControl = refreshControl
         }
         
         absenceButton.do{
