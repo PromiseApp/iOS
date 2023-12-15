@@ -14,3 +14,4 @@ struct RequestFriend{
     let level: String
     let requesterID: String
 }
+

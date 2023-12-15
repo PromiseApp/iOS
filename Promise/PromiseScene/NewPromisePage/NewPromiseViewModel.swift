@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 import RxCocoa
 import RxSwift
 import RxFlow
@@ -6,7 +7,7 @@ class NewPromiseViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
     var promiseService: PromiseService
-    
+    var stompService: StompService
     var selectedCellID: String?
     
     let leftButtonTapped = PublishRelay<Void>()
@@ -22,9 +23,9 @@ class NewPromiseViewModel: Stepper{
         return newPromiseRelay.asDriver(onErrorDriveWith: .empty())
     }
     
-    init(promiseService: PromiseService){
+    init(promiseService: PromiseService, stompService: StompService){
         self.promiseService = promiseService
-        
+        self.stompService = stompService
         self.loadNewPromiseList()
         
         cellSelected
@@ -70,9 +71,13 @@ class NewPromiseViewModel: Stepper{
                 return self.promiseService.acceptPromise(id: selectedID)
                     .asObservable()
                     .map{ response in
+                        let roomID = Int(selectedID)
+                        self.stompService.subscribeToChatRoom(promiseID: roomID!)
+                        self.saveRoomId(roomId: roomID!)
                         if(response.resultCode == "424"){
                             self.steps.accept(PromiseStep.errorDeletedPromisePopup)
                         }
+                        
                         return Void()
                     }
                     .catch { [weak self] error in
@@ -138,6 +143,15 @@ class NewPromiseViewModel: Stepper{
                 self?.steps.accept(PromiseStep.networkErrorPopup)
             })
             .disposed(by: disposeBag)
+    }
+    
+    func saveRoomId(roomId: Int){
+        let realm = try! Realm()
+        try! realm.write {
+            let newChatList = ChatList()
+            newChatList.roomId = roomId
+            realm.add(newChatList)
+        }
     }
     
     

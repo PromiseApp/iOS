@@ -79,6 +79,7 @@ extension UITextView {
         self.addSubview(paddingView)
         self.textContainer.lineFragmentPadding = width
     }
+    
 }
 
 extension UIColor {

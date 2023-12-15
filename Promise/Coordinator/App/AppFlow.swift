@@ -6,6 +6,7 @@ class AppFlow: Flow {
         return self.rootViewController
     }
     
+    let stompService = StompService()
     let authService = AuthService()
     let promiseService = PromiseService()
     var shareVM: ShareFriendViewModel?
@@ -68,7 +69,7 @@ class AppFlow: Flow {
     }
     
     private func navigateToTabBar() -> FlowContributors {
-        let VM = TabBarViewModel()
+        let VM = TabBarViewModel(stompService: self.stompService)
         let VC = TabBarController(tabBarViewModel: VM)
         
         let promiseNC = UINavigationController()
@@ -80,9 +81,9 @@ class AppFlow: Flow {
         let myPageNC = UINavigationController()
         myPageNC.isNavigationBarHidden = true
         
-        let tabBarFlow = TabBarFlow(with: rootViewController)
-        let promiseFlow = PromiseFlow(with: promiseNC)
-        let chatFlow = ChatFlow(with: chatNC)
+        let tabBarFlow = TabBarFlow(with: rootViewController, stompService: self.stompService)
+        let promiseFlow = PromiseFlow(with: promiseNC, stompService: self.stompService)
+        let chatFlow = ChatFlow(with: chatNC, stompService: self.stompService)
         let friendFlow = FriendFlow(with: friendNC)
         let myPageFlow = MyPageFlow(with: myPageNC)
         
@@ -106,7 +107,7 @@ class AppFlow: Flow {
         return .multiple(flowContributors: [
             .contribute(withNextPresentable: tabBarFlow, withNextStepper: VM),
             .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.home)),
-            .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.chat)),
+            .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.chatList)),
             .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.friend)),
             .contribute(withNextPresentable: myPageFlow, withNextStepper: OneStepper(withSingleStep: MyPageStep.myPage))
         ])

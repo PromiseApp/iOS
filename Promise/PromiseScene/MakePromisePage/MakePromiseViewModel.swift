@@ -1,4 +1,5 @@
 import RxSwift
+import RealmSwift
 import UIKit
 import Foundation
 import RxCocoa
@@ -10,6 +11,7 @@ class MakePromiseViewModel: Stepper{
     
     var shareFriendViewModel: ShareFriendViewModel
     var promiseService: PromiseService
+    var stompService: StompService
     let currentFlow: PromiseFlowType
     
     let leftButtonTapped = PublishRelay<Void>()
@@ -34,9 +36,10 @@ class MakePromiseViewModel: Stepper{
     
     let isNextButtonEnabled: Observable<Bool>
     
-    init(shareFriendViewModel: ShareFriendViewModel, promiseService: PromiseService, currentFlow: PromiseFlowType) {
+    init(shareFriendViewModel: ShareFriendViewModel, promiseService: PromiseService, stompService: StompService, currentFlow: PromiseFlowType) {
         self.shareFriendViewModel = shareFriendViewModel
         self.promiseService = promiseService
+        self.stompService = stompService
         self.currentFlow = currentFlow
         
         titleRelay
@@ -139,7 +142,12 @@ class MakePromiseViewModel: Stepper{
                
                 return self.promiseService.registerPromise(title: title, date: formattedDate, friends: friendNames, place: place, penalty: penalty, memo: realMemo)
                     .asObservable()
-                    .map{ _ in Void() }
+                    .map{ response in
+                        let roomID = response.data.info.id
+                        self.stompService.subscribeToChatRoom(promiseID: roomID)
+                        self.saveRoomId(roomId: roomID)
+                        return Void()
+                    }
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
@@ -168,6 +176,13 @@ class MakePromiseViewModel: Stepper{
         }
     }
     
-    
+    func saveRoomId(roomId: Int){
+        let realm = try! Realm()
+        try! realm.write {
+            let newChatList = ChatList()
+            newChatList.roomId = roomId
+            realm.add(newChatList)
+        }
+    }
     
 }

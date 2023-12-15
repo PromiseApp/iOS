@@ -1,6 +1,8 @@
 import RxFlow
 
 enum ChatStep: Step {
-    case chat
-    
+    case chatList
+    case chatRoom(promiseId: Int)
+    case networkErrorPopup
+    case popView
 }

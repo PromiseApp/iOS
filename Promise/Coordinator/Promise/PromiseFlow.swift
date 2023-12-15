@@ -9,12 +9,14 @@ class PromiseFlow: Flow {
     private var rootViewController: UINavigationController
     
     let promiseService = PromiseService()
+    let stompService: StompService
     var shareVM: ShareFriendViewModel?
     var shareVMForModify: ShareFriendViewModel?
     let promiseIDViewModel = PromiseIDViewModel()
     
-    init(with rootViewController: UINavigationController) {
+    init(with rootViewController: UINavigationController, stompService: StompService) {
         self.rootViewController = rootViewController
+        self.stompService = stompService
         self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
         self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
     }
@@ -64,7 +66,7 @@ class PromiseFlow: Flow {
     }
     
     private func navigateToNewPromise() -> FlowContributors {
-        let VM = NewPromiseViewModel(promiseService: self.promiseService)
+        let VM = NewPromiseViewModel(promiseService: self.promiseService, stompService: self.stompService)
         let VC = NewPromiseViewController(newPromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -73,7 +75,7 @@ class PromiseFlow: Flow {
     
     private func navigateToMakePromise() -> FlowContributors {
         self.shareVM = ShareFriendViewModel(friendService: FriendService())
-        let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService, currentFlow: .promiseFlow)
+        let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService, stompService: self.stompService, currentFlow: .promiseFlow)
         let VC = MakePromiseViewController(makePromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)

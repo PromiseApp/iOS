@@ -4,7 +4,7 @@ import RxCocoa
 import RealmSwift
 
 
-final class UserSession {
+class UserSession {
     static let shared = UserSession()
     var deviceToken: String = ""
     var account: String = ""

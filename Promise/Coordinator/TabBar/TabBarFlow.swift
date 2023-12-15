@@ -9,11 +9,13 @@ class TabBarFlow: Flow {
     private var rootViewController: UINavigationController
     
     let promiseService = PromiseService()
+    let stompService: StompService
     var shareVM: ShareFriendViewModel?
     var shareVMForModify: ShareFriendViewModel?
     
-    init(with rootViewController: UINavigationController) {
+    init(with rootViewController: UINavigationController, stompService: StompService) {
         self.rootViewController = rootViewController
+        self.stompService = stompService
         self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
         self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
     }
@@ -38,7 +40,7 @@ class TabBarFlow: Flow {
         if let tabBarController = rootViewController.viewControllers.first as? UITabBarController,
            let currentNavController = tabBarController.selectedViewController as? UINavigationController {
             self.shareVM = ShareFriendViewModel(friendService: FriendService())
-            let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService, currentFlow: .tabBarFlow)
+            let VM = MakePromiseViewModel(shareFriendViewModel: shareVM!, promiseService: self.promiseService, stompService: self.stompService, currentFlow: .tabBarFlow)
             let VC = MakePromiseViewController(makePromiseViewModel: VM)
             VC.hidesBottomBarWhenPushed = true
             currentNavController.pushViewController(VC, animated: true)

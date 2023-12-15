@@ -1,0 +1,68 @@
+import RxSwift
+import UIKit
+import Foundation
+import Moya
+import RxCocoa
+import RxFlow
+import StompClientLib
+
+class ChatRoomViewModel: Stepper{
+    let disposeBag = DisposeBag()
+    let steps = PublishRelay<Step>()
+    let stompService: StompService
+    let promiseID: Int
+    
+    var messages: [ChatRoom] = []
+    let userNickname = DatabaseManager.shared.fetchUser()?.nickname
+    
+    let leftButtonTapped = PublishRelay<Void>()
+    let sendButtonTapped = PublishRelay<Void>()
+    let chatTextFieldRelay = BehaviorRelay<String?>(value: "")
+    
+    let chatRelay = BehaviorRelay<[ChatRoom]>(value: [])
+    var chatDriver: Driver<[ChatRoom]>{
+        return chatRelay.asDriver(onErrorJustReturn: [])
+    }
+    
+    init(stompService: StompService, promiseID: Int){
+        self.stompService = stompService
+        self.promiseID = promiseID
+        
+        self.stompService.messageRelay
+            .subscribe(onNext: { [weak self] message in
+                self?.chatRelay.accept(message)
+            })
+            .disposed(by: disposeBag)
+        
+        leftButtonTapped
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(ChatStep.popView)
+            })
+            .disposed(by: disposeBag)
+        
+        sendButtonTapped
+            .withLatestFrom(chatTextFieldRelay)
+            .subscribe(onNext: { [weak self] chat in
+                self?.sendMessage(text: chat ?? "")
+                self?.chatTextFieldRelay.accept(nil)
+            })
+            .disposed(by: disposeBag)
+        
+    }
+    
+    func sendMessage(text: String) {
+        let destination = "/pub/chat/message"
+        var userImg: String? = nil
+        if let user = DatabaseManager.shared.fetchUser(){
+           userImg = user.image
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
+        let sendDate = dateFormatter.string(from: Date())
+        
+        let jsonBody: [String: Any] = ["roomId": promiseID , "senderNickname": userNickname, "memberImg": userImg, "message": text, "sendDate": sendDate]
+
+        self.stompService.socketClient.sendJSONForDict(dict: jsonBody as AnyObject, toDestination: destination)
+    }
+    
+}

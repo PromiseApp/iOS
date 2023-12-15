@@ -4,16 +4,16 @@ import RxCocoa
 import Then
 import SnapKit
 
-class ChatViewController: UIViewController {
+class ChatListViewController: UIViewController {
     let disposeBag = DisposeBag()
-    var chatViewModel: ChatViewModel
+    var chatListViewModel: ChatListViewModel
     
     let titleLabel = UILabel()
     let separateView = UIView()
-    let noticeLabel = UILabel()
-    
-    init(chatViewModel: ChatViewModel) {
-        self.chatViewModel = chatViewModel
+    let chatListTableView = UITableView()
+        
+    init(chatListViewModel: ChatListViewModel) {
+        self.chatListViewModel = chatListViewModel
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -29,10 +29,26 @@ class ChatViewController: UIViewController {
         layout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.chatListViewModel.loadChatList()
+    }
+    
     private func bind(){
         
+        chatListViewModel.chatListDriver
+            .drive(chatListTableView.rx.items(cellIdentifier: "ChatListTableViewCell", cellType: ChatListTableViewCell.self)){ row, chatList, cell in
+                cell.configure(chatList: chatList)
+            }
+            .disposed(by: disposeBag)
         
-
+        chatListTableView.rx.itemSelected
+            .subscribe(onNext: { [weak self] indexPath in
+                guard let cell = self?.chatListTableView.cellForRow(at: indexPath) as? ChatListTableViewCell else { return }
+                let promiseID = cell.promiseID
+                self?.chatListViewModel.cellSelected.accept(promiseID)
+            })
+            .disposed(by: disposeBag)
         
     }
     
@@ -48,17 +64,15 @@ class ChatViewController: UIViewController {
             $0.backgroundColor = UIColor(named: "line")
         }
         
-        noticeLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
-            
-            $0.text = "다음 버젼에서 출시 예정입니다"
+        chatListTableView.do{
+            $0.separatorStyle = .none
+            $0.register(ChatListTableViewCell.self, forCellReuseIdentifier: "ChatListTableViewCell")
         }
-        
         
     }
     
     private func layout(){
-        [titleLabel,separateView,noticeLabel]
+        [titleLabel,separateView,chatListTableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -73,8 +87,9 @@ class ChatViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
-        noticeLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        chatListTableView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(separateView.snp.bottom)
         }
         
         

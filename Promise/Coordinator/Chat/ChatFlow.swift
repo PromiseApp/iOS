@@ -7,28 +7,55 @@ class ChatFlow: Flow {
     }
     
     private var rootViewController: UINavigationController
+    let stompService: StompService
+    let chatService = ChatService()
     
-    init(with rootViewController: UINavigationController) {
+    init(with rootViewController: UINavigationController, stompService: StompService) {
         self.rootViewController = rootViewController
-        self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
-        self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
+        self.stompService = stompService
     }
     
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? ChatStep else { return .none }
         
         switch step {
-        case .chat:
-            return navigateToHome()
-        
+        case .chatList:
+            return navigateToChatList()
+        case .chatRoom(let promiseId):
+            return navigateToChatRoom(promiseId: promiseId)
+        case .networkErrorPopup:
+            return presentNetworkErrorPopup()
+        case .popView:
+            return popViewController()
         }
     }
     
-    private func navigateToHome() -> FlowContributors {
-        let VM = ChatViewModel()
-        let VC = ChatViewController(chatViewModel: VM)
+    private func navigateToChatList() -> FlowContributors {
+        let VM = ChatListViewModel(chatService: chatService)
+        let VC = ChatListViewController(chatListViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToChatRoom(promiseId: Int) -> FlowContributors {
+        let VM = ChatRoomViewModel(stompService: stompService, promiseID: promiseId)
+        let VC = ChatRoomViewController(chatRoomViewModel: VM)
+        VC.hidesBottomBarWhenPushed = true
+        rootViewController.pushViewController(VC, animated: true)
+        
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func presentNetworkErrorPopup() -> FlowContributors {
+        let VC = NetworkErrorPopupViewController()
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .none
+    }
+    
+    private func popViewController() -> FlowContributors {
+        rootViewController.popViewController(animated: true)
+        return .none
     }
     
 }
