@@ -17,6 +17,7 @@ class ChatRoomViewController: UIViewController {
     let stackView = UIView()
     let chatTextView = UITextView()
     let sendButton = UIButton()
+    let participantView = ParticipantView()
     
     var textViewHeightConstraint: Constraint?
     var stackViewHeightConstraint: Constraint?
@@ -59,13 +60,19 @@ class ChatRoomViewController: UIViewController {
             .disposed(by: disposeBag)
         
         menuButton.rx.tap
-            .bind(onNext: {
-                
+            .bind(onNext: { [weak self] _ in
+                self?.updateParticipantViewConstraints()
             })
             .disposed(by: disposeBag)
         
         sendButton.rx.tap
             .bind(to: chatRoomViewModel.sendButtonTapped)
+            .disposed(by: disposeBag)
+        
+        sendButton.rx.tap
+            .subscribe(onNext: { [weak self] in
+                self?.scrollTableViewToBottom()
+            })
             .disposed(by: disposeBag)
         
         chatRoomViewModel.chatDriver
@@ -124,13 +131,17 @@ class ChatRoomViewController: UIViewController {
             $0.layer.cornerRadius = 16*Constants.standardHeight
         }
         
+        participantView.do{
+            $0.backgroundColor = .white
+        }
+        
     }
     
     private func layout(){
         [chatTextView,sendButton]
             .forEach { stackView.addSubview($0) }
         
-        [titleLabel,leftButton,menuButton,separateView,stackView,chatTableView]
+        [titleLabel,leftButton,menuButton,separateView,stackView,chatTableView,participantView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -182,6 +193,13 @@ class ChatRoomViewController: UIViewController {
             make.bottom.equalTo(stackView.snp.top)
         }
         
+        participantView.snp.makeConstraints { make in
+            make.width.equalTo(300*Constants.standardWidth)
+            make.leading.equalTo(view.snp.trailing)
+            make.top.equalTo(50*Constants.standardHeight)
+            make.bottom.equalToSuperview()
+        }
+        
     }
     
     func adjustTextViewHeight() {
@@ -203,6 +221,43 @@ class ChatRoomViewController: UIViewController {
         }
         
         view.layoutIfNeeded()
+    }
+    
+    func scrollTableViewToBottom() {
+        let numberOfSections = chatTableView.numberOfSections
+        let numberOfRows = chatTableView.numberOfRows(inSection: numberOfSections - 1)
+        
+        if numberOfRows > 0 {
+            let indexPath = IndexPath(row: numberOfRows - 1, section: numberOfSections - 1)
+            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        }
+    }
+    
+    func updateParticipantViewConstraints() {
+        participantView.snp.remakeConstraints { make in
+            make.width.equalTo(300*Constants.standardWidth)
+            make.trailing.equalTo(view.snp.trailing)
+            make.top.equalTo(50*Constants.standardHeight)
+            make.bottom.equalToSuperview()
+        }
+        
+
+        UIView.animate(withDuration: 0.3) {
+            
+            self.view.layoutIfNeeded()
+        }
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .allowAnimatedContent){
+            let backgroundView = UIView()
+            backgroundView.backgroundColor = UIColor.black
+            backgroundView.alpha = 0
+            self.view.insertSubview(backgroundView, belowSubview: self.participantView)
+            
+            backgroundView.snp.makeConstraints { make in
+                make.edges.equalToSuperview()
+            }
+            backgroundView.alpha = 0.3
+        }
     }
 
 }

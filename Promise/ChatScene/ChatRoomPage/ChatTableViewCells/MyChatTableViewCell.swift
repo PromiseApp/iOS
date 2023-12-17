@@ -64,9 +64,9 @@ class MyChatTableViewCell: UITableViewCell {
         
     }
     
-    func configure(chat: ChatRoom){
-        myChatLabel.text = chat.messageText
-        chatDateLabel.text = String(chat.timestamp.dropFirst(5))
+    func configure(chat: ChatCell){
+        myChatLabel.text = chat.content
+        chatDateLabel.text = String(chat.chatDate.dropFirst(5).dropLast(3))
     }
    
 }

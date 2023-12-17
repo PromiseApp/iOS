@@ -28,6 +28,12 @@ class ParticipantView: UIView{
     }
     
     func layout(){
+        self.addSubview(participantLabel)
+        
+        participantLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(12*Constants.standardWidth)
+            make.top.equalToSuperview().offset(12*Constants.standardHeight)
+        }
         
     }
     

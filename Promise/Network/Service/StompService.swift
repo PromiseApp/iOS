@@ -48,17 +48,17 @@ class StompService {
         }
     }
     
+    func updateMessagesForRoom(roomId: Int) {
+        let messages = loadMessages(roomId: roomId)
+        messageRelay.accept(messages)
+    }
+    
     func loadMessages(roomId: Int) -> [ChatRoom] {
         let realm = try! Realm()
         if let chatList = realm.object(ofType: ChatList.self, forPrimaryKey: roomId) {
             return Array(chatList.messages.sorted(byKeyPath: "timestamp", ascending: true))
         }
         return []
-    }
-    
-    func updateMessagesForRoom(roomId: Int) {
-        let messages = loadMessages(roomId: roomId)
-        messageRelay.accept(messages)
     }
 
     // 추가 메시지 불러오기 (예: 다음 20개)
@@ -82,7 +82,6 @@ extension StompService: StompClientLibDelegate{
               let json = try? JSONSerialization.jsonObject(with: data, options: []),
               let dict = json as? [String: Any],
               let roomId = dict["roomId"] as? Int,
-              let imageBase64 = dict["memberImg"] as? String,
               let senderNickname = dict["senderNickname"] as? String,
               let messageText = dict["message"] as? String,
               let sendDate = dict["sendDate"] as? String else {
@@ -90,7 +89,12 @@ extension StompService: StompClientLibDelegate{
             return
         }
         
-        self.saveMessage(roomId: roomId, senderNickname: senderNickname, userImageBase64: imageBase64, messageText: messageText, timestamp: sendDate)
+        var image: String? = nil
+        if let imageBase64 = dict["memberImg"] as? String{
+            image = imageBase64
+        }
+        
+        self.saveMessage(roomId: roomId, senderNickname: senderNickname, userImageBase64: image, messageText: messageText, timestamp: sendDate)
         self.updateMessagesForRoom(roomId: roomId)
     }
     

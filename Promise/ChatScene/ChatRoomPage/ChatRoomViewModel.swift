@@ -19,18 +19,22 @@ class ChatRoomViewModel: Stepper{
     let sendButtonTapped = PublishRelay<Void>()
     let chatTextFieldRelay = BehaviorRelay<String?>(value: "")
     
-    let chatRelay = BehaviorRelay<[ChatRoom]>(value: [])
-    var chatDriver: Driver<[ChatRoom]>{
+    let chatRelay = BehaviorRelay<[ChatCell]>(value: [])
+    var chatDriver: Driver<[ChatCell]>{
         return chatRelay.asDriver(onErrorJustReturn: [])
     }
     
     init(stompService: StompService, promiseID: Int){
         self.stompService = stompService
         self.promiseID = promiseID
+        self.stompService.subscribeToChatRoom(promiseID: 31)
+        let lastMessages = self.convertToChatCell(chatRooms: self.stompService.loadMessages(roomId: promiseID))
+        self.chatRelay.accept(lastMessages)
         
         self.stompService.messageRelay
             .subscribe(onNext: { [weak self] message in
-                self?.chatRelay.accept(message)
+                let messages = self?.convertToChatCell(chatRooms: message)
+                self?.chatRelay.accept(messages!)
             })
             .disposed(by: disposeBag)
         
@@ -64,5 +68,24 @@ class ChatRoomViewModel: Stepper{
 
         self.stompService.socketClient.sendJSONForDict(dict: jsonBody as AnyObject, toDestination: destination)
     }
+    
+    func convertToChatCell(chatRooms: [ChatRoom]) -> [ChatCell] {
+        return chatRooms.map { chatRoom in
+            var userImage: UIImage? = UIImage(named: "user")
+            if let base64String = chatRoom.userImageBase64,
+               let imageData = Data(base64Encoded: base64String) {
+                userImage = UIImage(data: imageData)
+            }
+
+            return ChatCell(
+                promiseID: chatRoom.roomId,
+                nickname: chatRoom.senderNickname,
+                userImage: userImage,
+                content: chatRoom.messageText,
+                chatDate: chatRoom.timestamp
+            )
+        }
+    }
+
     
 }

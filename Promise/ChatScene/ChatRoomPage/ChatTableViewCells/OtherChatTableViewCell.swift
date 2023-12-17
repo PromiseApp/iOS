@@ -87,17 +87,11 @@ class OtherChatTableViewCell: UITableViewCell {
         
     }
     
-    func configure(chat: ChatRoom){
-        var userImage: UIImage? = UIImage(named: "user")
-        if let imageBase64 = chat.userImageBase64,
-           let imageData = Data(base64Encoded: imageBase64) {
-            userImage = UIImage(data: imageData)
-        }
-        
-        userImageView.image = userImage
-        userNickname.text = chat.senderNickname
-        userChatLabel.text = chat.messageText
-        userChatDateLabel.text = String(chat.timestamp.dropFirst(5))
+    func configure(chat: ChatCell){
+        userImageView.image = chat.userImage
+        userNickname.text = chat.nickname
+        userChatLabel.text = chat.content
+        userChatDateLabel.text = String(chat.chatDate.dropFirst(5).dropLast(3))
     }
    
 }
