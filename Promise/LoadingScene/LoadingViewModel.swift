@@ -76,7 +76,7 @@ class LoadingViewModel: Stepper{
                         self?.steps.accept(AppStep.tabBar)
                     }, onFailure: { [weak self] error in
                         print(error)
-                        self?.steps.accept(AppStep.networkErrorPopup)
+                        self?.steps.accept(AppStep.login)
                     })
                     .disposed(by: disposeBag)
             }

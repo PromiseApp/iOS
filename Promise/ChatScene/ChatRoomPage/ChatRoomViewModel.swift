@@ -18,6 +18,7 @@ class ChatRoomViewModel: Stepper{
     let leftButtonTapped = PublishRelay<Void>()
     let sendButtonTapped = PublishRelay<Void>()
     let chatTextFieldRelay = BehaviorRelay<String?>(value: "")
+    let isParticipantViewVisible = PublishRelay<Bool>()
     
     let chatRelay = BehaviorRelay<[ChatCell]>(value: [])
     var chatDriver: Driver<[ChatCell]>{

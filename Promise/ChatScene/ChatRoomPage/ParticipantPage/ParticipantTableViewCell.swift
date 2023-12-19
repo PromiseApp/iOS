@@ -7,7 +7,7 @@ class ParticipantTableViewCell: UITableViewCell {
     lazy var userImageView = UIImageView()
     lazy var nameLabel = UILabel()
     lazy var levelLabel = UILabel()
-    let selectImageView = UIImageView()
+    let leaderImageView = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -37,19 +37,19 @@ class ParticipantTableViewCell: UITableViewCell {
             $0.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
         }
         
-        selectImageView.do{
-            $0.image = UIImage(named: "unselect")
+        leaderImageView.do{
+            $0.image = UIImage(named: "leader")
         }
     }
     
     private func layout(){
-        [userImageView,nameLabel,levelLabel,selectImageView]
+        [userImageView,nameLabel,levelLabel,leaderImageView]
             .forEach{ contentView.addSubview($0)}
         
         userImageView.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
             make.leading.equalToSuperview().offset(12*Constants.standardWidth)
-            make.top.equalToSuperview().offset(12*Constants.standardHeight)
+            make.centerY.equalToSuperview()
         }
         
         nameLabel.snp.makeConstraints { make in
@@ -62,9 +62,9 @@ class ParticipantTableViewCell: UITableViewCell {
             make.centerY.equalTo(userImageView)
         }
         
-        selectImageView.snp.makeConstraints { make in
+        leaderImageView.snp.makeConstraints { make in
             make.width.height.equalTo(24*Constants.standardHeight)
-            make.trailing.equalTo(contentView.snp.trailing).offset(-20*Constants.standardWidth)
+            make.leading.equalTo(levelLabel.snp.trailing).offset(4*Constants.standardWidth)
             make.centerY.equalTo(userImageView)
         }
     }
@@ -73,7 +73,7 @@ class ParticipantTableViewCell: UITableViewCell {
         userImageView.image = model.userImage
         nameLabel.text = model.name
         levelLabel.text = "Lv " + model.level
-        selectImageView.image = model.isSelected ? UIImage(named: "select") : UIImage(named: "unselect")
+        leaderImageView.isHidden = !model.isSelected
     }
     
 }

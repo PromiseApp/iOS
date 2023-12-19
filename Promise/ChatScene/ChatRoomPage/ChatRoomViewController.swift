@@ -17,13 +17,18 @@ class ChatRoomViewController: UIViewController {
     let stackView = UIView()
     let chatTextView = UITextView()
     let sendButton = UIButton()
-    let participantView = ParticipantView()
+    let participantView: ParticipantView
     
     var textViewHeightConstraint: Constraint?
     var stackViewHeightConstraint: Constraint?
+    
+    let participantViewSwipeGesture = UISwipeGestureRecognizer()
+    let backgroundViewTapGesture = UITapGestureRecognizer()
+    let backgroundView = UIView()
    
-    init(chatRoomViewModel: ChatRoomViewModel) {
+    init(chatRoomViewModel: ChatRoomViewModel, participantView: ParticipantView) {
         self.chatRoomViewModel = chatRoomViewModel
+        self.participantView = participantView
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -34,9 +39,10 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        bind()
         attribute()
         layout()
-        bind()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,6 +95,24 @@ class ChatRoomViewController: UIViewController {
             }
             .disposed(by: disposeBag)
         
+        participantViewSwipeGesture.rx.event
+            .bind(onNext: { [weak self] _ in
+                self?.chatRoomViewModel.isParticipantViewVisible.accept(false)
+            })
+            .disposed(by: disposeBag)
+        
+        backgroundViewTapGesture.rx.event
+            .bind(onNext: { [weak self] _ in
+                self?.chatRoomViewModel.isParticipantViewVisible.accept(false)
+            })
+            .disposed(by: disposeBag)
+        
+        chatRoomViewModel.isParticipantViewVisible
+            .subscribe(onNext: { [weak self] isVisible in
+                self?.toggleParticipantView(isVisible: isVisible)
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     private func attribute(){
@@ -132,7 +156,18 @@ class ChatRoomViewController: UIViewController {
         }
         
         participantView.do{
-            $0.backgroundColor = .white
+            $0.addGestureRecognizer(participantViewSwipeGesture)
+        }
+        
+        participantViewSwipeGesture.do{
+            $0.direction = .right
+        }
+        
+        backgroundView.do{
+            $0.backgroundColor = UIColor.black
+            $0.alpha = 0
+            $0.isHidden = true
+            $0.addGestureRecognizer(backgroundViewTapGesture)
         }
         
     }
@@ -143,6 +178,12 @@ class ChatRoomViewController: UIViewController {
         
         [titleLabel,leftButton,menuButton,separateView,stackView,chatTableView,participantView]
             .forEach{ view.addSubview($0) }
+        
+        view.insertSubview(backgroundView, belowSubview: participantView)
+        
+        backgroundView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
         
         titleLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -236,27 +277,32 @@ class ChatRoomViewController: UIViewController {
     func updateParticipantViewConstraints() {
         participantView.snp.remakeConstraints { make in
             make.width.equalTo(300*Constants.standardWidth)
-            make.trailing.equalTo(view.snp.trailing)
+            make.trailing.equalToSuperview()
             make.top.equalTo(50*Constants.standardHeight)
             make.bottom.equalToSuperview()
         }
         
-
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.3, delay: 0, options: .allowAnimatedContent){
             
+            self.backgroundView.alpha = 0.3
+            self.backgroundView.isHidden = false
             self.view.layoutIfNeeded()
         }
+    }
+    
+    func toggleParticipantView(isVisible: Bool) {
+        participantView.snp.remakeConstraints { make in
+            make.width.equalTo(300*Constants.standardWidth)
+            isVisible ? make.trailing.equalToSuperview() : make.leading.equalTo(view.snp.trailing)
+            make.top.equalTo(50*Constants.standardHeight)
+            make.bottom.equalToSuperview()
+        }
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: .allowAnimatedContent){
-            let backgroundView = UIView()
-            backgroundView.backgroundColor = UIColor.black
-            backgroundView.alpha = 0
-            self.view.insertSubview(backgroundView, belowSubview: self.participantView)
-            
-            backgroundView.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-            backgroundView.alpha = 0.3
+        backgroundView.isHidden = !isVisible
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .allowAnimatedContent) {
+            self.backgroundView.alpha = isVisible ? 0.3 : 0
+            self.view.layoutIfNeeded()
         }
     }
 

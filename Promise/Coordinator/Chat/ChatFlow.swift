@@ -39,7 +39,7 @@ class ChatFlow: Flow {
     
     private func navigateToChatRoom(promiseId: Int) -> FlowContributors {
         let VM = ChatRoomViewModel(stompService: stompService, promiseID: promiseId)
-        let VC = ChatRoomViewController(chatRoomViewModel: VM)
+        let VC = ChatRoomViewController(chatRoomViewModel: VM, participantView: ParticipantView(participantViewModel: ParticipantViewModel(promiseID: promiseId)))
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
         
