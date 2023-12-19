@@ -9,7 +9,7 @@ class UserSession {
     var deviceToken: String = ""
     var account: String = ""
     var nickname: String = ""
-    var image: String?
+    var image: UIImage?
     var level: Int = 0
     var exp: Int = 0
     var role: String = ""

@@ -47,12 +47,18 @@ class ChatRoomViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        self.scrollTableViewToBottom()
         chatTextView.rx.text
             .subscribe(onNext: { [weak self] text in
                 self?.chatRoomViewModel.chatTextFieldRelay.accept(text)
                 self?.adjustTextViewHeight()
             })
             .disposed(by: disposeBag)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        chatRoomViewModel.leaveChatRoom()
     }
     
     private func bind(){
@@ -76,7 +82,7 @@ class ChatRoomViewController: UIViewController {
             .disposed(by: disposeBag)
         
         sendButton.rx.tap
-            .subscribe(onNext: { [weak self] in
+            .bind(onNext: { [weak self] _ in
                 self?.scrollTableViewToBottom()
             })
             .disposed(by: disposeBag)
@@ -265,12 +271,15 @@ class ChatRoomViewController: UIViewController {
     }
     
     func scrollTableViewToBottom() {
-        let numberOfSections = chatTableView.numberOfSections
-        let numberOfRows = chatTableView.numberOfRows(inSection: numberOfSections - 1)
-        
-        if numberOfRows > 0 {
-            let indexPath = IndexPath(row: numberOfRows - 1, section: numberOfSections - 1)
-            chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
+        DispatchQueue.main.async { [weak self] in
+            let numberOfSections = self?.chatTableView.numberOfSections
+            let numberOfRows = self?.chatTableView.numberOfRows(inSection: (numberOfSections ?? 1) - 1)
+            if numberOfRows ?? 1 > 0 {
+                let indexPath = IndexPath(row: (numberOfRows ?? 1) - 1
+                                          , section: (numberOfSections ?? 1) - 1)
+                print(indexPath)
+                self?.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
+            }
         }
     }
     

@@ -70,7 +70,7 @@ class SignupViewModel: Stepper{
                 if(password == confirmPassword){
                     let user = DatabaseManager.shared.fetchUser()
                     
-                    return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, image: UserSession.shared.image)
+                    return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, image: "UserSession.shared.image")
                         .asObservable()
                         .map{_ in Void() }
                         .catch { [weak self] error in
@@ -88,10 +88,7 @@ class SignupViewModel: Stepper{
         
         selectedImage
             .subscribe(onNext: { [weak self] image in
-                if let imageData = image?.pngData() {
-                    let base64String = imageData.base64EncodedString()
-                    UserSession.shared.image = base64String
-                }
+                UserSession.shared.image = image
             })
             .disposed(by: disposeBag)
     }

@@ -1,4 +1,5 @@
 import RxSwift
+import RealmSwift
 import UIKit
 import Foundation
 import Moya
@@ -11,6 +12,7 @@ class ChatRoomViewModel: Stepper{
     let steps = PublishRelay<Step>()
     let stompService: StompService
     let promiseID: Int
+    var currentRoomId: Int?
     
     var messages: [ChatRoom] = []
     let userNickname = DatabaseManager.shared.fetchUser()?.nickname
@@ -28,7 +30,9 @@ class ChatRoomViewModel: Stepper{
     init(stompService: StompService, promiseID: Int){
         self.stompService = stompService
         self.promiseID = promiseID
-        self.stompService.subscribeToChatRoom(promiseID: 31)
+        self.currentRoomId = promiseID
+        self.stompService.setCurrentRoomId(roomId: self.currentRoomId)
+        self.markMessagesAsRead(roomId: promiseID)
         let lastMessages = self.convertToChatCell(chatRooms: self.stompService.loadMessages(roomId: promiseID))
         self.chatRelay.accept(lastMessages)
         
@@ -88,5 +92,18 @@ class ChatRoomViewModel: Stepper{
         }
     }
 
+    func markMessagesAsRead(roomId: Int) {
+        let realm = try! Realm()
+        try! realm.write {
+            let messages = realm.objects(ChatRoom.self).filter("roomId == \(roomId)")
+            for message in messages {
+                message.isRead = true
+            }
+        }
+    }
+    
+    func leaveChatRoom() {
+        self.stompService.setCurrentRoomId(roomId: nil)
+    }
     
 }

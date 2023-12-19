@@ -31,7 +31,7 @@ class ChatFlow: Flow {
     }
     
     private func navigateToChatList() -> FlowContributors {
-        let VM = ChatListViewModel(chatService: chatService)
+        let VM = ChatListViewModel(chatService: chatService, stompService: stompService)
         let VC = ChatListViewController(chatListViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

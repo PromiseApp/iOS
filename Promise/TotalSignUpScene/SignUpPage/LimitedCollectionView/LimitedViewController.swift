@@ -69,19 +69,6 @@ class LimitedViewController: UIViewController {
                 PHImageManager.default().requestImage(for: asset!, targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill, options: nil) { image, _ in
                     guard let image = image else { return }
                     self?.limitedViewModel.selectedPhoto.onNext(image)
-                    if let imageData = image.pngData() {
-                        let base64String = imageData.base64EncodedString()
-                        do {
-                            let realm = try Realm()
-                            try realm.write {
-                                if let user = realm.objects(User.self).first {
-                                    user.image = base64String
-                                }
-                            }
-                        } catch {
-                            print("Error updating image in Realm: \(error)")
-                        }
-                    }
                     self?.limitedViewModel.itemSelected.accept(())
                 }
             })

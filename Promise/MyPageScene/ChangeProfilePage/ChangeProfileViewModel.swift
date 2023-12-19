@@ -1,4 +1,5 @@
 import UIKit
+import Moya
 import KakaoSDKUser
 import RealmSwift
 import RxSwift
@@ -68,26 +69,20 @@ class ChangeProfileViewModel: Stepper{
         selectedImage
             .flatMapLatest { [weak self] image -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                var base64String = ""
-                if let imageData = image?.pngData() {
-                    base64String = imageData.base64EncodedString()
-                    do {
-                        let realm = try Realm()
-                        try realm.write {
-                            if let user = realm.objects(User.self).first {
-                                user.image = base64String
-                            }
-                        }
-                    } catch {
-                        print("Error updating image in Realm: \(error)")
-                    }
-                }
-                
-                return self.authService.changeImage(img: base64String)
+                return self.authService.changeImage(img: image)
                     .asObservable()
                     .map{ _ in Void() }
                     .catch { [weak self] error in
                         print(error)
+                        if let moyaError = error as? MoyaError {
+                            switch moyaError {
+                            case .statusCode(let response):
+                                print("Status Code: \(response.statusCode)")
+                                print("Response Data: \(String(data: response.data, encoding: .utf8) ?? "")")
+                            default:
+                                print(error)
+                            }
+                        }
                         self?.steps.accept(MyPageStep.networkErrorPopup)
                         return Observable.empty()
                     }

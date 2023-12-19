@@ -181,6 +181,7 @@ class MakePromiseViewModel: Stepper{
         try! realm.write {
             let newChatList = ChatList()
             newChatList.roomId = roomId
+            print(roomId)
             realm.add(newChatList)
         }
     }

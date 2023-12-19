@@ -1,4 +1,5 @@
 import Moya
+import UIKit
 import RxMoya
 import RxSwift
 
@@ -10,7 +11,7 @@ protocol AuthServiceProtocol {
     func postEmail(account: String) -> Single<PostEmailResponse>
     func changePassword(password: String) -> Single<AuthResponse>
     func changeNickname(nickname: String) -> Single<AuthResponse>
-    func changeImage(img: String) -> Single<AuthResponse>
+    func changeImage(img: UIImage?) -> Single<AuthResponse>
     func withdraw() -> Single<WithdrawResponse>
 }
 
@@ -59,7 +60,7 @@ class AuthService: AuthServiceProtocol {
             .map(AuthResponse.self)
     }
     
-    func changeImage(img: String) -> Single<AuthResponse> {
+    func changeImage(img: UIImage?) -> Single<AuthResponse> {
         return provider.rx.request(.changeImage(img: img))
             .filterSuccessfulStatusCodes()
             .map(AuthResponse.self)

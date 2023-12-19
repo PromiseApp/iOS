@@ -20,12 +20,16 @@ class ChatRoom: Object {
 
 }
 
-struct ChatListCell{
+struct ChatListCell {
     let promiseID: Int
     let title: String
-    let cnt: Int
+    let promiseCnt: Int
     let promiseDate: String
+    let messageTime: String
+    let unReadMessagesCnt: Int
 }
+
+
 
 struct ChatCell {
     let promiseID: Int
