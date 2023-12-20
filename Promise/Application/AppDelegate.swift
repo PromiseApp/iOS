@@ -9,35 +9,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: "874157b4510490128a52620b19f7f306")
         
-//        // 1. 푸시 center (유저에게 권한 요청 용도)
-//        let center = UNUserNotificationCenter.current()
-//        center.delegate = self // push처리에 대한 delegate - UNUserNotificationCenterDelegate
-//        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
-//        center.requestAuthorization(options: options) { (granted, error) in
-//            
-//            guard granted else {
-//                return
-//            }
-//            
-//            DispatchQueue.main.async {
-//                // 2. APNs에 디바이스 토큰 등록
-//                UIApplication.shared.registerForRemoteNotifications()
-//            }
-//        }
+        // 1. 푸시 center (유저에게 권한 요청 용도)
+        let center = UNUserNotificationCenter.current()
+        center.delegate = self // push처리에 대한 delegate - UNUserNotificationCenterDelegate
+        let options: UNAuthorizationOptions = [.alert, .sound, .badge]
+        center.requestAuthorization(options: options) { (granted, error) in
+            
+            guard granted else {
+                return
+            }
+            
+            DispatchQueue.main.async {
+                // 2. APNs에 디바이스 토큰 등록
+                UIApplication.shared.registerForRemoteNotifications()
+            }
+        }
         
         return true
     }
     
-//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-//        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
-//        print("tokenString: \(tokenString)")
-//        UserSession.shared.deviceToken = tokenString
-//    }
-//    
-//    // 실패시
-//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-//        print("Failed to register for notifications: \(error.localizedDescription)")
-//    }
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        let tokenString = deviceToken.map { String(format: "%02.2hhx", $0) }.joined()
+        print("tokenString: \(tokenString)")
+        UserSession.shared.deviceToken = tokenString
+    }
+    
+    // 실패시
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        print("Failed to register for notifications: \(error.localizedDescription)")
+    }
     
     // MARK: UISceneSession Lifecycle
 
@@ -57,9 +57,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 
-//extension AppDelegate: UNUserNotificationCenterDelegate {
-//    // foreground에서 시스템 푸시를 수신했을 때 해당 메소드가 호출
-//    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-//        completionHandler([.sound, .badge, .banner])
-//    }
-//}
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    // foreground에서 시스템 푸시를 수신했을 때 해당 메소드가 호출
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.sound, .badge, .banner])
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        let userInfo = response.notification.request.content.userInfo
+        print(userInfo)
+        
+    }
+}

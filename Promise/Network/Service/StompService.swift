@@ -19,6 +19,11 @@ class StompService {
         socketClient.subscribe(destination: subscribePath)
     }
     
+    func unSubscribeToChatRoom(promiseID: Int) {
+        let subscribePath = "/sub/chat/room/\(promiseID)"
+        socketClient.unsubscribe(destination: subscribePath)
+    }
+    
     func subscribeToAllChatRooms() {
         let realm = try! Realm()
         let allChatLists = realm.objects(ChatList.self)

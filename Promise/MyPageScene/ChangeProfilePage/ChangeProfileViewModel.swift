@@ -97,8 +97,10 @@ class ChangeProfileViewModel: Stepper{
     func normalLogout(){
         do {
             let realm = try Realm()
-            try realm.write {
-                realm.deleteAll()
+            let users = realm.objects(User.self)
+            
+            try! realm.write {
+                realm.delete(users)
             }
         } catch {
             print("Error clearing Realm data: \(error)")

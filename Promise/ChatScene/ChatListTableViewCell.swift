@@ -116,9 +116,11 @@ class ChatListTableViewCell: UITableViewCell {
         messageTime.text = chatList.messageTime
         unReadCnt.text = String(chatList.unReadMessagesCnt)
         if(chatList.unReadMessagesCnt == 0){
+            messageTime.isHidden = true
             unReadCnt.isHidden = true
         }
         else{
+            messageTime.isHidden = false
             unReadCnt.isHidden = false
         }
     }

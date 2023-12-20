@@ -59,6 +59,7 @@ class ChatListViewModel: Stepper{
     func loadChatList(){
         self.chatService.chatList()
             .subscribe(onSuccess: { [weak self] response in
+                let serverRoomIds = Set(response.data.chatRoomList.map { $0.roomId })
                 let chatListCells = response.data.chatRoomList.map { chatRoom -> ChatListCell in
                     let messageTime = self?.fetchLastMessageTime(roomId: chatRoom.roomId)
                     let unreadMessagesCount = self?.calculateUnreadMessages(roomId: chatRoom.roomId)
@@ -71,11 +72,29 @@ class ChatListViewModel: Stepper{
                     
                 }
                 self?.chatListRelay.accept(chatListCells)
+                self?.updateLocalChatRooms(serverRoomIds: serverRoomIds)
             }, onFailure: { [weak self] error in
                 print(error)
                 self?.steps.accept(ChatStep.networkErrorPopup)
             })
             .disposed(by: vwaDisposeBag)
+    }
+    
+    func updateLocalChatRooms(serverRoomIds: Set<Int>) {
+        let realm = try! Realm()
+        let localChatLists = realm.objects(ChatList.self)
+        let localChatRooms = realm.objects(ChatRoom.self)
+        
+        try? realm.write {
+            localChatLists.forEach { chatList in
+                if !serverRoomIds.contains(chatList.roomId) {
+                    let relatedChatRooms = localChatRooms.filter("roomId == %@", chatList.roomId)
+                    realm.delete(relatedChatRooms)
+                    
+                    realm.delete(chatList)
+                }
+            }
+        }
     }
     
     func extractTimeFromTimestamp(_ timestamp: String) -> String {

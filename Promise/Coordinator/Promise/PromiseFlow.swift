@@ -153,7 +153,7 @@ class PromiseFlow: Flow {
     }
     
     private func prsentOutPromisePopup(promiseId: String) -> FlowContributors {
-        let VM = OutPromisePopupViewModel(promiseService: promiseService, promiseId: promiseId)
+        let VM = OutPromisePopupViewModel(promiseService: promiseService, stompService: stompService, promiseId: promiseId)
         let VC = OutPromisePopupViewController(outPromisePopupViewModel: VM)
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)

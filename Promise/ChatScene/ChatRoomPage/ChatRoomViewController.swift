@@ -39,21 +39,15 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        bind()
+        
         attribute()
         layout()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        bind()
         self.scrollTableViewToBottom()
-        chatTextView.rx.text
-            .subscribe(onNext: { [weak self] text in
-                self?.chatRoomViewModel.chatTextFieldRelay.accept(text)
-                self?.adjustTextViewHeight()
-            })
-            .disposed(by: disposeBag)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -62,6 +56,12 @@ class ChatRoomViewController: UIViewController {
     }
     
     private func bind(){
+        chatTextView.rx.text
+            .subscribe(onNext: { [weak self] text in
+                self?.chatRoomViewModel.chatTextFieldRelay.accept(text)
+                self?.adjustTextViewHeight()
+            })
+            .disposed(by: disposeBag)
 
         chatRoomViewModel.chatTextFieldRelay
             .bind(to: chatTextView.rx.text)
@@ -81,8 +81,8 @@ class ChatRoomViewController: UIViewController {
             .bind(to: chatRoomViewModel.sendButtonTapped)
             .disposed(by: disposeBag)
         
-        sendButton.rx.tap
-            .bind(onNext: { [weak self] _ in
+        chatRoomViewModel.chatDriver
+            .drive(onNext: { [weak self] _ in
                 self?.scrollTableViewToBottom()
             })
             .disposed(by: disposeBag)
@@ -277,7 +277,6 @@ class ChatRoomViewController: UIViewController {
             if numberOfRows ?? 1 > 0 {
                 let indexPath = IndexPath(row: (numberOfRows ?? 1) - 1
                                           , section: (numberOfSections ?? 1) - 1)
-                print(indexPath)
                 self?.chatTableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
             }
         }
