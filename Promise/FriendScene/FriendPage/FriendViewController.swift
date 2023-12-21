@@ -13,6 +13,8 @@ class FriendViewController: UIViewController {
     let settingButton = UIButton()
     let separateView = UIView()
     let settingView = UIView()
+    let firstNewImageView = UIImageView()
+    let secondNewImageView = UIImageView()
     let addFriendButton = UIButton()
     let secSeparateView = UIView()
     let requestFriendButton = UIButton()
@@ -101,6 +103,20 @@ class FriendViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(Notification.Name("newFriendRequestNotificationReceived"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.firstNewImageView.isHidden = false
+                self?.secondNewImageView.isHidden = false
+            })
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(Notification.Name("newFriendRequestNotificationRead"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.firstNewImageView.isHidden = true
+                self?.secondNewImageView.isHidden = true
+            })
+            .disposed(by: disposeBag)
 
     }
     
@@ -126,6 +142,13 @@ class FriendViewController: UIViewController {
             $0.isHidden = true
         }
         
+        [firstNewImageView,secondNewImageView]
+            .forEach{
+                $0.image = UIImage(named: "new")
+                $0.layer.cornerRadius = 6*Constants.standardHeight
+                $0.isHidden = true
+            }
+        
         addFriendButton.do{
             $0.setTitle("친구 추가", for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
@@ -138,6 +161,7 @@ class FriendViewController: UIViewController {
         
         requestFriendButton.do{
             $0.setTitle("친구 요청", for: .normal)
+            $0.titleLabel?.textAlignment = .center
             $0.titleLabel?.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
             $0.setTitleColor(.black, for: .normal)
         }
@@ -182,7 +206,7 @@ class FriendViewController: UIViewController {
     }
     
     private func layout(){
-        [titleLabel,settingButton,separateView,searchTextField,searchImageView,settingView,tableView,successView]
+        [titleLabel,settingButton,firstNewImageView,separateView,searchTextField,searchImageView,settingView,tableView,successView]
             .forEach{ view.addSubview($0) }
         
         successView.addSubview(successLabel)
@@ -196,6 +220,12 @@ class FriendViewController: UIViewController {
             make.width.height.equalTo(24*Constants.standardHeight)
             make.trailing.equalToSuperview().offset(-12*Constants.standardWidth)
             make.centerY.equalTo(titleLabel)
+        }
+        
+        firstNewImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(12*Constants.standardHeight)
+            make.leading.equalTo(settingButton.snp.leading)
+            make.top.equalTo(settingButton.snp.top)
         }
         
         settingView.snp.makeConstraints { make in
@@ -243,7 +273,7 @@ class FriendViewController: UIViewController {
             make.centerX.centerY.equalToSuperview()
         }
         
-        [addFriendButton,secSeparateView,requestFriendButton]
+        [addFriendButton,secSeparateView,requestFriendButton,secondNewImageView]
             .forEach{settingView.addSubview($0)}
 
         addFriendButton.snp.makeConstraints { make in
@@ -265,6 +295,14 @@ class FriendViewController: UIViewController {
             make.height.equalTo(32*Constants.standardHeight)
             make.leading.equalToSuperview()
             make.top.equalTo(secSeparateView.snp.bottom)
+        }
+        
+        settingView.bringSubviewToFront(secondNewImageView)
+        
+        secondNewImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(12*Constants.standardHeight)
+            make.trailing.equalTo(requestFriendButton.titleLabel!.snp.leading)
+            make.top.equalTo(requestFriendButton.titleLabel!.snp.top)
         }
         
     }

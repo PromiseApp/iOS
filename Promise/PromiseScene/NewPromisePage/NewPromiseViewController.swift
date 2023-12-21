@@ -28,7 +28,7 @@ class NewPromiseViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        NotificationCenter.default.post(name: Notification.Name("newPromiseNotificationRead"), object: nil)
         bind()
         attribute()
         layout()

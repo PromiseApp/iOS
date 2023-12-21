@@ -26,6 +26,7 @@ class PromiseViewController: UIViewController {
     lazy var promiseListTableView = UITableView()
     let plusButton = UIButton()
     let newPromiseButton = UIButton()
+    let newImageView = UIImageView()
     
     var years: [Int] = Array(2000...2100)
     var months: [Int] = Array(1...12)
@@ -172,6 +173,18 @@ class PromiseViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        NotificationCenter.default.rx.notification(Notification.Name("newPromiseNotificationReceived"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.newImageView.isHidden = false
+            })
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(Notification.Name("newPromiseNotificationRead"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.newImageView.isHidden = true
+            })
+            .disposed(by: disposeBag)
+        
     }
     
     
@@ -265,10 +278,16 @@ class PromiseViewController: UIViewController {
             $0.layer.borderWidth = 2
         }
         
+        newImageView.do{
+            $0.image = UIImage(named: "new")
+            $0.layer.cornerRadius = 6*Constants.standardHeight
+            $0.isHidden = true
+        }
+        
     }
     
     private func layout(){
-        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,selectPromiseResultButton,thirdSeparateView,promiseListTableView,plusButton,newPromiseButton]
+        [logoLabel,bellButton,dateLabel,downButton,firstSeparateView,viewPastPromiseButton,progressView,levelLabel,expLabel,secSeparateView,cntLabel,selectPromiseResultButton,thirdSeparateView,promiseListTableView,plusButton,newPromiseButton,newImageView]
             .forEach{view.addSubview($0)}
         
         logoLabel.snp.makeConstraints { make in
@@ -368,6 +387,12 @@ class PromiseViewController: UIViewController {
             make.height.equalTo(32*Constants.standardHeight)
             make.centerX.equalToSuperview()
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-12*Constants.standardHeight)
+        }
+        
+        newImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(12*Constants.standardHeight)
+            make.leading.equalTo(newPromiseButton.snp.leading)
+            make.top.equalTo(newPromiseButton.snp.top)
         }
         
     }
