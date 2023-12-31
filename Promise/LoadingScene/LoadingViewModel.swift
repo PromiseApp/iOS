@@ -75,7 +75,7 @@ class LoadingViewModel: Stepper{
                         self!.saveUser(account: response.data.userInfo.account, password: user.password , nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
                         self?.steps.accept(AppStep.tabBar)
                     }, onFailure: { [weak self] error in
-                        print(error)
+                        print("authService.login",error)
                         self?.steps.accept(AppStep.login)
                     })
                     .disposed(by: disposeBag)

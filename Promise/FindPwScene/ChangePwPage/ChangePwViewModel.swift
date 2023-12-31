@@ -103,7 +103,7 @@ class ChangePwViewModel: Stepper{
                             }
                             self?.steps.accept(MyPageStep.popView)
                         }, onFailure: { [weak self] error in
-                            print(error)
+                            print("authService.changePassword",error)
                             self?.steps.accept(MyPageStep.networkErrorPopup)
                         })
                         .disposed(by: self!.disposeBag)

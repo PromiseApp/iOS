@@ -74,7 +74,7 @@ class SignupViewModel: Stepper{
                         .asObservable()
                         .map{_ in Void() }
                         .catch { [weak self] error in
-                            print(error)
+                            print("authService.signUp",error)
                             self?.steps.accept(SignupStep.networkErrorPopup)
                             return Observable.empty()
                         }

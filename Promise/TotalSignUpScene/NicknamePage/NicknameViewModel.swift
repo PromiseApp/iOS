@@ -92,7 +92,7 @@ class NicknameViewModel: Stepper{
                         return Void()
                     }
                     .catch { [weak self] error in
-                        print(error)
+                        print("authService.changeNickname",error)
                         self?.steps.accept(SignupStep.networkErrorPopup)
                         return Observable.empty()
                     } ?? Observable.empty()
@@ -109,7 +109,7 @@ class NicknameViewModel: Stepper{
                     .asObservable()
                     .map { (nickname,!$0.data.isDuplicated) }
                     .catch { [weak self] error in
-                        print(error)
+                        print("authService.duplicateCheckNickname",error)
                         self?.steps.accept(SignupStep.networkErrorPopup)
                         return Observable.empty()
                     } ?? Observable.empty()

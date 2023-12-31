@@ -41,7 +41,7 @@ class EmailAuthViewModel: Stepper {
                         
                     }
                     .catch { [weak self] error in
-                        print(error)
+                        print("authService.duplicateCheckAccount",error)
                         self?.steps.accept(SignupStep.networkErrorPopup)
                         return Observable.empty()
                     } ?? Observable.empty()

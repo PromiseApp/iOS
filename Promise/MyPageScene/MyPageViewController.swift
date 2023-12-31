@@ -51,7 +51,7 @@ class MyPageViewController: UIViewController {
         infoSettingButton.rx.tap
             .bind(to: myPageViewModel.infoSettingButtonTapped)
             .disposed(by: disposeBag)
-        
+
         announcementButton.rx.tap
             .bind(to: myPageViewModel.announcementButtonTapped)
             .disposed(by: disposeBag)

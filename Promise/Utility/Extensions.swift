@@ -1,4 +1,5 @@
 import UIKit
+import Kingfisher
 import RxSwift
 
 class DonutProgressView: UIView {
@@ -70,7 +71,6 @@ extension UITextField {
         self.leftView = paddingView
         self.leftViewMode = ViewMode.always
     }
-    
 }
 
 extension UITextView {
@@ -79,7 +79,6 @@ extension UITextView {
         self.addSubview(paddingView)
         self.textContainer.lineFragmentPadding = width
     }
-    
 }
 
 extension UIColor {
@@ -135,3 +134,22 @@ extension UIViewController {
         }.disposed(by: disposeBag)
     }
 }
+
+extension Reactive where Base == KingfisherManager {
+    func retrieveImage(with url: URL) -> Single<UIImage?> {
+        return Single<UIImage?>.create { single in
+            let task = KingfisherManager.shared.retrieveImage(with: url, options: nil, progressBlock: nil) { result in
+                switch result {
+                case .success(let imageResult):
+                    single(.success(imageResult.image))
+                case .failure(let error):
+                    single(.failure(error))
+                }
+            }
+            return Disposables.create {
+                task?.cancel()
+            }
+        }
+    }
+}
+

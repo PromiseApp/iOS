@@ -31,7 +31,7 @@ class WithdrawPopupViewModel: Stepper{
                     .asObservable()
                     .map{_ in Void()}
                     .catch { [weak self] error in
-                        print(error)
+                        print("authService.withdraw",error)
                         self?.steps.accept(MyPageStep.networkErrorPopup)
                         return Observable.empty()
                     }

@@ -71,7 +71,9 @@ class ChangeProfileViewModel: Stepper{
                 guard let self = self else { return Observable.empty() }
                 return self.authService.changeImage(img: image)
                     .asObservable()
-                    .map{ _ in Void() }
+                    .map{ response in 
+                        print(response)
+                        return Void() }
                     .catch { [weak self] error in
                         print(error)
                         if let moyaError = error as? MoyaError {

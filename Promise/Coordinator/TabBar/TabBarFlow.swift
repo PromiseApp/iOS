@@ -67,7 +67,6 @@ class TabBarFlow: Flow {
     private func popRootViewController() -> FlowContributors {
         if let tabBarController = rootViewController.viewControllers.first as? UITabBarController,
            let currentNavController = tabBarController.selectedViewController as? UINavigationController {
-            print(currentNavController)
             currentNavController.popViewController(animated: true)
             
             return .none

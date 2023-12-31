@@ -102,20 +102,32 @@ extension AuthAPI: TargetType {
             ] as [String : Any]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .changeImage(let img):
-            var imgData: MultipartFormBodyPart
-            var parameterData: MultipartFormBodyPart
-            var multipartData: MultipartFormData = []
             
-            let parameter: [String: Any] = ["isImgUpdate": true]
-            if let jsonData = try? JSONSerialization.data(withJSONObject: parameter, options: []) {
-                parameterData = MultipartFormBodyPart(provider: .data(jsonData), name: "parameter")
-                if let img = img, let imageData = img.pngData() {
-                    imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
-                    multipartData = [imgData, parameterData]
-                }
-                multipartData = [parameterData]
+//            var multipartData: [MultipartFormBodyPart] = []  // Ensure the array is of the correct type
+//
+//            let imgUpdateData = MultipartFormBodyPart(provider: .data("true".data(using: .utf8)!), name: "imgUpdate")
+//            multipartData.append(imgUpdateData)
+//
+//            if let img = img, let imageData = img.jpegData(compressionQuality: 1.0) {
+//                // 이미지 데이터 추가
+//                let imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
+//                multipartData.append(imgData)
+//            }
+//            return .uploadMultipart(multipartData)
+            
+            var multipartData:MultipartFormData
+            let imgUpdateData = MultipartFormBodyPart(provider: .data("true".data(using: .utf8)!), name: "imgUpdate")
+            //multipartData.append(imgUpdateData)
+            if let img = img, let imageData = img.jpegData(compressionQuality: 1.0) {
+                // 이미지 데이터 추가
+                let imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
+                multipartData = [imgUpdateData, imgData]
             }
-            
+            else{
+                multipartData = [imgUpdateData]
+            }
+            // Or if you want to specify the boundary and file manager:
+            // let multipartData = MultipartFormData(fileManager: .default, boundary: "...", parts: [gifData, descriptionData])
             
             return .uploadMultipartFormData(multipartData)
         case .withdraw:
@@ -135,9 +147,9 @@ extension AuthAPI: TargetType {
             return multiHeaders
         case .login:
             return jsonHeaders
-        case .duplicateCheckNickname(let nickname):
+        case .duplicateCheckNickname:
             return jsonHeaders
-        case .duplicateCheckAccount(let account):
+        case .duplicateCheckAccount:
             return jsonHeaders
         case .postEmail:
             return jsonHeaders

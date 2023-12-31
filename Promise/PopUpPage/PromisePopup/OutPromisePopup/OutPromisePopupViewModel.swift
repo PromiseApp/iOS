@@ -36,7 +36,7 @@ class OutPromisePopupViewModel: Stepper{
                         return Void()
                     }
                     .catch { [weak self] error in
-                        print(error)
+                        print("promiseService.outPromise",error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                     }

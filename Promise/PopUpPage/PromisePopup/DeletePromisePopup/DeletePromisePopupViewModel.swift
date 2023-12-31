@@ -29,7 +29,7 @@ class DeletePromisePopupViewModel: Stepper{
                     .asObservable()
                     .map{ _ in Void()}
                     .catch { [weak self] error in
-                        print(error)
+                        print("promiseService.deletePromise",error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                     }

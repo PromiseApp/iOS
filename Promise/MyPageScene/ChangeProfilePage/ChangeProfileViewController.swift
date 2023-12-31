@@ -292,14 +292,13 @@ class ChangeProfileViewController: UIViewController {
 extension ChangeProfileViewController: PHPickerViewControllerDelegate{
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        print(results)
         guard let result = results.first else { return }
         result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
-            print(object)
+            print("object",object)
             if let image = object as? UIImage {
                 DispatchQueue.main.async {
                     self?.changeProfileViewModel.selectedImage.accept(image)
-                    print(image)
+                    print("image",image)
                 }
             }
         }

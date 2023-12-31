@@ -39,7 +39,7 @@ class RejectFriendPopupViewModel: Stepper{
                         return Void()
                     }
                     .catch { [weak self] error in
-                        print(error)
+                        print("friendService.requestFriendReject",error)
                         self?.steps.accept(FriendStep.networkErrorPopup)
                         return Observable.empty()
                     }

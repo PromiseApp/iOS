@@ -3,6 +3,7 @@ import RxCocoa
 import RxSwift
 import RxFlow
 import RealmSwift
+import Kingfisher
 
 class MyPageViewModel: Stepper{
     let disposeBag = DisposeBag()
@@ -70,10 +71,27 @@ class MyPageViewModel: Stepper{
                 self?.nicknameRelay.accept(response.data.userInfo.nickname)
                 self?.levelRelay.accept(response.data.userInfo.level)
                 self?.expRelay.accept(response.data.userInfo.exp)
+                self?.downloadImage(urlString: response.data.userInfo.img)
             }, onFailure: { [weak self] error in
                 self?.steps.accept(MyPageStep.networkErrorPopup)
             })
             .disposed(by: vwaDisposeBag)
+    }
+    
+    func downloadImage(urlString: String) {
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return
+        }
+        
+        KingfisherManager.shared.retrieveImage(with: url) { [weak self] result in
+            switch result {
+            case .success(let imageResult):
+                self?.userImageRelay.accept(imageResult.image)
+            case .failure(let error):
+                print("Image download error: \(error)")
+            }
+        }
     }
     
 }

@@ -50,3 +50,13 @@ struct PostEmailData: Codable{
 struct WithdrawResponse: Codable{
     let resultMessage: String
 }
+
+struct UpdateUserProfileResponse: Codable{
+    let resultCode: String
+    let resultMessage: String
+    let data: UserImage
+}
+
+struct UserImage: Codable{
+    let img: String?
+}

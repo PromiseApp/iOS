@@ -11,7 +11,7 @@ protocol AuthServiceProtocol {
     func postEmail(account: String) -> Single<PostEmailResponse>
     func changePassword(password: String) -> Single<AuthResponse>
     func changeNickname(nickname: String) -> Single<AuthResponse>
-    func changeImage(img: UIImage?) -> Single<AuthResponse>
+    func changeImage(img: UIImage?) -> Single<UpdateUserProfileResponse>
     func withdraw() -> Single<WithdrawResponse>
 }
 
@@ -60,10 +60,10 @@ class AuthService: AuthServiceProtocol {
             .map(AuthResponse.self)
     }
     
-    func changeImage(img: UIImage?) -> Single<AuthResponse> {
+    func changeImage(img: UIImage?) -> Single<UpdateUserProfileResponse> {
         return provider.rx.request(.changeImage(img: img))
             .filterSuccessfulStatusCodes()
-            .map(AuthResponse.self)
+            .map(UpdateUserProfileResponse.self)
     }
     
     func withdraw() -> Single<WithdrawResponse> {

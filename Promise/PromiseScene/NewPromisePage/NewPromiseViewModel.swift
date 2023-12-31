@@ -53,7 +53,7 @@ class NewPromiseViewModel: Stepper{
                         return Void()
                     }
                     .catch { [weak self] error in
-                        print(error)
+                        print("promiseService.rejectPromise",error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                     }
@@ -81,7 +81,7 @@ class NewPromiseViewModel: Stepper{
                         return Void()
                     }
                     .catch { [weak self] error in
-                        print(error)
+                        print("promiseService.acceptPromise",error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                     }
@@ -138,7 +138,7 @@ class NewPromiseViewModel: Stepper{
                 self?.newPromiseList = newPromiseHeaders
                 self?.dataLoading.accept(true)
             }, onFailure: { [weak self] error in
-                print(error)
+                print("promiseService.newPormiseLis",error)
                 self?.dataLoading.accept(true)
                 self?.steps.accept(PromiseStep.networkErrorPopup)
             })

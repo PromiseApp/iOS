@@ -25,9 +25,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.loading))
         
-//        let rootVC = ChatRoomViewController(chatRoomViewModel: ChatRoomViewModel(stompService: StompService(), promiseID: 0))
+        let rootVC = LoginViewController(loginViewModel: LoginViewModel(authService: AuthService(), currentFlow: .AppFlow))
+        
+//        let rootVC = BaseViewController()
 //        self.window?.rootViewController = UINavigationController(rootViewController: rootVC)
-//        rootVC.navigationController?.isNavigationBarHidden = true
 //        self.window?.makeKeyAndVisible()
         
         print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)

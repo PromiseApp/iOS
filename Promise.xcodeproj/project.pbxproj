@@ -139,6 +139,8 @@
 		318586AD2AE0064A005EBC31 /* MyPageStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586AC2AE0064A005EBC31 /* MyPageStep.swift */; };
 		318586AF2AE00652005EBC31 /* MyPageFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586AE2AE00652005EBC31 /* MyPageFlow.swift */; };
 		318586B42AE24B3A005EBC31 /* ChangeNicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318586B32AE24B3A005EBC31 /* ChangeNicknameViewController.swift */; };
+		31AA33CE2B3FEFC600EA85D3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31AA33CD2B3FEFC600EA85D3 /* Kingfisher */; };
+		31AA33D02B403FFC00EA85D3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31AA33CF2B403FFC00EA85D3 /* Kingfisher */; };
 		31BBE2822AEE83CA00B69803 /* AnnouncementHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE2812AEE83CA00B69803 /* AnnouncementHeaderView.swift */; };
 		31BBE2842AEE83D800B69803 /* AnnouncementTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31BBE2832AEE83D800B69803 /* AnnouncementTableViewCell.swift */; };
 		31C33F6A2AB5A94E00A99D7E /* PromiseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31C33F692AB5A94E00A99D7E /* PromiseModel.swift */; };
@@ -347,6 +349,7 @@
 				312476BE2AA05E1C00D318C7 /* RxRelay in Frameworks */,
 				312476C12AA05E3900D318C7 /* SnapKit in Frameworks */,
 				317C8FA92AFA2759003010BA /* RealmSwift in Frameworks */,
+				31AA33CE2B3FEFC600EA85D3 /* Kingfisher in Frameworks */,
 				317C8F952AF8E44E003010BA /* RxMoya in Frameworks */,
 				317D69D12ADBA414004CEE5C /* RxFlow in Frameworks */,
 				31C33F8C2AB97A0F00A99D7E /* Alamofire in Frameworks */,
@@ -356,6 +359,7 @@
 				31258F082ACEB4C8004D764C /* RxDataSources in Frameworks */,
 				31C33F9A2ABD4FCE00A99D7E /* RxAlamofire in Frameworks */,
 				317C8F932AF8E44E003010BA /* Moya in Frameworks */,
+				31AA33D02B403FFC00EA85D3 /* Kingfisher in Frameworks */,
 				312476BA2AA05E1C00D318C7 /* RxBlocking in Frameworks */,
 				97C01DA87B4C86F1ED80F2C7 /* Pods_Promise.framework in Frameworks */,
 			);
@@ -1154,6 +1158,8 @@
 				317C8FA62AFA2759003010BA /* Realm */,
 				317C8FA82AFA2759003010BA /* RealmSwift */,
 				317689012B170AF200C266FE /* RxKakaoSDK */,
+				31AA33CD2B3FEFC600EA85D3 /* Kingfisher */,
+				31AA33CF2B403FFC00EA85D3 /* Kingfisher */,
 			);
 			productName = Promise;
 			productReference = 312476A12AA0588C00D318C7 /* Promise.app */;
@@ -1194,6 +1200,7 @@
 				317C8F912AF8E44E003010BA /* XCRemoteSwiftPackageReference "Moya" */,
 				317C8FA52AFA2759003010BA /* XCRemoteSwiftPackageReference "realm-swift" */,
 				317688FD2B15FE3000C266FE /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
+				31AA33CC2B3FEFC600EA85D3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			productRefGroup = 312476A22AA0588C00D318C7 /* Products */;
 			projectDirPath = "";
@@ -1695,6 +1702,14 @@
 				kind = branch;
 			};
 		};
+		31AA33CC2B3FEFC600EA85D3 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
 		31C33F8A2AB97A0F00A99D7E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -1773,6 +1788,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */;
 			productName = RxFlow;
+		};
+		31AA33CD2B3FEFC600EA85D3 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31AA33CC2B3FEFC600EA85D3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		31AA33CF2B403FFC00EA85D3 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Kingfisher;
 		};
 		31C33F8B2AB97A0F00A99D7E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;

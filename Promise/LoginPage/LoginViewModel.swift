@@ -54,7 +54,7 @@ class LoginViewModel: NSObject, Stepper{
                                 self?.steps.accept(AppStep.networkErrorPopup)
                             }
                         } else {
-                            print(error)
+                            print("authService.login",error)
                             self?.steps.accept(AppStep.networkErrorPopup)
                         }
                         return Observable.empty()

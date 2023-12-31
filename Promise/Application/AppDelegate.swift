@@ -25,11 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        if let notification = launchOptions?[.remoteNotification] as? [String: AnyObject],
-           let alram = notification["aps"] as? String {
-            print(alram)
-        }
-        
         return true
     }
     
