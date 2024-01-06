@@ -25,9 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.loading))
         
-        let rootVC = LoginViewController(loginViewModel: LoginViewModel(authService: AuthService(), currentFlow: .AppFlow))
+//        let rootVC = LoginViewController(loginViewModel: LoginViewModel(authService: AuthService(), currentFlow: .AppFlow))
         
-//        let rootVC = BaseViewController()
 //        self.window?.rootViewController = UINavigationController(rootViewController: rootVC)
 //        self.window?.makeKeyAndVisible()
         

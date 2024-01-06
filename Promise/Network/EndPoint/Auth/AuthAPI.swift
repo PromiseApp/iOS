@@ -3,7 +3,7 @@ import UIKit
 import Moya
 
 enum AuthAPI {
-    case signup(account: String, password: String, nickname: String, image: String?)
+    case signup(account: String, password: String, nickname: String, img: UIImage?)
     case login(account: String, password: String)
     case duplicateCheckAccount(account: String)
     case duplicateCheckNickname(nickname: String)
@@ -68,19 +68,24 @@ extension AuthAPI: TargetType {
     
     var task: Task {
         switch self {
-        case .signup(let account, let password, let nickname, let image):
+        case .signup(let account, let password, let nickname, let img):
             var parameters: [String: Any] = [
                 "account": account,
                 "password": password,
                 "nickname": nickname
             ]
-            
-            if let image = image {
-                parameters["img"] = image
+            var multipartData: MultipartFormData
+            let accountData = MultipartFormBodyPart(provider: .data(account.data(using: .utf8)!), name: "account")
+            let passwordData = MultipartFormBodyPart(provider: .data(password.data(using: .utf8)!), name: "password")
+            let nicknameData = MultipartFormBodyPart(provider: .data(password.data(using: .utf8)!), name: "nickname")
+            if let img = img, let imageData = img.jpegData(compressionQuality: 1.0) {
+                let imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
+                multipartData = [accountData, passwordData, nicknameData, imgData]
             }
-            
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-            
+            else{
+                multipartData = [accountData, passwordData, nicknameData]
+            }
+            return .uploadMultipartFormData(multipartData)
         case .login(let account, let password):
             return .requestParameters(parameters: ["account": account, "password": password, "deviceToken": UserSession.shared.deviceToken], encoding: JSONEncoding.default)
         case .duplicateCheckNickname:
@@ -102,33 +107,15 @@ extension AuthAPI: TargetType {
             ] as [String : Any]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .changeImage(let img):
-            
-//            var multipartData: [MultipartFormBodyPart] = []  // Ensure the array is of the correct type
-//
-//            let imgUpdateData = MultipartFormBodyPart(provider: .data("true".data(using: .utf8)!), name: "imgUpdate")
-//            multipartData.append(imgUpdateData)
-//
-//            if let img = img, let imageData = img.jpegData(compressionQuality: 1.0) {
-//                // 이미지 데이터 추가
-//                let imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
-//                multipartData.append(imgData)
-//            }
-//            return .uploadMultipart(multipartData)
-            
             var multipartData:MultipartFormData
             let imgUpdateData = MultipartFormBodyPart(provider: .data("true".data(using: .utf8)!), name: "imgUpdate")
-            //multipartData.append(imgUpdateData)
             if let img = img, let imageData = img.jpegData(compressionQuality: 1.0) {
-                // 이미지 데이터 추가
                 let imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
                 multipartData = [imgUpdateData, imgData]
             }
             else{
                 multipartData = [imgUpdateData]
             }
-            // Or if you want to specify the boundary and file manager:
-            // let multipartData = MultipartFormData(fileManager: .default, boundary: "...", parts: [gifData, descriptionData])
-            
             return .uploadMultipartFormData(multipartData)
         case .withdraw:
             return .requestPlain

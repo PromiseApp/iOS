@@ -4,7 +4,7 @@ import RxMoya
 import RxSwift
 
 protocol AuthServiceProtocol {
-    func signUp(account: String, password: String, nickname:String, image: String?) -> Single<AuthResponse>
+    func signUp(account: String, password: String, nickname:String, img: UIImage?) -> Single<AuthResponse>
     func login(account: String, password: String) -> Single<LoginResponse>
     func duplicateCheckAccount(account: String) -> Single<DuplicateCheckResponse>
     func duplicateCheckNickname(nickname: String) -> Single<DuplicateCheckResponse>
@@ -18,8 +18,8 @@ protocol AuthServiceProtocol {
 class AuthService: AuthServiceProtocol {
     private let provider = MoyaProvider<AuthAPI>()
     
-    func signUp(account: String, password: String, nickname:String, image: String?) -> Single<AuthResponse> {
-        return provider.rx.request(.signup(account: account, password: password, nickname: nickname, image: image))
+    func signUp(account: String, password: String, nickname:String, img: UIImage?) -> Single<AuthResponse> {
+        return provider.rx.request(.signup(account: account, password: password, nickname: nickname, img: img))
             .filterSuccessfulStatusCodes()
             .map(AuthResponse.self)
     }

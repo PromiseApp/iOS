@@ -15,7 +15,7 @@ class SignupViewModel: Stepper{
     let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account )
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
-    let selectedImage = PublishRelay<UIImage?>()
+    let selectedImage = BehaviorRelay<UIImage?>(value: nil)
     
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -64,13 +64,14 @@ class SignupViewModel: Stepper{
             .disposed(by: disposeBag)
         
         nextButtonTapped
-            .withLatestFrom(Observable.combineLatest(pwTextRelay.asObservable(), rePwTextRelay.asObservable()))
-            .flatMapLatest { [weak self] (password, confirmPassword) -> Observable<Void> in
+            .withLatestFrom(Observable.combineLatest(pwTextRelay.asObservable(), rePwTextRelay.asObservable(),selectedImage.asObservable()))
+            .flatMapLatest { [weak self] (password, confirmPassword, selectedImage) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
+                print(password,confirmPassword,selectedImage)
                 if(password == confirmPassword){
                     let user = DatabaseManager.shared.fetchUser()
                     
-                    return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, image: "UserSession.shared.image")
+                    return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, img: selectedImage)
                         .asObservable()
                         .map{_ in Void() }
                         .catch { [weak self] error in
@@ -88,7 +89,10 @@ class SignupViewModel: Stepper{
         
         selectedImage
             .subscribe(onNext: { [weak self] image in
-                UserSession.shared.image = image
+                if let imageData = image?.pngData() {
+                    let base64String = imageData.base64EncodedString()
+                    UserSession.shared.image = base64String
+                }
             })
             .disposed(by: disposeBag)
     }

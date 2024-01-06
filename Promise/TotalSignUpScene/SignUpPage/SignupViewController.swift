@@ -64,6 +64,10 @@ class SignupViewController: UIViewController {
             .disposed(by: disposeBag)
         
         limitedViewModel.selectedPhoto
+            .bind(to: signupViewModel.selectedImage)
+            .disposed(by: disposeBag)
+        
+        limitedViewModel.selectedPhoto
             .bind(to: userProfileButton.rx.image(for: .normal))
             .disposed(by: disposeBag)
         
@@ -469,7 +473,6 @@ class SignupViewController: UIViewController {
 extension SignupViewController: PHPickerViewControllerDelegate{
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
         picker.dismiss(animated: true, completion: nil)
-        
         guard let result = results.first else { return }
         result.itemProvider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
             if let image = object as? UIImage {
