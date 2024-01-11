@@ -45,6 +45,10 @@
 		314F90782B0627AF00312846 /* OutPromisePopupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */; };
 		315BDC852ACEED3400B7DF20 /* FriendViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */; };
 		315BDC872ACEED4600B7DF20 /* FriendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 315BDC862ACEED4600B7DF20 /* FriendViewController.swift */; };
+		316D20EB2B4D4E85007FCB4D /* ImageDownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20EA2B4D4E85007FCB4D /* ImageDownloadManager.swift */; };
+		316D20EE2B4FF37C007FCB4D /* CheckTokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20ED2B4FF37C007FCB4D /* CheckTokenAPI.swift */; };
+		316D20F02B4FF389007FCB4D /* CheckTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20EF2B4FF389007FCB4D /* CheckTokenResponse.swift */; };
+		316D20F22B4FF509007FCB4D /* CheckTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F12B4FF509007FCB4D /* CheckTokenService.swift */; };
 		317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688A82B0B2FF700C266FE /* MyPageAPI.swift */; };
 		317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AA2B0B300200C266FE /* MyPageResponse.swift */; };
 		317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AC2B0B38B300C266FE /* MyPageService.swift */; };
@@ -213,6 +217,10 @@
 		314F90772B0627AF00312846 /* OutPromisePopupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutPromisePopupViewModel.swift; sourceTree = "<group>"; };
 		315BDC842ACEED3400B7DF20 /* FriendViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewModel.swift; sourceTree = "<group>"; };
 		315BDC862ACEED4600B7DF20 /* FriendViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendViewController.swift; sourceTree = "<group>"; };
+		316D20EA2B4D4E85007FCB4D /* ImageDownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadManager.swift; sourceTree = "<group>"; };
+		316D20ED2B4FF37C007FCB4D /* CheckTokenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenAPI.swift; sourceTree = "<group>"; };
+		316D20EF2B4FF389007FCB4D /* CheckTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenResponse.swift; sourceTree = "<group>"; };
+		316D20F12B4FF509007FCB4D /* CheckTokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenService.swift; sourceTree = "<group>"; };
 		317688A82B0B2FF700C266FE /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
 		317688AA2B0B300200C266FE /* MyPageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageResponse.swift; sourceTree = "<group>"; };
 		317688AC2B0B38B300C266FE /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
@@ -525,6 +533,15 @@
 			path = PromisePopup;
 			sourceTree = "<group>";
 		};
+		316D20EC2B4FF367007FCB4D /* CheckToken */ = {
+			isa = PBXGroup;
+			children = (
+				316D20ED2B4FF37C007FCB4D /* CheckTokenAPI.swift */,
+				316D20EF2B4FF389007FCB4D /* CheckTokenResponse.swift */,
+			);
+			path = CheckToken;
+			sourceTree = "<group>";
+		};
 		317688A72B0B2FE800C266FE /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -739,6 +756,7 @@
 				317688AC2B0B38B300C266FE /* MyPageService.swift */,
 				3178A6DD2B297F0C006F36B3 /* ChatService.swift */,
 				3178A6F22B298103006F36B3 /* StompService.swift */,
+				316D20F12B4FF509007FCB4D /* CheckTokenService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -983,6 +1001,7 @@
 		31C33F912ABD4F0100A99D7E /* EndPoint */ = {
 			isa = PBXGroup;
 			children = (
+				316D20EC2B4FF367007FCB4D /* CheckToken */,
 				3178A6DF2B297F18006F36B3 /* Chat */,
 				317688A72B0B2FE800C266FE /* MyPage */,
 				314F905D2AFF3C8E00312846 /* Promise */,
@@ -1121,6 +1140,7 @@
 				317D69CD2AD53031004CEE5C /* UserSession.swift */,
 				317688AE2B0B4B1D00C266FE /* UserDefaultsKeys.swift */,
 				317688B02B0B4FFD00C266FE /* DatabaseManager.swift */,
+				316D20EA2B4D4E85007FCB4D /* ImageDownloadManager.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1273,9 +1293,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				316D20F02B4FF389007FCB4D /* CheckTokenResponse.swift in Sources */,
 				317C8FAE2AFA5D58003010BA /* ModifyPromiseViewModel.swift in Sources */,
 				31C33F7B2AB809D200A99D7E /* TabBarViewModel.swift in Sources */,
 				317D69DB2ADBC57C004CEE5C /* SignupStep.swift in Sources */,
+				316D20EE2B4FF37C007FCB4D /* CheckTokenAPI.swift in Sources */,
 				317C8F7F2AF75460003010BA /* SelectPromiseResultTableViewCell.swift in Sources */,
 				317C8F7B2AF74EC9003010BA /* SelectPromiseResultViewController.swift in Sources */,
 				317D69E72ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift in Sources */,
@@ -1318,6 +1340,7 @@
 				317688CC2B1207B100C266FE /* TabBarFlow.swift in Sources */,
 				3178A6E12B297F24006F36B3 /* ChatAPI.swift in Sources */,
 				31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */,
+				316D20F22B4FF509007FCB4D /* CheckTokenService.swift in Sources */,
 				3178A6F12B2980D1006F36B3 /* OtherChatTableViewCell.swift in Sources */,
 				3178A6F32B298103006F36B3 /* StompService.swift in Sources */,
 				317D69FD2ADD18FE004CEE5C /* AddFriendPopupViewController.swift in Sources */,
@@ -1388,6 +1411,7 @@
 				31EF2A8F2AEE76E40082B664 /* AnnouncementViewModel.swift in Sources */,
 				317C8F6E2AF26B31003010BA /* InquiryHeader.swift in Sources */,
 				317D6A032ADD2685004CEE5C /* RequestFriendViewModel.swift in Sources */,
+				316D20EB2B4D4E85007FCB4D /* ImageDownloadManager.swift in Sources */,
 				318586A82AE00471005EBC31 /* ChangeProfileViewModel.swift in Sources */,
 				31EF2A8D2AEE76D90082B664 /* AnnouncementViewController.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,

@@ -111,19 +111,12 @@ struct PromiseMember: Codable {
     let isSucceed: String?
 }
 
-struct GetUserExp: Codable{
+struct GetUserData: Codable{
     let resultCode: String
     let resultMessage: String
-    let data: UserExpData
+    let data: UserInfoData
 }
 
-struct UserExpData: Codable{
-    let userInfo: UserExpInfo
-}
-
-struct UserExpInfo: Codable{
-    let nickname: String
-    let img: String
-    let level: Int
-    let exp: Int
+struct UserInfoData: Codable{
+    let userInfo: UserInfo
 }

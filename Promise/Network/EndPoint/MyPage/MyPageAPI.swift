@@ -6,13 +6,13 @@ enum MyPageAPI {
     case ReplyInquiry(postId: String, author: String, title: String, content: String)
     case InquiryList(account: String, period: String, statusType: String)
     case NoticeList
-    case GetExp
+    case GetUserData
 }
 
 extension MyPageAPI: TargetType {
 
     var baseURL: URL {
-        return URL(string: "http://43.200.141.247:8080")!
+        return URL(string: "http://15.164.166.199:8080")!
     }
     
     var path: String {
@@ -25,7 +25,7 @@ extension MyPageAPI: TargetType {
             return "/post/inquiry/list/\(account)"
         case .NoticeList:
             return "/post/notice/all"
-        case .GetExp:
+        case .GetUserData:
             return "/member/info"
         }
     }
@@ -40,7 +40,7 @@ extension MyPageAPI: TargetType {
             return .get
         case .NoticeList:
             return .get
-        case .GetExp:
+        case .GetUserData:
             return .get
         }
     }
@@ -78,7 +78,7 @@ extension MyPageAPI: TargetType {
             }
         case .NoticeList:
             return .requestPlain
-        case .GetExp:
+        case .GetUserData:
             return .requestPlain
         }
     }
@@ -86,7 +86,7 @@ extension MyPageAPI: TargetType {
     var headers: [String: String]? {
         var headers = ["Content-Type": "application/json"]
         if let user = DatabaseManager.shared.fetchUser(){
-            headers["Authorization"] = "Bearer \(user.token)"
+            headers["Authorization"] = "Bearer \(user.accessToken)"
         }
         return headers
     }

@@ -13,13 +13,13 @@ enum PromiseAPI {
     case OutPromise(promiseId: String)
     case ModifyPromise(promiseId: String ,title: String, date: String, place: String?, penalty: String?, memo: String?)
     case ResultPromise(promiseId: String, nickname: String, isSucceed: String)
-    case GetExp
+    case GetUserData
 }
 
 extension PromiseAPI: TargetType {
 
     var baseURL: URL {
-        return URL(string: "http://43.200.141.247:8080")!
+        return URL(string: "http://15.164.166.199:8080")!
     }
     
     var path: String {
@@ -46,7 +46,7 @@ extension PromiseAPI: TargetType {
             return "/promise/editPromise"
         case .ResultPromise:
             return "/promise/result"
-        case .GetExp:
+        case .GetUserData:
             return "/member/info"
         }
     }
@@ -75,7 +75,7 @@ extension PromiseAPI: TargetType {
             return .post
         case .ResultPromise:
             return .post
-        case .GetExp:
+        case .GetUserData:
             return .get
         }
     }
@@ -150,7 +150,7 @@ extension PromiseAPI: TargetType {
                     "result": [result]
                 ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .GetExp:
+        case .GetUserData:
             return .requestPlain
         }
     }
@@ -158,7 +158,7 @@ extension PromiseAPI: TargetType {
     var headers: [String: String]? {
         var headers = ["Content-Type": "application/json"]
         if let user = DatabaseManager.shared.fetchUser(){
-            headers["Authorization"] = "Bearer \(user.token)"
+            headers["Authorization"] = "Bearer \(user.accessToken)"
         }
         return headers
     }

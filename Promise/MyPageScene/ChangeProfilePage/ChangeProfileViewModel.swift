@@ -17,7 +17,7 @@ class ChangeProfileViewModel: Stepper{
 
     let selectedImage = PublishRelay<UIImage?>()
     let emailRelay = BehaviorRelay<String>(value: "")
-    let userImageRelay = BehaviorRelay<UIImage?>(value: nil)
+    let userImageRelay = BehaviorRelay<UIImage?>(value: UIImage(named: "user"))
     
     let leftButtonTapped = PublishRelay<Void>()
     let changePwButtonTapped = PublishRelay<Void>()

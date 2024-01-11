@@ -15,7 +15,7 @@ class SignupViewModel: Stepper{
     let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account )
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
-    let selectedImage = BehaviorRelay<UIImage?>(value: nil)
+    let selectedImage = BehaviorRelay<UIImage?>(value: UIImage(named: "user"))
     
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -87,14 +87,14 @@ class SignupViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
-        selectedImage
-            .subscribe(onNext: { [weak self] image in
-                if let imageData = image?.pngData() {
-                    let base64String = imageData.base64EncodedString()
-                    UserSession.shared.image = base64String
-                }
-            })
-            .disposed(by: disposeBag)
+//        selectedImage
+//            .subscribe(onNext: { [weak self] image in
+//                if let imageData = image?.pngData() {
+//                    let base64String = imageData.base64EncodedString()
+//                    UserSession.shared.image = base64String
+//                }
+//            })
+//            .disposed(by: disposeBag)
     }
     
     

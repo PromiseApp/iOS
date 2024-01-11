@@ -17,7 +17,7 @@ enum AuthAPI {
 extension AuthAPI: TargetType {
 
     var baseURL: URL {
-        return URL(string: "http://43.200.141.247:8080")!
+        return URL(string: "http://15.164.166.199:8080")!
     }
     
     var path: String {
@@ -126,8 +126,8 @@ extension AuthAPI: TargetType {
         var jsonHeaders = ["Content-Type": "application/json"]
         var multiHeaders = ["Content-Type": "multipart/form-data"]
         if let user = DatabaseManager.shared.fetchUser(){
-            jsonHeaders["Authorization"] = "Bearer \(user.token)"
-            multiHeaders["Authorization"] = "Bearer \(user.token)"
+            jsonHeaders["Authorization"] = "Bearer \(user.accessToken)"
+            multiHeaders["Authorization"] = "Bearer \(user.accessToken)"
         }
         switch self{
         case .signup:

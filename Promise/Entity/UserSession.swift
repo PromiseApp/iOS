@@ -21,25 +21,13 @@ class UserSession {
 
 class User: Object {
     @Persisted(primaryKey: true) var objectID:ObjectId
-    @Persisted var account: String
-    @Persisted var password: String
-    @Persisted var nickname: String
-    @Persisted var image: String?
-    @Persisted var level: Int
-    @Persisted var exp: Int
-    @Persisted var role: String
-    @Persisted var token: String
+    @Persisted var accessToken: String
+    @Persisted var refreshToken: String
     
-    convenience init(account: String, password: String,  nickname: String, image: String? = nil, level: Int, exp: Int, role: String, token: String) {
+    convenience init(accessToken: String, refreshToken: String) {
         self.init()
-        self.account = account
-        self.password = password
-        self.nickname = nickname
-        self.image = image
-        self.level = level
-        self.exp = exp
-        self.role = role
-        self.token = token
+        self.accessToken = accessToken
+        self.refreshToken = refreshToken
     }
 }
 

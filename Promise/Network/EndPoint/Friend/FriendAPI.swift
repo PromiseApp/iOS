@@ -12,7 +12,7 @@ enum FriendAPI {
 extension FriendAPI: TargetType {
 
     var baseURL: URL {
-        return URL(string: "http://43.200.141.247:8080")!
+        return URL(string: "http://15.164.166.199:8080")!
     }
     
     var path: String {
@@ -63,7 +63,7 @@ extension FriendAPI: TargetType {
     var headers: [String: String]? {
         var headers = ["Content-Type": "application/json"]
         if let user = DatabaseManager.shared.fetchUser(){
-            headers["Authorization"] = "Bearer \(user.token)"
+            headers["Authorization"] = "Bearer \(user.accessToken)"
         }
         return headers
     }

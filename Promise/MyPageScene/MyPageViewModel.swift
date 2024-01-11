@@ -18,7 +18,7 @@ class MyPageViewModel: Stepper{
     
     let emailRelay = BehaviorRelay<String>(value: "")
     let nicknameRelay = BehaviorRelay<String>(value: "")
-    let userImageRelay = BehaviorRelay<UIImage?>(value: nil)
+    let userImageRelay = BehaviorRelay<UIImage?>(value: UIImage(named: "user"))
     let levelRelay = BehaviorRelay<Int>(value: 0)
     let expRelay = BehaviorRelay<Int>(value: 0)
     
@@ -50,48 +50,18 @@ class MyPageViewModel: Stepper{
             .disposed(by: disposeBag)
         
     }
-    
-    func loadUser(){
-        if let user = DatabaseManager.shared.fetchUser() {
-            emailRelay.accept(user.account)
-        }
-        if let user = DatabaseManager.shared.fetchUser(),
-           let imageBase64 = user.image,
-           let imageData = Data(base64Encoded: imageBase64),
-           let image = UIImage(data: imageData) {
-            userImageRelay.accept(image)
-        } else {
-            userImageRelay.accept(UIImage(named: "user"))
-        }
-    }
-    
-    func loadLevelExp(){
-        self.myPageService.GetExp()
+    func loadUserData(){
+        self.myPageService.GetUserData()
             .subscribe(onSuccess: { [weak self] response in
+                self?.emailRelay.accept(response.data.userInfo.account)
                 self?.nicknameRelay.accept(response.data.userInfo.nickname)
                 self?.levelRelay.accept(response.data.userInfo.level)
                 self?.expRelay.accept(response.data.userInfo.exp)
-                self?.downloadImage(urlString: response.data.userInfo.img)
+                ImageDownloadManager.shared.downloadImage(urlString: response.data.userInfo.img, imageRelay: self!.userImageRelay)
             }, onFailure: { [weak self] error in
                 self?.steps.accept(MyPageStep.networkErrorPopup)
             })
             .disposed(by: vwaDisposeBag)
-    }
-    
-    func downloadImage(urlString: String) {
-        guard let url = URL(string: urlString) else {
-            print("Invalid URL")
-            return
-        }
-        
-        KingfisherManager.shared.retrieveImage(with: url) { [weak self] result in
-            switch result {
-            case .success(let imageResult):
-                self?.userImageRelay.accept(imageResult.image)
-            case .failure(let error):
-                print("Image download error: \(error)")
-            }
-        }
     }
     
 }

@@ -138,7 +138,7 @@ class PromiseViewModel: Stepper{
     }
     
     func loadLevelExp(){
-        self.promiseService.GetExp()
+        self.promiseService.GetUserData()
             .subscribe(onSuccess: { [weak self] response in
                 self?.levelRelay.accept(response.data.userInfo.level)
                 self?.expRelay.accept(response.data.userInfo.exp)

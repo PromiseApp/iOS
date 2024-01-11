@@ -103,7 +103,7 @@ class LoadingViewModel: Stepper{
                     existingUser.level = level
                     existingUser.exp = exp
                     existingUser.role = role
-                    existingUser.token = token
+                    existingUser.accessToken = token
                 }
             } else {
                 let newUser = User(account: account, password: password, nickname: nickname, image: image, level: level, exp: exp, role: role, token: token)

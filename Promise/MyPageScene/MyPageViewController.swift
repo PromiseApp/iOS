@@ -43,8 +43,7 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        myPageViewModel.loadUser()
-        myPageViewModel.loadLevelExp()
+        myPageViewModel.loadUserData()
     }
     
     private func bind(){

@@ -183,7 +183,7 @@ class LoginViewModel: NSObject, Stepper{
             newUser.level = level
             newUser.exp = exp
             newUser.role = role
-            newUser.token = token
+            newUser.accessToken = token
             if let image = image{
                 newUser.image = image
             }

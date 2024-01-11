@@ -467,7 +467,6 @@ class SignupViewController: UIViewController {
             break
         }
     }
-
 }
 
 extension SignupViewController: PHPickerViewControllerDelegate{
