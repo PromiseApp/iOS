@@ -8,6 +8,7 @@ class MyPageFlow: Flow {
     
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel(currentFlow: .myPageFlow)
+    let checkTokenService = CheckTokenService()
     let myPageService = MyPageService()
     let authService = AuthService()
     
@@ -51,6 +52,8 @@ class MyPageFlow: Flow {
             return .end(forwardToParentFlowWithStep: AppStep.logoutCompleted)
         case .withdrawPopup:
             return presentWithdrawPopup()
+        case .tokenExpirationPopup:
+            return presentWithdrawPopup()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .dismissView:
@@ -61,14 +64,14 @@ class MyPageFlow: Flow {
     }
     
     private func navigateToMyPage() -> FlowContributors {
-        let VM = MyPageViewModel(myPageService: myPageService)
+        let VM = MyPageViewModel(checkTokenService: checkTokenService, myPageService: myPageService)
         let VC = MyPageViewController(myPageViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
     private func navigateToChangeProfile() -> FlowContributors {
-        let VM = ChangeProfileViewModel(authService: authService)
+        let VM = ChangeProfileViewModel(checkTokenService: checkTokenService, authService: authService, myPageService: myPageService)
         let VC = ChangeProfileViewController(changeProfileViewModel: VM, limitedViewModel: limitedVM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -150,6 +153,14 @@ class MyPageFlow: Flow {
     private func presentWithdrawPopup() -> FlowContributors {
         let VM = WithdrawPopupViewModel(authService: authService)
         let VC = WithdrawPopupViewController(withdrawPopupViewModel: VM)
+        VC.modalPresentationStyle = .overFullScreen
+        rootViewController.present(VC, animated: false)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func presentTokenExpirationPopup() -> FlowContributors {
+        let VM = TokenExpirationViewModel()
+        let VC = TokenExpirationViewController(tokenExpirationViewModel: TokenExpirationViewModel())
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

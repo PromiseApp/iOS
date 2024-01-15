@@ -44,7 +44,7 @@ class LoginViewModel: NSObject, Stepper{
                 return self.authService.login(account: email, password: password)
                     .asObservable()
                     .map{ response in
-                        return self.saveUser(account: response.data.userInfo.account,password: password , nickname: response.data.userInfo.nickname, image: response.data.userInfo.img, level: response.data.userInfo.level, exp: response.data.userInfo.exp, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", token: response.data.token)
+                        return self.saveUser(account: response.data.userInfo.account,nickname: response.data.userInfo.nickname, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", accessToken: response.data.accessToken, refreshToken: response.data.refreshToken)
                     }
                     .catch { [weak self] error in
                         if let moyaError = error as? MoyaError, case .statusCode(let response) = moyaError {
@@ -148,9 +148,7 @@ class LoginViewModel: NSObject, Stepper{
             .subscribe (onSuccess:{ user in
                 print("me() success.")
                 
-                //do something
                 print("user : \(user)")
-                //self.steps.accept(AppStep.tabBar)
             }, onFailure: {error in
                 print(error)
             })
@@ -164,11 +162,10 @@ class LoginViewModel: NSObject, Stepper{
         
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
-        //authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
     
-    func saveUser(account: String, password: String , nickname: String, image: String?, level: Int, exp: Int, role: String, token: String){
+    func saveUser(account: String, nickname: String, role: String, accessToken: String, refreshToken: String){
         do{
             
             let realm = try Realm()
@@ -176,24 +173,14 @@ class LoginViewModel: NSObject, Stepper{
                 realm.deleteAll()
             }
             let newUser = User()
-            
             newUser.account = account
-            newUser.password = password
             newUser.nickname = nickname
-            newUser.level = level
-            newUser.exp = exp
             newUser.role = role
-            newUser.accessToken = token
-            if let image = image{
-                newUser.image = image
-            }
+            newUser.accessToken = accessToken
+            newUser.refreshToken = refreshToken
             try realm.write {
                 realm.add(newUser)
             }
-            
-            
-            UserSession.shared.account = account
-            
         }catch {
             print("An error occurred while saving the user: \(error)")
         }
@@ -217,7 +204,6 @@ class LoginViewModel: NSObject, Stepper{
 
 extension LoginViewModel: ASAuthorizationControllerDelegate{
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
-        //로그인 성공
         switch authorization.credential {
         case let appleIDCredential as ASAuthorizationAppleIDCredential:
             let userIdentifier = appleIDCredential.user
@@ -238,12 +224,6 @@ extension LoginViewModel: ASAuthorizationControllerDelegate{
             print("fullName: \(fullName)")
             print("email: \(email)")
             
-            //Move to MainPage
-            //let validVC = SignValidViewController()
-            //validVC.modalPresentationStyle = .fullScreen
-            //present(validVC, animated: true, completion: nil)
-            //self.steps.accept(AppStep.tabBar)
-            
         case let passwordCredential as ASPasswordCredential:
             // Sign in using an existing iCloud Keychain credential.
             let username = passwordCredential.user
@@ -259,7 +239,6 @@ extension LoginViewModel: ASAuthorizationControllerDelegate{
     
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        // 로그인 실패(유저의 취소도 포함)
         print("login failed - \(error.localizedDescription)")
     }
 }

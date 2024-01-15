@@ -15,6 +15,7 @@ enum MyPageStep: Step {
     case policies
     case logoutCompleted
     case withdrawPopup
+    case tokenExpirationPopup
     case networkErrorPopup
     case dismissView
     case popView

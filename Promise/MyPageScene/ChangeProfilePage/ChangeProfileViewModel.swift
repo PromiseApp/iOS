@@ -12,8 +12,9 @@ import PhotosUI
 class ChangeProfileViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
-    
+    let checkTokenService: CheckTokenService
     let authService: AuthService
+    let myPageService: MyPageService
 
     let selectedImage = PublishRelay<UIImage?>()
     let emailRelay = BehaviorRelay<String>(value: "")
@@ -27,8 +28,10 @@ class ChangeProfileViewModel: Stepper{
     let withdrawButtonTapped = PublishRelay<Void>()
     
     
-    init(authService: AuthService){
+    init(checkTokenService: CheckTokenService, authService: AuthService, myPageService: MyPageService){
+        self.checkTokenService = checkTokenService
         self.authService = authService
+        self.myPageService = myPageService
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -124,18 +127,40 @@ class ChangeProfileViewModel: Stepper{
         
     }
     
-    func loadUser(){
+    func checkToken(completion: @escaping () -> Void){
         if let user = DatabaseManager.shared.fetchUser() {
-            emailRelay.accept(user.account)
+            self.checkTokenService.checkToken(refreshToken: user.refreshToken)
+                .subscribe(onSuccess: { [weak self] response in
+                    DatabaseManager.shared.updateAccessToken(newToken: response.data.accessToken)
+                    completion()
+                }, onFailure: { [weak self] error in
+                    if let moyaError = error as? MoyaError {
+                        switch moyaError {
+                        case .statusCode(let response):
+                            switch response.statusCode {
+                            case 400...499:
+                                break
+                            default:
+                                self?.steps.accept(MyPageStep.networkErrorPopup)
+                            }
+                        default:
+                            self?.steps.accept(MyPageStep.networkErrorPopup)
+                        }
+                    }
+                })
+                .disposed(by: disposeBag)
         }
-        if let user = DatabaseManager.shared.fetchUser(),
-           let imageBase64 = user.image,
-           let imageData = Data(base64Encoded: imageBase64),
-           let image = UIImage(data: imageData) {
-            userImageRelay.accept(image)
-        } else {
-            userImageRelay.accept(UIImage(named: "user"))
-        }
+    }
+    
+    func loadUserData(){
+        self.myPageService.GetUserData()
+            .subscribe(onSuccess: { [weak self] response in
+                self?.emailRelay.accept(response.data.userInfo.account)
+                ImageDownloadManager.shared.downloadImage(urlString: response.data.userInfo.img, imageRelay: self!.userImageRelay)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(MyPageStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
     }
    
 }

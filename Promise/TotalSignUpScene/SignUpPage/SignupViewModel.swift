@@ -5,7 +5,6 @@ import RxFlow
 import Photos
 import PhotosUI
 
-
 class SignupViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
@@ -15,7 +14,7 @@ class SignupViewModel: Stepper{
     let emailTextRelay = BehaviorRelay<String>(value: UserSession.shared.account )
     let pwTextRelay = BehaviorRelay<String>(value: "")
     let rePwTextRelay = BehaviorRelay<String>(value: "")
-    let selectedImage = BehaviorRelay<UIImage?>(value: UIImage(named: "user"))
+    let selectedImage = BehaviorRelay<UIImage?>(value: nil)
     
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
@@ -67,13 +66,14 @@ class SignupViewModel: Stepper{
             .withLatestFrom(Observable.combineLatest(pwTextRelay.asObservable(), rePwTextRelay.asObservable(),selectedImage.asObservable()))
             .flatMapLatest { [weak self] (password, confirmPassword, selectedImage) -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                print(password,confirmPassword,selectedImage)
                 if(password == confirmPassword){
-                    let user = DatabaseManager.shared.fetchUser()
-                    
                     return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, img: selectedImage)
                         .asObservable()
-                        .map{_ in Void() }
+                        .map{ response in
+                            print(UserSession.shared.account,password,UserSession.shared.nickname,selectedImage)
+                            print("signupresponse",response)
+                            return Void()
+                        }
                         .catch { [weak self] error in
                             print("authService.signUp",error)
                             self?.steps.accept(SignupStep.networkErrorPopup)
@@ -87,14 +87,6 @@ class SignupViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
-//        selectedImage
-//            .subscribe(onNext: { [weak self] image in
-//                if let imageData = image?.pngData() {
-//                    let base64String = imageData.base64EncodedString()
-//                    UserSession.shared.image = base64String
-//                }
-//            })
-//            .disposed(by: disposeBag)
     }
     
     
@@ -103,6 +95,4 @@ class SignupViewModel: Stepper{
         let test = NSPredicate(format:"SELF MATCHES %@", regex)
         return test.evaluate(with: text)
     }
-    
-    
 }

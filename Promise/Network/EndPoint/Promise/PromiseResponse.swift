@@ -111,7 +111,7 @@ struct PromiseMember: Codable {
     let isSucceed: String?
 }
 
-struct GetUserData: Codable{
+struct UserDataResponse: Codable{
     let resultCode: String
     let resultMessage: String
     let data: UserInfoData

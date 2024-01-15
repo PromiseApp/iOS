@@ -9,9 +9,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: "874157b4510490128a52620b19f7f306")
         
-        // 1. 푸시 center (유저에게 권한 요청 용도)
         let center = UNUserNotificationCenter.current()
-        center.delegate = self // push처리에 대한 delegate - UNUserNotificationCenterDelegate
+        center.delegate = self
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
         center.requestAuthorization(options: options) { (granted, error) in
             
@@ -20,7 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
             
             DispatchQueue.main.async {
-                // 2. APNs에 디바이스 토큰 등록
                 UIApplication.shared.registerForRemoteNotifications()
             }
         }
@@ -34,7 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserSession.shared.deviceToken = tokenString
     }
     
-    // 실패시
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
         print("Failed to register for notifications: \(error.localizedDescription)")
     }

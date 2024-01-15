@@ -43,7 +43,9 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        myPageViewModel.loadUserData()
+        myPageViewModel.checkToken(){ [weak self] in
+            self?.myPageViewModel.loadUserData()
+        }
     }
     
     private func bind(){
@@ -288,33 +290,3 @@ class MyPageViewController: UIViewController {
 
 
 }
-
-//#if DEBUG
-//import SwiftUI
-//struct Preview: UIViewControllerRepresentable {
-//
-//    // 여기 ViewController를 변경해주세요
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
-//    }
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//    }
-//}
-//
-//struct ViewController_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
-//
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
-//
-//    }
-//}
-//#endif
-

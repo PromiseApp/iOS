@@ -7,6 +7,7 @@ class AppFlow: Flow {
     }
     
     let stompService = StompService()
+    let checkTokenService = CheckTokenService()
     let authService = AuthService()
     let promiseService = PromiseService()
     var shareVM: ShareFriendViewModel?
@@ -53,7 +54,7 @@ class AppFlow: Flow {
     }
     
     private func navigateToLoading() -> FlowContributors {
-        let VM = LoadingViewModel(authService: authService)
+        let VM = LoadingViewModel(checkTokenService: checkTokenService)
         let VC = LoadingViewController(loadingViewModel: VM)
         self.rootViewController.setViewControllers([VC], animated: true)
 

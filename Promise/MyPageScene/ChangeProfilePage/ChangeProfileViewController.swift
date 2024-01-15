@@ -46,7 +46,9 @@ class ChangeProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        changeProfileViewModel.loadUser()
+        changeProfileViewModel.checkToken{ [weak self] in
+            self?.changeProfileViewModel.loadUserData()
+        }
     }
     
     private func bind(){
@@ -304,32 +306,3 @@ extension ChangeProfileViewController: PHPickerViewControllerDelegate{
         }
     }
 }
-
-//#if DEBUG
-//import SwiftUI
-//struct Preview: UIViewControllerRepresentable {
-//
-//    // 여기 ViewController를 변경해주세요
-//    func makeUIViewController(context: Context) -> UIViewController {
-//        EmailAuthViewController(emailAuthViewModel: EmailAuthViewModel())
-//    }
-//
-//    func updateUIViewController(_ uiView: UIViewController,context: Context) {
-//    }
-//}
-//
-//struct ViewController_PreviewProvider: PreviewProvider {
-//    static var previews: some View {
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhone 13 Pro Max"))
-//
-//        Preview()
-//            .edgesIgnoringSafeArea(.all)
-//            .previewDisplayName("Preview")
-//            .previewDevice(PreviewDevice(rawValue: "iPhoneX"))
-//
-//    }
-//}
-//#endif

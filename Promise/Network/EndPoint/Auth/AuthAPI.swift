@@ -69,15 +69,10 @@ extension AuthAPI: TargetType {
     var task: Task {
         switch self {
         case .signup(let account, let password, let nickname, let img):
-            var parameters: [String: Any] = [
-                "account": account,
-                "password": password,
-                "nickname": nickname
-            ]
             var multipartData: MultipartFormData
             let accountData = MultipartFormBodyPart(provider: .data(account.data(using: .utf8)!), name: "account")
             let passwordData = MultipartFormBodyPart(provider: .data(password.data(using: .utf8)!), name: "password")
-            let nicknameData = MultipartFormBodyPart(provider: .data(password.data(using: .utf8)!), name: "nickname")
+            let nicknameData = MultipartFormBodyPart(provider: .data(nickname.data(using: .utf8)!), name: "nickname")
             if let img = img, let imageData = img.jpegData(compressionQuality: 1.0) {
                 let imgData = MultipartFormBodyPart(provider: .data(imageData), name: "img", fileName: "image.png", mimeType: "image/png")
                 multipartData = [accountData, passwordData, nicknameData, imgData]

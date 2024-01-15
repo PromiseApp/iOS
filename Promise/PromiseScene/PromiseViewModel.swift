@@ -149,16 +149,3 @@ class PromiseViewModel: Stepper{
     }
     
 }
-
-//let now = Date()
-//let year = Calendar.current.component(.year, from: Date())
-//let month = Calendar.current.component(.month, from: Date())
-//let startDate = Calendar.current.date(from: DateComponents(year: year, month: month, day: 1))
-//let midDate = now
-//let endDate = Calendar.current.date(byAdding: DateComponents(month: 1, day: -1), to: startDate!)
-//
-//let formatter = DateFormatter()
-//formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//let startDateTime = formatter.string(from: startDate!)
-//let midDateTime = formatter.string(from: midDate)
-//let endDateTime = formatter.string(from: endDate!)

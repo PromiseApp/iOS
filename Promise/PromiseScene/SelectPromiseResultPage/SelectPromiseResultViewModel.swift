@@ -1,10 +1,3 @@
-//
-//  SelectResultViewModel.swift
-//  Promise
-//
-//  Created by 박중선 on 2023/11/05.
-//
-
 import Foundation
 import RxCocoa
 import RxSwift

@@ -73,16 +73,6 @@ class ChangePwViewModel: Stepper{
                 case .findPwFlow:
                     self?.authService.changePassword(password: pw)
                         .subscribe(onSuccess: { [weak self] _ in
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    if let user = realm.objects(User.self).first {
-                                        user.password = pw
-                                    }
-                                }
-                            } catch {
-                                print("Error updating image in Realm: \(error)")
-                            }
                             self?.steps.accept(FindPwStep.findPwCompleted)
                         }, onFailure: { [weak self] error in
                             self?.steps.accept(FindPwStep.networkErrorPopup)
@@ -91,16 +81,6 @@ class ChangePwViewModel: Stepper{
                 case .myPageFlow:
                     self?.authService.changePassword(password: pw)
                         .subscribe(onSuccess: { [weak self] _ in
-                            do {
-                                let realm = try Realm()
-                                try realm.write {
-                                    if let user = realm.objects(User.self).first {
-                                        user.password = pw
-                                    }
-                                }
-                            } catch {
-                                print("Error updating image in Realm: \(error)")
-                            }
                             self?.steps.accept(MyPageStep.popView)
                         }, onFailure: { [weak self] error in
                             print("authService.changePassword",error)

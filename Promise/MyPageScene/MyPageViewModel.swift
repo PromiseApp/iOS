@@ -1,4 +1,5 @@
 import UIKit
+import Moya
 import RxCocoa
 import RxSwift
 import RxFlow
@@ -9,6 +10,7 @@ class MyPageViewModel: Stepper{
     let disposeBag = DisposeBag()
     var vwaDisposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
+    let checkTokenService: CheckTokenService
     let myPageService: MyPageService
     
     let infoSettingButtonTapped = PublishRelay<Void>()
@@ -22,7 +24,8 @@ class MyPageViewModel: Stepper{
     let levelRelay = BehaviorRelay<Int>(value: 0)
     let expRelay = BehaviorRelay<Int>(value: 0)
     
-    init(myPageService: MyPageService){
+    init(checkTokenService: CheckTokenService, myPageService: MyPageService){
+        self.checkTokenService = checkTokenService
         self.myPageService = myPageService
         
         infoSettingButtonTapped
@@ -50,6 +53,32 @@ class MyPageViewModel: Stepper{
             .disposed(by: disposeBag)
         
     }
+    
+    func checkToken(completion: @escaping () -> Void){
+        if let user = DatabaseManager.shared.fetchUser() {
+            self.checkTokenService.checkToken(refreshToken: user.refreshToken)
+                .subscribe(onSuccess: { [weak self] response in
+                    DatabaseManager.shared.updateAccessToken(newToken: response.data.accessToken)
+                    completion()
+                }, onFailure: { [weak self] error in
+                    if let moyaError = error as? MoyaError {
+                        switch moyaError {
+                        case .statusCode(let response):
+                            switch response.statusCode {
+                            case 400...499:
+                                break
+                            default:
+                                self?.steps.accept(MyPageStep.networkErrorPopup)
+                            }
+                        default:
+                            self?.steps.accept(MyPageStep.networkErrorPopup)
+                        }
+                    }
+                })
+                .disposed(by: vwaDisposeBag)
+        }
+    }
+    
     func loadUserData(){
         self.myPageService.GetUserData()
             .subscribe(onSuccess: { [weak self] response in

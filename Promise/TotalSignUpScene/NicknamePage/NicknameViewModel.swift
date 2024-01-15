@@ -1,4 +1,5 @@
 import Foundation
+import Moya
 import RealmSwift
 import RxCocoa
 import RxSwift
@@ -7,7 +8,6 @@ import RxFlow
 class NicknameViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
-    
     let authService: AuthService
     let currentFlow: FlowType
     
@@ -78,7 +78,7 @@ class NicknameViewModel: Stepper{
                 return self?.authService.changeNickname(nickname: nickname)
                     .asObservable()
                     .map{ response in
-                        print(response)
+                        print("changeNickname",response)
                         do {
                             let realm = try Realm()
                             try realm.write {
@@ -134,5 +134,6 @@ class NicknameViewModel: Stepper{
         let test = NSPredicate(format:"SELF MATCHES %@", regex)
         return test.evaluate(with: text)
     }
+    
     
 }

@@ -14,7 +14,7 @@ protocol PromiseServiceProtocol {
     func outPromise(promiseId: String) -> Single<PromiseResponse>
     func modifyPromise(promiseId:String, title: String, date: String, place: String?, penalty: String?, memo: String?) -> Single<PromiseResponse>
     func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse>
-    func GetUserData() -> Single<GetUserData>
+    func GetUserData() -> Single<UserDataResponse>
 }
 
 class PromiseService: PromiseServiceProtocol {
@@ -85,10 +85,10 @@ class PromiseService: PromiseServiceProtocol {
             .map(PromiseResponse.self)
     }
     
-    func GetUserData() -> Single<GetUserData> {
+    func GetUserData() -> Single<UserDataResponse> {
         return provider.rx.request(.GetUserData)
             .filterSuccessfulStatusCodes()
-            .map(GetUserData.self)
+            .map(UserDataResponse.self)
     }
     
 }

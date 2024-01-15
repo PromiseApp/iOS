@@ -49,6 +49,8 @@
 		316D20EE2B4FF37C007FCB4D /* CheckTokenAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20ED2B4FF37C007FCB4D /* CheckTokenAPI.swift */; };
 		316D20F02B4FF389007FCB4D /* CheckTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20EF2B4FF389007FCB4D /* CheckTokenResponse.swift */; };
 		316D20F22B4FF509007FCB4D /* CheckTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F12B4FF509007FCB4D /* CheckTokenService.swift */; };
+		316D20F52B510F37007FCB4D /* TokenExpirationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */; };
+		316D20F72B510F4D007FCB4D /* TokenExpirationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */; };
 		317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688A82B0B2FF700C266FE /* MyPageAPI.swift */; };
 		317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AA2B0B300200C266FE /* MyPageResponse.swift */; };
 		317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AC2B0B38B300C266FE /* MyPageService.swift */; };
@@ -221,6 +223,8 @@
 		316D20ED2B4FF37C007FCB4D /* CheckTokenAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenAPI.swift; sourceTree = "<group>"; };
 		316D20EF2B4FF389007FCB4D /* CheckTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenResponse.swift; sourceTree = "<group>"; };
 		316D20F12B4FF509007FCB4D /* CheckTokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenService.swift; sourceTree = "<group>"; };
+		316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationViewController.swift; sourceTree = "<group>"; };
+		316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationViewModel.swift; sourceTree = "<group>"; };
 		317688A82B0B2FF700C266FE /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
 		317688AA2B0B300200C266FE /* MyPageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageResponse.swift; sourceTree = "<group>"; };
 		317688AC2B0B38B300C266FE /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
@@ -540,6 +544,15 @@
 				316D20EF2B4FF389007FCB4D /* CheckTokenResponse.swift */,
 			);
 			path = CheckToken;
+			sourceTree = "<group>";
+		};
+		316D20F32B510F16007FCB4D /* TokenExpirationPopup */ = {
+			isa = PBXGroup;
+			children = (
+				316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */,
+				316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */,
+			);
+			path = TokenExpirationPopup;
 			sourceTree = "<group>";
 		};
 		317688A72B0B2FE800C266FE /* MyPage */ = {
@@ -1071,6 +1084,7 @@
 		31F1A0DB2AADD3AE00B99DC4 /* PopUpPage */ = {
 			isa = PBXGroup;
 			children = (
+				316D20F32B510F16007FCB4D /* TokenExpirationPopup */,
 				317688C32B106E0900C266FE /* MyPagePopup */,
 				314F90742B0626FB00312846 /* PromisePopup */,
 				314F90642AFF443700312846 /* FriendPopup */,
@@ -1342,6 +1356,7 @@
 				31C33F792AB8093E00A99D7E /* TabBarController.swift in Sources */,
 				316D20F22B4FF509007FCB4D /* CheckTokenService.swift in Sources */,
 				3178A6F12B2980D1006F36B3 /* OtherChatTableViewCell.swift in Sources */,
+				316D20F52B510F37007FCB4D /* TokenExpirationViewController.swift in Sources */,
 				3178A6F32B298103006F36B3 /* StompService.swift in Sources */,
 				317D69FD2ADD18FE004CEE5C /* AddFriendPopupViewController.swift in Sources */,
 				314F90572AFD089500312846 /* RequestFriendTableViewCell.swift in Sources */,
@@ -1416,6 +1431,7 @@
 				31EF2A8D2AEE76D90082B664 /* AnnouncementViewController.swift in Sources */,
 				312476A52AA0588C00D318C7 /* AppDelegate.swift in Sources */,
 				31F1A0DD2AADD3C500B99DC4 /* InputErrorPopupViewController.swift in Sources */,
+				316D20F72B510F4D007FCB4D /* TokenExpirationViewModel.swift in Sources */,
 				3178A6DE2B297F0C006F36B3 /* ChatService.swift in Sources */,
 				317C8FB22AFCC48E003010BA /* FriendAPI.swift in Sources */,
 				317C8F7D2AF74ED4003010BA /* SelectPromiseResultViewModel.swift in Sources */,
