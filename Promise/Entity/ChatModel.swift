@@ -12,7 +12,7 @@ class ChatRoom: Object {
     @Persisted(primaryKey: true) var id = UUID().uuidString
     @Persisted var roomId: Int = 0
     @Persisted var senderNickname: String = ""
-    @Persisted var userImageBase64: String?
+    @Persisted var userImage: String?
     @Persisted var messageText: String = ""
     @Persisted var timestamp: String = ""
     @Persisted var isRead: Bool = false

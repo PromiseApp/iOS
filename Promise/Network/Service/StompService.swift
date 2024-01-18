@@ -37,14 +37,14 @@ class StompService {
         self.currentRoomId = roomId
     }
 
-    func saveMessage(roomId: Int, senderNickname: String, userImageBase64: String?, messageText: String, timestamp: String, isRead: Bool) {
+    func saveMessage(roomId: Int, senderNickname: String, userImage: String?, messageText: String, timestamp: String, isRead: Bool) {
         let realm = try! Realm()
         let chatList = realm.object(ofType: ChatList.self, forPrimaryKey: roomId)
 
         let newMessage = ChatRoom()
         newMessage.roomId = roomId
         newMessage.senderNickname = senderNickname
-        newMessage.userImageBase64 = userImageBase64
+        newMessage.userImage = userImage
         newMessage.messageText = messageText
         newMessage.timestamp = timestamp
         newMessage.isRead = isRead
@@ -90,11 +90,11 @@ extension StompService: StompClientLibDelegate{
         }
         
         var image: String? = nil
-        if let imageBase64 = dict["memberImg"] as? String{
-            image = imageBase64
+        if let imageUrl = dict["memberImg"] as? String{
+            image = imageUrl
         }
         let isRead = roomId == self.currentRoomId ?? 0
-        self.saveMessage(roomId: roomId, senderNickname: senderNickname, userImageBase64: image, messageText: messageText, timestamp: sendDate, isRead: isRead)
+        self.saveMessage(roomId: roomId, senderNickname: senderNickname, userImage: image, messageText: messageText, timestamp: sendDate, isRead: isRead)
         self.updateMessagesForRoom(roomId: roomId)
     }
     

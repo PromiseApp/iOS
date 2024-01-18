@@ -67,11 +67,15 @@ class RequestFriendViewModel: Stepper{
         self.friendService.requestFriendList()
             .subscribe(onSuccess: { [weak self] response in
                 let friends = response.data.info.map { friendData in
-                    let friendImg = (friendData.memberInfo.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
-                    return RequestFriend(userImage: friendImg!,
+                    var friend = RequestFriend(userImage: UIImage(named: "user")!,
                                          name: friendData.memberInfo.nickname,
                                          level: String(friendData.memberInfo.level), requesterID: friendData.requestInfo.id)
-                    
+                    if let imageUrl = friendData.memberInfo.img {
+                        ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+                            friend.userImage = image ?? UIImage(named: "user")!
+                        }
+                    }
+                    return friend
                 }
                 self?.allFriends = friends
                 self?.friendsRelay.accept(self?.allFriends ?? [])

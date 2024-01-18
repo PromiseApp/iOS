@@ -195,8 +195,14 @@ class ModifyPromiseViewModel: Stepper{
         self.promiseService.detailPromise(promiseId: promiseId)
             .subscribe(onSuccess: { [weak self] response in
                 let receivedFriends = response.data.membersInfo.map { friendData in
-                    let friendImg = (friendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
-                    return Friend(userImage: friendImg!, name: friendData.nickname, level: String(friendData.level), isSelected: true)
+                    var friend = Friend(userImage: UIImage(named: "user")!, name: friendData.nickname, level: friendData.level, isSelected: true)
+
+                    if let imageUrl = friendData.img {
+                        ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+                            friend.userImage = image ?? UIImage(named: "user")!
+                        }
+                    }
+                    return friend
                 }
                 
                 var updatedFriends = self?.shareFriendViewModel.allFriends

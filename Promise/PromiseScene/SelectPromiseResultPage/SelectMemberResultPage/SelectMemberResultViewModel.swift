@@ -81,12 +81,14 @@ class SelectMemberResultViewModel: Stepper{
         self.promiseService.detailPromise(promiseId: self.promiseId)
             .subscribe(onSuccess: { [weak self] response in
                 let friends = response.data.membersInfo.map { friendData in
-                    let friendImg = (friendData.img.flatMap { Data(base64Encoded: $0) }).flatMap { UIImage(data: $0) } ?? UIImage(named: "user")
+                    var friend = Friend(userImage: UIImage(named: "user")!, name: friendData.nickname, level: friendData.level, isSelected: false)
 
-                    return Friend(userImage: friendImg!,
-                                         name: friendData.nickname,
-                                  level: String(friendData.level), isSelected: false)
-                    
+                    if let imageUrl = friendData.img {
+                        ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+                            friend.userImage = image ?? UIImage(named: "user")!
+                        }
+                    }
+                    return friend
                 }
                 self?.allFriends = friends
                 self?.resultMemberRelay.accept(self?.allFriends ?? [])

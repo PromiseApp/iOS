@@ -25,10 +25,10 @@ class ParticipantViewModel: Stepper{
             .subscribe(onSuccess: { [weak self] response in
                 let members:[Friend] = response.data.membersInfo.map{ friend in
                     var userImage = UIImage(named: "user")
-                    if let imageBase64 = friend.img,
-                       let imageData = Data(base64Encoded: imageBase64),
-                       let image = UIImage(data: imageData) {
-                        userImage = image
+                    if let imageUrl = friend.img {
+                        ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+                            userImage = image ?? UIImage(named: "user")!
+                        }
                     }
                     if(response.data.promiseInfo.leader == friend.nickname){
                         return Friend(userImage: userImage!, name: friend.nickname, level: friend.level, isSelected: true)

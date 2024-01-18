@@ -77,11 +77,11 @@ class ChatRoomViewModel: Stepper{
     func convertToChatCell(chatRooms: [ChatRoom]) -> [ChatCell] {
         return chatRooms.map { chatRoom in
             var userImage: UIImage? = UIImage(named: "user")
-            if let base64String = chatRoom.userImageBase64,
-               let imageData = Data(base64Encoded: base64String) {
-                userImage = UIImage(data: imageData)
+            if let imageUrl = chatRoom.userImage {
+                ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+                    userImage = image ?? UIImage(named: "user")!
+                }
             }
-
             return ChatCell(
                 promiseID: chatRoom.roomId,
                 nickname: chatRoom.senderNickname,
