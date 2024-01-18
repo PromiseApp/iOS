@@ -70,12 +70,9 @@ class SignupViewModel: Stepper{
                     return self.authService.signUp(account: UserSession.shared.account, password: password, nickname: UserSession.shared.nickname, img: selectedImage)
                         .asObservable()
                         .map{ response in
-                            print(UserSession.shared.account,password,UserSession.shared.nickname,selectedImage)
-                            print("signupresponse",response)
                             return Void()
                         }
                         .catch { [weak self] error in
-                            print("authService.signUp",error)
                             self?.steps.accept(SignupStep.networkErrorPopup)
                             return Observable.empty()
                         }
