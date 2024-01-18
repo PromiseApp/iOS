@@ -43,9 +43,7 @@ class MyPageViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        myPageViewModel.checkToken(){ [weak self] in
-            self?.myPageViewModel.loadUserData()
-        }
+        self.myPageViewModel.loadUserData()
     }
     
     private func bind(){

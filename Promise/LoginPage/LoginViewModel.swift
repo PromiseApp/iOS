@@ -176,8 +176,9 @@ class LoginViewModel: NSObject, Stepper{
             newUser.account = account
             newUser.nickname = nickname
             newUser.role = role
-            newUser.accessToken = accessToken
-            newUser.refreshToken = refreshToken
+            KeychainManager.shared.save(token: accessToken, for: "AccessToken")
+            KeychainManager.shared.save(token: refreshToken, for: "RefreshToken")
+
             try realm.write {
                 realm.add(newUser)
             }

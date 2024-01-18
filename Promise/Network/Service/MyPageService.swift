@@ -12,6 +12,11 @@ protocol MyPageServiceProtocol {
 
 class MyPageService: MyPageServiceProtocol {
     private let provider = MoyaProvider<MyPageAPI>()
+    private let checkTokenService: CheckTokenServiceProtocol
+
+    init(checkTokenService: CheckTokenServiceProtocol) {
+        self.checkTokenService = checkTokenService
+    }
     
     func createInquiry(author: String, title: String, content: String, type: String) -> Single<MyPageResponse> {
         return provider.rx.request(.CreateInquiry(author: author, title: title, content: content, type: type))
@@ -38,9 +43,19 @@ class MyPageService: MyPageServiceProtocol {
     }
     
     func GetUserData() -> Single<UserDataResponse> {
-        return provider.rx.request(.GetUserData)
-            .filterSuccessfulStatusCodes()
-            .map(UserDataResponse.self)
+        if let refreshToken = KeychainManager.shared.readToken(for: "RefreshToken") {
+            return checkTokenService.checkToken(refreshToken: refreshToken)
+                .flatMap { [weak self] response in
+                    KeychainManager.shared.update(token: response.data.accessToken, for: "AccessToken")
+                    return self?.provider.rx.request(.GetUserData)
+                        .filterSuccessfulStatusCodes()
+                        .map(UserDataResponse.self) ?? Single.error(CustomError.mappingError)
+                }
+        }
+        else{
+            return Single.error(CustomError.noUserError)
+        }
+
     }
     
 }

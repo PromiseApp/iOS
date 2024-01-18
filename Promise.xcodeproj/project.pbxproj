@@ -51,6 +51,7 @@
 		316D20F22B4FF509007FCB4D /* CheckTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F12B4FF509007FCB4D /* CheckTokenService.swift */; };
 		316D20F52B510F37007FCB4D /* TokenExpirationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */; };
 		316D20F72B510F4D007FCB4D /* TokenExpirationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */; };
+		316D21082B58E3DE007FCB4D /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D21072B58E3DE007FCB4D /* KeychainManager.swift */; };
 		317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688A82B0B2FF700C266FE /* MyPageAPI.swift */; };
 		317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AA2B0B300200C266FE /* MyPageResponse.swift */; };
 		317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AC2B0B38B300C266FE /* MyPageService.swift */; };
@@ -225,6 +226,7 @@
 		316D20F12B4FF509007FCB4D /* CheckTokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTokenService.swift; sourceTree = "<group>"; };
 		316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationViewController.swift; sourceTree = "<group>"; };
 		316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationViewModel.swift; sourceTree = "<group>"; };
+		316D21072B58E3DE007FCB4D /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		317688A82B0B2FF700C266FE /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
 		317688AA2B0B300200C266FE /* MyPageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageResponse.swift; sourceTree = "<group>"; };
 		317688AC2B0B38B300C266FE /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
@@ -1155,6 +1157,7 @@
 				317688AE2B0B4B1D00C266FE /* UserDefaultsKeys.swift */,
 				317688B02B0B4FFD00C266FE /* DatabaseManager.swift */,
 				316D20EA2B4D4E85007FCB4D /* ImageDownloadManager.swift */,
+				316D21072B58E3DE007FCB4D /* KeychainManager.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -1456,6 +1459,7 @@
 				31F1A0E42AAEF7E000B99DC4 /* PromiseViewModel.swift in Sources */,
 				317D69D52ADBA4A1004CEE5C /* AppFlow.swift in Sources */,
 				31F1A0F52AB46CA400B99DC4 /* SelectFriendViewController.swift in Sources */,
+				316D21082B58E3DE007FCB4D /* KeychainManager.swift in Sources */,
 				317C8F982AF8FE13003010BA /* AuthService.swift in Sources */,
 				311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */,
 				317D69EE2ADC1F63004CEE5C /* PromiseFlow.swift in Sources */,

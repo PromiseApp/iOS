@@ -9,8 +9,8 @@ class StompService {
     
     func connectSocket(){
         let url = URL(string: "ws://43.200.141.247:8080/ws")!
-        if let user = DatabaseManager.shared.fetchUser(){
-            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as URL) , delegate: self,connectionHeaders: ["Authorization":"Bearer \(user.accessToken)"])
+        if let accessToken = KeychainManager.shared.readToken(for: "AccessToken") {
+            socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as URL) , delegate: self,connectionHeaders: ["Authorization":"Bearer \(accessToken)"])
         }
     }
     

@@ -46,6 +46,8 @@ class WithdrawPopupViewModel: Stepper{
                 } catch {
                     print("Error clearing Realm data: \(error)")
                 }
+                KeychainManager.shared.deleteToken(for: "AccessToken")
+                KeychainManager.shared.deleteToken(for: "RefreshToken")
                 self?.steps.accept(MyPageStep.dismissView)
                 self?.steps.accept(MyPageStep.logoutCompleted)
             })

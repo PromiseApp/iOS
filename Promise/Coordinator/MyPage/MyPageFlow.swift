@@ -9,7 +9,7 @@ class MyPageFlow: Flow {
     private var rootViewController: UINavigationController
     let limitedVM = LimitedViewModel(currentFlow: .myPageFlow)
     let checkTokenService = CheckTokenService()
-    let myPageService = MyPageService()
+    lazy var myPageService = MyPageService(checkTokenService: self.checkTokenService)
     let authService = AuthService()
     
     let user = DatabaseManager.shared.fetchUser()

@@ -21,17 +21,13 @@ class User: Object {
     @Persisted var nickname: String
     @Persisted var image: String?
     @Persisted var role: String
-    @Persisted var accessToken: String
-    @Persisted var refreshToken: String
     
-    convenience init(account: String, nickname: String, image: String?, role: String, accessToken: String, refreshToken: String) {
+    convenience init(account: String, nickname: String, image: String?, role: String) {
         self.init()
         self.account = account
         self.nickname = nickname
         self.image = image
         self.role = role
-        self.accessToken = accessToken
-        self.refreshToken = refreshToken
     }
 }
 

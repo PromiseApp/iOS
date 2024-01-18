@@ -46,9 +46,7 @@ class ChangeProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        changeProfileViewModel.checkToken{ [weak self] in
-            self?.changeProfileViewModel.loadUserData()
-        }
+        self.changeProfileViewModel.loadUserData()
     }
     
     private func bind(){

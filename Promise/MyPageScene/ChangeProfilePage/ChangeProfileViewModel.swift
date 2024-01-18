@@ -110,6 +110,8 @@ class ChangeProfileViewModel: Stepper{
         } catch {
             print("Error clearing Realm data: \(error)")
         }
+        KeychainManager.shared.deleteToken(for: "AccessToken")
+        KeychainManager.shared.deleteToken(for: "RefreshToken")
         self.steps.accept(MyPageStep.logoutCompleted)
     }
     
@@ -127,30 +129,6 @@ class ChangeProfileViewModel: Stepper{
         
     }
     
-    func checkToken(completion: @escaping () -> Void){
-        if let user = DatabaseManager.shared.fetchUser() {
-            self.checkTokenService.checkToken(refreshToken: user.refreshToken)
-                .subscribe(onSuccess: { [weak self] response in
-                    DatabaseManager.shared.updateAccessToken(newToken: response.data.accessToken)
-                    completion()
-                }, onFailure: { [weak self] error in
-                    if let moyaError = error as? MoyaError {
-                        switch moyaError {
-                        case .statusCode(let response):
-                            switch response.statusCode {
-                            case 400...499:
-                                break
-                            default:
-                                self?.steps.accept(MyPageStep.networkErrorPopup)
-                            }
-                        default:
-                            self?.steps.accept(MyPageStep.networkErrorPopup)
-                        }
-                    }
-                })
-                .disposed(by: disposeBag)
-        }
-    }
     
     func loadUserData(){
         self.myPageService.GetUserData()

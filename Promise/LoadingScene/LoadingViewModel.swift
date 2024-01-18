@@ -68,10 +68,9 @@ class LoadingViewModel: Stepper{
     func autoLogin() {
         let isAutoLoginEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isAutoLoginEnabled)
         if isAutoLoginEnabled == "Y" {
-            if let user = DatabaseManager.shared.fetchUser() {
-                self.checkTokenService.checkToken(refreshToken: user.refreshToken)
+            if let refreshToken = KeychainManager.shared.readToken(for: "RefreshToken") {
+                self.checkTokenService.checkToken(refreshToken: refreshToken)
                     .subscribe(onSuccess: { [weak self] response in
-                        DatabaseManager.shared.updateAccessToken(newToken: response.data.accessToken)
                         self?.steps.accept(AppStep.tabBar)
                     }, onFailure: { [weak self] error in
                         if let moyaError = error as? MoyaError {

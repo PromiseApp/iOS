@@ -120,9 +120,9 @@ extension AuthAPI: TargetType {
     var headers: [String: String]? {
         var jsonHeaders = ["Content-Type": "application/json"]
         var multiHeaders = ["Content-Type": "multipart/form-data"]
-        if let user = DatabaseManager.shared.fetchUser(){
-            jsonHeaders["Authorization"] = "Bearer \(user.accessToken)"
-            multiHeaders["Authorization"] = "Bearer \(user.accessToken)"
+        if let accessToken = KeychainManager.shared.readToken(for: "AccessToken") {
+            jsonHeaders["Authorization"] = "Bearer \(accessToken)"
+            multiHeaders["Authorization"] = "Bearer \(accessToken)"
         }
         switch self{
         case .signup:
