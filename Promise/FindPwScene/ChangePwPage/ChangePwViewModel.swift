@@ -63,7 +63,7 @@ class ChangePwViewModel: Stepper{
                 }
             })
             .disposed(by: disposeBag)
-        
+        //TODO: 로그인 화면 비밀번호 변경 api 변경
         nextButtonTapped
             .withLatestFrom(rePwTextRelay)
             .subscribe(onNext: { [weak self] pw in
