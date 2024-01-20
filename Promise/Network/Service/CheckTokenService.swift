@@ -14,6 +14,5 @@ class CheckTokenService: CheckTokenServiceProtocol {
             .filterSuccessfulStatusCodes()
             .map(CheckTokenResponse.self)
     }
-    
 }
 

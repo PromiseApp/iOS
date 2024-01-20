@@ -10,12 +10,14 @@ enum PromiseStep: Step {
     case selectMemberResult
     case modifyPromise(promiseId: String, type: String)
     case selectFriendForModify
+    case tokenExpirationPopup
     case networkErrorPopup
     case errorDeletedPromisePopup
     case deletePromisePopup(promiseId: String)
     case outPromisePopup(promiseId: String)
     case popView
     case dismissView
+    case endFlow
 }
 
 enum PromiseFlowType {

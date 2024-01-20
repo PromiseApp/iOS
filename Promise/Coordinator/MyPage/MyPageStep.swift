@@ -14,11 +14,12 @@ enum MyPageStep: Step {
     case terms
     case policies
     case logoutCompleted
-    case withdrawPopup
     case tokenExpirationPopup
+    case withdrawPopup
     case networkErrorPopup
     case dismissView
     case popView
+    case endFlow
 }
 
 enum FlowType {

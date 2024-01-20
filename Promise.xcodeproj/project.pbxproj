@@ -52,6 +52,8 @@
 		316D20F52B510F37007FCB4D /* TokenExpirationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */; };
 		316D20F72B510F4D007FCB4D /* TokenExpirationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */; };
 		316D21082B58E3DE007FCB4D /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D21072B58E3DE007FCB4D /* KeychainManager.swift */; };
+		316D210B2B5A84D6007FCB4D /* TokenExpirationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */; };
+		316D210D2B5A84DE007FCB4D /* TokenExpirationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */; };
 		317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688A82B0B2FF700C266FE /* MyPageAPI.swift */; };
 		317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AA2B0B300200C266FE /* MyPageResponse.swift */; };
 		317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AC2B0B38B300C266FE /* MyPageService.swift */; };
@@ -227,6 +229,8 @@
 		316D20F42B510F37007FCB4D /* TokenExpirationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationViewController.swift; sourceTree = "<group>"; };
 		316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationViewModel.swift; sourceTree = "<group>"; };
 		316D21072B58E3DE007FCB4D /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
+		316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationStep.swift; sourceTree = "<group>"; };
+		316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationFlow.swift; sourceTree = "<group>"; };
 		317688A82B0B2FF700C266FE /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
 		317688AA2B0B300200C266FE /* MyPageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageResponse.swift; sourceTree = "<group>"; };
 		317688AC2B0B38B300C266FE /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
@@ -555,6 +559,15 @@
 				316D20F62B510F4D007FCB4D /* TokenExpirationViewModel.swift */,
 			);
 			path = TokenExpirationPopup;
+			sourceTree = "<group>";
+		};
+		316D21092B5A84A5007FCB4D /* TokenExpiration */ = {
+			isa = PBXGroup;
+			children = (
+				316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */,
+				316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */,
+			);
+			path = TokenExpiration;
 			sourceTree = "<group>";
 		};
 		317688A72B0B2FE800C266FE /* MyPage */ = {
@@ -961,6 +974,7 @@
 				317688B72B0C8A2400C266FE /* Chat */,
 				317D69EA2ADC1F48004CEE5C /* Friend */,
 				318586AB2AE00623005EBC31 /* MyPage */,
+				316D21092B5A84A5007FCB4D /* TokenExpiration */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -1384,6 +1398,7 @@
 				317688B12B0B4FFD00C266FE /* DatabaseManager.swift in Sources */,
 				317688C02B0F23F700C266FE /* LoadingViewModel.swift in Sources */,
 				314F906F2AFF5C3500312846 /* NewPromiseTableViewCell.swift in Sources */,
+				316D210B2B5A84D6007FCB4D /* TokenExpirationStep.swift in Sources */,
 				317D6A052ADD2695004CEE5C /* RequestFriendViewController.swift in Sources */,
 				317688B42B0C893600C266FE /* ChatListViewController.swift in Sources */,
 				31BBE2842AEE83D800B69803 /* AnnouncementTableViewCell.swift in Sources */,
@@ -1421,6 +1436,7 @@
 				312006B52AAAF39900501128 /* ConfirmEmailAuthViewModel.swift in Sources */,
 				317C8F652AF25FAF003010BA /* InquiryViewModel.swift in Sources */,
 				317688BD2B0F219F00C266FE /* LoadingViewController.swift in Sources */,
+				316D210D2B5A84DE007FCB4D /* TokenExpirationFlow.swift in Sources */,
 				31F1A0FE2AB5610600B99DC4 /* ShareFriendViewModel.swift in Sources */,
 				31EF2A922AEE78D10082B664 /* AnnouncementHeader.swift in Sources */,
 				317D69F02ADC1F6E004CEE5C /* FriendStep.swift in Sources */,

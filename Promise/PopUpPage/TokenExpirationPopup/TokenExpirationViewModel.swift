@@ -11,8 +11,8 @@ class TokenExpirationViewModel: Stepper{
     init() {
         okButtonTapped
             .subscribe(onNext: { [weak self] in
-                //self?.steps.accept(SomeStep.dismissView)
-                //self?.steps.accept(SomeStep.logoutCompleted)
+                self?.steps.accept(TokenExpirationStep.dismissView)
+                self?.steps.accept(TokenExpirationStep.endFlow)
             })
             .disposed(by: disposeBag)
         

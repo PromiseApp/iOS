@@ -43,6 +43,8 @@ class PromiseFlow: Flow {
             return navigateToModifyPromise(promiseId: promiseId, type: type)
         case .selectFriendForModify:
             return navigateToSelectFriendForModify()
+        case .tokenExpirationPopup:
+            return navigateToTokenExpirationPopup()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .errorDeletedPromisePopup:
@@ -55,6 +57,8 @@ class PromiseFlow: Flow {
             return popViewController()
         case .dismissView:
             return dismissViewController()
+        case .endFlow:
+            return .end(forwardToParentFlowWithStep: AppStep.endAllFlowsCompleted)
         }
     }
     
@@ -128,6 +132,11 @@ class PromiseFlow: Flow {
         let VC = SelectFriendViewController(selectFriendViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToTokenExpirationPopup() -> FlowContributors {
+        let tokenExpirationFlow = TokenExpirationFlow(with: rootViewController)
+        return .one(flowContributor: .contribute(withNextPresentable: tokenExpirationFlow, withNextStepper: OneStepper(withSingleStep: TokenExpirationStep.tokenExpirationPopup)))
     }
     
     private func presentNetworkErrorPopup() -> FlowContributors {

@@ -49,10 +49,10 @@ class MyPageFlow: Flow {
         case .policies:
             return navigatePolicies()
         case .logoutCompleted:
-            return .end(forwardToParentFlowWithStep: AppStep.logoutCompleted)
-        case .withdrawPopup:
-            return presentWithdrawPopup()
+            return .end(forwardToParentFlowWithStep: AppStep.endAllFlows)
         case .tokenExpirationPopup:
+            return navigateToTokenExpirationPopup()
+        case .withdrawPopup:
             return presentWithdrawPopup()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
@@ -60,6 +60,8 @@ class MyPageFlow: Flow {
             return dismissViewController()
         case .popView:
             return popViewController()
+        case .endFlow:
+            return .end(forwardToParentFlowWithStep: AppStep.endAllFlowsCompleted)
         }
     }
     
@@ -150,17 +152,14 @@ class MyPageFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
+    private func navigateToTokenExpirationPopup() -> FlowContributors {
+        let tokenExpirationFlow = TokenExpirationFlow(with: rootViewController)
+        return .one(flowContributor: .contribute(withNextPresentable: tokenExpirationFlow, withNextStepper: OneStepper(withSingleStep: TokenExpirationStep.tokenExpirationPopup)))
+    }
+    
     private func presentWithdrawPopup() -> FlowContributors {
         let VM = WithdrawPopupViewModel(authService: authService)
         let VC = WithdrawPopupViewController(withdrawPopupViewModel: VM)
-        VC.modalPresentationStyle = .overFullScreen
-        rootViewController.present(VC, animated: false)
-        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
-    }
-    
-    private func presentTokenExpirationPopup() -> FlowContributors {
-        let VM = TokenExpirationViewModel()
-        let VC = TokenExpirationViewController(tokenExpirationViewModel: TokenExpirationViewModel())
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))

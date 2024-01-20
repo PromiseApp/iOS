@@ -27,12 +27,16 @@ class TabBarFlow: Flow {
             return navigateToMakePromise()
         case .selectFriend:
             return navigateToSelectFriend()
+        case .tokenExpirationPopup:
+            return navigateToTokenExpirationPopup()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .popRootView:
             return popRootViewController()
         case .popView:
             return popViewController()
+        case .endFlow:
+            return .end(forwardToParentFlowWithStep: AppStep.endAllFlowsCompleted)
         }
     }
     
@@ -55,6 +59,11 @@ class TabBarFlow: Flow {
         let VC = SelectFriendViewController(selectFriendViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToTokenExpirationPopup() -> FlowContributors {
+        let tokenExpirationFlow = TokenExpirationFlow(with: rootViewController)
+        return .one(flowContributor: .contribute(withNextPresentable: tokenExpirationFlow, withNextStepper: OneStepper(withSingleStep: TokenExpirationStep.tokenExpirationPopup)))
     }
     
     private func presentNetworkErrorPopup() -> FlowContributors {

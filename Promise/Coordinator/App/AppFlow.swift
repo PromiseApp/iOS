@@ -12,6 +12,12 @@ class AppFlow: Flow {
     let promiseService = PromiseService()
     var shareVM: ShareFriendViewModel?
     
+    var tabBarFlow: TabBarFlow!
+    var promiseFlow: PromiseFlow!
+    var chatFlow: ChatFlow!
+    var friendFlow: FriendFlow!
+    var myPageFlow: MyPageFlow!
+    
     private lazy var rootViewController: UINavigationController = {
         let navigationController = UINavigationController()
         navigationController.isNavigationBarHidden = true
@@ -20,7 +26,7 @@ class AppFlow: Flow {
 
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? AppStep else { return .none }
-        
+        print(step)
         switch step {
         case .loading:
             return navigateToLoading()
@@ -42,14 +48,16 @@ class AppFlow: Flow {
             return navigateToTerms()
         case .policies:
             return navigatePolicies()
-        case .logoutCompleted:
-            return navigateToLogin()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .inputErrorPopup:
             return presentInputErrorPopup()
         case .popView:
             return popViewController()
+        case .endAllFlows:
+            return terminateAllFlows()
+        case .endAllFlowsCompleted:
+            return .none
         }
     }
     
@@ -82,11 +90,11 @@ class AppFlow: Flow {
         let myPageNC = UINavigationController()
         myPageNC.isNavigationBarHidden = true
         
-        let tabBarFlow = TabBarFlow(with: rootViewController, stompService: self.stompService)
-        let promiseFlow = PromiseFlow(with: promiseNC, stompService: self.stompService)
-        let chatFlow = ChatFlow(with: chatNC, stompService: self.stompService)
-        let friendFlow = FriendFlow(with: friendNC)
-        let myPageFlow = MyPageFlow(with: myPageNC)
+        self.tabBarFlow = TabBarFlow(with: rootViewController, stompService: self.stompService)
+        self.promiseFlow = PromiseFlow(with: promiseNC, stompService: self.stompService)
+        self.chatFlow = ChatFlow(with: chatNC, stompService: self.stompService)
+        self.friendFlow = FriendFlow(with: friendNC)
+        self.myPageFlow = MyPageFlow(with: myPageNC)
         
         Flows.use(promiseFlow, chatFlow, friendFlow, myPageFlow, when: .created) { [weak self] (promiseVC, chatVC, friendVC, myPageVC) in
             
@@ -155,6 +163,17 @@ class AppFlow: Flow {
     private func popViewController() -> FlowContributors {
         rootViewController.popViewController(animated: true)
         return .none
+    }
+    
+    private func terminateAllFlows() -> FlowContributors {
+        self.navigateToLogin()
+        return .multiple(flowContributors: [
+            .contribute(withNextPresentable: tabBarFlow, withNextStepper: OneStepper(withSingleStep: TabBarStep.endFlow)),
+            .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.endFlow)),
+            .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.endFlow)),
+            .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.endFlow)),
+            .contribute(withNextPresentable: myPageFlow, withNextStepper: OneStepper(withSingleStep: MyPageStep.endFlow)),
+        ])
     }
     
 }

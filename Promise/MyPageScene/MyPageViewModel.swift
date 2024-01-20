@@ -63,22 +63,25 @@ class MyPageViewModel: Stepper{
                 self?.expRelay.accept(response.data.userInfo.exp)
                 ImageDownloadManager.shared.downloadImage(urlString: response.data.userInfo.img, imageRelay: self!.userImageRelay)
             }, onFailure: { [weak self] error in
-                if let networkErrorHandler = error as? NetworkErrorHandler {
-                    let (errorCode, errorMessage) = networkErrorHandler.handle(error: error)
-                    switch errorCode {
-                    case 401:
-                        print("Error 401: \(errorMessage)")
-                    case 402:
-                        print("Error 402: \(errorMessage)")
-                    case 1000:
-                        print("Custom Error 1000: \(errorMessage)")
-                    case 1001:
-                        print("Custom Error 1001: \(errorMessage)")
-                    default:
-                        print("\(errorCode): \(errorMessage)")
-                        self?.steps.accept(MyPageStep.networkErrorPopup)
-                    }
+                print(error)
+                let (errorCode, errorMessage) = NetworkErrorHandler().handle(error: error)
+                print((errorCode, errorMessage))
+                switch errorCode {
+                case 400:
+                    self?.steps.accept(MyPageStep.tokenExpirationPopup)
+                case 401:
+                    print("Error 401: \(errorMessage)")
+                case 402:
+                    print("Error 402: \(errorMessage)")
+                case 1000:
+                    print("Custom Error 1000: \(errorMessage)")
+                case 1001:
+                    print("Custom Error 1001: \(errorMessage)")
+                default:
+                    print("\(errorCode): \(errorMessage)")
+                    self?.steps.accept(MyPageStep.networkErrorPopup)
                 }
+                
             })
             .disposed(by: vwaDisposeBag)
     }

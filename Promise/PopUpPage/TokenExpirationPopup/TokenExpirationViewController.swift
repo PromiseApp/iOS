@@ -46,13 +46,13 @@ class TokenExpirationViewController: UIViewController {
         }
 
         titleLabel.do{
-            $0.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.font = UIFont(name: "Pretendard-SemiBold", size: 18*Constants.standartFont)
             $0.textAlignment = .center
-            $0.text = "로그인 만료"
+            $0.text = "토큰 만료"
         }
         
         descLabel.do{
-            $0.font = UIFont(name: "Pretendard-Medium", size: 14*Constants.standartFont)
+            $0.font = UIFont(name: "Pretendard-Medium", size: 16*Constants.standartFont)
             $0.textAlignment = .center
             $0.numberOfLines = 2
             $0.text = "다시 로그인해 주시기 바랍니다."
