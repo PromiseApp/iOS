@@ -44,7 +44,7 @@ class MyPageService: MyPageServiceProtocol {
     
     func GetUserData() -> Single<UserDataResponse> {
         if let refreshToken = KeychainManager.shared.readToken(for: "RefreshToken") {
-            return checkTokenService.checkToken(refreshToken: "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJUZXN0MUBnbWFpbC5jb20iLCJyb2xlcyI6W3sibmFtZSI6IlJPTEVfVVNFUiJ9XSwiaWF0IjoxNzA1NjU1NDYyLCJleHAiOjE3MDYyNjAyNjJ9.uOC4gXr8dzTaU3y7IjVw0FNoW3NQpomrFdgvLd9OhQ")
+            return checkTokenService.checkToken(refreshToken: refreshToken)
                 .flatMap { [weak self] response in
                     KeychainManager.shared.update(token: response.data.accessToken, for: "AccessToken")
                     return self?.provider.rx.request(.GetUserData)

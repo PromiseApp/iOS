@@ -86,6 +86,7 @@ class LoginViewModel: NSObject, Stepper{
         
         signupButtonTapped
             .subscribe(onNext: {
+                print(11111)
                 self.steps.accept(AppStep.signup)
             })
             .disposed(by: disposeBag)

@@ -63,9 +63,7 @@ class MyPageViewModel: Stepper{
                 self?.expRelay.accept(response.data.userInfo.exp)
                 ImageDownloadManager.shared.downloadImage(urlString: response.data.userInfo.img, imageRelay: self!.userImageRelay)
             }, onFailure: { [weak self] error in
-                print(error)
                 let (errorCode, errorMessage) = NetworkErrorHandler().handle(error: error)
-                print((errorCode, errorMessage))
                 switch errorCode {
                 case 400:
                     self?.steps.accept(MyPageStep.tokenExpirationPopup)

@@ -14,7 +14,6 @@ class TokenExpirationFlow: Flow {
     
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? TokenExpirationStep else { return .none }
-        print("TokenExpirationStep",step)
         switch step {
         case .tokenExpirationPopup:
             return presentTokenExpirationPopup()

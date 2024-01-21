@@ -166,8 +166,12 @@ class AppFlow: Flow {
     }
     
     private func terminateAllFlows() -> FlowContributors {
-        self.navigateToLogin()
+        let VM = LoginViewModel(authService: authService, currentFlow: .AppFlow)
+        let VC = LoginViewController(loginViewModel: VM)
+        self.rootViewController.setViewControllers([VC], animated: false)
+        
         return .multiple(flowContributors: [
+            .contribute(withNextPresentable: VC, withNextStepper: VM),
             .contribute(withNextPresentable: tabBarFlow, withNextStepper: OneStepper(withSingleStep: TabBarStep.endFlow)),
             .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.endFlow)),
             .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.endFlow)),
