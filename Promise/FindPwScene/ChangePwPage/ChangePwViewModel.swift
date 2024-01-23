@@ -63,7 +63,7 @@ class ChangePwViewModel: Stepper{
                 }
             })
             .disposed(by: disposeBag)
-        //TODO: 로그인 화면 비밀번호 변경 api 변경
+        
         nextButtonTapped
             .withLatestFrom(rePwTextRelay)
             .subscribe(onNext: { [weak self] pw in
@@ -71,7 +71,7 @@ class ChangePwViewModel: Stepper{
                 case .singupFlow:
                     break
                 case .findPwFlow:
-                    self?.authService.changePassword(password: pw)
+                    self?.authService.changePasswordInLogin(account: UserSession.shared.account, password: pw)
                         .subscribe(onSuccess: { [weak self] _ in
                             self?.steps.accept(FindPwStep.findPwCompleted)
                         }, onFailure: { [weak self] error in

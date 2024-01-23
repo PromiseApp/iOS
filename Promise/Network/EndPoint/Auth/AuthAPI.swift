@@ -8,6 +8,7 @@ enum AuthAPI {
     case duplicateCheckAccount(account: String)
     case duplicateCheckNickname(nickname: String)
     case postEmail(account: String)
+    case changePasswordInLogin(account: String, password: String)
     case changePassword(password: String)
     case changeNickname(nickname: String)
     case changeImage(img: UIImage?)
@@ -32,6 +33,8 @@ extension AuthAPI: TargetType {
             return "/\(account)/exists/account"
         case .postEmail:
             return "/verify-code"
+        case .changePasswordInLogin:
+            return "/member/find-password"
         case .changePassword:
             return "/member/update-profile"
         case .changeNickname:
@@ -54,6 +57,8 @@ extension AuthAPI: TargetType {
         case .duplicateCheckAccount:
             return .get
         case .postEmail:
+            return .post
+        case .changePasswordInLogin:
             return .post
         case .changePassword:
             return .patch
@@ -89,6 +94,12 @@ extension AuthAPI: TargetType {
             return .requestPlain
         case .postEmail(let account):
             return .requestParameters(parameters: ["account": account], encoding: JSONEncoding.default)
+        case .changePasswordInLogin(let account, let password):
+            let parameters = [
+                "account": account,
+                "password": password
+            ] as [String : String]
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .changePassword(let password):
             let parameters = [
                 "password": password,
@@ -134,6 +145,8 @@ extension AuthAPI: TargetType {
         case .duplicateCheckAccount:
             return jsonHeaders
         case .postEmail:
+            return jsonHeaders
+        case .changePasswordInLogin:
             return jsonHeaders
         case .changePassword:
             return jsonHeaders

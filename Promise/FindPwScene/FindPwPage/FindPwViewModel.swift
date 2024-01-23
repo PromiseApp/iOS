@@ -6,8 +6,9 @@ import RxFlow
 class FindPwViewModel: Stepper{
     let disposeBag = DisposeBag()
     let steps = PublishRelay<Step>()
-        
-    let emailTextRelay = PublishRelay<String>()
+    let authService: AuthService
+    
+    let emailTextRelay = BehaviorRelay<String>(value: "")
     let leftButtonTapped = PublishRelay<Void>()
     let nextButtonTapped = PublishRelay<Void>()
     
@@ -19,7 +20,8 @@ class FindPwViewModel: Stepper{
     
     var serverValidationResult = PublishRelay<Bool>()
     
-    init(){
+    init(authService: AuthService){
+        self.authService = authService
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -28,9 +30,30 @@ class FindPwViewModel: Stepper{
             .disposed(by: disposeBag)
         
         nextButtonTapped
-            .subscribe(onNext: { [weak self] in
-                self?.steps.accept(FindPwStep.confirmEmailAuth)
-            })
+            .withLatestFrom(emailTextRelay)
+            .flatMapLatest { [weak self] email -> Observable<Bool> in
+                guard let self = self else { return Observable.just(false) }
+                return self.authService.duplicateCheckAccount(account: email)
+                    .asObservable()
+                    .map { response -> Bool in
+                        let isDuplicated = response.data.isDuplicated
+                        return isDuplicated
+                    }
+                    
+            }
+            .subscribe(
+                    onNext: { [weak self] isDuplicated in
+                        if isDuplicated {
+                            UserSession.shared.account = self?.emailTextRelay.value ?? ""
+                            self?.steps.accept(FindPwStep.confirmEmailAuth)
+                        } else {
+                            self?.steps.accept(FindPwStep.noneAccountErrorPopup)
+                        }
+                    },
+                    onError: { [weak self] error in
+                        self?.steps.accept(FindPwStep.networkErrorPopup)
+                    }
+                )
             .disposed(by: disposeBag)
     }
     

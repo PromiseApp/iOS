@@ -13,6 +13,7 @@ protocol ErrorHandler {
 class NetworkErrorHandler: ErrorHandler {
     func handle(error: Error) -> (Int, String) {
         if let moyaError = error as? MoyaError {
+            print("moyaError",moyaError)
             switch moyaError {
             case .statusCode(let response):
                 if (400...499).contains(response.statusCode) {

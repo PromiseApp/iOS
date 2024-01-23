@@ -56,7 +56,6 @@ class RequestFriendViewController: UIViewController {
                     })
                     .disposed(by: cell.disposeBag)
                 
-                
             }
             .disposed(by: disposeBag)
         

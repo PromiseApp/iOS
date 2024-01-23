@@ -27,10 +27,8 @@ class FindPwFlow: Flow {
             return navigateToChangePw()
         case .findPwCompleted:
             return .end(forwardToParentFlowWithStep: AppStep.findPwCompleted)
-        case .duplicateAccountErrorPopup:
-            return presentDuplicateAccountErrorPopUp()
-        case .inputErrorPopup:
-            return presentInputErrorPopup()
+        case .noneAccountErrorPopup:
+            return presentNoneAccountErrorPopUp()
         case .networkErrorPopup:
             return presentNetworkErrorPopup()
         case .dismissView:
@@ -41,7 +39,7 @@ class FindPwFlow: Flow {
     }
     
     private func navigateToFindPw() -> FlowContributors {
-        let VM = FindPwViewModel()
+        let VM = FindPwViewModel(authService: authService)
         let VC = FindPwViewController(findPwViewModel: VM)
         rootViewController.pushViewController(VC, animated: true)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
@@ -61,15 +59,8 @@ class FindPwFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-    private func presentDuplicateAccountErrorPopUp() -> FlowContributors {
-        let VC = DuplicateAccountErrorPopupViewController()
-        VC.modalPresentationStyle = .overFullScreen
-        rootViewController.present(VC, animated: false)
-        return .none
-    }
-    
-    private func presentInputErrorPopup() -> FlowContributors {
-        let VC = InputErrorPopupViewController()
+    private func presentNoneAccountErrorPopUp() -> FlowContributors {
+        let VC = NoneAccountErrorPopupViewController()
         VC.modalPresentationStyle = .overFullScreen
         rootViewController.present(VC, animated: false)
         return .none

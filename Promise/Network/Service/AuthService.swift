@@ -9,6 +9,7 @@ protocol AuthServiceProtocol {
     func duplicateCheckAccount(account: String) -> Single<DuplicateCheckResponse>
     func duplicateCheckNickname(nickname: String) -> Single<DuplicateCheckResponse>
     func postEmail(account: String) -> Single<PostEmailResponse>
+    func changePasswordInLogin(account: String, password: String) -> Single<AuthResponse>
     func changePassword(password: String) -> Single<AuthResponse>
     func changeNickname(nickname: String) -> Single<AuthResponse>
     func changeImage(img: UIImage?) -> Single<UpdateUserProfileResponse>
@@ -46,6 +47,12 @@ class AuthService: AuthServiceProtocol {
         return provider.rx.request(.postEmail(account: account))
             .filterSuccessfulStatusCodes()
             .map(PostEmailResponse.self)
+    }
+    
+    func changePasswordInLogin(account: String, password: String) -> Single<AuthResponse> {
+        return provider.rx.request(.changePasswordInLogin(account: account, password: password))
+            .filterSuccessfulStatusCodes()
+            .map(AuthResponse.self)
     }
     
     func changePassword(password: String) -> Single<AuthResponse> {

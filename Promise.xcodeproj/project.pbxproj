@@ -54,6 +54,7 @@
 		316D21082B58E3DE007FCB4D /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D21072B58E3DE007FCB4D /* KeychainManager.swift */; };
 		316D210B2B5A84D6007FCB4D /* TokenExpirationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */; };
 		316D210D2B5A84DE007FCB4D /* TokenExpirationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */; };
+		316D21102B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210F2B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift */; };
 		317688A92B0B2FF700C266FE /* MyPageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688A82B0B2FF700C266FE /* MyPageAPI.swift */; };
 		317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AA2B0B300200C266FE /* MyPageResponse.swift */; };
 		317688AD2B0B38B300C266FE /* MyPageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 317688AC2B0B38B300C266FE /* MyPageService.swift */; };
@@ -231,6 +232,7 @@
 		316D21072B58E3DE007FCB4D /* KeychainManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainManager.swift; sourceTree = "<group>"; };
 		316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationStep.swift; sourceTree = "<group>"; };
 		316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationFlow.swift; sourceTree = "<group>"; };
+		316D210F2B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneAccountErrorPopupViewController.swift; sourceTree = "<group>"; };
 		317688A82B0B2FF700C266FE /* MyPageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageAPI.swift; sourceTree = "<group>"; };
 		317688AA2B0B300200C266FE /* MyPageResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageResponse.swift; sourceTree = "<group>"; };
 		317688AC2B0B38B300C266FE /* MyPageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageService.swift; sourceTree = "<group>"; };
@@ -568,6 +570,14 @@
 				316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */,
 			);
 			path = TokenExpiration;
+			sourceTree = "<group>";
+		};
+		316D210E2B5F819A007FCB4D /* FindPwPopup */ = {
+			isa = PBXGroup;
+			children = (
+				316D210F2B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift */,
+			);
+			path = FindPwPopup;
 			sourceTree = "<group>";
 		};
 		317688A72B0B2FE800C266FE /* MyPage */ = {
@@ -1100,6 +1110,7 @@
 		31F1A0DB2AADD3AE00B99DC4 /* PopUpPage */ = {
 			isa = PBXGroup;
 			children = (
+				316D210E2B5F819A007FCB4D /* FindPwPopup */,
 				316D20F32B510F16007FCB4D /* TokenExpirationPopup */,
 				317688C32B106E0900C266FE /* MyPagePopup */,
 				314F90742B0626FB00312846 /* PromisePopup */,
@@ -1364,6 +1375,7 @@
 				317688AB2B0B300200C266FE /* MyPageResponse.swift in Sources */,
 				317688B62B0C894100C266FE /* ChatListViewModel.swift in Sources */,
 				31EF2A8A2AEE48F50082B664 /* WithdrawPopupViewController.swift in Sources */,
+				316D21102B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift in Sources */,
 				312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */,
 				317688C52B106E1D00C266FE /* WithdrawPopupViewModel.swift in Sources */,
 				317D6A0A2ADF86CB004CEE5C /* MyPageViewController.swift in Sources */,
