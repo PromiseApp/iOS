@@ -100,16 +100,6 @@ class ChangeProfileViewModel: Stepper{
     }
     
     func normalLogout(){
-        do {
-            let realm = try Realm()
-            let users = realm.objects(User.self)
-            
-            try! realm.write {
-                realm.delete(users)
-            }
-        } catch {
-            print("Error clearing Realm data: \(error)")
-        }
         KeychainManager.shared.deleteToken(for: "AccessToken")
         KeychainManager.shared.deleteToken(for: "RefreshToken")
         self.steps.accept(MyPageStep.logoutCompleted)

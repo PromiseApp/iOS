@@ -34,7 +34,7 @@ struct ChatListCell {
 struct ChatCell {
     let promiseID: Int
     let nickname: String
-    let userImage: UIImage?
+    var userImage: UIImage?
     let content: String
     let chatDate: String
 }

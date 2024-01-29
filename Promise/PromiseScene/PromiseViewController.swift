@@ -54,6 +54,12 @@ class PromiseViewController: UIViewController {
         self.promiseViewModel.loadPromiseList()
         self.promiseViewModel.loadNotDetPromiseList()
         self.promiseViewModel.loadLevelExp()
+        notiSetting()
+    }
+    
+    private func notiSetting(){
+        let newPromiseRequestNotificationReceived = UserDefaults.standard.bool(forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
+        newImageView.isHidden = !newPromiseRequestNotificationReceived
     }
     
     private func bind(){
@@ -173,20 +179,7 @@ class PromiseViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
-        NotificationCenter.default.rx.notification(Notification.Name("newPromiseNotificationReceived"))
-            .subscribe(onNext: { [weak self] _ in
-                self?.newImageView.isHidden = false
-            })
-            .disposed(by: disposeBag)
-        
-        NotificationCenter.default.rx.notification(Notification.Name("newPromiseNotificationRead"))
-            .subscribe(onNext: { [weak self] _ in
-                self?.newImageView.isHidden = true
-            })
-            .disposed(by: disposeBag)
-        
     }
-    
     
     private func attribute(){
         view.backgroundColor = .white

@@ -51,19 +51,28 @@ class FriendViewModel: Stepper{
     func loadFriendList(){
         self.friendService.friendList()
             .subscribe(onSuccess: { [weak self] response in
-                let friends = response.data.list.map { friendData in
+                var friends: [Friend] = []
+                let dispatchGroup = DispatchGroup()
+                
+                response.data.list.forEach { friendData in
                     var friend = Friend(userImage: UIImage(named: "user")!, name: friendData.nickname, level: friendData.level, isSelected: false)
-
                     if let imageUrl = friendData.img {
+                        dispatchGroup.enter()
                         ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
                             friend.userImage = image ?? UIImage(named: "user")!
+                            friends.append(friend)
+                            dispatchGroup.leave()
                         }
+                    } else {
+                        friends.append(friend)
                     }
-                    return friend
                 }
-                self?.allFriends = friends
-                self?.friendsRelay.accept(self?.allFriends ?? [])
-                self?.dataLoading.accept(true)
+                
+                dispatchGroup.notify(queue: .main) {
+                    self?.allFriends = friends
+                    self?.friendsRelay.accept(self?.allFriends ?? [])
+                    self?.dataLoading.accept(true)
+                }
             }, onFailure: { [weak self] error in
                 print(error)
                 self?.dataLoading.accept(true)

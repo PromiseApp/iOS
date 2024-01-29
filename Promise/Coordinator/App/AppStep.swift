@@ -4,6 +4,8 @@ enum AppStep: Step {
     case loading
     case login
     case tabBar
+    case tabBarAndPromise
+    case tabBarAndFriend
     case signup
     case findPw
     case signupCompleted

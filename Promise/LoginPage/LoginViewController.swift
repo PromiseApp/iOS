@@ -54,8 +54,8 @@ class LoginViewController: UIViewController, ASAuthorizationControllerPresentati
     }
     
     func setupEmailField() {
-        let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled) ?? "N"
-        if isRememberEmailEnabled == "Y", let user = fetchUserFromRealm() {
+        let isRememberEmailEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isRememberEmailEnabled) 
+        if isRememberEmailEnabled, let user = fetchUserFromRealm() {
             emailTextField.text = user.account
         }
     }
@@ -66,15 +66,15 @@ class LoginViewController: UIViewController, ASAuthorizationControllerPresentati
     }
     
     func firstCheckboxState() {
-        let isAutoLoginEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isAutoLoginEnabled) ?? "N"
-        let isSelected = (isAutoLoginEnabled == "Y")
+        let isAutoLoginEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isAutoLoginEnabled)
+        let isSelected = (isAutoLoginEnabled == true)
         autoLoginCheckBox.isSelected = isSelected
         autoLoginCheckBox.setImage(isSelected ? UIImage(systemName: "checkmark") : nil, for: .normal)
     }
     
     func secondCheckboxState() {
-        let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled) ?? "N"
-        let isSelected = (isRememberEmailEnabled == "Y")
+        let isRememberEmailEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isRememberEmailEnabled)
+        let isSelected = (isRememberEmailEnabled == true)
         saveIdCheckBox.isSelected = isSelected
         saveIdCheckBox.setImage(isSelected ? UIImage(systemName: "checkmark") : nil, for: .normal)
     }
@@ -103,7 +103,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerPresentati
         loginViewModel.firstIsChecked
             .subscribe(onNext: { [weak self] isChecked in
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
-                let status = isChecked ? "Y" : "N"
+                let status = isChecked ? true : false
                 UserDefaults.standard.set(status, forKey: UserDefaultsKeys.isAutoLoginEnabled)
                 self?.autoLoginCheckBox.setImage(image, for: .normal)
             })
@@ -120,7 +120,7 @@ class LoginViewController: UIViewController, ASAuthorizationControllerPresentati
         loginViewModel.secondIsChecked
             .subscribe(onNext: { [weak self] isChecked in
                 let image = isChecked ? UIImage(systemName: "checkmark") : nil
-                let status = isChecked ? "Y" : "N"
+                let status = isChecked ? true : false
                 UserDefaults.standard.set(status, forKey: UserDefaultsKeys.isRememberEmailEnabled)
                 self?.saveIdCheckBox.setImage(image, for: .normal)
             })

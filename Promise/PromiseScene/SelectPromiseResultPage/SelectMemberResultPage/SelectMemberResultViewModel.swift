@@ -80,18 +80,28 @@ class SelectMemberResultViewModel: Stepper{
     func loadResultMember(){
         self.promiseService.detailPromise(promiseId: self.promiseId)
             .subscribe(onSuccess: { [weak self] response in
-                let friends = response.data.membersInfo.map { friendData in
+                var receivedFriends: [Friend] = []
+                let dispatchGroup = DispatchGroup()
+
+                response.data.membersInfo.forEach { friendData in
                     var friend = Friend(userImage: UIImage(named: "user")!, name: friendData.nickname, level: friendData.level, isSelected: false)
 
                     if let imageUrl = friendData.img {
+                        dispatchGroup.enter()
                         ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
                             friend.userImage = image ?? UIImage(named: "user")!
+                            receivedFriends.append(friend)
+                            dispatchGroup.leave()
                         }
+                    } else {
+                        receivedFriends.append(friend)
                     }
-                    return friend
                 }
-                self?.allFriends = friends
-                self?.resultMemberRelay.accept(self?.allFriends ?? [])
+
+                dispatchGroup.notify(queue: .main) {
+                    self?.allFriends = receivedFriends
+                    self?.resultMemberRelay.accept(self?.allFriends ?? [])
+                }
             }, onFailure: { [weak self] error in
                 self?.steps.accept(PromiseStep.networkErrorPopup)
             })

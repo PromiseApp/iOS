@@ -23,19 +23,19 @@ class ImageDownloadManager {
     }
     
     func downloadImage(urlString: String?, completion: @escaping (UIImage?) -> Void) {
-            guard let urlString = urlString, let url = URL(string: urlString), !urlString.isEmpty else {
+        guard let urlString = urlString, let url = URL(string: urlString), !urlString.isEmpty else {
+            completion(UIImage(named: "user"))
+            return
+        }
+        
+        KingfisherManager.shared.retrieveImage(with: url) { result in
+            switch result {
+            case .success(let imageResult):
+                completion(imageResult.image)
+            case .failure(let error):
+                print("Image download error: \(error)")
                 completion(UIImage(named: "user"))
-                return
-            }
-
-            KingfisherManager.shared.retrieveImage(with: url) { result in
-                switch result {
-                case .success(let imageResult):
-                    completion(imageResult.image)
-                case .failure(let error):
-                    print("Image download error: \(error)")
-                    completion(UIImage(named: "user"))
-                }
             }
         }
+    }
 }

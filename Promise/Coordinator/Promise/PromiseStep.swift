@@ -3,6 +3,7 @@ import RxFlow
 enum PromiseStep: Step {
     case home
     case newPromise
+    case newPromiseInNoti
     case makePromise
     case selectFriend
     case pastPromise

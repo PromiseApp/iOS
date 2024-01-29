@@ -24,10 +24,15 @@ class RequestFriendViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationRead"), object: nil)
+        UserDefaults.standard.setValue(false, forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
         bind()
         attribute()
         layout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.requestFriendViewModel.loadRequestFriendList()
     }
     
     private func bind(){

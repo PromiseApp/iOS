@@ -19,7 +19,6 @@ class FriendFlow: Flow {
     
     func navigate(to step: Step) -> FlowContributors {
         guard let step = step as? FriendStep else { return .none }
-        
         switch step {
         case .friend:
             return navigateToFriend()
@@ -27,6 +26,8 @@ class FriendFlow: Flow {
             return presentToAddFriendPopup()
         case .requestFriend:
             return navigateToRequestFriend()
+        case .requestFriendInNoti:
+            return navigateToRequestFriendInNoti()
         case .tokenExpirationPopup:
             return navigateToTokenExpirationPopup()
         case .rejectFriendPopup(let requesterID):
@@ -66,6 +67,14 @@ class FriendFlow: Flow {
         let VC = RequestFriendViewController(requestFriendViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToRequestFriendInNoti() -> FlowContributors {
+        let VM = FriendViewModel(friendService: friendService)
+        let VC = FriendViewController(friendViewModel: VM, addFriendPopupViewModel: addFriendPopupViewModel)
+        rootViewController.pushViewController(VC, animated: true)
+        NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationTapped"), object: nil)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     

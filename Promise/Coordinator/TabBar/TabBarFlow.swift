@@ -12,31 +12,77 @@ class TabBarFlow: Flow {
     let stompService: StompService
     var shareVM: ShareFriendViewModel?
     var shareVMForModify: ShareFriendViewModel?
+    var promiseFlow: PromiseFlow
+    var friendFlow: FriendFlow
     
-    init(with rootViewController: UINavigationController, stompService: StompService) {
+    init(with rootViewController: UINavigationController, stompService: StompService, promiseFlow: PromiseFlow, friendFlow: FriendFlow) {
         self.rootViewController = rootViewController
         self.stompService = stompService
+        self.promiseFlow = promiseFlow
+        self.friendFlow = friendFlow
         self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
         self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     func navigate(to step: Step) -> FlowContributors {
-        guard let step = step as? TabBarStep else { return .none }
-        switch step {
-        case .makePromise:
-            return navigateToMakePromise()
-        case .selectFriend:
-            return navigateToSelectFriend()
-        case .tokenExpirationPopup:
-            return navigateToTokenExpirationPopup()
-        case .networkErrorPopup:
-            return presentNetworkErrorPopup()
-        case .popRootView:
-            return popRootViewController()
-        case .popView:
-            return popViewController()
-        case .endFlow:
-            return .end(forwardToParentFlowWithStep: AppStep.endAllFlowsCompleted)
+        if let step = step as? TabBarStep{
+            switch step {
+            case .makePromise:
+                return navigateToMakePromise()
+            case .selectFriend:
+                return navigateToSelectFriend()
+            case .tokenExpirationPopup:
+                return navigateToTokenExpirationPopup()
+            case .networkErrorPopup:
+                return presentNetworkErrorPopup()
+            case .popRootView:
+                return popRootViewController()
+            case .popView:
+                return popViewController()
+            case .endFlow:
+                return .end(forwardToParentFlowWithStep: AppStep.endAllFlowsCompleted)
+            }
+        }
+        else if let promiseStep = step as? PromiseStep{
+            switch promiseStep{
+            case .newPromise:
+                if let tabBarController = rootViewController.viewControllers.first as? UITabBarController,
+                   let currentNavController = tabBarController.selectedViewController as? UINavigationController {
+                    if currentNavController.viewControllers.contains(where: { $0 is NewPromiseViewController }) {
+                        currentNavController.popViewController(animated: false)
+                        return .one(flowContributor: .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.newPromise)))
+                    }
+                    else{
+                        return .one(flowContributor: .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.newPromise)))
+                    }
+                    
+                }
+                return .none
+            default:
+                return .none
+            }
+        }
+        else if let friendStep = step as? FriendStep{
+            switch friendStep{
+            case .requestFriend:
+                if let tabBarController = rootViewController.viewControllers.first as? UITabBarController,
+                   let currentNavController = tabBarController.selectedViewController as? UINavigationController {
+                    if currentNavController.viewControllers.contains(where: { $0 is RequestFriendViewController }) {
+                        currentNavController.popViewController(animated: false)
+                        return .one(flowContributor: .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.requestFriend)))
+                    }
+                    else{
+                        return .one(flowContributor: .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.requestFriend)))
+                    }
+                    
+                }
+                return .none
+            default:
+                return .none
+            }
+        }
+        else {
+            return .none
         }
     }
     
@@ -77,11 +123,9 @@ class TabBarFlow: Flow {
         if let tabBarController = rootViewController.viewControllers.first as? UITabBarController,
            let currentNavController = tabBarController.selectedViewController as? UINavigationController {
             currentNavController.popViewController(animated: true)
-            
             return .none
         }
         return .none
-        
     }
     
     private func popViewController() -> FlowContributors {

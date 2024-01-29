@@ -46,11 +46,51 @@ class TabBarController: UITabBarController {
                 self?.tabBar.tintColor = UIColor(named: "prHeavy")
             })
             .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(Notification.Name("newPromiseRequestNotificationTapped"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.selectedIndex = 0
+                if let viewControllers = self?.viewControllers {
+                    for (index, vc) in viewControllers.enumerated() {
+                        if let tabItem = vc.tabBarItem {
+                            if index == 1 {
+                                tabItem.image = UIImage(named: "chat")?.withRenderingMode(.alwaysOriginal)
+                            } else if index == 3 {
+                                tabItem.image = UIImage(named: "friend")?.withRenderingMode(.alwaysOriginal)
+                            } else if index == 4 {
+                                tabItem.image = UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal)
+                            }
+                        }
+                    }
+                }
+                self?.tabBarViewModel.newPromiseRequestNotificationTapped.accept(())
+
+            })
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(Notification.Name("newFriendRequestNotificationTapped"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.selectedIndex = 3
+                if let viewControllers = self?.viewControllers {
+                    for (index, vc) in viewControllers.enumerated() {
+                        if let tabItem = vc.tabBarItem {
+                            if index == 1 {
+                                tabItem.image = UIImage(named: "chat")?.withRenderingMode(.alwaysOriginal)
+                            } else if index == 3 {
+                                tabItem.image = UIImage(named: "selectedFriend")?.withRenderingMode(.alwaysOriginal)
+                            } else if index == 4 {
+                                tabItem.image = UIImage(named: "userGrey")?.withRenderingMode(.alwaysOriginal)
+                            }
+                        }
+                    }
+                }
+                self?.tabBarViewModel.newFriendRequestNotificationTapped.accept(())
+
+            })
+            .disposed(by: disposeBag)
     }
     
     private func attribute(){
-        
-        
         
         plusButton.do{
             $0.setImage(UIImage(named: "plus"), for: .normal)

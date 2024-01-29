@@ -24,8 +24,6 @@ class RequestFriendViewModel: Stepper{
     init(friendService: FriendService, rejectFriendSuccessViewModel: RejectFriendSuccessViewModel) {
         self.friendService = friendService
         self.rejectFriendSuccessViewModel = rejectFriendSuccessViewModel
-                
-        self.loadRequestFriendList()
         
         leftButtonTapped
             .subscribe(onNext: { [weak self] in
@@ -66,19 +64,30 @@ class RequestFriendViewModel: Stepper{
     func loadRequestFriendList(){
         self.friendService.requestFriendList()
             .subscribe(onSuccess: { [weak self] response in
-                let friends = response.data.info.map { friendData in
+                var friends: [RequestFriend] = []
+                let dispatchGroup = DispatchGroup()
+                
+                response.data.info.forEach { friendData in
                     var friend = RequestFriend(userImage: UIImage(named: "user")!,
-                                         name: friendData.memberInfo.nickname,
-                                         level: String(friendData.memberInfo.level), requesterID: friendData.requestInfo.id)
+                                               name: friendData.memberInfo.nickname,
+                                               level: String(friendData.memberInfo.level),
+                                               requesterID: friendData.requestInfo.id)
                     if let imageUrl = friendData.memberInfo.img {
+                        dispatchGroup.enter()
                         ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
                             friend.userImage = image ?? UIImage(named: "user")!
+                            friends.append(friend)
+                            dispatchGroup.leave()
                         }
+                    } else {
+                        friends.append(friend)
                     }
-                    return friend
                 }
-                self?.allFriends = friends
-                self?.friendsRelay.accept(self?.allFriends ?? [])
+                
+                dispatchGroup.notify(queue: .main) {
+                    self?.allFriends = friends
+                    self?.friendsRelay.accept(self?.allFriends ?? [])
+                }
             }, onFailure: { [weak self] error in
                 self?.steps.accept(FriendStep.networkErrorPopup)
             })

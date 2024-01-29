@@ -29,6 +29,8 @@ class PromiseFlow: Flow {
             return navigateToHome()
         case .newPromise:
             return navigateToNewPromise()
+        case .newPromiseInNoti:
+            return navigateToNewPromiseInNoti()
         case .makePromise:
             return navigateToMakePromise()
         case .selectFriend:
@@ -74,6 +76,14 @@ class PromiseFlow: Flow {
         let VC = NewPromiseViewController(newPromiseViewModel: VM)
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
+        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+    }
+    
+    private func navigateToNewPromiseInNoti() -> FlowContributors {
+        let VM = PromiseViewModel(promiseService: promiseService)
+        let VC = PromiseViewController(promiseViewModel: VM)
+        rootViewController.pushViewController(VC, animated: true)
+        NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationTapped"), object: nil)
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     

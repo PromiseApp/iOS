@@ -188,8 +188,8 @@ class LoginViewModel: NSObject, Stepper{
     }
     
     func loadSavedEmail() {
-        let isRememberEmailEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isRememberEmailEnabled)
-        if isRememberEmailEnabled == "Y" {
+        let isRememberEmailEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isRememberEmailEnabled)
+        if isRememberEmailEnabled {
             if let email = fetchEmailFromRealm() {
                 emailTextRelay.accept(email)
             }

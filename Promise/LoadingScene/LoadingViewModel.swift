@@ -66,12 +66,26 @@ class LoadingViewModel: Stepper{
     }
     
     func autoLogin() {
-        let isAutoLoginEnabled = UserDefaults.standard.string(forKey: UserDefaultsKeys.isAutoLoginEnabled)
-        if isAutoLoginEnabled == "Y" {
+        let isAutoLoginEnabled = UserDefaults.standard.bool(forKey: UserDefaultsKeys.isAutoLoginEnabled)
+        if isAutoLoginEnabled {
             if let refreshToken = KeychainManager.shared.readToken(for: "RefreshToken") {
                 self.checkTokenService.checkToken(refreshToken: refreshToken)
-                    .subscribe(onSuccess: { [weak self] response in
-                        self?.steps.accept(AppStep.tabBar)
+                    .subscribe(onSuccess: { [weak self] _ in
+                        
+                        if let pushType = UserDefaults.standard.string(forKey: "pushNotificationType") {
+                            switch pushType {
+                            case "PROMISE_REQUEST":
+                                self?.steps.accept(AppStep.tabBarAndPromise)
+                            case "FRIEND_REQUEST":
+                                self?.steps.accept(AppStep.tabBarAndFriend)
+                            default:
+                                break
+                            }
+                            UserDefaults.standard.removeObject(forKey: "pushNotificationType")
+                        }
+                        else{
+                            self?.steps.accept(AppStep.tabBar)
+                        }
                     }, onFailure: { [weak self] error in
                         if let moyaError = error as? MoyaError {
                             switch moyaError {

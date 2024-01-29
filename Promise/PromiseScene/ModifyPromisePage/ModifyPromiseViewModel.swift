@@ -194,51 +194,58 @@ class ModifyPromiseViewModel: Stepper{
     func loadDetailPromise(promiseId: String){
         self.promiseService.detailPromise(promiseId: promiseId)
             .subscribe(onSuccess: { [weak self] response in
-                let receivedFriends = response.data.membersInfo.map { friendData in
+                var receivedFriends: [Friend] = []
+                let dispatchGroup = DispatchGroup()
+                
+                response.data.membersInfo.forEach { friendData in
                     var friend = Friend(userImage: UIImage(named: "user")!, name: friendData.nickname, level: friendData.level, isSelected: true)
-
+                    
                     if let imageUrl = friendData.img {
+                        dispatchGroup.enter()
                         ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
                             friend.userImage = image ?? UIImage(named: "user")!
+                            receivedFriends.append(friend)
+                            dispatchGroup.leave()
+                        }
+                    } else {
+                        receivedFriends.append(friend)
+                    }
+                }
+                dispatchGroup.notify(queue: .main) {
+                    var updatedFriends = self?.shareFriendViewModel.allFriends
+                    for receivedFriend in receivedFriends {
+                        if let index = updatedFriends?.firstIndex(where: { $0.name == receivedFriend.name }) {
+                            updatedFriends?[index].isSelected = true
                         }
                     }
-                    return friend
-                }
-                
-                var updatedFriends = self?.shareFriendViewModel.allFriends
-                for receivedFriend in receivedFriends {
-                    if let index = updatedFriends?.firstIndex(where: { $0.name == receivedFriend.name }) {
-                        updatedFriends?[index].isSelected = true
+                    self?.friendList = updatedFriends?.filter { $0.isSelected } ?? []
+                    self?.shareFriendViewModel.friendsRelay.accept(updatedFriends ?? [])
+                    self?.titleRelay.accept(response.data.promiseInfo.title)
+                    
+                    let dateTimeComponents = response.data.promiseInfo.date.split(separator: " ")
+                    let dateComponents = dateTimeComponents[0].split(separator: "-")
+                    let timeComponents = dateTimeComponents[1].split(separator: ":")
+                    
+                    let year = Int(dateComponents[0]) ?? 0
+                    let month = Int(dateComponents[1]) ?? 0
+                    let day = Int(dateComponents[2]) ?? 0
+                    let hour = Int(timeComponents[0]) ?? 0
+                    let minute = Int(timeComponents[1]) ?? 0
+                    
+                    self?.dateRelay.accept((year: year, month: month, day: day))
+                    self?.timeRelay.accept((hour: hour, minute: minute))
+                    
+                    if let location = response.data.promiseInfo.location {
+                        self?.placeRelay.accept(location)
+                    }
+                    if let penalty = response.data.promiseInfo.penalty {
+                        self?.penaltyRelay.accept(penalty)
+                    }
+                    if let memo = response.data.promiseInfo.memo {
+                        self?.memoTextBlackRelay.accept(.black)
+                        self?.memoRelay.accept(memo)
                     }
                 }
-                self?.friendList = updatedFriends?.filter { $0.isSelected } ?? []
-                self?.shareFriendViewModel.friendsRelay.accept(updatedFriends ?? [])
-                self?.titleRelay.accept(response.data.promiseInfo.title)
-                
-                let dateTimeComponents = response.data.promiseInfo.date.split(separator: " ")
-                let dateComponents = dateTimeComponents[0].split(separator: "-")
-                let timeComponents = dateTimeComponents[1].split(separator: ":")
-                
-                let year = Int(dateComponents[0]) ?? 0
-                let month = Int(dateComponents[1]) ?? 0
-                let day = Int(dateComponents[2]) ?? 0
-                let hour = Int(timeComponents[0]) ?? 0
-                let minute = Int(timeComponents[1]) ?? 0
-                
-                self?.dateRelay.accept((year: year, month: month, day: day))
-                self?.timeRelay.accept((hour: hour, minute: minute))
-                
-                if let location = response.data.promiseInfo.location {
-                    self?.placeRelay.accept(location)
-                }
-                if let penalty = response.data.promiseInfo.penalty {
-                    self?.penaltyRelay.accept(penalty)
-                }
-                if let memo = response.data.promiseInfo.memo {
-                    self?.memoTextBlackRelay.accept(.black)
-                    self?.memoRelay.accept(memo)
-                }
-                
                 
             }, onFailure: { [weak self] error in
                 self?.steps.accept(PromiseStep.networkErrorPopup)

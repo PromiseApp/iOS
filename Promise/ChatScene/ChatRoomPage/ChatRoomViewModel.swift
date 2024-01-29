@@ -33,13 +33,17 @@ class ChatRoomViewModel: Stepper{
         self.currentRoomId = promiseID
         self.stompService.setCurrentRoomId(roomId: self.currentRoomId)
         self.markMessagesAsRead(roomId: promiseID)
-        let lastMessages = self.convertToChatCell(chatRooms: self.stompService.loadMessages(roomId: promiseID))
-        self.chatRelay.accept(lastMessages)
         
+        self.convertToChatCell(chatRooms: self.stompService.loadMessages(roomId: promiseID)) { [weak self] lastMessages in
+            self?.chatRelay.accept(lastMessages)
+        }
+
+        // 새 메시지 수신 시 처리
         self.stompService.messageRelay
             .subscribe(onNext: { [weak self] message in
-                let messages = self?.convertToChatCell(chatRooms: message)
-                self?.chatRelay.accept(messages!)
+                self?.convertToChatCell(chatRooms: message) { convertedMessages in
+                    self?.chatRelay.accept(convertedMessages)
+                }
             })
             .disposed(by: disposeBag)
         
@@ -74,23 +78,57 @@ class ChatRoomViewModel: Stepper{
         self.stompService.socketClient.sendJSONForDict(dict: jsonBody as AnyObject, toDestination: destination)
     }
     
-    func convertToChatCell(chatRooms: [ChatRoom]) -> [ChatCell] {
-        return chatRooms.map { chatRoom in
+    func convertToChatCell(chatRooms: [ChatRoom], completion: @escaping ([ChatCell]) -> Void) {
+        var chatCells: [ChatCell] = []
+        let dispatchGroup = DispatchGroup()
+
+        chatRooms.forEach { chatRoom in
+            dispatchGroup.enter()
             var userImage: UIImage? = UIImage(named: "user")
-            if let imageUrl = chatRoom.userImage {
-                ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
-                    userImage = image ?? UIImage(named: "user")!
-                }
-            }
-            return ChatCell(
+            var chatCell = ChatCell(
                 promiseID: chatRoom.roomId,
                 nickname: chatRoom.senderNickname,
                 userImage: userImage,
                 content: chatRoom.messageText,
                 chatDate: chatRoom.timestamp
             )
+
+            if let imageUrl = chatRoom.userImage {
+                ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+                    chatCell.userImage = image ?? UIImage(named: "user")
+                    chatCells.append(chatCell)
+                    dispatchGroup.leave()
+                }
+            } else {
+                chatCells.append(chatCell)
+                dispatchGroup.leave()
+            }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            completion(chatCells)
         }
     }
+
+    
+//    func convertToChatCell(chatRooms: [ChatRoom]) -> [ChatCell] {
+//        
+//        return chatRooms.map { chatRoom in
+//            var userImage: UIImage? = UIImage(named: "user")
+//            if let imageUrl = chatRoom.userImage {
+//                ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
+//                    userImage = image ?? UIImage(named: "user")!
+//                }
+//            }
+//            return ChatCell(
+//                promiseID: chatRoom.roomId,
+//                nickname: chatRoom.senderNickname,
+//                userImage: userImage,
+//                content: chatRoom.messageText,
+//                chatDate: chatRoom.timestamp
+//            )
+//        }
+//    }
 
     func markMessagesAsRead(roomId: Int) {
         let realm = try! Realm()

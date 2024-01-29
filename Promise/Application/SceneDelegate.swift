@@ -18,17 +18,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(windowScene: windowScene)
         appFlow = AppFlow()
         self.checkImageAuth()
-        
         Flows.use(appFlow, when: .created) { [unowned self] root in
             self.window?.rootViewController = root
             self.window?.makeKeyAndVisible()
         }
         coordinator.coordinate(flow: appFlow, with: OneStepper(withSingleStep: AppStep.loading))
-        
-//        let rootVC = LoginViewController(loginViewModel: LoginViewModel(authService: AuthService(), currentFlow: .AppFlow))
-        
-//        self.window?.rootViewController = UINavigationController(rootViewController: rootVC)
-//        self.window?.makeKeyAndVisible()
         
         print("realm 위치: ", Realm.Configuration.defaultConfiguration.fileURL!)
         

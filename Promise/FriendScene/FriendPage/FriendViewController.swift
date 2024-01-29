@@ -46,6 +46,14 @@ class FriendViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.friendViewModel.loadFriendList()
+        
+        notiSetting()
+    }
+    
+    private func notiSetting(){
+        let newFriendRequestNotificationReceived = UserDefaults.standard.bool(forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
+        firstNewImageView.isHidden = !newFriendRequestNotificationReceived
+        secondNewImageView.isHidden = !newFriendRequestNotificationReceived
     }
     
     private func bind(){
@@ -103,21 +111,6 @@ class FriendViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
-        
-        NotificationCenter.default.rx.notification(Notification.Name("newFriendRequestNotificationReceived"))
-            .subscribe(onNext: { [weak self] _ in
-                self?.firstNewImageView.isHidden = false
-                self?.secondNewImageView.isHidden = false
-            })
-            .disposed(by: disposeBag)
-        
-        NotificationCenter.default.rx.notification(Notification.Name("newFriendRequestNotificationRead"))
-            .subscribe(onNext: { [weak self] _ in
-                self?.firstNewImageView.isHidden = true
-                self?.secondNewImageView.isHidden = true
-            })
-            .disposed(by: disposeBag)
-
     }
     
     private func attribute(){
