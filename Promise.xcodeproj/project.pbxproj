@@ -1624,7 +1624,7 @@
 				CODE_SIGN_ENTITLEMENTS = Promise/Promise.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9A5MT7L34S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Promise/Info.plist;
@@ -1637,7 +1637,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = jungsun.Promise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1660,7 +1660,7 @@
 				CODE_SIGN_ENTITLEMENTS = Promise/Promise.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 9A5MT7L34S;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Promise/Info.plist;
@@ -1673,7 +1673,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = jungsun.Promise;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1762,8 +1762,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.46.0;
 			};
 		};
 		317D69CF2ADBA414004CEE5C /* XCRemoteSwiftPackageReference "RxFlow" */ = {

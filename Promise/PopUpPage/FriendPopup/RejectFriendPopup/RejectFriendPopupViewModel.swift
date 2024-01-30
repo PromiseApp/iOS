@@ -1,4 +1,5 @@
 import RxSwift
+import RealmSwift
 import RxCocoa
 import RxFlow
 
@@ -36,6 +37,7 @@ class RejectFriendPopupViewModel: Stepper{
                     .asObservable()
                     .map{ _ in
                         self.rejectFriendSuccessViewModel.requestSuccessRelay.accept(self.requesterID)
+                        self.removeFriendRequestFromRealm(requestId: self.requesterID)
                         return Void()
                     }
                     .catch { [weak self] error in
@@ -49,6 +51,14 @@ class RejectFriendPopupViewModel: Stepper{
             })
             .disposed(by: disposeBag)
         
-        
+    }
+    
+    func removeFriendRequestFromRealm(requestId: String) {
+        let realm = try! Realm()
+        if let requestToDelete = realm.objects(RequestFriendModel.self).filter("requesterID == %@", requestId).first {
+            try! realm.write {
+                realm.delete(requestToDelete)
+            }
+        }
     }
 }

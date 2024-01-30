@@ -29,6 +29,7 @@ class NewPromiseViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         UserDefaults.standard.setValue(false, forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
+        NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationRead"), object: nil)
         bind()
         attribute()
         layout()

@@ -22,12 +22,5 @@ class User: Object {
     @Persisted var image: String?
     @Persisted var role: String
     
-    convenience init(account: String, nickname: String, image: String?, role: String) {
-        self.init()
-        self.account = account
-        self.nickname = nickname
-        self.image = image
-        self.role = role
-    }
 }
 

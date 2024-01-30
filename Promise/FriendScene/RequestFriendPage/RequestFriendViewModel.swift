@@ -1,4 +1,5 @@
 import RxCocoa
+import RealmSwift
 import UIKit
 import RxSwift
 import RxFlow
@@ -33,7 +34,6 @@ class RequestFriendViewModel: Stepper{
         
         rejectButtonTapped
             .subscribe(onNext: { [weak self] requesterID in
-                
                 self?.steps.accept(FriendStep.rejectFriendPopup(requesterID: requesterID))
             })
             .disposed(by: disposeBag)
@@ -45,6 +45,7 @@ class RequestFriendViewModel: Stepper{
                     .asObservable()
                     .map{_ in
                         self.rejectFriendSuccessViewModel.requestSuccessRelay.accept(requestId)
+                        self.removeFriendRequestFromRealm(requestId: requestId)
                         return Void()
                     }
                     .catch { [weak self] error in
@@ -57,8 +58,6 @@ class RequestFriendViewModel: Stepper{
                 self?.steps.accept(FriendStep.dismissView)
             })
             .disposed(by: disposeBag)
-        
-        
     }
     
     func loadRequestFriendList(){
@@ -66,7 +65,6 @@ class RequestFriendViewModel: Stepper{
             .subscribe(onSuccess: { [weak self] response in
                 var friends: [RequestFriend] = []
                 let dispatchGroup = DispatchGroup()
-                
                 response.data.info.forEach { friendData in
                     var friend = RequestFriend(userImage: UIImage(named: "user")!,
                                                name: friendData.memberInfo.nickname,
@@ -94,5 +92,13 @@ class RequestFriendViewModel: Stepper{
             .disposed(by: disposeBag)
     }
     
+    func removeFriendRequestFromRealm(requestId: String) {
+        let realm = try! Realm()
+        if let requestToDelete = realm.objects(RequestFriendModel.self).filter("requesterID == %@", requestId).first {
+            try! realm.write {
+                realm.delete(requestToDelete)
+            }
+        }
+    }
 }
 

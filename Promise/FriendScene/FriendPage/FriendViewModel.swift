@@ -1,4 +1,6 @@
 import RxCocoa
+import Moya
+import RealmSwift
 import UIKit
 import RxSwift
 import RxFlow
@@ -23,7 +25,7 @@ class FriendViewModel: Stepper{
     
     init(friendService: FriendService) {
         self.friendService = friendService
-                
+        
         addFriendButtonTapped
             .subscribe(onNext: { [weak self] in
                 self?.settingViewRelay.accept(())
@@ -81,4 +83,43 @@ class FriendViewModel: Stepper{
             .disposed(by: vwaDisposeBag)
     }
     
+    func loadRequestFriendList(){
+        self.friendService.requestFriendList()
+            .subscribe(onSuccess: { [weak self] response in
+                let newFriends = response.data.info.map { friendData in
+                    return RequestFriend(userImage: UIImage(named: "user")!,
+                                  name: friendData.memberInfo.nickname,
+                                  level: String(friendData.memberInfo.level),
+                                  requesterID: friendData.requestInfo.id)
+                }
+                self?.compareWithStoredFriends(newFriends: newFriends)
+            }, onFailure: { [weak self] error in
+                self?.steps.accept(FriendStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func compareWithStoredFriends(newFriends: [RequestFriend]) {
+        let realm = try! Realm()
+        let storedFriends = realm.objects(RequestFriendModel.self)
+        let storedRequesterIDs = Set(storedFriends.map { $0.requesterID })
+        
+        let isNewFriendRequest = newFriends.contains { !storedRequesterIDs.contains($0.requesterID) }
+        
+        if isNewFriendRequest {
+            NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationReceived"), object: nil)
+            addNewFriendRequestsToRealm(newFriends)
+        }
+    }
+    
+    func addNewFriendRequestsToRealm(_ newFriends: [RequestFriend]) {
+        let realm = try! Realm()
+        try! realm.write {
+            for friend in newFriends {
+                let requestFriendModel = RequestFriendModel()
+                requestFriendModel.requesterID = friend.requesterID
+                realm.add(requestFriendModel, update: .modified)
+            }
+        }
+    }
 }

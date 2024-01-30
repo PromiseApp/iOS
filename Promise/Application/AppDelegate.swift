@@ -24,25 +24,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
         
-        if let remoteNotification = launchOptions?[.remoteNotification] as? [AnyHashable: Any] {
-                // 푸시 알림 정보를 처리하는 코드를 여기에 추가
-                print("Received remote notification while in background: \(remoteNotification)")
-                
-                // 예: 푸시 알림 카테고리에 따른 처리
-                if let aps = remoteNotification["aps"] as? [String: AnyObject],
-                   let category = aps["category"] as? String {
+        
+        return true
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+
+            if let aps = userInfo["aps"] as? [String: AnyObject], let contentAvailable = aps["content-available"] as? Int {
+                if let category = aps["category"] as? String {
                     switch category {
                     case "PROMISE_REQUEST":
                         UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
+                        NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationReceived"), object: nil)
                     case "FRIEND_REQUEST":
                         UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
+                        NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationReceived"), object: nil)
                     default:
                         break
                     }
                 }
             }
-        
-        return true
+        completionHandler(.newData)
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
@@ -84,8 +86,10 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             switch category {
             case "PROMISE_REQUEST":
                 UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
+                NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationReceived"), object: nil)
             case "FRIEND_REQUEST":
                 UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
+                NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationReceived"), object: nil)
             default:
                 break
             }
@@ -99,68 +103,31 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         print("didReceive",userInfo)
         
         if let aps = userInfo["aps"] as? [String: AnyObject],
-               let category = aps["category"] as? String {
-
-                let appState = UIApplication.shared.applicationState
-
-                switch appState {
-                case .active:
-                    print("앱이 실행 중일 때의 로직")
-                    handleNotification(category: category)
-
-                case .inactive:
-                    print("앱이 백그라운드 상태에서 사용자가 알림을 탭했을 때의 로직")
-                    handleNotification(category: category)
-
-                case .background:
-                    print("앱이 종료된 상태에서 사용자가 알림을 탭했을 때의 로직")
-                    UserDefaults.standard.set(category, forKey: UserDefaultsKeys.pushNotificationType)
-                    handleNotification(category: category)
-
-                @unknown default:
-                    print("알 수 없는 새로운 상태")
-                }
+           let category = aps["category"] as? String {
+            
+            let appState = UIApplication.shared.applicationState
+            
+            switch appState {
+            case .active:
+                print("앱이 실행 중일 때의 로직")
+                handleNotification(category: category)
+            case .inactive:
+                print("앱이 백그라운드 상태에서 사용자가 알림을 탭했을 때의 로직")
+                handleNotification(category: category)
+            case .background:
+                print("앱이 종료된 상태에서 사용자가 알림을 탭했을 때의 로직")
+                UserDefaults.standard.set(category, forKey: UserDefaultsKeys.pushNotificationType)
+            @unknown default:
+                print("알 수 없는 새로운 상태")
             }
-        
-//        if let aps = userInfo["aps"] as? [String: AnyObject],
-//           let category = aps["category"] as? String {
-//            if UIApplication.shared.applicationState == .active {
-//                print("앱이 실행 중일 때의 로직")
-//                switch category {
-//                case "PROMISE_REQUEST":
-//                    UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
-//                    NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationTapped"), object: nil)
-//                case "FRIEND_REQUEST":
-//                    UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
-//                    NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationTapped"), object: nil)
-//                default:
-//                    break
-//                }
-//                
-//            } else {
-//                print("앱이 백그라운드 또는 종료된 상태일 때의 로직")
-//                UserDefaults.standard.set(category, forKey: UserDefaultsKeys.pushNotificationType)
-//                switch category {
-//                case "PROMISE_REQUEST":
-//                    UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
-//                    NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationTapped"), object: nil)
-//                case "FRIEND_REQUEST":
-//                    UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
-//                    NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationTapped"), object: nil)
-//                default:
-//                    break
-//                }
-//            }
-//        }
+        }
     }
     
     func handleNotification(category: String) {
         switch category {
         case "PROMISE_REQUEST":
-            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newPromiseRequestNotificationReceived)
             NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationTapped"), object: nil)
         case "FRIEND_REQUEST":
-            UserDefaults.standard.setValue(true, forKey: UserDefaultsKeys.newFriendRequestNotificationReceived)
             NotificationCenter.default.post(name: Notification.Name("newFriendRequestNotificationTapped"), object: nil)
         default:
             break

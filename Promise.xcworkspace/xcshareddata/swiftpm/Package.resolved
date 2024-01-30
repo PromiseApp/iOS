@@ -6,7 +6,7 @@
       "location" : "https://github.com/Alamofire/Alamofire.git",
       "state" : {
         "branch" : "master",
-        "revision" : "827a879ae2dcc473dfcae8ae188b992f66cd07d6"
+        "revision" : "4ac6cac37012e1c15d1c3f7795148f61d02eeea2"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-core.git",
       "state" : {
-        "revision" : "7227d6a447821c28895daa099b6c7cd4c99d461b",
-        "version" : "13.25.1"
+        "revision" : "a5e87a39cffdcc591f3203c11cfca68100d0b9a6",
+        "version" : "13.26.0"
       }
     },
     {
@@ -77,8 +77,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift",
       "state" : {
-        "branch" : "master",
-        "revision" : "65269e499f882a2f8bc7ebe3e5a36a1ed7be48dc"
+        "revision" : "eafdd3720a8cc750bdd38bf776082d2c8cf743fc",
+        "version" : "10.46.0"
       }
     },
     {
@@ -105,7 +105,7 @@
       "location" : "https://github.com/RxSwiftCommunity/RxFlow.git",
       "state" : {
         "branch" : "main",
-        "revision" : "2cba1e09eb439c9b79ccbf1aa07881b63d53f255"
+        "revision" : "367eb93116ab4868658f128b000d3ab248abc96e"
       }
     },
     {

@@ -31,24 +31,25 @@ class AddFriendPopupViewModel: Stepper{
                 return self.friendService.requestFriend(respondent: nickname)
                     .asObservable()
                     .flatMap { response -> Observable<Void> in
-                        if response.resultCode == "423" {
-                            self.steps.accept(FriendStep.dismissView)
-                            self.steps.accept(FriendStep.alreadyRequestFriendPopup)
-                            return Observable.empty()
-                        }
-                        else if response.resultCode == "422" {
-                            self.steps.accept(FriendStep.dismissView)
-                            self.steps.accept(FriendStep.requestNotExistFriendPopup)
-                            return Observable.empty()
-                        }
-                        else {
-                            self.requestSuccessRelay.accept(nickname)
-                            return Observable.empty()
-                        }
+                        self.requestSuccessRelay.accept(nickname)
+                        return Observable.empty()
                     }
                     .catch { [weak self] error in
                         print("friendService.requestFriend",error)
-                        self?.steps.accept(FriendStep.networkErrorPopup)
+                        let (errorCode, errorMessage) = NetworkErrorHandler().handle(error: error)
+                        switch errorCode {
+                        case 401:
+                            self?.steps.accept(MyPageStep.tokenExpirationPopup)
+                        case 422:
+                            self?.steps.accept(FriendStep.dismissView)
+                            self?.steps.accept(FriendStep.requestNotExistFriendPopup)
+                        case 423:
+                            self?.steps.accept(FriendStep.dismissView)
+                            self?.steps.accept(FriendStep.alreadyRequestFriendPopup)
+                        default:
+                            print("\(errorCode): \(errorMessage)")
+                            self?.steps.accept(MyPageStep.networkErrorPopup)
+                        }
                         return Observable.empty()
                     }
                 

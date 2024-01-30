@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 import UIKit
 
 struct Friend{
@@ -15,3 +16,6 @@ struct RequestFriend{
     let requesterID: String
 }
 
+class RequestFriendModel: Object {
+    @Persisted(primaryKey: true) var requesterID: String = ""
+}

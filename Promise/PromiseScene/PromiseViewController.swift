@@ -47,6 +47,8 @@ class PromiseViewController: UIViewController {
         bind()
         attribute()
         layout()
+        notiSetting()
+        promiseViewModel.loadNewPromiseList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -54,7 +56,6 @@ class PromiseViewController: UIViewController {
         self.promiseViewModel.loadPromiseList()
         self.promiseViewModel.loadNotDetPromiseList()
         self.promiseViewModel.loadLevelExp()
-        notiSetting()
     }
     
     private func notiSetting(){
@@ -179,6 +180,17 @@ class PromiseViewController: UIViewController {
             })
             .disposed(by: disposeBag)
         
+        NotificationCenter.default.rx.notification(Notification.Name("newPromiseRequestNotificationReceived"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.newImageView.isHidden = false
+            })
+            .disposed(by: disposeBag)
+        
+        NotificationCenter.default.rx.notification(Notification.Name("newPromiseRequestNotificationRead"))
+            .subscribe(onNext: { [weak self] _ in
+                self?.newImageView.isHidden = true
+            })
+            .disposed(by: disposeBag)
     }
     
     private func attribute(){

@@ -708,7 +708,7 @@ class MakePromiseViewController: UIViewController {
     }
     
     private func showTimePicker() {
-        let alert = UIAlertController(title: "\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "\n\n\n\n\n\n\n\n", message: nil, preferredStyle: .actionSheet)
         let picker = UIPickerView()
         picker.tag = 1
         picker.delegate = self

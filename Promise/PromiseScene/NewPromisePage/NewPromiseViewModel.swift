@@ -47,6 +47,7 @@ class NewPromiseViewModel: Stepper{
                 return self.promiseService.rejectPromise(id: selectedID)
                     .asObservable()
                     .map{ response in
+                        self.removeNewPromiseRequestFromRealm(selectedID: selectedID)
                         if(response.resultCode == "424"){
                             self.steps.accept(PromiseStep.errorDeletedPromisePopup)
                         }
@@ -71,6 +72,7 @@ class NewPromiseViewModel: Stepper{
                 return self.promiseService.acceptPromise(id: selectedID)
                     .asObservable()
                     .map{ response in
+                        self.removeNewPromiseRequestFromRealm(selectedID: selectedID)
                         let roomID = Int(selectedID)
                         self.stompService.subscribeToChatRoom(promiseID: roomID!)
                         self.saveRoomId(roomId: roomID!)
@@ -154,5 +156,12 @@ class NewPromiseViewModel: Stepper{
         }
     }
     
-    
+    func removeNewPromiseRequestFromRealm(selectedID: String) {
+        let realm = try! Realm()
+        if let requestToDelete = realm.objects(RequestNewPromiseModel.self).filter("newPromiseID == %@", selectedID).first {
+            try! realm.write {
+                realm.delete(requestToDelete)
+            }
+        }
+    }
 }

@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 import RxCocoa
 import RxSwift
 import RxFlow
@@ -148,4 +149,47 @@ class PromiseViewModel: Stepper{
             .disposed(by: vwaDisposeBag)
     }
     
+    func loadNewPromiseList() {
+        self.promiseService.newPormiseList()
+            .subscribe(onSuccess: { [weak self] response in
+                let newPromises = response.data.list.map { item -> NewPromiseCell in
+                    let dateTimeComponents = item.date.split(separator: " ")
+                    let date = String(dateTimeComponents[0])
+                    let timeWithSeconds = dateTimeComponents[1]
+                    let time = String(timeWithSeconds.split(separator: ":")[0...1].joined(separator: ":"))
+
+                    return NewPromiseCell(id: item.id, date: date, time: time, title: item.title, place: item.location, penalty: item.penalty,memo: item.memo)
+                }
+                self?.compareWithStoredPromises(newPromises: newPromises)
+            }, onFailure: { [weak self] error in
+                print("promiseService.newPormiseLis",error)
+                self?.dataLoading.accept(true)
+                self?.steps.accept(PromiseStep.networkErrorPopup)
+            })
+            .disposed(by: disposeBag)
+    }
+    
+    func compareWithStoredPromises(newPromises: [NewPromiseCell]) {
+        let realm = try! Realm()
+        let storedPromises = realm.objects(RequestNewPromiseModel.self)
+        let storedNewPromiseID = Set(storedPromises.map { $0.newPromiseID })
+        
+        let isNewPromiseRequest = newPromises.contains { !storedNewPromiseID.contains($0.id) }
+        
+        if isNewPromiseRequest {
+            NotificationCenter.default.post(name: Notification.Name("newPromiseRequestNotificationReceived"), object: nil)
+            addNewPromiseToRealm(newPromises)
+        }
+    }
+    
+    func addNewPromiseToRealm(_ newPromises: [NewPromiseCell]) {
+        let realm = try! Realm()
+        try! realm.write {
+            for newPromise in newPromises {
+                let promiseModel = RequestNewPromiseModel()
+                promiseModel.newPromiseID = newPromise.id
+                realm.add(promiseModel, update: .modified)
+            }
+        }
+    }
 }

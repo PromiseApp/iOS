@@ -1,4 +1,5 @@
 import Foundation
+import RealmSwift
 
 struct Promise{
     let promisTitle: String
@@ -43,4 +44,8 @@ struct NewPromiseCell{
     let penalty: String?
     let memo: String?
     var isSelected: Bool = false
+}
+
+class RequestNewPromiseModel: Object {
+    @Persisted(primaryKey: true) var newPromiseID: String
 }
