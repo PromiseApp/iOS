@@ -8,7 +8,7 @@ class StompService {
     var currentRoomId: Int?
     
     func connectSocket(){
-        let url = URL(string: "ws://43.200.141.247:8080/ws")!
+        let url = URL(string: "ws://15.164.166.199:8080/ws")!
         if let accessToken = KeychainManager.shared.readToken(for: "AccessToken") {
             socketClient.openSocketWithURLRequest(request: NSURLRequest(url: url as URL) , delegate: self,connectionHeaders: ["Authorization":"Bearer \(accessToken)"])
         }

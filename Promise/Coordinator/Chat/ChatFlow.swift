@@ -13,6 +13,8 @@ class ChatFlow: Flow {
     init(with rootViewController: UINavigationController, stompService: StompService) {
         self.rootViewController = rootViewController
         self.stompService = stompService
+        self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
+        self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
     }
     
     func navigate(to step: Step) -> FlowContributors {
@@ -69,3 +71,40 @@ class ChatFlow: Flow {
     
 }
 
+
+//import UIKit
+//import RxFlow
+//
+//class ChatFlow: Flow {
+//    var root: Presentable {
+//        return self.rootViewController
+//    }
+//    
+//    private var rootViewController: UINavigationController
+//    let stompService: StompService
+//    let chatService = ChatService()
+//    
+//    init(with rootViewController: UINavigationController, stompService: StompService) {
+//        self.rootViewController = rootViewController
+//        self.stompService = stompService
+//        self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
+//        self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
+//    }
+//    
+//    func navigate(to step: Step) -> FlowContributors {
+//        guard let step = step as? ChatStep else { return .none }
+//        
+//        switch step {
+//        case .chatList:
+//            return navigateToChatList()
+//        }
+//    }
+//    
+//    private func navigateToChatList() -> FlowContributors {
+//        let VM = ChatViewModel()
+//        let VC = ChatViewController(chatViewModel: VM)
+//        rootViewController.pushViewController(VC, animated: true)
+//        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
+//    }
+//}
+//

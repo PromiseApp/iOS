@@ -86,6 +86,8 @@ class AppFlow: Flow {
         
         let promiseNC = UINavigationController()
         promiseNC.isNavigationBarHidden = true
+        promiseNC.interactivePopGestureRecognizer?.delegate = nil
+        promiseNC.interactivePopGestureRecognizer?.isEnabled = true
         let chatNC = UINavigationController()
         chatNC.isNavigationBarHidden = true
         let friendNC = UINavigationController()
@@ -130,6 +132,8 @@ class AppFlow: Flow {
         
         let promiseNC = UINavigationController()
         promiseNC.isNavigationBarHidden = true
+        promiseNC.interactivePopGestureRecognizer?.delegate = nil
+        promiseNC.interactivePopGestureRecognizer?.isEnabled = true
         let chatNC = UINavigationController()
         chatNC.isNavigationBarHidden = true
         let friendNC = UINavigationController()
@@ -264,7 +268,7 @@ class AppFlow: Flow {
             .contribute(withNextPresentable: VC, withNextStepper: VM),
             .contribute(withNextPresentable: tabBarFlow, withNextStepper: OneStepper(withSingleStep: TabBarStep.endFlow)),
             .contribute(withNextPresentable: promiseFlow, withNextStepper: OneStepper(withSingleStep: PromiseStep.endFlow)),
-            .contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.endFlow)),
+            //.contribute(withNextPresentable: chatFlow, withNextStepper: OneStepper(withSingleStep: ChatStep.endFlow)),
             .contribute(withNextPresentable: friendFlow, withNextStepper: OneStepper(withSingleStep: FriendStep.endFlow)),
             .contribute(withNextPresentable: myPageFlow, withNextStepper: OneStepper(withSingleStep: MyPageStep.endFlow)),
         ])
