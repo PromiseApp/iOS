@@ -67,8 +67,9 @@ class ChatRoomViewModel: Stepper{
         let destination = "/pub/chat/message"
         var userImg: String? = nil
         if let user = DatabaseManager.shared.fetchUser(){
-           userImg = user.image
+            userImg = user.image
         }
+        print(userImg)
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy.MM.dd HH:mm:ss"
         let sendDate = dateFormatter.string(from: Date())

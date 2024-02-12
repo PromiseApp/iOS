@@ -1,6 +1,7 @@
 import UIKit
 import RxFlow
 import RxKakaoSDKCommon
+import UserNotifications
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -29,8 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-
-            if let aps = userInfo["aps"] as? [String: AnyObject], let contentAvailable = aps["content-available"] as? Int {
+            if let aps = userInfo["aps"] as? [String: AnyObject]{
                 if let category = aps["category"] as? String {
                     switch category {
                     case "PROMISE_REQUEST":
