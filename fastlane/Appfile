@@ -1,9 +1,0 @@
-app_identifier("jungsun.Promise") # The bundle identifier of your app
-apple_id("1997pjs@naver.com") # Your Apple Developer Portal username
-
-api_key_path("/Users/pjs1997/Desktop/애플 디벨로퍼/PlaMeet/Key p8 파일/AuthKey_7B78BPL2PT.p8")
-api_key_id("7B78BPL2PT")
-api_key_issuer_id("a3624de4-06a6-4c06-ac79-1cddb68a465b")
-
-# For more information about the Appfile, see:
-#     https://docs.fastlane.tools/advanced/#appfile
