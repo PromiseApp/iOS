@@ -31,10 +31,34 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### ios get_version_and_build_number
+
+```sh
+[bundle exec] fastlane ios get_version_and_build_number
+```
+
+
+
 ### ios submit_for_review
 
 ```sh
 [bundle exec] fastlane ios submit_for_review
+```
+
+
+
+### ios upload
+
+```sh
+[bundle exec] fastlane ios upload
+```
+
+
+
+### ios send_slack
+
+```sh
+[bundle exec] fastlane ios send_slack
 ```
 
 

@@ -5,14 +5,62 @@ platform :ios do
   lane :release do
     increment_build_number(xcodeproj: "Promise.xcodeproj")
     build_app(workspace: "Promise.xcworkspace", scheme: "Promise")
-    upload_to_app_store(skip_metadata: false, skip_screenshots: true,username: "1997pjs@naver.com")
+    
+  send_slack
   end
+
   lane :update_version_number do |options|
     increment_version_number(version_number: options[:version_number])
   end
+
+  lane :get_version_and_build_number do
+    version_number = get_version_number(
+      xcodeproj: "Promise.xcodeproj", 
+      target: "Promise"
+    )
+    build_number = get_build_number(
+      xcodeproj: "Promise.xcodeproj"
+    )
+  
+    puts "Version Number: #{version_number}"
+    puts "Build Number: #{build_number}"
+  end
+
   lane :submit_for_review do
     deliver(submit_for_review: true)
   end
 
+  lane :upload do
+  increment_build_number(xcodeproj: "Promise.xcodeproj")
+  upload_to_app_store(
+	skip_metadata: false, 
+	skip_screenshots: false, 
+	submit_for_review: true,
+	username: "1997pjs@naver.com",
+	submission_information: { add_id_info_uses_idfa: false }, 
+	submission_information: { export_compliance_uses_encryption: false },
+	automatic_release: true,
+	submit_for_review: true,
+	force: true
+     )
+  send_slack
+  end
 
+  lane :send_slack do
+    version = get_version_number(
+	xcodeproj: "Promise.xcodeproj", 
+	target: "Promise"
+    )
+    build = get_build_number(xcodeproj: "Promise.xcodeproj") 
+    
+    slack(
+      message: "앱스토어 배포가 완료되었습니다.",
+      channel: "#plameet",
+      slack_url: "https://hooks.slack.com/services/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",
+      default_payloads: [:lane, :test_result, :git_branch, :git_author],
+      payload: {
+	"Version": version + " (" + build + ")"
+      }
+    )
+   end
 end
