@@ -18,6 +18,7 @@ enum PromiseStep: Step {
     case outPromisePopup(promiseId: String)
     case popView
     case dismissView
+    case popRootView
     case endFlow
 }
 

@@ -58,7 +58,8 @@ class SelectMemberResultTableViewCell: UITableViewCell {
             $0.setTitle("성공", for: .normal)
             $0.setTitleColor(.black, for: .normal)
             $0.titleLabel?.font = UIFont(name: "Pretendard-Regular", size: 13*Constants.standartFont)
-            $0.backgroundColor = UIColor(named: "prStrong")
+            $0.layer.borderWidth = 1
+            $0.layer.borderColor = UIColor(named: "line")?.cgColor
             $0.layer.cornerRadius = 16*Constants.standardHeight
         }
         

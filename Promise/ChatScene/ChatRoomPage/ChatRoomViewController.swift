@@ -39,7 +39,6 @@ class ChatRoomViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        
         attribute()
         layout()
     }

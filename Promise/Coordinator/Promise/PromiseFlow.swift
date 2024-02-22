@@ -59,6 +59,8 @@ class PromiseFlow: Flow {
             return popViewController()
         case .dismissView:
             return dismissViewController()
+        case .popRootView:
+            return popRootViewController()
         case .endFlow:
             return .end(forwardToParentFlowWithStep: AppStep.endAllFlowsCompleted)
         }
@@ -189,5 +191,9 @@ class PromiseFlow: Flow {
         return .none
     }
     
+    private func popRootViewController() -> FlowContributors {
+        rootViewController.popToRootViewController(animated: true)
+        return .none
+    }
 }
 

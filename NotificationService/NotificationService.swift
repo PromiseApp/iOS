@@ -28,7 +28,7 @@ class NotificationService: UNNotificationServiceExtension {
         let senderPerson = INPerson(
             personHandle: INPersonHandle(value: "unique-sender-id-2", type: .unknown),
             nameComponents: nil,
-            displayName: "Sender name",
+            displayName: request.content.userInfo["nickname"] as? String,
             image: avatar,
             contactIdentifier: nil,
             customIdentifier: nil,

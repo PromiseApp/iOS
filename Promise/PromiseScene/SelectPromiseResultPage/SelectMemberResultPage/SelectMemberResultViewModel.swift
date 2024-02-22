@@ -10,18 +10,25 @@ class SelectMemberResultViewModel: Stepper{
     var promiseService: PromiseService
     
     var promiseId = ""
-    var allFriends: [Friend] = []
+    var allFriendsRelay = BehaviorRelay<[ResultFriend]>(value: [])
     
     let leftButtonTapped = PublishRelay<Void>()
+    let resultButtonTapped = PublishRelay<Void>()
     let failButtonTapped = PublishRelay<String>()
     let successButtonTapped = PublishRelay<String>()
     
-    let requestSuccessRelay = PublishRelay<String>()
     let resultMemberRelay = BehaviorRelay<[Friend]>(value: [])
     var resultMemberDriver: Driver<[Friend]>{
         return resultMemberRelay.asDriver(onErrorDriveWith: .empty())
     }
-            
+    
+    var isResultButtonEnabled: Driver<Bool> {
+        return allFriendsRelay.asObservable()
+            .map { friends in
+                return !friends.contains { $0.isSucceed == nil }
+            }
+            .asDriver(onErrorJustReturn: false)
+    }
     
     
     init(promiseIDViewModel: PromiseIDViewModel, promiseService: PromiseService) {
@@ -42,39 +49,47 @@ class SelectMemberResultViewModel: Stepper{
             .disposed(by: disposeBag)
         
         failButtonTapped
-            .flatMapLatest { [weak self] nickname -> Observable<String> in
-                guard let self = self else { return Observable.empty() }
-                return self.promiseService.resultPromise(promiseId: self.promiseId, nickname: nickname, isSucceed: "N")
-                    .asObservable()
-                    .flatMap{_ in Observable.just(nickname)}
-                    .catch { [weak self] error in
-                        print(error)
-                        self?.steps.accept(PromiseStep.networkErrorPopup)
-                        return Observable.empty()
-                    }
-            }
             .subscribe(onNext: { [weak self] nickname in
-                self?.requestSuccessRelay.accept(nickname)
+                let allFriends = self?.allFriendsRelay.value.map { friend -> ResultFriend in
+                    if friend.nickname == nickname {
+                        return ResultFriend(nickname: friend.nickname, isSucceed: "N")
+                    } else {
+                        return friend
+                    }
+                }
+                self?.allFriendsRelay.accept(allFriends ?? [])
             })
             .disposed(by: disposeBag)
         
         successButtonTapped
-            .flatMapLatest { [weak self] nickname -> Observable<String> in
+            .subscribe(onNext: { [weak self] nickname in
+                let allFriends = self?.allFriendsRelay.value.map { friend -> ResultFriend in
+                    if friend.nickname == nickname {
+                        return ResultFriend(nickname: friend.nickname, isSucceed: "Y")
+                    } else {
+                        return friend
+                    }
+                }
+                self?.allFriendsRelay.accept(allFriends ?? [])
+            })
+            .disposed(by: disposeBag)
+        
+        resultButtonTapped
+            .flatMapLatest { [weak self] () -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                return self.promiseService.resultPromise(promiseId: self.promiseId, nickname: nickname, isSucceed: "Y")
+                return self.promiseService.resultPromise(promiseId: self.promiseId, resultFriend: self.allFriendsRelay.value)
                     .asObservable()
-                    .flatMap{_ in Observable.just(nickname)}
+                    .map{ _ in Void()}
                     .catch { [weak self] error in
                         print(error)
                         self?.steps.accept(PromiseStep.networkErrorPopup)
                         return Observable.empty()
                     }
             }
-            .subscribe(onNext: { [weak self] nickname in
-                self?.requestSuccessRelay.accept(nickname)
+            .subscribe(onNext: { [weak self] in
+                self?.steps.accept(PromiseStep.popRootView)
             })
             .disposed(by: disposeBag)
-        
     }
     
     func loadResultMember(){
@@ -82,10 +97,10 @@ class SelectMemberResultViewModel: Stepper{
             .subscribe(onSuccess: { [weak self] response in
                 var receivedFriends: [Friend] = []
                 let dispatchGroup = DispatchGroup()
-
+                
                 response.data.membersInfo.forEach { friendData in
                     var friend = Friend(userImage: UIImage(named: "user")!, name: friendData.nickname, level: friendData.level, isSelected: false)
-
+                    
                     if let imageUrl = friendData.img {
                         dispatchGroup.enter()
                         ImageDownloadManager.shared.downloadImage(urlString: imageUrl) { image in
@@ -97,10 +112,11 @@ class SelectMemberResultViewModel: Stepper{
                         receivedFriends.append(friend)
                     }
                 }
-
+                
                 dispatchGroup.notify(queue: .main) {
-                    self?.allFriends = receivedFriends
-                    self?.resultMemberRelay.accept(self?.allFriends ?? [])
+                    self?.resultMemberRelay.accept(receivedFriends)
+                    let resultFriends = receivedFriends.map { ResultFriend(nickname: $0.name, isSucceed: nil) }
+                    self?.allFriendsRelay.accept(resultFriends)
                 }
             }, onFailure: { [weak self] error in
                 self?.steps.accept(PromiseStep.networkErrorPopup)

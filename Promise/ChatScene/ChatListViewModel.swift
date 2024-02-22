@@ -81,6 +81,7 @@ class ChatListViewModel: Stepper{
     }
     
     func updateLocalChatRooms(serverRoomIds: Set<Int>) {
+        
         let realm = try! Realm()
         let localChatLists = realm.objects(ChatList.self)
         let localChatRooms = realm.objects(ChatRoom.self)
