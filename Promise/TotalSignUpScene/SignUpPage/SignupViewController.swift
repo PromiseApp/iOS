@@ -163,7 +163,7 @@ class SignupViewController: UIViewController {
         
         signupViewModel.isNextButtonEnabled
             .drive(onNext: { [weak self] isValid in
-                if(isValid){
+                if isValid {
                     self?.nextButton.isEnabled = true
                     self?.nextButton.alpha = 1
                 }

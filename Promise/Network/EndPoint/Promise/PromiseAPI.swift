@@ -12,7 +12,7 @@ enum PromiseAPI {
     case DeletePromise(promiseId: String)
     case OutPromise(promiseId: String)
     case ModifyPromise(promiseId: String ,title: String, date: String, place: String?, penalty: String?, memo: String?)
-    case ResultPromise(promiseId: String, nickname: String, isSucceed: String)
+    case ResultPromise(promiseId: String, resultFriend: [ResultFriend])
     case GetUserData
 }
 
@@ -143,12 +143,14 @@ extension PromiseAPI: TargetType {
             }
             
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
-        case .ResultPromise(let promiseId, let nickname, let isSucceed):
-            let result: [String: String] = ["nickname": nickname, "isSucceed": isSucceed]
-                let parameters: [String: Any] = [
-                    "promiseId": promiseId,
-                    "result": [result]
-                ]
+        case .ResultPromise(let promiseId, let resultFriend):
+            let result = resultFriend.map{ resultFriend in
+                return ["nickname": resultFriend.nickname, "isSucceed": resultFriend.isSucceed]
+            }
+            let parameters: [String: Any] = [
+                "promiseId": promiseId,
+                "result": result
+            ]
             return .requestParameters(parameters: parameters, encoding: JSONEncoding.default)
         case .GetUserData:
             return .requestPlain

@@ -13,6 +13,7 @@ class SelectMemberResultViewController: UIViewController {
     let leftButton = UIButton()
     let separateView = UIView()
     lazy var tableView = UITableView()
+    let resultButton = UIButton()
         
     init(selectMemberResultViewModel: SelectMemberResultViewModel) {
         self.selectMemberResultViewModel = selectMemberResultViewModel
@@ -31,12 +32,26 @@ class SelectMemberResultViewController: UIViewController {
         layout()
     }
    
-    
-    
     private func bind(){
-        
         leftButton.rx.tap
             .bind(to: selectMemberResultViewModel.leftButtonTapped)
+            .disposed(by: disposeBag)
+        
+        resultButton.rx.tap
+            .bind(to: selectMemberResultViewModel.resultButtonTapped)
+            .disposed(by: disposeBag)
+        
+        selectMemberResultViewModel.isResultButtonEnabled
+            .drive(onNext: { [weak self] isValid in
+                if isValid {
+                    self?.resultButton.isEnabled = true
+                    self?.resultButton.alpha = 1
+                }
+                else{
+                    self?.resultButton.isEnabled = false
+                    self?.resultButton.alpha = 0.3
+                }
+            })
             .disposed(by: disposeBag)
         
         selectMemberResultViewModel.resultMemberDriver
@@ -64,16 +79,7 @@ class SelectMemberResultViewController: UIViewController {
                         self?.selectMemberResultViewModel.successButtonTapped.accept(nickname ?? "")
                     })
                     .disposed(by: cell.disposeBag)
-                
             }
-            .disposed(by: disposeBag)
-        
-        selectMemberResultViewModel.requestSuccessRelay
-            .subscribe(onNext: { [weak self] nickname in
-                guard let self = self else { return }
-                self.selectMemberResultViewModel.allFriends.removeAll { $0.name == nickname }
-                self.selectMemberResultViewModel.resultMemberRelay.accept(self.selectMemberResultViewModel.allFriends)
-            })
             .disposed(by: disposeBag)
         
     }
@@ -100,10 +106,18 @@ class SelectMemberResultViewController: UIViewController {
             $0.register(SelectMemberResultTableViewCell.self, forCellReuseIdentifier: "SelectMemberResultTableViewCell")
         }
         
+        resultButton.do{
+            $0.setTitle("결과 선택", for: .normal)
+            $0.setTitleColor(UIColor.black, for: .normal)
+            $0.titleLabel?.font = UIFont(name: "Pretendard-SemiBold", size: 16*Constants.standartFont)
+            $0.backgroundColor = UIColor(named: "prStrong")
+            $0.alpha = 0.3
+            $0.isEnabled = false
+        }
     }
     
     private func layout(){
-        [titleLabel,leftButton,separateView,tableView]
+        [titleLabel,leftButton,separateView,resultButton,tableView]
             .forEach{ view.addSubview($0) }
         
         titleLabel.snp.makeConstraints { make in
@@ -124,14 +138,18 @@ class SelectMemberResultViewController: UIViewController {
             make.top.equalTo(titleLabel.snp.bottom).offset(12*Constants.standardHeight)
         }
         
+        resultButton.snp.makeConstraints { make in
+            make.width.equalToSuperview()
+            make.height.equalTo(48*Constants.standardHeight)
+            make.leading.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+        
         tableView.snp.makeConstraints { make in
             make.width.equalToSuperview()
             make.leading.equalToSuperview()
             make.top.equalTo(separateView.snp.bottom)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(resultButton.snp.top).offset(-12*Constants.standardHeight)
         }
-        
-        
     }
-    
 }

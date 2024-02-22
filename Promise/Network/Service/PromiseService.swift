@@ -13,7 +13,7 @@ protocol PromiseServiceProtocol {
     func deletePromise(promiseId: String) -> Single<PromiseResponse>
     func outPromise(promiseId: String) -> Single<PromiseResponse>
     func modifyPromise(promiseId:String, title: String, date: String, place: String?, penalty: String?, memo: String?) -> Single<PromiseResponse>
-    func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse>
+    func resultPromise(promiseId: String, resultFriend:[ResultFriend]) -> Single<PromiseResponse>
     func GetUserData() -> Single<UserDataResponse>
 }
 
@@ -79,8 +79,8 @@ class PromiseService: PromiseServiceProtocol {
             .map(PromiseResponse.self)
     }
     
-    func resultPromise(promiseId: String, nickname: String, isSucceed: String) -> Single<PromiseResponse> {
-        return provider.rx.request(.ResultPromise(promiseId: promiseId, nickname: nickname, isSucceed: isSucceed))
+    func resultPromise(promiseId: String, resultFriend:[ResultFriend]) -> Single<PromiseResponse> {
+        return provider.rx.request(.ResultPromise(promiseId: promiseId, resultFriend: resultFriend))
             .filterSuccessfulStatusCodes()
             .map(PromiseResponse.self)
     }

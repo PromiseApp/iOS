@@ -167,10 +167,10 @@ class LoginViewModel: NSObject, Stepper{
     
     func saveUser(account: String, nickname: String, role: String, accessToken: String, refreshToken: String){
         do{
-            
             let realm = try Realm()
+            let allUsers = realm.objects(User.self)
             try realm.write {
-                realm.deleteAll()
+                realm.delete(allUsers)
             }
             let newUser = User()
             newUser.account = account

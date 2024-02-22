@@ -70,8 +70,8 @@ class LoadingViewModel: Stepper{
         if isAutoLoginEnabled {
             if let refreshToken = KeychainManager.shared.readToken(for: "RefreshToken") {
                 self.checkTokenService.checkToken(refreshToken: refreshToken)
-                    .subscribe(onSuccess: { [weak self] _ in
-                        
+                    .subscribe(onSuccess: { [weak self] response in
+                        KeychainManager.shared.save(token: response.data.accessToken, for: "AccessToken")
                         if let pushType = UserDefaults.standard.string(forKey: "pushNotificationType") {
                             switch pushType {
                             case "PROMISE_REQUEST":

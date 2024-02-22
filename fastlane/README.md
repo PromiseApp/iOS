@@ -21,7 +21,23 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios release
 ```
 
-Push a new release build to the App Store
+
+
+### ios update_version_number
+
+```sh
+[bundle exec] fastlane ios update_version_number
+```
+
+
+
+### ios submit_for_review
+
+```sh
+[bundle exec] fastlane ios submit_for_review
+```
+
+
 
 ----
 

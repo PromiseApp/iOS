@@ -120,13 +120,14 @@ class ModifyPromiseViewModel: Stepper{
             .withLatestFrom(selectedFriendDatas.asObservable())
             .flatMapLatest{ [weak self] friends -> Observable<Void> in
                 guard let self = self else { return Observable.empty() }
-                
+                print("friends",friends)
                 let members = friends.map{ $0.name }
                 let reallist = members.filter { [weak self] newFriend in
                     !(self?.friendList.contains { oldFriend in
                         oldFriend.name == newFriend
                     })!
                 }
+                print("reallist",reallist)
                 return self.promiseService.inviteFriend(promiseId: promiseId, members: reallist)
                     .asObservable()
                     .map{ _ in Void() }
