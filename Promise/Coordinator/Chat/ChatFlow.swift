@@ -23,8 +23,8 @@ class ChatFlow: Flow {
         switch step {
         case .chatList:
             return navigateToChatList()
-        case .chatRoom(let promiseId):
-            return navigateToChatRoom(promiseId: promiseId)
+        case .chatRoom(let promiseId, let title):
+            return navigateToChatRoom(promiseId: promiseId, title: title)
         case .tokenExpirationPopup:
             return navigateToTokenExpirationPopup()
         case .networkErrorPopup:
@@ -43,8 +43,8 @@ class ChatFlow: Flow {
         return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
     }
     
-    private func navigateToChatRoom(promiseId: Int) -> FlowContributors {
-        let VM = ChatRoomViewModel(stompService: stompService, promiseID: promiseId)
+    private func navigateToChatRoom(promiseId: Int, title: String?) -> FlowContributors {
+        let VM = ChatRoomViewModel(stompService: stompService, promiseID: promiseId, promiseTitle: title)
         let VC = ChatRoomViewController(chatRoomViewModel: VM, participantView: ParticipantView(participantViewModel: ParticipantViewModel(promiseID: promiseId)))
         VC.hidesBottomBarWhenPushed = true
         rootViewController.pushViewController(VC, animated: true)
@@ -70,41 +70,3 @@ class ChatFlow: Flow {
     }
     
 }
-
-
-//import UIKit
-//import RxFlow
-//
-//class ChatFlow: Flow {
-//    var root: Presentable {
-//        return self.rootViewController
-//    }
-//    
-//    private var rootViewController: UINavigationController
-//    let stompService: StompService
-//    let chatService = ChatService()
-//    
-//    init(with rootViewController: UINavigationController, stompService: StompService) {
-//        self.rootViewController = rootViewController
-//        self.stompService = stompService
-//        self.rootViewController.interactivePopGestureRecognizer?.delegate = nil
-//        self.rootViewController.interactivePopGestureRecognizer?.isEnabled = true
-//    }
-//    
-//    func navigate(to step: Step) -> FlowContributors {
-//        guard let step = step as? ChatStep else { return .none }
-//        
-//        switch step {
-//        case .chatList:
-//            return navigateToChatList()
-//        }
-//    }
-//    
-//    private func navigateToChatList() -> FlowContributors {
-//        let VM = ChatViewModel()
-//        let VC = ChatViewController(chatViewModel: VM)
-//        rootViewController.pushViewController(VC, animated: true)
-//        return .one(flowContributor: .contribute(withNextPresentable: VC, withNextStepper: VM))
-//    }
-//}
-//

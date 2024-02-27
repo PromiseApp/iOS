@@ -26,10 +26,6 @@ platform :ios do
     puts "Build Number: #{build_number}"
   end
 
-  lane :submit_for_review do
-    deliver(submit_for_review: true)
-  end
-
   lane :upload do
   increment_build_number(xcodeproj: "Promise.xcodeproj")
   upload_to_app_store(

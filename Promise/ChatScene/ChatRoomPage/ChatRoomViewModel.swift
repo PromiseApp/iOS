@@ -14,6 +14,8 @@ class ChatRoomViewModel: Stepper{
     let promiseID: Int
     var currentRoomId: Int?
     
+    let promiseTitleRelay = BehaviorRelay<String?>(value: "채팅방")
+    
     var messages: [ChatRoom] = []
     let userNickname = DatabaseManager.shared.fetchUser()?.nickname
     
@@ -27,13 +29,13 @@ class ChatRoomViewModel: Stepper{
         return chatRelay.asDriver(onErrorJustReturn: [])
     }
     
-    init(stompService: StompService, promiseID: Int){
+    init(stompService: StompService, promiseID: Int, promiseTitle: String?){
         self.stompService = stompService
         self.promiseID = promiseID
         self.currentRoomId = promiseID
         self.stompService.setCurrentRoomId(roomId: self.currentRoomId)
         self.markMessagesAsRead(roomId: promiseID)
-        
+        self.promiseTitleRelay.accept(promiseTitle)
         self.convertToChatCell(chatRooms: self.stompService.loadMessages(roomId: promiseID)) { [weak self] lastMessages in
             self?.chatRelay.accept(lastMessages)
         }

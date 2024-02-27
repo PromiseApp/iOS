@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3116B28B2AA07C5100308CDA /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28A2AA07C5100308CDA /* LoginViewModel.swift */; };
 		3116B28D2AA0909B00308CDA /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3116B28C2AA0909B00308CDA /* SignupViewController.swift */; };
+		31172B2F2B8DB17F00B2C4E5 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31172B2E2B8DB17F00B2C4E5 /* Kingfisher */; };
 		311CA18C2AAB376A007FD9A7 /* NicknameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18B2AAB376A007FD9A7 /* NicknameViewController.swift */; };
 		311CA18E2AAB3776007FD9A7 /* NicknameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311CA18D2AAB3776007FD9A7 /* NicknameViewModel.swift */; };
 		312006AE2AA9DE9F00501128 /* EmailAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 312006AD2AA9DE9F00501128 /* EmailAuthViewController.swift */; };
@@ -55,8 +56,6 @@
 		316D210B2B5A84D6007FCB4D /* TokenExpirationStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */; };
 		316D210D2B5A84DE007FCB4D /* TokenExpirationFlow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */; };
 		316D21102B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D210F2B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift */; };
-		316D21122B69467E007FCB4D /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D21112B69467E007FCB4D /* ChatViewController.swift */; };
-		316D21142B6946CD007FCB4D /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D21132B6946CD007FCB4D /* ChatViewModel.swift */; };
 		316D21292B6E69D8007FCB4D /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 316D21282B6E69D8007FCB4D /* NotificationService.swift */; };
 		316D212D2B6E69D8007FCB4D /* NotificationService.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 316D21262B6E69D8007FCB4D /* NotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		316D21352B6E6EF9007FCB4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 316D21342B6E6EF8007FCB4D /* Assets.xcassets */; };
@@ -262,8 +261,6 @@
 		316D210A2B5A84D6007FCB4D /* TokenExpirationStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationStep.swift; sourceTree = "<group>"; };
 		316D210C2B5A84DE007FCB4D /* TokenExpirationFlow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenExpirationFlow.swift; sourceTree = "<group>"; };
 		316D210F2B5F81C0007FCB4D /* NoneAccountErrorPopupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneAccountErrorPopupViewController.swift; sourceTree = "<group>"; };
-		316D21112B69467E007FCB4D /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
-		316D21132B6946CD007FCB4D /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		316D21262B6E69D8007FCB4D /* NotificationService.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationService.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		316D21282B6E69D8007FCB4D /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		316D212A2B6E69D8007FCB4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -424,6 +421,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31172B2F2B8DB17F00B2C4E5 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,8 +648,6 @@
 				317688B32B0C893600C266FE /* ChatListViewController.swift */,
 				317688B52B0C894100C266FE /* ChatListViewModel.swift */,
 				3178A6E62B29804C006F36B3 /* ChatListTableViewCell.swift */,
-				316D21112B69467E007FCB4D /* ChatViewController.swift */,
-				316D21132B6946CD007FCB4D /* ChatViewModel.swift */,
 			);
 			path = ChatScene;
 			sourceTree = "<group>";
@@ -1298,6 +1294,9 @@
 			dependencies = (
 			);
 			name = NotificationService;
+			packageProductDependencies = (
+				31172B2E2B8DB17F00B2C4E5 /* Kingfisher */,
+			);
 			productName = NotificationService;
 			productReference = 316D21262B6E69D8007FCB4D /* NotificationService.appex */;
 			productType = "com.apple.product-type.app-extension";
@@ -1432,7 +1431,6 @@
 				317D69E72ADC1536004CEE5C /* ConfirmEmailAuthInFindPwViewController.swift in Sources */,
 				317C8F6A2AF2674C003010BA /* InquiryHeaderView.swift in Sources */,
 				314F90682AFF553900312846 /* PromiseService.swift in Sources */,
-				316D21142B6946CD007FCB4D /* ChatViewModel.swift in Sources */,
 				317C8FAC2AFA5D4D003010BA /* ModifyPromiseViewController.swift in Sources */,
 				31F1A0E92AB03EA000B99DC4 /* LimitedViewController.swift in Sources */,
 				317C8F9D2AFA08E9003010BA /* DuplicateAccountErrorPopupViewController.swift in Sources */,
@@ -1447,7 +1445,6 @@
 				318586AF2AE00652005EBC31 /* MyPageFlow.swift in Sources */,
 				317D69FF2ADD25B5004CEE5C /* RejectFriendPopupViewController.swift in Sources */,
 				317D69EC2ADC1F5C004CEE5C /* PromiseStep.swift in Sources */,
-				316D21122B69467E007FCB4D /* ChatViewController.swift in Sources */,
 				314F90782B0627AF00312846 /* OutPromisePopupViewModel.swift in Sources */,
 				314F905C2AFF229800312846 /* RejectFriendSuccessViewModel.swift in Sources */,
 				317688D32B121B4500C266FE /* TermViewController.swift in Sources */,
@@ -1815,6 +1812,7 @@
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 1.0;
+				"OTHER_LDFLAGS[arch=*]" = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = jungsun.Promise.NotificationService;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1980,6 +1978,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		31172B2E2B8DB17F00B2C4E5 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31AA33CC2B3FEFC600EA85D3 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
 		312476B92AA05E1C00D318C7 /* RxBlocking */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 312476B82AA05E1C00D318C7 /* XCRemoteSwiftPackageReference "RxSwift" */;

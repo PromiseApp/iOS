@@ -46,7 +46,8 @@ class ChatListViewController: UIViewController {
             .subscribe(onNext: { [weak self] indexPath in
                 guard let cell = self?.chatListTableView.cellForRow(at: indexPath) as? ChatListTableViewCell else { return }
                 let promiseID = cell.promiseID
-                self?.chatListViewModel.cellSelected.accept(promiseID)
+                let promiseTitle = cell.titleLabel.text
+                self?.chatListViewModel.cellSelected.accept((promiseID,promiseTitle))
             })
             .disposed(by: disposeBag)
         

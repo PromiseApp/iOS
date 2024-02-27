@@ -41,6 +41,33 @@ class ChatRoomViewController: UIViewController {
 
         attribute()
         layout()
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+            .subscribe(onNext: { [weak self] notification in
+                guard let self = self, let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+                
+                let bottomOffset = keyboardSize.height - self.view.safeAreaInsets.bottom
+                UIView.animate(withDuration: 0.3) {
+                    self.stackView.snp.updateConstraints { make in
+                        make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-bottomOffset)
+                    }
+                    self.view.layoutIfNeeded()
+                }
+            })
+            .disposed(by: disposeBag)
+
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .subscribe(onNext: { [weak self] _ in
+                guard let self = self else { return }
+                
+                UIView.animate(withDuration: 0.3) {
+                    self.stackView.snp.updateConstraints { make in
+                        make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+                    }
+                    self.view.layoutIfNeeded()
+                }
+            })
+            .disposed(by: disposeBag)
+        self.hideKeyboardWhenTappedAround(disposeBag: disposeBag)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -55,6 +82,10 @@ class ChatRoomViewController: UIViewController {
     }
     
     private func bind(){
+        chatRoomViewModel.promiseTitleRelay
+            .bind(to: titleLabel.rx.text)
+            .disposed(by: disposeBag)
+        
         chatTextView.rx.text
             .subscribe(onNext: { [weak self] text in
                 self?.chatRoomViewModel.chatTextFieldRelay.accept(text)
@@ -124,7 +155,6 @@ class ChatRoomViewController: UIViewController {
         view.backgroundColor = .white
         
         titleLabel.do{
-            $0.text = "채팅방"
             $0.font = UIFont(name: "Pretendard-SemiBold", size: 20*Constants.standartFont)
         }
         

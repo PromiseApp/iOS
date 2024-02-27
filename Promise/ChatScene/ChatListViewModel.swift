@@ -11,7 +11,7 @@ class ChatListViewModel: Stepper{
     var stompService: StompService
     var chatService: ChatService
     
-    let cellSelected = PublishRelay<Int>()
+    let cellSelected = PublishRelay<(Int,String?)>()
     
     let chatListRelay = BehaviorRelay<[ChatListCell]>(value: [])
     var chatListDriver: Driver<[ChatListCell]>{
@@ -49,8 +49,8 @@ class ChatListViewModel: Stepper{
 
                 
         cellSelected
-            .subscribe(onNext: { [weak self] promiseID in
-                self?.steps.accept(ChatStep.chatRoom(promiseId: promiseID))
+            .subscribe(onNext: { [weak self] (promiseID,title) in
+                self?.steps.accept(ChatStep.chatRoom(promiseId: promiseID, promiseTitle: title))
             })
             .disposed(by: disposeBag)
         

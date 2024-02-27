@@ -44,7 +44,7 @@ class LoginViewModel: NSObject, Stepper{
                 return self.authService.login(account: email, password: password)
                     .asObservable()
                     .map{ response in
-                        return self.saveUser(account: response.data.userInfo.account,nickname: response.data.userInfo.nickname, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", accessToken: response.data.accessToken, refreshToken: response.data.refreshToken)
+                        return self.saveUser(account: response.data.userInfo.account, userImage: response.data.userInfo.img, nickname: response.data.userInfo.nickname, role: response.data.userInfo.roles.first?.name ?? "ROLE_USER", accessToken: response.data.accessToken, refreshToken: response.data.refreshToken)
                     }
                     .catch { [weak self] error in
                         if let moyaError = error as? MoyaError, case .statusCode(let response) = moyaError {
@@ -165,7 +165,7 @@ class LoginViewModel: NSObject, Stepper{
         authorizationController.performRequests()
     }
     
-    func saveUser(account: String, nickname: String, role: String, accessToken: String, refreshToken: String){
+    func saveUser(account: String, userImage: String? , nickname: String, role: String, accessToken: String, refreshToken: String){
         do{
             let realm = try Realm()
             let allUsers = realm.objects(User.self)
@@ -174,6 +174,10 @@ class LoginViewModel: NSObject, Stepper{
             }
             let newUser = User()
             newUser.account = account
+            if let userImage = userImage{
+                print(111)
+                newUser.image = userImage
+            }
             newUser.nickname = nickname
             newUser.role = role
             KeychainManager.shared.save(token: accessToken, for: "AccessToken")
