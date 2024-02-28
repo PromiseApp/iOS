@@ -25,7 +25,8 @@ PlaMeet은 단순한 약속 잡기를 넘어서, 서로의 시간을 소중히 �
 - 디자인 패턴 : MVVM → MVVM-C
 
 ### 네트워크 및 통신
-- Alamofire/RxAlamofire(RestAPI) → Moya/RxMoya(RestAPI), WebSocket(Stomp), APNS, UNNotificationServiceExtension
+- Alamofire/RxAlamofire(RestAPI) → Moya/RxMoya(RestAPI), WebSocket(Stomp)
+- APNS, UNNotificationServiceExtension
 
 ### 데이터 저장 및 관리
 - RealmSwift, UserDefaults, Keychain
