@@ -15,45 +15,29 @@ PlaMeet은 단순한 약속 잡기를 넘어서, 서로의 시간을 소중히 �
 * iOS 1명, Back-End 1명, 디자이너 1명  
 
 ## 🔧 기술 스택
-### 패키지 관리
-- Swift Package Manager
-- CocoaPods
-
-### 데이터베이스
-- Realm Swift
-
-### 디자인 도구
-- Figma
-
-### 푸시 알림
-- Apple Push Notification service (APNs)
-
-### 버전 관리
-- Git
-
-### CI/CD
-- Fastlane
-
-### 네트워킹
-- 소켓통신 (Stomp)
-- Moya/RxMoya (RestAPI)
-
-### UI 개발
-- UIKit
-- SnapKit
-- Then
+### UI 
+- UIKit, SnapKit, Then, Photos/PhotosUI
 
 ### 반응형 프로그래밍
-- RxSwift
-- RxDataSources
-- RxFlow
+- RxSwift/ Rxcocoa, RxDataSources, RxFlow
 
-### 아키텍처 패턴
-- MVVM-C
+### 디자인 패턴
+- 디자인 패턴 : MVVM → MVVM-C
+
+### 네트워크 및 통신
+- Alamofire/RxAlamofire(RestAPI) → Moya/RxMoya(RestAPI), WebSocket(Stomp), APNS, UNNotificationServiceExtension
+
+### 데이터 저장 및 관리
+- RealmSwift, UserDefaults, Keychain
 
 ### 이미지 로딩 라이브러리
 - Kingfisher
 
+### 의존성 관리
+- SPM, CocoaPods
+
+### 버전 관리
+- Git
 
 ## ⭐ Main Feature
 ### 회원가입 및 로그인 
@@ -72,7 +56,7 @@ PlaMeet은 단순한 약속 잡기를 넘어서, 서로의 시간을 소중히 �
 <img src="https://github.com/PromiseApp/iOS/assets/99011004/4781d6bb-725d-4cc1-b769-5757703ebd98" width="200">
 <img src="https://github.com/PromiseApp/iOS/assets/99011004/9b486bc3-55f6-488a-a0ac-6c711a609bd0" width="200">
 
-- 새로운 약속, 친구 요청, 채팅에 대한 알림 제공
+- 새로운 약속, 친구 요청, 채팅에 대한 알림 제공
 - 각 알림을 누르면 해당되는 페이지로 이동
 
 ### 약속 생성
