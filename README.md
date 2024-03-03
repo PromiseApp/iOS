@@ -116,11 +116,21 @@ PlaMeet은 단순한 약속 잡기를 넘어서, 서로의 시간을 소중히 �
 ### 마이 페이지
 <img src="https://github.com/PromiseApp/iOS/assets/99011004/07934d5c-d557-4514-bbb4-1fe058b800e1" width="200">
 <img src="https://github.com/PromiseApp/iOS/assets/99011004/d1be60ac-8f99-4fd1-9b55-8b4b91e959a7" width="200">
-<img src="[https://github.com/PromiseApp/iOS/assets/99011004/92e69f5a-3403-4212-b328-ff98347a1ff9](https://github.com/PromiseApp/iOS/assets/99011004/bab24537-d594-49bf-9cbe-c753ddf7b748)" width="200">
+<img src="https://github.com/PromiseApp/iOS/assets/99011004/bab24537-d594-49bf-9cbe-c753ddf7b748" width="200">
 
 - 프로필 표시
 - 레벨업까지 남은 경험치 안내
 - 공지사항 및 문의 기능 제공
 - 프로필 수정
 - 등등
+
+### 프로필 이미지 수정
+<img src="https://github.com/PromiseApp/iOS/assets/99011004/2afa8f7b-7442-48ee-9919-d906bbc97aad" width="200">
+<img src="https://github.com/PromiseApp/iOS/assets/99011004/63a3a28e-e4c6-47b8-9975-c6cd6ce25ae0" width="200">
+<img src="https://github.com/PromiseApp/iOS/assets/99011004/1b11b3df-3844-4171-b556-2746ee384381" width="200">
+
+- 프로필 이미지 버튼 클릭 시 앨범 화면이 나오며
+- 사진 권한이 '제한된 접근'일 경우 사진 추가 선택 가능하며 선택한 사진 표시
+- 사진 권한이 '모든 접근'일 경우 모든 사진 표시
+
 
